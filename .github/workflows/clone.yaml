@@ -1,0 +1,35 @@
+name: clone
+
+on:
+  workflow_dispatch:  # Triggered via API
+
+jobs:
+  clone:
+    runs-on: ubuntu-latest  # Use a GitHub-hosted runner
+
+    steps:
+      - name: Checkout the current repository
+        uses: actions/checkout@v2
+
+      - name: Clone Foreign Repository
+        run: |
+
+          # Clone the foreign repository
+          git clone "https://gitea.com/Archimedes5000/aliucord-plugins.git" foreign-repo
+
+          # Remove the .github/workflows directory if it exists
+          rm -rf foreign-repo/.github/workflows
+
+          # Move the contents to the current repository
+          cp -r foreign-repo/* .
+
+          # Clean up
+          rm -rf foreign-repo
+
+      - name: Commit and Push Changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git commit -m "Clone files from foreign repository" || echo "No changes to commit"
+          git push
