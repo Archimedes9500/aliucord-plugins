@@ -2,6 +2,8 @@ name: clone
 
 on:
   workflow_dispatch:  # Triggered via API
+permissions:
+  contents: write
 
 jobs:
   clone:
