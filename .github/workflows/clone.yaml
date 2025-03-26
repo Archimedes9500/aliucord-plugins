@@ -23,7 +23,8 @@ jobs:
           rm -rf foreign-repo/.github/workflows
 
           # Remove everything except the .github/workflows directory in this repo
-          find . -regextype sed ! -regex ".*/\.github.*" -and ! -regex  ".*/foreign-repo.*" -and ! -regex ".git" -delete
+          find . -regextype sed ! -regex ".*/\.git.*" -and ! -regex ".*/\.github.*" -and ! -regex ".*/foreign-repo.*" -and ! -regex ".*/\.gitignore" -and ! -regex ".*/\.gitattributes" -and ! -regex ".*/HEAD" -and ! -regex ".*/config" -and ! -regex ".*/index" -delete
+          
           # Move the contents to the current repository
           cp -r foreign-repo/* .
 
