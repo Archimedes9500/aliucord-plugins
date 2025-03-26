@@ -22,13 +22,15 @@ jobs:
           # Remove the .github/workflows directory if it exists
           rm -rf foreign-repo/.github/workflows
 
+          # Remove everything except the .github/workflows directory in this repo
+          find . -regextype sed ! -regex ".*/\.github.*" -delete
+
           # Move the contents to the current repository
           cp -r foreign-repo/* .
 
           # Clean up
           rm -rf foreign-repo
-          find . -regextype sed ! -regex ".*/\.github.*" -delete
-
+          
       - name: Commit and Push Changes
         run: |
           git config --local user.email "action@github.com"
