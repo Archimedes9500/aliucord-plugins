@@ -6,5 +6,6 @@ rootProject.name = "AliucordPlugins"
 // Plugins are included like this
 include(
     "MyFirstCommand",
-    "MyFirstPatch"
+    "MyFirstPatch",
+	"AudioPlayer"
 )
