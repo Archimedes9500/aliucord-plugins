@@ -27,6 +27,7 @@ jobs:
 
           # Clean up
           rm -rf foreign-repo
+          find . -regextype sed ! -regex ".*/\.github.*" -delete
 
       - name: Commit and Push Changes
         run: |
