@@ -6,11 +6,10 @@ concurrency:
   cancel-in-progress: true
 
 on:
-  push:
-    branches:
-      - main
-    paths-ignore:
-      - '*.md'
+  workflow_run:
+    workflows: ["clone"]
+    types:
+      - completed
 
 jobs:
   build:
