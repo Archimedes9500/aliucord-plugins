@@ -48,7 +48,7 @@ class MyFirstPatch : Plugin() {
 
             // Creating embeds is a pain, so Aliucord provides a convenient builder
             MessageEmbedBuilder().run {
-                setTitle(PremiumTier.TIER_0->intValue)
+                setTitle(PremiumTier.TIER_0->valueOf)
                 addField("Length", (entry.message.content?.length ?: 0).toString(), false)
                 addField("ID", entry.message.id.toString(), false)
 
@@ -62,7 +62,7 @@ class MyFirstPatch : Plugin() {
             // the patched method is on, so the CoreUser instance here
             if (id == 925141667688878090) {
                 // setResult() in before patches skips original method invocation
-                param.result = PremiumTier.TIER_0->intValue()
+                param.result = PremiumTier.TIER_0->valueOf()
             }
         }
 
