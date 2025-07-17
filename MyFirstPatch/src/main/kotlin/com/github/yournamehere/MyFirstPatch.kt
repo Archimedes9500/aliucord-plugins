@@ -11,6 +11,7 @@ import com.discord.stores.StoreUserTyping
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage
 import com.discord.widgets.chat.list.entries.ChatListEntry
 import com.discord.widgets.chat.list.entries.MessageEntry
+import com.discord.api.premium.PremiumTier
 
 // Aliucord Plugin annotation. Must be present on the main class of your plugin
 @AliucordPlugin(requiresRestart = false /* Whether your plugin requires a restart after being installed/updated */)
@@ -47,7 +48,7 @@ class MyFirstPatch : Plugin() {
 
             // Creating embeds is a pain, so Aliucord provides a convenient builder
             MessageEmbedBuilder().run {
-                setTitle("Message Statistics")
+                setTitle(PremiumTier.TIER_0.toString())
                 addField("Length", (entry.message.content?.length ?: 0).toString(), false)
                 addField("ID", entry.message.id.toString(), false)
 
@@ -61,7 +62,7 @@ class MyFirstPatch : Plugin() {
             // the patched method is on, so the CoreUser instance here
             if (id == 925141667688878090) {
                 // setResult() in before patches skips original method invocation
-                param.result = "JoobJoob"
+                param.result = PremiumTier.TIER_0.toString()
             }
         }
 
