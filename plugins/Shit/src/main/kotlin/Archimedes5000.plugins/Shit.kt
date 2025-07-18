@@ -78,7 +78,7 @@ class MessageLinkContext : Plugin(){
 									)
 									.message
 								;
-								settings.saveString(msg.channelID, msg.id);
+								settings.setString(msg.channelId, msg.id);
 							}catch(e: IllegalAccessException){
 								e.printStackTrace();
 							}catch(e: InvocationTargetException){
