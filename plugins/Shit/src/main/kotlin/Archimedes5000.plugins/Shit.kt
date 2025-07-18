@@ -18,9 +18,9 @@ import com.lytefast.flexinput.R
 import java.lang.reflect.InvocationTargetException
 import com.aliucord.api.SettingsAPI
 
-@AliucordPlugin(requiresRestart = false);
+@AliucordPlugin(requiresRestart = false)
 class MessageLinkContext : Plugin(){
-	@SuppressLint("SetTextI18n");
+	@SuppressLint("SetTextI18n")
 	val settings = SettingsAPI("Shit");
 	override fun start(context: Context){
 		var copyMessageUrlView = null;
@@ -46,7 +46,7 @@ class MessageLinkContext : Plugin(){
 						.getChildAt(0)
 						as LinearLayout
 					;
-					for(var i = 0;i < layout.getChildCount();i++){
+					for(i in 0 until layout.getChildCount()){
 						var v = layout.getChildAt(i);
 						if(v is TextView){
 							var text = v.getText() as CharSequence;
