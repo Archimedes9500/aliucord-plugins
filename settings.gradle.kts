@@ -1,7 +1,5 @@
 rootProject.name = "AliucordPlugins"
 
-include(":AudioPlayer")
-project(":AudioPlayer").projectDir = file("./plugins/AudioPlayer")
 include(":MyFirstCommand")
 project(":MyFirstCommand").projectDir = file("./plugins/MyFirstCommand")
 include(":MyFirstPatch")
