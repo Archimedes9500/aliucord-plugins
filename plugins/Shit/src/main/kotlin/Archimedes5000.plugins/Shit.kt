@@ -23,7 +23,7 @@ class MessageLinkContext : Plugin(){
 	@SuppressLint("SetTextI18n")
 	val settings = SettingsAPI("Shit");
 	override fun start(context: Context){
-		var copyMessageUrlView = null;
+		lateinit var copyMessageUrlView : TextView;
 		with(WidgetChatListActions::class.java){
 			var getBinding = getDeclaredMethod("getBinding")
 				.apply{
