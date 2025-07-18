@@ -47,7 +47,7 @@ jobs:
           cd $GITHUB_WORKSPACE/src
           chmod +x gradlew
           ./gradlew make generateUpdaterJson
-          cp **/build/**.zip $GITHUB_WORKSPACE/builds
+          cp /home/runner/work/aliucord-plugins/aliucord-plugins/src/plugins/*/build/*.zip $GITHUB_WORKSPACE/builds
           cp build/updater.json $GITHUB_WORKSPACE/builds
 
       - name: Push builds
