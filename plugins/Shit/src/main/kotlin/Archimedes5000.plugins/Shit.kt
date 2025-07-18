@@ -78,7 +78,10 @@ class MessageLinkContext : Plugin(){
 									)
 									.message
 								;
-								settings.setString(msg.channelId, msg.id);
+								settings.setString(
+									msg.channelId.toString(),
+									msg.id.toString()
+								);
 							}catch(e: IllegalAccessException){
 								e.printStackTrace();
 							}catch(e: InvocationTargetException){
