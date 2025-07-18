@@ -25,11 +25,6 @@ class MessageLinkContext : Plugin(){
 	override fun start(context: Context){
 		lateinit var copyMessageUrlView : TextView;
 		with(WidgetChatListActions::class.java){
-			var getBinding = getDeclaredMethod("getBinding")
-				.apply{
-					isAccessible = true
-				}
-			;
 			patcher.patch( //getting the option
 				getDeclaredMethod(
 					"onViewCreated",
@@ -65,10 +60,6 @@ class MessageLinkContext : Plugin(){
 				Hook{
 					callFrame ->
 					try{
-						var binding = getBinding
-							.invoke(callFrame.thisObject)
-							as WidgetChatListActionsBinding
-						;
 						copyMessageUrlView.setOnClickListener{
 							try{
 								var msg =
