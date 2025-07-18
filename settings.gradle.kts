@@ -1,3 +1,3 @@
-rootProject.name = "AliucordPlugins/plugins/"
+rootProject.name = "AliucordPlugins:plugins"
 include("AudioPlayer", "MyFirstCommand", "MyFirstPatch", "Shit", )
 
