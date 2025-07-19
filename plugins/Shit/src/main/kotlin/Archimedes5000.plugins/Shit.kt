@@ -47,7 +47,7 @@ class MessageLinkContext : Plugin(){
 						"id"
 					);
 					val copyView = binding.a
-						.findViewById<TextView>(shareMessagesViewId)
+						.findViewById<TextView>(copyViewID)
 						.apply {
 							visibility = View.VISIBLE
 						}
@@ -97,13 +97,13 @@ class MessageLinkContext : Plugin(){
 						"id"
 					);
 					val topChannelView = binding.a
-						.findViewById<TextView>(shareMessagesViewId)
+						.findViewById<TextView>(topChannelViewID)
 						.apply {
 							visibility = View.VISIBLE
 						}
 					;
 					try{
-						topChannelView.onLongClickListener{
+						topChannelView.setOnLongClickListener{
 							showToast(
 								"It works",
 								showLonger = false
