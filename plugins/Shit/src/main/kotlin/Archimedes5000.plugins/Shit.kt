@@ -106,7 +106,7 @@ class MessageLinkContext : Plugin(){
 						topChannelView.setOnLongClickListener{
 							var channelID = 811261478875299840L;
 							var messageID = settings.getString(
-								channelID.toString(),
+								channelID.toString()
 							);
 							showToast(
 								messageID.toString(),
