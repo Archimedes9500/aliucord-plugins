@@ -107,6 +107,10 @@ class MessageLinkContext : Plugin(){
 							visibility = View.VISIBLE
 						}
 						.getChildAt(0)
+						.apply{
+							visibility = View.VISIBLE
+							longClickable = 
+						}
 					;
 					try{
 						topChannelView.setLongClickable(true);
