@@ -110,10 +110,12 @@ class MessageLinkContext : Plugin(){
 						topChannelView.setOnLongClickListener{
 							var channelID =
 								ChannelWrapper(
-									callFrame.args[0]
-									as WidgetChatListActions.Model
+									(
+										callFrame.args[0]
+										as WidgetChatListActions.Model
+									)
+									.channel
 								)
-								.channel
 								.id
 							;
 							var messageID = settings.getString(
