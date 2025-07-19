@@ -26,7 +26,7 @@ import com.discord.stores.StoreStream
 @AliucordPlugin(requiresRestart = false)
 class MessageLinkContext : Plugin(){
 	@SuppressLint("SetTextI18n")
-	val settings = SettingsAPI("Shit");
+	val settings = SettingsAPI("AnchorMessage");
 	override fun start(context: Context){
 		with(WidgetChatListActions::class.java){
 			val getBinding = getDeclaredMethod("getBinding")
@@ -45,18 +45,18 @@ class MessageLinkContext : Plugin(){
 						.invoke(callFrame.thisObject)
 						as WidgetChatListActionsBinding
 					;
-					val copyViewID = Utils.getResId(
+					val saveViewID = Utils.getResId(
 						"dialog_chat_actions_copy_id",
 						"id"
 					);
-					val copyView = binding.a
-						.findViewById<TextView>(copyViewID)
+					val saveyView = binding.a
+						.findViewById<TextView>(saveViewID)
 						.apply{
 							visibility = View.VISIBLE;
 						}
 					;
 					try{
-						copyView.setOnLongClickListener{
+						saveView.setOnLongClickListener{
 							try{
 								var msg =
 									(
@@ -69,12 +69,8 @@ class MessageLinkContext : Plugin(){
 									msg.channelId.toString(),
 									msg.id
 								);
-								Utils.setClipboard(
-									"null",
-									msg.id.toString()
-								);
 								showToast(
-									"Copied to clipboard",
+									"Anchor saved",
 									showLonger = false
 								);
 								val dismisser = AppBottomSheet::class.java
@@ -98,19 +94,19 @@ class MessageLinkContext : Plugin(){
 					}catch(e: Exception){ //yes generic maybe works idk
 						e.printStackTrace();
 					}
-					val topChannelViewID = Utils.getResId(
+					val jumpViewID = Utils.getResId(
 						"dialog_chat_actions_reply",
 						"id"
 					);
-					val topChannelView = binding.a
-						.findViewById<TextView>(topChannelViewID)
+					val jumpView = binding.a
+						.findViewById<TextView>(jumpViewID)
 						.apply{
 							visibility = View.VISIBLE;
 						}
 					;
 					try{
-						topChannelView.setLongClickable(true);
-						topChannelView.setOnLongClickListener{
+						jumpView.setLongClickable(true);
+						jumpView.setOnLongClickListener{
 							var channelID =
 								ChannelWrapper(
 									(
@@ -130,7 +126,7 @@ class MessageLinkContext : Plugin(){
 								.jumpToMessage(channelID, messageID)
 							;
 							showToast(
-								messageID.toString(),
+								"Jumped to anchor",
 								showLonger = false
 							);
 							val dismisser = AppBottomSheet::class.java
