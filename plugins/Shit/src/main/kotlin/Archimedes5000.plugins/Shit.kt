@@ -86,8 +86,10 @@ class MessageLinkContext : Plugin(){
 								true;
 							}catch(e: IllegalAccessException){
 								e.printStackTrace();
+								false;
 							}catch(e: InvocationTargetException){
 								e.printStackTrace();
+								false;
 							}
 						}
 					}catch(e: Exception){ //yes generic maybe works idk
