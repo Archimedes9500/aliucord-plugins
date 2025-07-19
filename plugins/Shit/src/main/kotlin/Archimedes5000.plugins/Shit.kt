@@ -99,7 +99,7 @@ class MessageLinkContext : Plugin(){
 						e.printStackTrace();
 					}
 					val topChannelViewID = Utils.getResId(
-						"dialog_chat_actions_copy_id",
+						"dialog_chat_actions_reply",
 						"id"
 					);
 					val topChannelView = binding.a
