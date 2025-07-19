@@ -47,7 +47,7 @@ class MessageLinkContext : Plugin(){
 						var v = layout.getChildAt(i);
 						if(v is TextView){
 							var text = v.getText() as CharSequence;
-							if("Copy Link".contentEquals(text)){
+							if("Copy ID".contentEquals(text)){
 								copyMessageUrlView = v;
 							}
 						}
@@ -75,28 +75,14 @@ class MessageLinkContext : Plugin(){
 									msg.channelId.toString(),
 									msg.id.toString()
 								);
-								val guild =
-									(
-										callFrame.args[0]
-										as WidgetChatListActions.Model
-									)
-									.guild
-								; //because msg.guildId is null
-								val messageUri = String.format(
-									"https://discord.com/channels/%s/%s/%s",
-									try{
-										guild.id
-									}catch(e: Throwable){ //for DMs
-										"@me"
-									},
-									msg.channelId,
+								Utils.setClipboard(
+									"null",
 									msg.id
 								);
-								Utils.setClipboard(
-									"message link",
-									messageUri
+								showToast(
+									"Copied to clipboard",
+									showLonger = false
 								);
-								showToast("Copied url", showLonger = false)
 								val dismisser = AppBottomSheet::class.java
 									.getDeclaredMethod("dismiss")
 								; //because cannot access shit again
