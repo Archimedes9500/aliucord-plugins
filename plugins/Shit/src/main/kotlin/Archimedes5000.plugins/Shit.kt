@@ -20,6 +20,7 @@ import com.aliucord.api.SettingsAPI
 import com.aliucord.Utils.showToast
 import com.discord.app.AppBottomSheet
 import com.aliucord.wrappers.ChannelWrapper
+import android.view.ViewGroup
 
 @AliucordPlugin(requiresRestart = false)
 class MessageLinkContext : Plugin(){
@@ -100,8 +101,8 @@ class MessageLinkContext : Plugin(){
 						"action_bar_toolbar",
 						"id"
 					);
-					var topChannelView = binding.a
-						.findViewById<View>(topChannelViewID)
+					val topChannelView = binding.a
+						.findViewById<ViewGroup>(topChannelViewID)
 						.apply{
 							visibility = View.VISIBLE
 						}
