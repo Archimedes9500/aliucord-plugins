@@ -17,6 +17,8 @@ import com.discord.widgets.chat.list.actions.WidgetChatListActions
 import com.lytefast.flexinput.R
 import java.lang.reflect.InvocationTargetException
 import com.aliucord.api.SettingsAPI
+import com.aliucord.Utils.showToast
+import com.discord.app.AppBottomSheet
 
 @AliucordPlugin(requiresRestart = false)
 class MessageLinkContext : Plugin(){
