@@ -108,6 +108,7 @@ class MessageLinkContext : Plugin(){
 								"It works",
 								showLonger = false
 							);
+							true;
 						}
 					}catch(e: Exception){ //yes generic maybe works idk
 						e.printStackTrace();
