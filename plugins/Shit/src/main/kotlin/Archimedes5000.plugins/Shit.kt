@@ -51,7 +51,7 @@ class MessageLinkContext : Plugin(){
 					val copyView = binding.a
 						.findViewById<TextView>(copyViewID)
 						.apply{
-							visibility = View.VISIBLE
+							visibility = View.VISIBLE;
 						}
 					;
 					try{
@@ -104,12 +104,12 @@ class MessageLinkContext : Plugin(){
 					val topChannelView = binding.a
 						.findViewById<ViewGroup>(topChannelViewID)
 						.apply{
-							visibility = View.VISIBLE
+							visibility = View.VISIBLE;
 						}
 						.getChildAt(0)
 						.apply{
-							visibility = View.VISIBLE
-							longClickable = true
+							visibility = View.VISIBLE;
+							LongClickable = true;
 						}
 					;
 					try{
