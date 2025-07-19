@@ -100,11 +100,14 @@ class MessageLinkContext : Plugin(){
 						"action_bar_toolbar",
 						"id"
 					);
-					val topChannelView = binding.a
-						.findViewById<TextView>(topChannelViewID)
-						.apply{
-							visibility = View.VISIBLE
-						}
+					val topChannelView =
+						(
+							binding.a
+							.findViewById<TextView>(topChannelViewID)
+							.apply{
+								visibility = View.VISIBLE
+							}
+						)
 						.getChildAt(0)
 					;
 					try{
