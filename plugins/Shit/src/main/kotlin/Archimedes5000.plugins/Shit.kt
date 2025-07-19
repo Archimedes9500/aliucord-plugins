@@ -45,7 +45,7 @@ class MessageLinkContext : Plugin(){
 						var v = layout.getChildAt(i);
 						if(v is TextView){
 							var text = v.getText() as CharSequence;
-							if("Copy Text".contentEquals(text)){
+							if("Copy Link".contentEquals(text)){
 								copyMessageUrlView = v;
 							}
 						}
@@ -72,6 +72,37 @@ class MessageLinkContext : Plugin(){
 								settings.setString(
 									msg.channelId.toString(),
 									msg.id.toString()
+								);
+								val guild =
+									(
+										callFrame.args[0]
+										as WidgetChatListActions.Model
+									)
+									.guild
+								; //because msg.guildId is null
+								val messageUri = String.format(
+									"https://discord.com/channels/%s/%s/%s",
+									try{
+										guild.id
+									}catch(e: Throwable){ //for DMs
+										"@me"
+									},
+									msg.channelId,
+									msg.id
+								);
+								Utils.setClipboard(
+									"message link",
+									messageUri
+								);
+								showToast("Copied url", showLonger = false)
+								val bottomSheetDismisser = AppBottomSheet
+									::class.java
+									.getDeclaredMethod("dismiss") //because cannot access shit again
+								bottomSheetDismisser.invoke(
+									(
+										callFrame.thisObject
+										as WidgetChatListActions
+									)
 								);
 							}catch(e: IllegalAccessException){
 								e.printStackTrace();
