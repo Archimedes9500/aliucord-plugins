@@ -77,7 +77,7 @@ class MessageLinkContext : Plugin(){
 								);
 								Utils.setClipboard(
 									"null",
-									msg.id
+									msg.id.toString()
 								);
 								showToast(
 									"Copied to clipboard",
