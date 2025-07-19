@@ -21,6 +21,7 @@ import com.aliucord.Utils.showToast
 import com.discord.app.AppBottomSheet
 import com.aliucord.wrappers.ChannelWrapper
 import android.view.ViewGroup
+import com.discord.stores.StoreStream
 
 @AliucordPlugin(requiresRestart = false)
 class MessageLinkContext : Plugin(){
@@ -98,15 +99,11 @@ class MessageLinkContext : Plugin(){
 						e.printStackTrace();
 					}
 					val topChannelViewID = Utils.getResId(
-						"action_bar_toolbar",
+						"expression_btn",
 						"id"
 					);
 					val topChannelView = binding.a
 						.findViewById<ViewGroup>(topChannelViewID)
-						.apply{
-							visibility = View.VISIBLE;
-						}
-						.getChildAt(0)
 						.apply{
 							visibility = View.VISIBLE;
 						}
@@ -128,6 +125,9 @@ class MessageLinkContext : Plugin(){
 								channelID.toString(),
 								"balls"
 							);
+							StoreStream.getMessagesLoader()
+								.jumpToMessage(channelID, messageID)
+							;
 							showToast(
 								messageID.toString(),
 								showLonger = false
