@@ -133,6 +133,15 @@ class MessageLinkContext : Plugin(){
 								messageID.toString(),
 								showLonger = false
 							);
+							val dismisser = AppBottomSheet::class.java
+								.getDeclaredMethod("dismiss")
+							; //because cannot access shit again
+							dismisser.invoke(
+								(
+									callFrame.thisObject
+									as WidgetChatListActions
+								)
+							);
 							true;
 						}
 					}catch(e: Exception){ //yes generic maybe works idk
