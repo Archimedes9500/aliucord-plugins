@@ -48,12 +48,12 @@ class MessageLinkContext : Plugin(){
 					);
 					val copyView = binding.a
 						.findViewById<TextView>(copyViewID)
-						.apply {
+						.apply{
 							visibility = View.VISIBLE
 						}
 					;
 					try{
-						copyView.setOnClickListener{
+						copyView.setOnLongClickListener{
 							try{
 								var msg =
 									(
@@ -83,6 +83,7 @@ class MessageLinkContext : Plugin(){
 										as WidgetChatListActions
 									)
 								);
+								true;
 							}catch(e: IllegalAccessException){
 								e.printStackTrace();
 							}catch(e: InvocationTargetException){
@@ -98,13 +99,20 @@ class MessageLinkContext : Plugin(){
 					);
 					val topChannelView = binding.a
 						.findViewById<TextView>(topChannelViewID)
-						.apply {
+						.apply{
 							visibility = View.VISIBLE
 						}
 					;
 					try{
 						topChannelView.setOnLongClickListener{
-							var channelID = 811261478875299840L;
+							var channelID =
+								(
+									callFrame.args[0]
+									as WidgetChatListActions.Model
+								)
+								.channel
+								.id
+							;
 							var messageID = settings.getString(
 								channelID.toString()
 							);
