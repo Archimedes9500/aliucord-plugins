@@ -104,10 +104,12 @@ class MessageLinkContext : Plugin(){
 					;
 					try{
 						topChannelView.setOnLongClickListener{
-							showToast(
-								"It works",
-								showLonger = false
-							);
+							try{
+								showToast(
+									"It works",
+									showLonger = false
+								);
+							}
 						}
 					}catch(e: Exception){ //yes generic maybe works idk
 						e.printStackTrace();
