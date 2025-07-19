@@ -99,11 +99,11 @@ class MessageLinkContext : Plugin(){
 						e.printStackTrace();
 					}
 					val topChannelViewID = Utils.getResId(
-						"expression_btn",
+						"dialog_chat_actions_copy_id",
 						"id"
 					);
 					val topChannelView = binding.a
-						.findViewById<View>(topChannelViewID)
+						.findViewById<TextView>(topChannelViewID)
 						.apply{
 							visibility = View.VISIBLE;
 						}
