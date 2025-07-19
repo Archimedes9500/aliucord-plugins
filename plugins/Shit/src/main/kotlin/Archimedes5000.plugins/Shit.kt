@@ -107,6 +107,7 @@ class MessageLinkContext : Plugin(){
 						}
 					;
 					try{
+						topChannelView.setLongClickable(true);
 						topChannelView.setOnLongClickListener{
 							var channelID =
 								ChannelWrapper(
