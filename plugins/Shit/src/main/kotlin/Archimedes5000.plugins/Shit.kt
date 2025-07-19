@@ -93,7 +93,7 @@ class MessageLinkContext : Plugin(){
 						e.printStackTrace();
 					}
 					val topChannelViewID = Utils.getResId(
-						"action_bar_toolbar_layout",
+						"action_bar_toolbar",
 						"id"
 					);
 					val topChannelView = binding.a
@@ -104,8 +104,12 @@ class MessageLinkContext : Plugin(){
 					;
 					try{
 						topChannelView.setOnLongClickListener{
+							var channelID = 811261478875299840L;
+							var messageID = settings.getString(
+								channelID.toString(),
+							);
 							showToast(
-								"It works",
+								messageID.toString(),
 								showLonger = false
 							);
 							true;
