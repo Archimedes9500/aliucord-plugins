@@ -25,44 +25,35 @@ class MessageLinkContext : Plugin(){
 	@SuppressLint("SetTextI18n")
 	val settings = SettingsAPI("Shit");
 	override fun start(context: Context){
-		lateinit var copyMessageUrlView : TextView;
 		with(WidgetChatListActions::class.java){
-			patcher.patch( //getting the option
-				getDeclaredMethod(
-					"onViewCreated",
-					View::class.java,
-					Bundle::class.java
-				),
-				Hook{
-					callFrame ->
-					var layout =
-						(
-							callFrame.args[0]
-							as NestedScrollView
-						)
-						.getChildAt(0)
-						as LinearLayout
-					;
-					for(i in 0 until layout.getChildCount()){
-						var v = layout.getChildAt(i);
-						if(v is TextView){
-							var text = v.getText() as CharSequence;
-							if("Copy ID".contentEquals(text)){
-								copyMessageUrlView = v;
-							}
-						}
-					}
+			val getBinding = getDeclaredMethod("getBinding")
+				.apply{
+					isAccessible = true
 				}
-			)
-			patcher.patch( //setting onClickListener
+			;
+			patcher.patch( //setting listeners
 				getDeclaredMethod(
 					"configureUI",
 					WidgetChatListActions.Model::class.java
 				),
 				Hook{
 					callFrame ->
+					val binding = getBinding
+						.invoke(callFrame.thisObject)
+						as WidgetChatListActionsBinding
+					;
+					val copyViewID = Utils.getResId(
+						"dialog_chat_actions_copy_id",
+						"id"
+					);
+					val copyView = binding.a
+						.findViewById<TextView>(shareMessagesViewId)
+						.apply {
+							visibility = View.VISIBLE
+						}
+					;
 					try{
-						copyMessageUrlView.setOnClickListener{
+						copyView.setOnClickListener{
 							try{
 								var msg =
 									(
@@ -97,6 +88,26 @@ class MessageLinkContext : Plugin(){
 							}catch(e: InvocationTargetException){
 								e.printStackTrace();
 							}
+						}
+					}catch(e: Exception){ //yes generic maybe works idk
+						e.printStackTrace();
+					}
+					val topChannelViewID = Utils.getResId(
+						"action_bar_toolbar_layout",
+						"id"
+					);
+					val topChannelView = binding.a
+						.findViewById<TextView>(shareMessagesViewId)
+						.apply {
+							visibility = View.VISIBLE
+						}
+					;
+					try{
+						topChannelView.onLongClickListener{
+							showToast(
+								"It works",
+								showLonger = false
+							);
 						}
 					}catch(e: Exception){ //yes generic maybe works idk
 						e.printStackTrace();
