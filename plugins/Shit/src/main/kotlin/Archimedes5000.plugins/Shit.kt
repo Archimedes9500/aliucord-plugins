@@ -20,6 +20,7 @@ import com.aliucord.api.SettingsAPI
 import com.aliucord.Utils.showToast
 import com.discord.app.AppBottomSheet
 import com.aliucord.wrappers.ChannelWrapper
+import android.view.View.getChildAt
 
 @AliucordPlugin(requiresRestart = false)
 class MessageLinkContext : Plugin(){
