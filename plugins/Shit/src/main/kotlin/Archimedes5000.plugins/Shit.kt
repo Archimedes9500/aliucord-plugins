@@ -109,7 +109,6 @@ class MessageLinkContext : Plugin(){
 						.getChildAt(0)
 						.apply{
 							visibility = View.VISIBLE;
-							LongClickable = true;
 						}
 					;
 					try{
