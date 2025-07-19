@@ -102,12 +102,12 @@ class MessageLinkContext : Plugin(){
 						"id"
 					);
 					var topChannelView = binding.a
-						.findViewById<TextView>(topChannelViewID)
+						.findViewById<ViewGroup>(topChannelViewID)
 						.apply{
 							visibility = View.VISIBLE
 						}
+						.getChildAt(0)
 					;
-					topChannelView = topChannelView.getChildAt(0);
 					try{
 						topChannelView.setLongClickable(true);
 						topChannelView.setOnLongClickListener{
