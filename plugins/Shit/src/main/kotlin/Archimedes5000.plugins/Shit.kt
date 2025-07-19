@@ -97,10 +97,10 @@ class MessageLinkContext : Plugin(){
 									messageUri
 								);
 								showToast("Copied url", showLonger = false)
-								val bottomSheetDismisser = AppBottomSheet
-									::class.java
-									.getDeclaredMethod("dismiss") //because cannot access shit again
-								bottomSheetDismisser.invoke(
+								val dismisser = AppBottomSheet::class.java
+									.getDeclaredMethod("dismiss")
+								; //because cannot access shit again
+								dismisser.invoke(
 									(
 										callFrame.thisObject
 										as WidgetChatListActions
