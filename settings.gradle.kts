@@ -1,7 +1,7 @@
 rootProject.name = "AliucordPlugins"
 
-include(":AnchorMessage")
-project(":AnchorMessage").projectDir = file("./plugins/AnchorMessage")
+include(":MessageAnchor")
+project(":MessageAnchor").projectDir = file("./plugins/MessageAnchor")
 include(":MyFirstCommand")
 project(":MyFirstCommand").projectDir = file("./plugins/MyFirstCommand")
 include(":MyFirstPatch")

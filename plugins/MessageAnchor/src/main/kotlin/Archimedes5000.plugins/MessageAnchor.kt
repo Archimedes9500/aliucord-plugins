@@ -26,7 +26,7 @@ import com.discord.stores.StoreStream
 @AliucordPlugin(requiresRestart = false)
 class MessageLinkContext : Plugin(){
 	@SuppressLint("SetTextI18n")
-	val settings = SettingsAPI("AnchorMessage");
+	val settings = SettingsAPI("MessageAnchor");
 	override fun start(context: Context){
 		with(WidgetChatListActions::class.java){
 			val getBinding = getDeclaredMethod("getBinding")
@@ -49,7 +49,7 @@ class MessageLinkContext : Plugin(){
 						"dialog_chat_actions_copy_id",
 						"id"
 					);
-					val saveyView = binding.a
+					val saveView = binding.a
 						.findViewById<TextView>(saveViewID)
 						.apply{
 							visibility = View.VISIBLE;
