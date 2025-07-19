@@ -119,7 +119,8 @@ class MessageLinkContext : Plugin(){
 								.id
 							;
 							var messageID = settings.getString(
-								channelID.toString()
+								channelID.toString(),
+								"balls"
 							);
 							showToast(
 								messageID.toString(),
