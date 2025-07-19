@@ -19,6 +19,7 @@ import java.lang.reflect.InvocationTargetException
 import com.aliucord.api.SettingsAPI
 import com.aliucord.Utils.showToast
 import com.discord.app.AppBottomSheet
+import com.aliucord.wrappers.ChannelWrapper
 
 @AliucordPlugin(requiresRestart = false)
 class MessageLinkContext : Plugin(){
@@ -108,7 +109,7 @@ class MessageLinkContext : Plugin(){
 					try{
 						topChannelView.setOnLongClickListener{
 							var channelID =
-								(
+								ChannelWrapper(
 									callFrame.args[0]
 									as WidgetChatListActions.Model
 								)
