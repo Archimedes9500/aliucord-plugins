@@ -65,9 +65,9 @@ class MessageLinkContext : Plugin(){
 									)
 									.message
 								;
-								settings.setString(
+								settings.setLong(
 									msg.channelId.toString(),
-									msg.id.toString()
+									msg.id
 								);
 								Utils.setClipboard(
 									"null",
@@ -103,7 +103,7 @@ class MessageLinkContext : Plugin(){
 						"id"
 					);
 					val topChannelView = binding.a
-						.findViewById<ViewGroup>(topChannelViewID)
+						.findViewById<View>(topChannelViewID)
 						.apply{
 							visibility = View.VISIBLE;
 						}
@@ -121,9 +121,10 @@ class MessageLinkContext : Plugin(){
 								)
 								.id
 							;
-							var messageID = settings.getString(
-								channelID.toString(),
-								"balls"
+							var messageID =
+								settings.getLong(
+									channelID.toString(),
+									84115L
 							);
 							StoreStream.getMessagesLoader()
 								.jumpToMessage(channelID, messageID)
