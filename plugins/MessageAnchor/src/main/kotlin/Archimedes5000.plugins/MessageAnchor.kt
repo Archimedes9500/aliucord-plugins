@@ -1,27 +1,25 @@
 package Archimedes5000.plugins
+import com.aliucord.annotations.AliucordPlugin
 import android.annotation.SuppressLint
+import java.lang.reflect.InvocationTargetException
+import com.aliucord.entities.Plugin
+import com.discord.widgets.chat.list.actions.WidgetChatListActions
+import com.discord.databinding.WidgetChatListActionsBinding
+import com.aliucord.patcher.Hook
 import android.content.Context
-import android.os.Bundle
+import com.aliucord.Constants
+import com.aliucord.Utils
+import com.aliucord.Utils.showToast
+import com.aliucord.api.SettingsAPI
+import com.aliucord.wrappers.ChannelWrapper
+import com.discord.stores.StoreStream
+import com.discord.app.AppBottomSheet
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
-import com.aliucord.Constants
-import com.aliucord.Utils
-import com.aliucord.annotations.AliucordPlugin
-import com.aliucord.entities.Plugin
-import com.aliucord.patcher.Hook
-import com.discord.databinding.WidgetChatListActionsBinding
-import com.discord.widgets.chat.list.actions.WidgetChatListActions
-import com.lytefast.flexinput.R
-import java.lang.reflect.InvocationTargetException
-import com.aliucord.api.SettingsAPI
-import com.aliucord.Utils.showToast
-import com.discord.app.AppBottomSheet
-import com.aliucord.wrappers.ChannelWrapper
-import android.view.ViewGroup
-import com.discord.stores.StoreStream
 
 @AliucordPlugin(requiresRestart = false)
 class MessageLinkContext : Plugin(){
@@ -46,7 +44,7 @@ class MessageLinkContext : Plugin(){
 						as WidgetChatListActionsBinding
 					;
 					val saveViewID = Utils.getResId(
-						"dialog_chat_actions_copy_id",
+						"dialog_chat_actions_copy_text",
 						"id"
 					);
 					val saveView = binding.a
