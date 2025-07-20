@@ -1,12 +1,11 @@
 package Archimedes5000.plugins
 import android.content.Context
-import com.aliucord.annotations.AliucordPlugin
+import com.aliucord.annotations.*
 import com.aliucord.entities.Plugin
 import com.aliucord.patcher.*
 import com.aliucord.Utils
 import com.aliucord.utils.ReflectUtils
 import com.discord.widgets.chat.input.WidgetChatInputAttachments
-import com.discord.widgets.chat.input.WidgetChatInputAttachments$createAndConfigureExpressionFragment$stickerPickerListener$1
 import com.discord.widgets.chat.input.sticker.*
 import com.discord.utilities.stickers.StickerUtils
 import com.aliucord.utils.RxUtils
@@ -14,8 +13,8 @@ import java.util.Collections
 import com.discord.stores.StoreStream
 
 @AliucordPlugin(requiresRestart = true)
-@SuppressLint("SetTextI18n")
 @SuppressWarnings("unused")
+@SuppressLint("SetTextI18n")
 class FakeStickers : Plugin(){
 	override fun start(context: Context){
 		// Do not mark stickers as unsendable (grey overlay)
@@ -36,8 +35,8 @@ class FakeStickers : Plugin(){
 		with(WidgetStickerPicker::class.java){
 			patcher.patch(
 				getDeclaredMethod(
-				"onStickerItemSelected",
-				StickerItem.Model::class.java
+					"onStickerItemSelected",
+					StickerItem::class.java
 				),
 				PreHook{
 					callFrame ->
@@ -48,35 +47,34 @@ class FakeStickers : Plugin(){
 								callFrame.args[0],
 								"sendability"
 							)
-							== StickerUtils.StickerSendability.SENDABLE
+							=! StickerUtils.StickerSendability.SENDABLE
 						){
-							return;
+							var sticker =
+								(
+									callFrame.args[0]
+									as StickerItem
+								)
+								.getSticker()
+							;
+							var link =
+								"https://media.discordapp.net/stickers/"
+								+sticker.d()
+								+sticker.b()
+								+"?size=160"
+							;
+							// Skip original method
+							param.setResult(null);
+							// Dismiss sticker picker
+							val dismisser = WidgetChatInputAttachments::class.java
+								.getDeclaredMethod("dismiss")
+							; //because cannot access shit again
+							dismisser.invoke(
+								(
+									callFrame.thisObject
+									as WidgetChatInputAttachments
+								)
+							);
 						}
-						var sticker =
-							(
-								callFrame.args[0]
-								as StickerItem
-							)
-							.getSticker()
-						;
-						var link =
-							"https://media.discordapp.net/stickers/"
-							+sticker.d()
-							+sticker.b()
-							+"?size=160"
-						;
-						// Skip original method
-						param.setResult(null);
-						// Dismiss sticker picker
-						val dismisser = WidgetChatInputAttachments::class.java
-							.getDeclaredMethod("dismiss")
-						; //because cannot access shit again
-						dismisser.invoke(
-							(
-								callFrame.thisObject
-								as WidgetChatInputAttachments
-							)
-						);
 					}catch(e: Exception){ //yes generic maybe works idk
 						e.printStackTrace();
 					}

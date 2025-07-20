@@ -1,11 +1,18 @@
-version = "1.0"
-description = "Save your scrolling position in a channel by using a message an an anchor you can later jump to, evem after closing the app"
+version = "2.0.0"
+description = "Posts a sticker as an image if the sticker is unavailable normally (Usually when you don't have Nitro). Lottie stickers are unsupported."
 
 aliucord {
-	changelog.set(
-		"""
-		1.0 hold Message->Copy ID to save, hold Message->Reply to jump to saved
-		""".trimIndent()
-	)
-	excludeFromUpdaterJson.set(true)
+    changelogMedia.set("https://cdn.discordapp.com/stickers/883809297216192573.png")
+    changelog.set(
+        """
+			# 2.0.0
+			* rewrite in kotlin and removed auto message send
+            # 1.1.1
+            * Support Discord 105.12
+            # 1.1.0
+            * Make sticker picker automatically close after selecting a sticker
+            * Do not mark stickers as unusable (monochrome filter)
+        """.trimIndent()
+    )
+    author("Vendicated", 343383572805058560L)
 }
