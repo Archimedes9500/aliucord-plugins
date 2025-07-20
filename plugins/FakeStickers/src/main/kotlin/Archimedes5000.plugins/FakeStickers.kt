@@ -65,21 +65,11 @@ class FakeStickers : Plugin(){
 								"https://media.discordapp.net/stickers/"
 								.plus(sticker.d())
 								.plus(sticker.b())
-								.plus("?size=160")
+								.plus("?size=160 ")
 							;
 							chatbox.onInputTextAppended(link);
 							// Skip original method
 							callFrame.setResult(null);
-							// Dismiss sticker picker
-							val dismisser = WidgetChatInputAttachments::class.java
-								.getDeclaredMethod("dismiss")
-							; //because cannot access shit again
-							dismisser.invoke(
-								(
-									callFrame.thisObject
-									as WidgetChatInputAttachments
-								)
-							);
 						}
 					}catch(e: Exception){ //yes generic maybe works idk
 						e.printStackTrace();
