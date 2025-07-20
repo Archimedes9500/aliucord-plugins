@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 
-AliucordPlugin(requiresRestart = false)
+@AliucordPlugin(requiresRestart = false)
 class ReplyReferencesFix: Plugin(){
 	@SuppressLint("SetTextI18n")
 	override fun start(context: Context){
