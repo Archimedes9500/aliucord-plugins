@@ -3,10 +3,10 @@ import com.aliucord.annotations.AliucordPlugin
 import android.annotation.SuppressLint
 import java.lang.reflect.InvocationTargetException
 import com.aliucord.entities.Plugin
+import android.content.Context
 import com.discord.widgets.chat.list.actions.WidgetChatListActions
 import com.discord.databinding.WidgetChatListActionsBinding
 import com.aliucord.patcher.Hook
-import android.content.Context
 import com.aliucord.Constants
 import com.aliucord.Utils
 import com.aliucord.Utils.showToast
@@ -15,14 +15,12 @@ import com.aliucord.wrappers.ChannelWrapper
 import com.discord.stores.StoreStream
 import com.discord.app.AppBottomSheet
 import android.view.View
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.view.ViewGroup
-import androidx.core.content.ContextCompat
-import androidx.core.widget.NestedScrollView
 
 @AliucordPlugin(requiresRestart = false)
-class MessageLinkContext : Plugin(){
+class MessageAnchor : Plugin(){
 	@SuppressLint("SetTextI18n")
 	val settings = SettingsAPI("MessageAnchor");
 	override fun start(context: Context){
