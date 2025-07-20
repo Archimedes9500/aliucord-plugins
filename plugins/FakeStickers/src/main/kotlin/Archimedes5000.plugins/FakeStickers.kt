@@ -11,7 +11,7 @@ import com.discord.widgets.chat.input.sticker.*
 import com.discord.utilities.stickers.StickerUtils
 import com.aliucord.utils.RxUtils
 import java.util.Collections
-import com.discord.stores.StoreStream
+import com.aliucord.Utils.showToast
 
 @AliucordPlugin(requiresRestart = true)
 @SuppressLint("SetTextI18n")
@@ -24,7 +24,7 @@ class FakeStickers : Plugin(){
 					"getSendability"
 				),
 				Hook{
-					callFrame ->
+					_ ->
 					InsteadHook.returnConstant(
 						StickerUtils.StickerSendability.SENDABLE
 					);
@@ -62,6 +62,10 @@ class FakeStickers : Plugin(){
 								.plus(sticker.b())
 								.plus("?size=160")
 							;
+							showToast(
+								link,
+								showLonger = false
+							);
 							// Skip original method
 							callFrame.setResult(null);
 							// Dismiss sticker picker
