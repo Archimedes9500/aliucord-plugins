@@ -1,10 +1,13 @@
-version = "1.0"
+version = "1.1"
 description = "Save your scrolling position in a channel by using a message an an anchor you can later jump to, evem after closing the app"
 
 aliucord {
 	changelog.set(
 		"""
-		1.0 hold Message->Copy ID to save, hold Message->Reply to jump to saved
+		# 1.1
+		* Hold Message->Copy Text to save instead
+		# 1.0
+		* Hold Message->Copy ID to save, hold Message->Reply to jump to saved
 		""".trimIndent()
 	)
 	excludeFromUpdaterJson.set(true)
