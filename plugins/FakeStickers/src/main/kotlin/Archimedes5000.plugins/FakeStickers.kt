@@ -11,12 +11,17 @@ import com.discord.widgets.chat.input.sticker.*
 import com.discord.utilities.stickers.StickerUtils
 import com.aliucord.utils.RxUtils
 import java.util.Collections
-import com.aliucord.Utils.showToast
+import com.discord.widgets.chat.input.AppFlexInputViewModel
 
 @AliucordPlugin(requiresRestart = true)
 @SuppressLint("SetTextI18n")
 class FakeStickers : Plugin(){
+	lateinit var chatbox : AppFlexInputViewModel;
 	override fun start(context: Context){
+		//Get chat box
+		patcher.patch(AppFlexInputViewModel::class.java.constructors.first()){
+			chatbox = it.thisObject as AppFlexInputViewModel;
+		}
 		// Do not mark stickers as unsendable (grey overlay)
 		with(StickerItem::class.java){
 			patcher.patch(
@@ -62,10 +67,7 @@ class FakeStickers : Plugin(){
 								.plus(sticker.b())
 								.plus("?size=160")
 							;
-							showToast(
-								link,
-								showLonger = false
-							);
+							chatbox.onInputTextAppended(link);
 							// Skip original method
 							callFrame.setResult(null);
 							// Dismiss sticker picker
