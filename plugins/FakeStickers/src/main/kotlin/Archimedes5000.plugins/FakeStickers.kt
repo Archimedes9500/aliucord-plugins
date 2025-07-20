@@ -11,7 +11,6 @@ import com.discord.widgets.chat.input.sticker.*
 import com.discord.utilities.stickers.StickerUtils
 import com.aliucord.utils.RxUtils
 import java.util.Collections
-import com.aliucord.Utils.showToast
 import com.discord.widgets.chat.input.AppFlexInputViewModel
 
 @AliucordPlugin(requiresRestart = true)
@@ -68,10 +67,7 @@ class FakeStickers : Plugin(){
 								.plus(sticker.b())
 								.plus("?size=160")
 							;
-							showToast(
-								link,
-								showLonger = false
-							);
+							chatbox.onInputTextAppended(link);
 							// Skip original method
 							callFrame.setResult(null);
 							// Dismiss sticker picker
