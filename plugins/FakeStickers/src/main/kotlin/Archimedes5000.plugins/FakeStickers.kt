@@ -1,6 +1,7 @@
 package Archimedes5000.plugins
 import android.content.Context
-import com.aliucord.annotations.*
+import com.aliucord.annotations.AliucordPlugin
+import android.annotation.SuppressLint
 import com.aliucord.entities.Plugin
 import com.aliucord.patcher.*
 import com.aliucord.Utils
@@ -13,7 +14,6 @@ import java.util.Collections
 import com.discord.stores.StoreStream
 
 @AliucordPlugin(requiresRestart = true)
-@SuppressWarnings("unused")
 @SuppressLint("SetTextI18n")
 class FakeStickers : Plugin(){
 	override fun start(context: Context){
@@ -47,7 +47,7 @@ class FakeStickers : Plugin(){
 								callFrame.args[0],
 								"sendability"
 							)
-							=! StickerUtils.StickerSendability.SENDABLE
+							!= StickerUtils.StickerSendability.SENDABLE
 						){
 							var sticker =
 								(
@@ -58,12 +58,12 @@ class FakeStickers : Plugin(){
 							;
 							var link =
 								"https://media.discordapp.net/stickers/"
-								+sticker.d()
-								+sticker.b()
-								+"?size=160"
+								.plus(sticker.d())
+								.plus(sticker.b())
+								.plus("?size=160")
 							;
 							// Skip original method
-							param.setResult(null);
+							callFrame.setResult(null);
 							// Dismiss sticker picker
 							val dismisser = WidgetChatInputAttachments::class.java
 								.getDeclaredMethod("dismiss")
