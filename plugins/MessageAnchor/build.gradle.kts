@@ -5,7 +5,7 @@ aliucord {
 	changelog.set(
 		"""
 		# 1.1
-		* Hold Message->Copy Text to save instead
+		* Hold Message->Profile to save instead
 		# 1.0
 		* Hold Message->Copy ID to save, hold Message->Reply to jump to saved
 		""".trimIndent()

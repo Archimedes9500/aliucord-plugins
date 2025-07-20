@@ -42,7 +42,7 @@ class MessageAnchor : Plugin(){
 						as WidgetChatListActionsBinding
 					;
 					val saveViewID = Utils.getResId(
-						"dialog_chat_actions_copy_text",
+						"dialog_chat_actions_profile",
 						"id"
 					);
 					val saveView = binding.a
