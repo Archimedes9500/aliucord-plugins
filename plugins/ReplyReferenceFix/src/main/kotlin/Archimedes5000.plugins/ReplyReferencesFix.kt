@@ -1,5 +1,6 @@
 package Archimedes5000.plugins
 import com.aliucord.annotations.AliucordPlugin
+import android.annotation.SuppressLint
 import com.aliucord.entities.Plugin
 import android.content.Context
 import com.aliucord.patcher.Hook
@@ -21,8 +22,10 @@ class ReplyReferencesFix: Plugin(){
 	override fun start(context: Context){
 		var response = try{
 			URL("https://www.mediawiki.org/w/api.php?action=query?format=json").readText();
+		}catch(e: Exception){
+			e.printStackTrace();
 		};
-		response = new JSONObject(response);
+		response = JSONObject(response);
 		showToast(response.get("batchcomplete").toString(), showLonger = false);
 	}
 	override fun stop(context: Context) = patcher.unpatchAll();
