@@ -21,7 +21,9 @@ class ReplyReferencesFix: Plugin(){
 	@SuppressLint("SetTextI18n")
 	override fun start(context: Context){
 		var response = try{
-			URL("https://www.mediawiki.org/w/api.php?action=query?format=json").readText();
+			URL("https://www.mediawiki.org/w/api.php?action=query?format=json")
+				.getContent()
+			;
 		}catch(e: Exception){
 			e.printStackTrace();
 		};
