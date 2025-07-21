@@ -23,7 +23,7 @@ class ReplyReferencesFix: Plugin(){
 			URL("https://www.mediawiki.org/w/api.php?action=query?format=json").readText();
 		};
 		response = new JSONObject(response);
-		showToast(response["batchcomplete"], showLonger = false);
+		showToast(response.get("batchcomplete").toString(), showLonger = false);
 	}
 	override fun stop(context: Context) = patcher.unpatchAll();
 }
