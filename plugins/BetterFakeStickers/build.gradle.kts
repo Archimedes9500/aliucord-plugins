@@ -14,5 +14,5 @@ aliucord {
             * Do not mark stickers as unusable (monochrome filter)
         """.trimIndent()
     )
-    author("Vendicated", 343383572805058560L)
+    author("", 0L)
 }
