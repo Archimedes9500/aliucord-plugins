@@ -16,8 +16,7 @@ import com.discord.widgets.chat.input.AppFlexInputViewModel
 import com.discord.api.sticker.Sticker
 import com.discord.api.sticker.StickerFormatType
 
-import kotlin.reflect.full.declaredFunctions
-import com.aliucord.Logger.debug
+import com.aliucord.Logger
 
 @AliucordPlugin(requiresRestart = true)
 @SuppressLint("SetTextI18n")
