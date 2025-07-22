@@ -1,7 +1,7 @@
 rootProject.name = "AliucordPlugins"
 
-include(":FakeStickers")
-project(":FakeStickers").projectDir = file("./plugins/FakeStickers")
+include(":BetterFakeStickers")
+project(":BetterFakeStickers").projectDir = file("./plugins/BetterFakeStickers")
 include(":MessageAnchor")
 project(":MessageAnchor").projectDir = file("./plugins/MessageAnchor")
 include(":MyFirstCommand")
