@@ -29,7 +29,7 @@ class ReplyReferencesFix: Plugin(){
 			"application/x-www-form-urlencoded"
 		);
 		var content = "action=query&format=json&formatversion=2";
-		val body = request.outputStream as OutputStream;
+		val body = r.outputStream as OutputStream;
 		body.write(content.toByteArray());
 		body.flush();
 		var response = r.inputStream
@@ -37,7 +37,10 @@ class ReplyReferencesFix: Plugin(){
 			.readText()
 		;
 		var j = JSONObject(response);
-		showToast(j.opt("batchcomplete"), showLonger = false);
+		showToast(
+			j.opt("batchcomplete").toString(),
+			showLonger = false
+		);
 	}
 	override fun stop(context: Context) = patcher.unpatchAll();
 }
