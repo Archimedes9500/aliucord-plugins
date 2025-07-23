@@ -31,16 +31,16 @@ class Test:Plugin(){
 					it.name == method.name;
 				}
 				.call(Sticker(
-					398274632408629250,
-					1234567890,
 					927304938470662144,
+					1234567890,
+					398274632408629250,
 					"name",
 					"description",
 					StickerFormatType.PNG,
 					"tags",
 					StickerType.GUILD,
 					true,
-					"p9"
+					1
 				))
 				.toString()
 			);
