@@ -29,7 +29,16 @@ class Test:Plugin(){
 				c.declaredMethods.find{
 					it.name == method.name;
 				}
-				.call(Sticker())
+				.call(Sticker(
+					1364535976428437564,
+					StickerFormatType(1),
+					"name",
+					"asset",
+					"https://media.discordapp.net/stickers/1364535976428437564.gif?size=160",
+					1,
+					2,
+					1234567890
+				))
 				.toString()
 			);
 		};
