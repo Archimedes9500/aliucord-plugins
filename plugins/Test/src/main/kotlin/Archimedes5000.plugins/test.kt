@@ -31,7 +31,7 @@ class Test:Plugin(){
 			398274632408629250,
 			"name",
 			"description",
-			StickerFormatType.GIF || 0,
+			StickerFormatType.APNG,
 			"tags",
 			StickerType.GUILD,
 			true,
