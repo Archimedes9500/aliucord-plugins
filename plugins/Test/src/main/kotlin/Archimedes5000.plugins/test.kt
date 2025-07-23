@@ -33,12 +33,14 @@ class Test:Plugin(){
 				.call(Sticker(
 					398274632408629250,
 					1234567890,
+					927304938470662144,
 					"name",
 					"description",
 					StickerFormatType.PNG,
 					"tags",
 					StickerType.GUILD,
-					true
+					true,
+					"p9"
 				))
 				.toString()
 			);
