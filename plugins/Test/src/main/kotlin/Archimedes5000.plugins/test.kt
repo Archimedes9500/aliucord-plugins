@@ -25,7 +25,7 @@ class Test:Plugin(){
 		val logger = Logger();
 		var c = Sticker::class.java;
 		//for(method in c.declaredMethods){
-		for(method in arrayOf("a", "b", "c", "d", "e", "f", "g", "h", "i"){
+		for(method in arrayOf("a", "b", "c", "d", "e", "f", "g", "h", "i")){
 			logger.debug(method.name);
 			logger.debug(
 				c.declaredMethods.find{
