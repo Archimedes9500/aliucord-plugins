@@ -31,13 +31,15 @@ class Test:Plugin(){
 				}
 				.call(Sticker(
 					1364535976428437564,
-					StickerFormatType(1),
+					StickerFormatType.PNG,
 					"name",
 					"asset",
 					"https://media.discordapp.net/stickers/1364535976428437564.gif?size=160",
 					1,
 					2,
-					1234567890
+					1234567890,
+					"p8",
+					"p9"
 				))
 				.toString()
 			);
