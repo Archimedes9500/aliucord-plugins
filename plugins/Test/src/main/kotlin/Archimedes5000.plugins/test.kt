@@ -18,20 +18,6 @@ import com.discord.api.sticker.StickerType
 import com.discord.api.sticker.StickerFormatType
 import com.aliucord.Logger
 
-/*
-a -> formatType
-b -> format
-c -> stickerPartial
-d -> id
-e -> available
-f -> description
-g -> guildId
-h -> name
-i -> packId
-j -> tags
-k -> type
-l -> amimated?
-*/
 @AliucordPlugin(requiresRestart = true)
 @SuppressLint("SetTextI18n")
 class Test:Plugin(){
@@ -44,7 +30,7 @@ class Test:Plugin(){
 			398274632408629250,
 			"name",
 			"description",
-			StickerFormatType.PNG,
+			StickerFormatType.GIF || 0,
 			"tags",
 			StickerType.GUILD,
 			true,
