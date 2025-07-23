@@ -15,7 +15,6 @@ import com.discord.widgets.chat.input.AppFlexInputViewModel
 
 import com.discord.api.sticker.Sticker
 import com.discord.api.sticker.StickerFormatType
-
 import com.aliucord.Logger.*
 
 @AliucordPlugin(requiresRestart = true)
@@ -24,7 +23,7 @@ class Test:Plugin(){
 	override fun start(context:Context){
 		var c = Sticker::class.java;
 		for(method in c.declaredMethods){
-			Logger.debug(method.name);
+			Logger().debug(method.name);
 		};
 	}
 	override fun stop(context: Context) = patcher.unpatchAll();
