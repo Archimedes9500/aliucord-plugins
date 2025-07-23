@@ -20,11 +20,11 @@ import com.aliucord.Logger.*
 
 @AliucordPlugin(requiresRestart = true)
 @SuppressLint("SetTextI18n")
-class FakeStickers : Plugin(){
-	override fun start(context: Context){
+class Test:Plugin(){
+	override fun start(context:Context){
 		var c = Sticker::class.java;
 		for(method in c.declaredMethods){
-			debug(method.name);
+			Logger.debug(method.name);
 		};
 	}
 	override fun stop(context: Context) = patcher.unpatchAll();
