@@ -30,7 +30,7 @@ h -> name
 i -> packId
 j -> tags
 k -> type
-l -> 
+l -> amimated?
 */
 @AliucordPlugin(requiresRestart = true)
 @SuppressLint("SetTextI18n")
@@ -47,7 +47,7 @@ class Test:Plugin(){
 			StickerFormatType.PNG,
 			"tags",
 			StickerType.GUILD,
-			false,
+			true,
 			1
 		);
 		//for(method in c.declaredMethods){
