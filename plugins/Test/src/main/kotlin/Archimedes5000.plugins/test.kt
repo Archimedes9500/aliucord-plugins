@@ -21,10 +21,18 @@ import com.aliucord.Logger
 @SuppressLint("SetTextI18n")
 class Test:Plugin(){
 	override fun start(context:Context){
+		val logger = Logger();
 		var c = Sticker::class.java;
 		for(method in c.declaredMethods){
-			Logger().debug(method.name);
+			logger.debug(method.name);
+			logger.debug(
+				c.declaredMethods.find{
+					it.name == method.name;
+				}
+				.call(Sticker())
+				.toString()
+			);
 		};
 	}
-	override fun stop(context: Context) = patcher.unpatchAll();
+	override fun stop(context:Context) = patcher.unpatchAll();
 }
