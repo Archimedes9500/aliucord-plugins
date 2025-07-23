@@ -13,7 +13,7 @@ import com.aliucord.utils.RxUtils
 import java.util.Collections
 import com.discord.widgets.chat.input.AppFlexInputViewModel
 
-import com.aliucord.wrappers.stickers.Sticker
+import com.aliucord.wrappers.stickers.StickerWrapper
 import com.discord.api.sticker.Sticker
 import com.discord.api.sticker.StickerType
 import com.discord.api.sticker.StickerFormatType
