@@ -47,8 +47,8 @@ class Test:Plugin(){
 			StickerFormatType.PNG,
 			"tags",
 			StickerType.GUILD,
-			true,
-			0
+			false,
+			1
 		);
 		//for(method in c.declaredMethods){
 		for(name in arrayOf("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l")){
