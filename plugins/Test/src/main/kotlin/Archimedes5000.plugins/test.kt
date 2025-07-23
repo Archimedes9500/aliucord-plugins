@@ -30,7 +30,7 @@ class Test:Plugin(){
 				c.declaredMethods.find{
 					it.name == method.name;
 				}
-				.call(Sticker(
+				.invoke(Sticker(
 					927304938470662144,
 					1234567890,
 					398274632408629250,
