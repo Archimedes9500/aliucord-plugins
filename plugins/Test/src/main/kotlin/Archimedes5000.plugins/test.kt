@@ -18,30 +18,45 @@ import com.discord.api.sticker.StickerType
 import com.discord.api.sticker.StickerFormatType
 import com.aliucord.Logger
 
+/*
+a -> formatType
+b -> format
+c -> stickerPartial
+d -> id
+e -> available
+f -> description
+g -> guildId
+h -> name
+i -> packId
+j -> tags
+k -> type
+l -> 
+*/
 @AliucordPlugin(requiresRestart = true)
 @SuppressLint("SetTextI18n")
 class Test:Plugin(){
 	override fun start(context:Context){
 		val logger = Logger();
-		var c = Sticker::class.java;
+		val c = Sticker::class.java;
+		val sticker = Sticker(
+			927304938470662144,
+			1234567890,
+			398274632408629250,
+			"name",
+			"description",
+			StickerFormatType.PNG,
+			"tags",
+			StickerType.GUILD,
+			true,
+			0
+		);
 		//for(method in c.declaredMethods){
-		for(name in arrayOf("a", "b", "c", "d", "e", "f", "g", "h", "i")){
+		for(name in arrayOf("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l")){
 			//logger.debug(method.name);
 			logger.debug(name);
 			logger.debug(
 				c.getDeclaredMethod(name)
-				?.invoke(Sticker(
-					927304938470662144,
-					1234567890,
-					398274632408629250,
-					"name",
-					"description",
-					StickerFormatType.PNG,
-					"tags",
-					StickerType.GUILD,
-					true,
-					1
-				))
+				?.invoke(sticker)
 				.toString()
 			);
 		};
