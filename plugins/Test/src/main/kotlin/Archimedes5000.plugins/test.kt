@@ -15,7 +15,7 @@ import com.discord.widgets.chat.input.AppFlexInputViewModel
 
 import com.discord.api.sticker.Sticker
 import com.discord.api.sticker.StickerFormatType
-import com.aliucord.Logger.*
+import com.aliucord.Logger
 
 @AliucordPlugin(requiresRestart = true)
 @SuppressLint("SetTextI18n")
