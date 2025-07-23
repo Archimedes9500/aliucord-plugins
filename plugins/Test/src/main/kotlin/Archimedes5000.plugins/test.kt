@@ -13,6 +13,7 @@ import com.aliucord.utils.RxUtils
 import java.util.Collections
 import com.discord.widgets.chat.input.AppFlexInputViewModel
 
+impory com.aliucord.wrappers.stickers.Sticker
 import com.discord.api.sticker.Sticker
 import com.discord.api.sticker.StickerType
 import com.discord.api.sticker.StickerFormatType
@@ -23,8 +24,8 @@ import com.aliucord.Logger
 class Test:Plugin(){
 	override fun start(context:Context){
 		val logger = Logger();
-		val c = Sticker::class.java;
-		val sticker = Sticker(
+		val c = StickerWrapper::class.java;
+		val sticker = StickerWrapper(Sticker(
 			927304938470662144,
 			1234567890,
 			398274632408629250,
@@ -34,17 +35,17 @@ class Test:Plugin(){
 			"tags",
 			StickerType.GUILD,
 			true,
-			1
-		);
-		//for(method in c.declaredMethods){
-		for(name in arrayOf("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l")){
+			128
+		));
+		for(method in c.declaredMethods){
+		//for(name in arrayOf("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l")){
 			//logger.debug(method.name);
-			logger.debug(name);
-			logger.debug(
+			logger.debug(method.name);
+			/*logger.debug(
 				c.getDeclaredMethod(name)
 				?.invoke(sticker)
 				.toString()
-			);
+			);*/
 		};
 	}
 	override fun stop(context:Context) = patcher.unpatchAll();
