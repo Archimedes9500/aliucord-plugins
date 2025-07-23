@@ -14,6 +14,7 @@ import java.util.Collections
 import com.discord.widgets.chat.input.AppFlexInputViewModel
 
 import com.discord.api.sticker.Sticker
+import com.discord.api.sticker.StickerType
 import com.discord.api.sticker.StickerFormatType
 import com.aliucord.Logger
 
@@ -30,16 +31,14 @@ class Test:Plugin(){
 					it.name == method.name;
 				}
 				.call(Sticker(
-					1364535976428437564,
-					StickerFormatType.PNG,
-					"name",
-					"asset",
-					"https://media.discordapp.net/stickers/1364535976428437564.gif?size=160",
-					1,
-					2,
+					398274632408629250,
 					1234567890,
-					"p8",
-					"p9"
+					"name",
+					"description",
+					StickerFormatType.PNG,
+					"tags",
+					StickerType.GUILD,
+					true
 				))
 				.toString()
 			);
