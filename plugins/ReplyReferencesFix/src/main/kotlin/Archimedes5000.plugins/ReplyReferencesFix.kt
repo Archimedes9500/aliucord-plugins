@@ -34,7 +34,8 @@ class ReplyReferencesFix:Plugin(){
 				"id"
 			);
 			val iconViewID = Utils.getResId(
-				"chat_list_adapter_item_text_decorator_reply_link_icon",
+				//"chat_list_adapter_item_text_decorator_reply_link_icon",
+				"chat_list_adapter_item_selectable",
 				"id"
 			);
 			val replyView = rootView
@@ -44,7 +45,7 @@ class ReplyReferencesFix:Plugin(){
 				}
 			;
 			val iconView = rootView
-				.findViewById<FrameLayout>(iconViewID)
+				.findViewById</*FrameLayout*/View>(iconViewID)
 				.apply{
 					visibility = View.VISIBLE;
 				}
