@@ -43,7 +43,7 @@ class ReplyReferencesFix:Plugin(){
 				;
 				if(view != null && message.messageReference != null){
 					//Logger().debug(adapter.toString());
-					Logger().debug(message.messageReference.toString());
+					Logger().debug(message.referencedMessage.toString());
 					view.setOnClickListener{
 						try{
 							var target = message.messageReference as MessageReference;
