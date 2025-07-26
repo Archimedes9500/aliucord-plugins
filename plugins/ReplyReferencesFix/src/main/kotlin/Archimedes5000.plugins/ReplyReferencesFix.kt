@@ -10,6 +10,8 @@ import com.discord.stores.StoreStream
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage
 import com.discord.widgets.chat.list.entries.ChatListEntry
 import com.aliucord.Logger
+import b.i.c.q
+import com.discord.models.message.Message
 
 @AliucordPlugin(requiresRestart = false)
 class ReplyReferencesFix:Plugin(){
@@ -34,13 +36,10 @@ class ReplyReferencesFix:Plugin(){
 				|| item.itemView.id == iconViewID
 			){*/
 				this.itemView.setOnClickListener{
+					e as q.b,
+					msg as WidgetChatListAdapterItemMessage
+				->
 					try{
-						var msg =
-							(
-								this.message
-								as WidgetChatListAdapterItemMessage
-							)
-						;
 						var t = msg.messageReference;
 						StoreStream.getMessagesLoader()
 							.jumpToMessage(t.channelID, t.messageID)
