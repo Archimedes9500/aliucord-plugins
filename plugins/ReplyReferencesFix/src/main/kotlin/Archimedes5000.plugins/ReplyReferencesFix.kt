@@ -10,7 +10,8 @@ import com.discord.stores.StoreStream
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage
 import com.discord.widgets.chat.list.adapter.`WidgetChatListAdapterItemMessage$onConfigure$3`
 import com.aliucord.Logger
-import com.android.widget.FrameLayout
+import android.view.View
+import android.widget.FrameLayout
 import com.discord.models.message.Message
 
 @AliucordPlugin(requiresRestart = false)
@@ -24,6 +25,7 @@ class ReplyReferencesFix:Plugin(){
 		){
 			val adapter = this.`this$0` as WidgetChatListAdapterItemMessage;
 			val message = this.`$message` as Message;
+			val rootView = adapter.itemView as View;
 			Logger().debug(adapter.toString());
 			Logger().debug(message.toString());
 			val replyViewID = Utils.getResId(
@@ -34,13 +36,13 @@ class ReplyReferencesFix:Plugin(){
 				"chat_list_adapter_item_text_decorator_reply_link_icon",
 				"id"
 			);
-			val replyView = adapter
+			val replyView = rootView
 				.findViewById<FrameLayout>(replyViewID)
 				.apply{
 					visibility = View.VISIBLE;
 				}
 			;
-			val iconView = adapter
+			val iconView = rootView
 				.findViewById<FrameLayout>(iconViewID)
 				.apply{
 					visibility = View.VISIBLE;
