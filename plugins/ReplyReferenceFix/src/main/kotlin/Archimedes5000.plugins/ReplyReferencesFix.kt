@@ -23,7 +23,6 @@ class ReplyReferencesFix:Plugin(){
 				Hook{
 					frame ->
 					val item = frame.thisObject as WidgetChatListAdapterItemMessage;
-					Logger().debug(frame.toString());
 					val replyViewID = Utils.getResId(
 						"chat_list_adapter_item_text_decorator",
 						"id"
@@ -32,7 +31,8 @@ class ReplyReferencesFix:Plugin(){
 						"chat_list_adapter_item_text_decorator_reply_link_icon",
 						"id"
 					);
-					if(
+					Logger().debug(frame.toString());
+					/*if(
 						item.itemView.id == replyViewID
 						|| item.itemView.id == iconViewID
 					){
@@ -54,7 +54,7 @@ class ReplyReferencesFix:Plugin(){
 								e.printStackTrace();
 							}
 						}
-					}
+					}*/
 				}
 			)
 		}
