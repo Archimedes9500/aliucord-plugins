@@ -35,13 +35,13 @@ class ReplyReferencesFix:Plugin(){
 			);
 			for(viewRes in elements){
 				val viewID = Utils.getResId(viewRes, "id");
-				val view = rootView
-					.findViewById<View?>(viewID)
-					.apply{
-						visibility = View.VISIBLE;
-					}
-				;
+				if(viewID == rootView.id){
+					val view = rootView;
+				}else{
+					val view = rootView.findViewById<View?>(viewID);
+				}
 				if(view != null && message.messageReference != null){
+					view.apply{visibility = View.VISIBLE};
 					//Logger().debug(context.getResources().getResourceEntryName(rootView.id));
 					Logger().debug(message.referencedMessage.toString());
 					view.setOnClickListener{
