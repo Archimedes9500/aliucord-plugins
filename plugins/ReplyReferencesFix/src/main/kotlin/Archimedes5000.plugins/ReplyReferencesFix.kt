@@ -41,7 +41,7 @@ class ReplyReferencesFix:Plugin(){
 						visibility = View.VISIBLE;
 					}
 				;
-				if(view != null){
+				if(view != null && message.messageReference != null){
 					//Logger().debug(adapter.toString());
 					Logger().debug(message.messageReference.toString());
 					view.setOnClickListener{
