@@ -13,6 +13,7 @@ import com.aliucord.Logger
 import android.view.View
 import android.widget.FrameLayout
 import com.discord.models.message.Message
+import com.discord.api.message.MessageReference;
 
 @AliucordPlugin(requiresRestart = false)
 class ReplyReferencesFix:Plugin(){
@@ -48,12 +49,12 @@ class ReplyReferencesFix:Plugin(){
 					visibility = View.VISIBLE;
 				}
 			;
-			for(v in arrayOf(replyView, iconView){
-				v.itemView.setOnClickListener{
+			for(v in arrayOf(replyView, iconView)){
+				v.setOnClickListener{
 					try{
-						var t = message.messageReference;
+						var target = message.messageReference as MessageReference;
 						StoreStream.getMessagesLoader()
-							.jumpToMessage(t.channelId, t.id)
+							.jumpToMessage(target.a(), target.c())
 						;
 					}catch(e:IllegalAccessException){
 						e.printStackTrace();
