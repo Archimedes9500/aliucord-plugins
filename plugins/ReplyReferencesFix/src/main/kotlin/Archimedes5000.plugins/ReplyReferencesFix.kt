@@ -31,7 +31,7 @@ class ReplyReferencesFix:Plugin(){
 			val elements = arrayOf(
 				"chat_list_adapter_item_text_decorator",
 				"chat_list_adapter_item_text_decorator_reply_link_icon",
-				"chat_list_adapter_item_text_root",//test
+				"widget_chat_list_adapter_item_text_root",//test
 			);
 			for(viewRes in elements){
 				val viewID = Utils.getResId(viewRes, "id");
@@ -42,7 +42,7 @@ class ReplyReferencesFix:Plugin(){
 					}
 				;
 				if(view != null && message.messageReference != null){
-					Logger().debug(context.getResources().getResourceEntryName(rootView.id));
+					//Logger().debug(context.getResources().getResourceEntryName(rootView.id));
 					Logger().debug(message.referencedMessage.toString());
 					view.setOnClickListener{
 						try{
