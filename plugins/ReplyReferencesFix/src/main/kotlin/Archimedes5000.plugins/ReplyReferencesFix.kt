@@ -19,9 +19,8 @@ import com.discord.models.message.Message
 class ReplyReferencesFix:Plugin(){
 	@SuppressLint("SetTextI18n")
 	override fun start(context:Context){
-		val shit = "WidgetChatListAdapterItemMessage$onConfigure$3" as String;
 		patcher.after<`WidgetChatListAdapterItemMessage$onConfigure$3`>(
-			shit,
+			"""WidgetChatListAdapterItemMessage$onConfigure$3""",
 			View::class.java
 		){
 			Logger().debug((this.`this$0` as WidgetChatListAdapterItemMessage).toString());
