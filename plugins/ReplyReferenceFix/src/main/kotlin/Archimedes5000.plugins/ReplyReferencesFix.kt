@@ -36,8 +36,8 @@ class ReplyReferencesFix: Plugin(){
 						"id"
 					);
 					if(
-						frame.itemView.id == replyViewID
-						|| frame.thisObject.id == iconViewID
+						frame.itemText == replyViewID
+						|| frame.thisObject.itemText == iconViewID
 					){
 						frame.thisObject.itemView.setOnClickListener{
 							try{
