@@ -42,7 +42,7 @@ class ReplyReferencesFix:Plugin(){
 					}
 				;
 				if(view != null && message.messageReference != null){
-					Logger().debug(rootView.id);
+					Logger().debug(context.getResources().getResourceEntryName(rootView.id));
 					Logger().debug(message.referencedMessage.toString());
 					view.setOnClickListener{
 						try{
