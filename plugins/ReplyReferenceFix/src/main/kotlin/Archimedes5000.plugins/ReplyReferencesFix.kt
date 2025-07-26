@@ -1,6 +1,7 @@
 package Archimedes5000.plugins
 import com.aliucord.annotations.AliucordPlugin
 import android.annotation.SuppressLint
+import java.lang.reflect.InvocationTargetException
 import com.aliucord.entities.Plugin
 import android.content.Context
 import com.aliucord.patcher.Hook
@@ -8,7 +9,6 @@ import com.aliucord.Utils
 import com.aliucord.Utils.showToast
 import com.discord.stores.StoreStream
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage
-import com.discord.databinding.WidgetChatListAdapterItemMessageBinding
 
 @AliucordPlugin(requiresRestart = false)
 class ReplyReferencesFix: Plugin(){
@@ -23,14 +23,10 @@ class ReplyReferencesFix: Plugin(){
 			patcher.patch( //setting listeners
 				getDeclaredMethod(
 					"onConfigure",
-					WidgetChatListAdapterItemMessage.Model::class.java
+					WidgetChatListAdapterItemMessage::class.java
 				),
 				Hook{
 					frame ->
-					val binding = getBinding
-						.invoke(frame.thisObject)
-						as WidgetChatListAdapterItemMessageBinding
-					;
 					val replyViewID = Utils.getResId(
 						"chat_list_adapter_item_text_decorator",
 						"id"
@@ -48,7 +44,7 @@ class ReplyReferencesFix: Plugin(){
 								var msg =
 									(
 										frame.args[0]
-										as WidgetChatListAdapterItemMessage.Model
+										as WidgetChatListAdapterItemMessage
 									)
 									.message
 								;
