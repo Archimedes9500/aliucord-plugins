@@ -56,6 +56,7 @@ class ReplyReferencesFix:Plugin(){
 						StoreStream.getMessagesLoader()
 							.jumpToMessage(target.a(), target.c())
 						;
+						Utils.showToast("Yay", showLonger = false);
 					}catch(e:IllegalAccessException){
 						e.printStackTrace();
 					}catch(e:InvocationTargetException){
