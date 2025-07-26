@@ -6,20 +6,15 @@ import com.aliucord.entities.Plugin
 import android.content.Context
 import com.aliucord.patcher.Hook
 import com.aliucord.Utils
-import com.aliucord.Utils.showToast
 import com.discord.stores.StoreStream
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage
+import com.aliucord.Logger
 
 @AliucordPlugin(requiresRestart = false)
 class ReplyReferencesFix: Plugin(){
 	@SuppressLint("SetTextI18n")
 	override fun start(context: Context){
 		with(WidgetChatListAdapterItemMessage::class.java){
-			val getBinding = getDeclaredMethod("getBinding")
-				.apply{
-					isAccessible = true
-				}
-			;
 			patcher.patch( //setting listeners
 				getDeclaredMethod(
 					"onConfigure",
@@ -27,10 +22,7 @@ class ReplyReferencesFix: Plugin(){
 				),
 				Hook{
 					frame ->
-					Utils.showToast(
-						frame.toString(),
-						showLonger = false
-					);
+					Logger().debug(frame.toString());
 					/*
 					val replyViewID = Utils.getResId(
 						"chat_list_adapter_item_text_decorator",

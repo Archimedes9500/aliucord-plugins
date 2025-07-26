@@ -23,7 +23,7 @@ import com.aliucord.Logger
 @SuppressLint("SetTextI18n")
 class Test:Plugin(){
 	override fun start(context:Context){
-		val logger = Logger();
+		/*val logger = Logger();
 		val c = StickerWrapper::class.java;
 		val sticker = StickerWrapper(Sticker(
 			927304938470662144,
@@ -45,8 +45,8 @@ class Test:Plugin(){
 				c.getDeclaredMethod(name)
 				?.invoke(sticker)
 				.toString()
-			);*/
-		};
+			);*//*
+		};*/
 	}
 	override fun stop(context:Context) = patcher.unpatchAll();
 }
