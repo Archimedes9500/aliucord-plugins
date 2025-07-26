@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import java.lang.reflect.InvocationTargetException
 import com.aliucord.entities.Plugin
 import android.content.Context
-import com.aliucord.patcher
+import com.aliucord.patcher.after
 import com.aliucord.Utils
 import com.discord.stores.StoreStream
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage
