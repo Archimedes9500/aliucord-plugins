@@ -28,42 +28,36 @@ class ReplyReferencesFix:Plugin(){
 			val adapter = this.`this$0` as WidgetChatListAdapterItemMessage;
 			val message = this.`$message` as Message;
 			val rootView = adapter.itemView as View;
-			Logger().debug(adapter.toString());
-			Logger().debug(message.toString());
-			val replyViewID = Utils.getResId(
+			val elements = arrayOf(
 				"chat_list_adapter_item_text_decorator",
-				"id"
-			);
-			val iconViewID = Utils.getResId(
 				"chat_list_adapter_item_text_decorator_reply_link_icon",
 				//"chat_list_adapter_item_text_root",//test
-				"id"
 			);
-			val replyView = rootView
-				.findViewById<FrameLayout>(replyViewID)
-				.apply{
-					visibility = View.VISIBLE;
-				}
-			;
-			val iconView = rootView
-				.findViewById<FrameLayout/*ViewGroup*/>(iconViewID)
-				.apply{
-					visibility = View.VISIBLE;
-				}
-			;
-			for(v in arrayOf(replyView, iconView).filterNotNull()){
-				v.setOnClickListener{
-					try{
-						var target = message.messageReference as MessageReference;
-						StoreStream.getMessagesLoader()
-							.jumpToMessage(target.a(), target.c())
-						;
-						Utils.showToast("Yay", showLonger = false);
-					}catch(e:IllegalAccessException){
-						e.printStackTrace();
-					}catch(e:InvocationTargetException){
-						e.printStackTrace();
+			Logger().debug(adapter.toString());
+			Logger().debug(message.toString());
+			for(viewRes in elements){
+				val viewID = Utils.getResId(viewRes, "id");
+				val view = rootView
+					.findViewById<View>(ViewID)
+					.apply{
+						visibility = View.VISIBLE;
 					}
+				;
+				if(view != null){
+					view.setOnClickListener{
+						try{
+							var target = message.messageReference as MessageReference;
+							StoreStream.getMessagesLoader()
+								.jumpToMessage(target.a(), target.c())
+							;
+							Utils.showToast("Yay", showLonger = false);
+						}catch(e:IllegalAccessException){
+							e.printStackTrace();
+						}catch(e:InvocationTargetException){
+							e.printStackTrace();
+						}
+					}
+				}else{
 				}
 			}
 		}
