@@ -42,7 +42,8 @@ class ReplyReferencesFix:Plugin(){
 				if(view != null && message.messageReference != null){
 					view.apply{visibility = View.VISIBLE};
 					//Logger().debug(context.getResources().getResourceEntryName(rootView.id));
-					Logger().debug(message.referencedMessage.toString());
+					Logger().debug("Source: "+message.toString());
+					Logger().debug("Target: "+message.referencedMessage.toString());
 					view.setOnClickListener{
 						try{
 							var target = message.messageReference as MessageReference;
