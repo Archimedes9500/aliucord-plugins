@@ -36,7 +36,7 @@ class ReplyReferencesFix:Plugin(){
 				|| item.itemView.id == iconViewID
 			){*/
 				this.itemView.setOnClickListener{
-				e as q.b, msg as WidgetChatListAdapterItemMessage, c as Boolean ->
+				e:q.b, msg:WidgetChatListAdapterItemMessage, c:Boolean ->
 					try{
 						var t = msg.messageReference;
 						StoreStream.getMessagesLoader()
