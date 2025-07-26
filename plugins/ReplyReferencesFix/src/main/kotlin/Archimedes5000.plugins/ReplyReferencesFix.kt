@@ -22,7 +22,7 @@ class ReplyReferencesFix:Plugin(){
 		patcher.after<`WidgetChatListAdapterItemMessage$onConfigure$3`>(
 			WidgetChatListAdapterItemMessage::class.java,
 			Message::class.java,
-			Boolean
+			Boolean::class.java
 		){
 			Logger().debug((this.`this$0` as WidgetChatListAdapterItemMessage).toString());
 			Logger().debug((this.`$message` as Message).toString());
