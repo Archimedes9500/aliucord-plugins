@@ -35,7 +35,7 @@ class ReplyReferencesFix:Plugin(){
 			/*if(
 				item.itemView.id == replyViewID
 				|| item.itemView.id == iconViewID
-			){*/
+			){
 				this.itemView.setOnClickListener{
 					try{
 						var t = msg.messageReference;
@@ -48,7 +48,7 @@ class ReplyReferencesFix:Plugin(){
 						e.printStackTrace();
 					}
 				}
-			/*}*/
+			}*/
 		}
 	}
 	override fun stop(context:Context) = patcher.unpatchAll();
