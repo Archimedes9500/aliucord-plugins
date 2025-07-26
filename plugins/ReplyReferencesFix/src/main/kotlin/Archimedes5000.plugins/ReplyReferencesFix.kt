@@ -31,7 +31,7 @@ class ReplyReferencesFix:Plugin(){
 			val elements = arrayOf(
 				"chat_list_adapter_item_text_decorator",
 				"chat_list_adapter_item_text_decorator_reply_link_icon",
-				//"chat_list_adapter_item_text_root",//test
+				"chat_list_adapter_item_text_root",//test
 			);
 			for(viewRes in elements){
 				val viewID = Utils.getResId(viewRes, "id");
