@@ -8,11 +8,9 @@ import com.aliucord.patcher.after
 import com.aliucord.Utils
 import com.discord.stores.StoreStream
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage
-import com.discord.widgets.chat.list.adapter.WidgetChatListAdapter
-import com.discord.widgets.chat.list.entries.ChatListEntry
-import com.aliucord.Logger
-import android.view.View
 import com.discord.widgets.chat.list.adapter.`WidgetChatListAdapterItemMessage$onConfigure$3`
+import com.aliucord.Logger
+import com.android.widget.FrameLayout
 import com.discord.models.message.Message
 
 @AliucordPlugin(requiresRestart = false)
@@ -24,8 +22,10 @@ class ReplyReferencesFix:Plugin(){
 			Message::class.java,
 			Boolean::class.java
 		){
-			Logger().debug((this.`this$0` as WidgetChatListAdapterItemMessage).toString());
-			Logger().debug((this.`$message` as Message).toString());
+			val adapter = this.`this$0` as WidgetChatListAdapterItemMessage;
+			val message = this.`$message` as Message;
+			Logger().debug(adapter.toString());
+			Logger().debug(message.toString());
 			val replyViewID = Utils.getResId(
 				"chat_list_adapter_item_text_decorator",
 				"id"
@@ -34,6 +34,18 @@ class ReplyReferencesFix:Plugin(){
 				"chat_list_adapter_item_text_decorator_reply_link_icon",
 				"id"
 			);
+			val replyView = adapter
+				.findViewById<FrameLayout>(replyViewID)
+				.apply{
+					visibility = View.VISIBLE;
+				}
+			;
+			val iconView = adapter
+				.findViewById<FrameLayout>(iconViewID)
+				.apply{
+					visibility = View.VISIBLE;
+				}
+			;
 			/*if(
 				item.itemView.id == replyViewID
 				|| item.itemView.id == iconViewID
