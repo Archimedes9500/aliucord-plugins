@@ -36,7 +36,7 @@ class ReplyReferencesFix:Plugin(){
 			for(viewRes in elements){
 				val viewID = Utils.getResId(viewRes, "id");
 				val view = rootView
-					.findViewById<View>(ViewID)
+					.findViewById<View?>(viewID)
 					.apply{
 						visibility = View.VISIBLE;
 					}
