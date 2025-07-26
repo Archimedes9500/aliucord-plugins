@@ -33,8 +33,8 @@ class ReplyReferencesFix:Plugin(){
 						"id"
 					);
 					if(
-						item.itemView == replyViewID
-						|| item.itemView == iconViewID
+						item.itemView.id == replyViewID
+						|| item.itemView.id == iconViewID
 					){
 						item.itemView.setOnClickListener{
 							try{
@@ -43,7 +43,7 @@ class ReplyReferencesFix:Plugin(){
 										frame.args[0]
 										as WidgetChatListAdapterItemMessage
 									)
-									.message
+									.$repliedMessage
 								;
 								var t = msg.messageReference;
 								StoreStream.getMessagesLoader()
@@ -55,7 +55,7 @@ class ReplyReferencesFix:Plugin(){
 								e.printStackTrace();
 							}
 						}
-					}*/
+					}
 				}
 			)
 		}
