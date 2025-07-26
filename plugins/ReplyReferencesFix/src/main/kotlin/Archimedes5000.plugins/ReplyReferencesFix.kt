@@ -33,8 +33,6 @@ class ReplyReferencesFix:Plugin(){
 				"chat_list_adapter_item_text_decorator_reply_link_icon",
 				//"chat_list_adapter_item_text_root",//test
 			);
-			Logger().debug(adapter.toString());
-			Logger().debug(message.toString());
 			for(viewRes in elements){
 				val viewID = Utils.getResId(viewRes, "id");
 				val view = rootView
@@ -44,6 +42,8 @@ class ReplyReferencesFix:Plugin(){
 					}
 				;
 				if(view != null){
+					Logger().debug(adapter.toString());
+					Logger().debug(message.toString());
 					view.setOnClickListener{
 						try{
 							var target = message.messageReference as MessageReference;
