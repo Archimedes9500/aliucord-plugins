@@ -8,6 +8,6 @@ include(":MyFirstCommand")
 project(":MyFirstCommand").projectDir = file("./plugins/MyFirstCommand")
 include(":MyFirstPatch")
 project(":MyFirstPatch").projectDir = file("./plugins/MyFirstPatch")
-include(":ReplyReferenceFix")
-project(":ReplyReferenceFix").projectDir = file("./plugins/ReplyReferenceFix")
+include(":ReplyReferencesFix")
+project(":ReplyReferencesFix").projectDir = file("./plugins/ReplyReferencesFix")
 
