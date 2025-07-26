@@ -22,6 +22,7 @@ class ReplyReferencesFix:Plugin(){
             Int::class.java,
             ChatListEntry::class.java
         ){
+			n:Int, entry:ChatListEntry ->
 			val replyViewID = Utils.getResId(
 				"chat_list_adapter_item_text_decorator",
 				"id"
@@ -36,7 +37,6 @@ class ReplyReferencesFix:Plugin(){
 				|| item.itemView.id == iconViewID
 			){*/
 				this.itemView.setOnClickListener{
-				e:q.b, msg:WidgetChatListAdapterItemMessage, c:Boolean ->
 					try{
 						var t = msg.messageReference;
 						StoreStream.getMessagesLoader()
