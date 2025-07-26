@@ -28,7 +28,7 @@ class ReplyReferencesFix:Plugin(){
 				"chat_list_adapter_item_text_decorator_reply_link_icon",
 				"id"
 			);
-			Logger().debug(this.$message.toString());
+			Logger().debug(this.message.toString());
 			/*if(
 				item.itemView.id == replyViewID
 				|| item.itemView.id == iconViewID
@@ -37,7 +37,7 @@ class ReplyReferencesFix:Plugin(){
 					try{
 						var msg =
 							(
-								frame.args.message
+								this.message
 								as WidgetChatListAdapterItemMessage
 							)
 						;
