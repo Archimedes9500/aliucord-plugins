@@ -35,10 +35,9 @@ class ReplyReferencesFix:Plugin(){
 			);
 			for(viewRes in elements){
 				val viewID = Utils.getResId(viewRes, "id");
-				if(viewID == rootView.id){
-					val view = rootView;
-				}else{
-					val view = rootView.findViewById<View?>(viewID);
+				var view = rootView;
+				if(viewID != rootView.id){
+					view = rootView.findViewById<View?>(viewID);
 				}
 				if(view != null && message.messageReference != null){
 					view.apply{visibility = View.VISIBLE};
@@ -57,7 +56,6 @@ class ReplyReferencesFix:Plugin(){
 							e.printStackTrace();
 						}
 					}
-				}else{
 				}
 			}
 		}
