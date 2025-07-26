@@ -17,7 +17,7 @@ class ReplyReferencesFix:Plugin(){
 		with(WidgetChatListAdapterItemMessage::class.java){
 			patcher.patch( //setting listeners
 				getDeclaredMethod(
-					"Configure",
+					"onConfigure",
 					WidgetChatListEntry::class.java
 				),
 				Hook{
