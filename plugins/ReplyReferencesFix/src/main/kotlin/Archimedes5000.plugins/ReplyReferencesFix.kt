@@ -23,7 +23,7 @@ class ReplyReferencesFix:Plugin(){
 			"onClick",
 			View::class.java
 		){
-			Logger().debug((this.`$this` as WidgetChatListAdapterItemMessage).toString());
+			Logger().debug((this.`this$0` as WidgetChatListAdapterItemMessage).toString());
 			Logger().debug((this.`$message` as Message).toString());
 			val replyViewID = Utils.getResId(
 				"chat_list_adapter_item_text_decorator",
