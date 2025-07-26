@@ -28,12 +28,12 @@ class ReplyReferencesFix:Plugin(){
 				"chat_list_adapter_item_text_decorator_reply_link_icon",
 				"id"
 			);
-			Logger().debug(this.toString());
+			Logger().debug(this.$message.toString());
 			/*if(
 				item.itemView.id == replyViewID
 				|| item.itemView.id == iconViewID
-			){
-				item.itemView.setOnClickListener{
+			){*/
+				this.itemView.setOnClickListener{
 					try{
 						var msg =
 							(
@@ -51,7 +51,7 @@ class ReplyReferencesFix:Plugin(){
 						e.printStackTrace();
 					}
 				}
-			}*/
+			/*}*/
 		}
 	}
 	override fun stop(context:Context) = patcher.unpatchAll();
