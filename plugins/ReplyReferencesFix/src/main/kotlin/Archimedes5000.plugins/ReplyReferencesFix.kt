@@ -22,7 +22,6 @@ class ReplyReferencesFix:Plugin(){
             Int::class.java,
             ChatListEntry::class.java
         ){
-			n:Int, entry:ChatListEntry ->
 			val replyViewID = Utils.getResId(
 				"chat_list_adapter_item_text_decorator",
 				"id"
