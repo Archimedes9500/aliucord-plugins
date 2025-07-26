@@ -51,7 +51,7 @@ class ReplyReferencesFix:Plugin(){
 					visibility = View.VISIBLE;
 				}
 			;
-			for(v in arrayOf(replyView, iconView)){
+			for(v in arrayOf(replyView, iconView).filterNotNull()){
 				v.setOnClickListener{
 					try{
 						var target = message.messageReference as MessageReference;
