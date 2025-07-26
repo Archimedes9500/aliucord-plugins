@@ -20,7 +20,6 @@ class ReplyReferencesFix:Plugin(){
 	@SuppressLint("SetTextI18n")
 	override fun start(context:Context){
 		patcher.after<`WidgetChatListAdapterItemMessage$onConfigure$3`>(
-			"WidgetChatListAdapterItemMessage$onConfigure$3",
 			WidgetChatListAdapterItemMessage::class.java,
 			Message::class.java,
 			Boolean
