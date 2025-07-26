@@ -48,15 +48,12 @@ class ReplyReferencesFix:Plugin(){
 					visibility = View.VISIBLE;
 				}
 			;
-			/*if(
-				item.itemView.id == replyViewID
-				|| item.itemView.id == iconViewID
-			){
-				this.itemView.setOnClickListener{
+			for(v in arrayOf(replyView, iconView){
+				v.itemView.setOnClickListener{
 					try{
-						var t = msg.messageReference;
+						var t = message.messageReference;
 						StoreStream.getMessagesLoader()
-							.jumpToMessage(t.channelID, t.messageID)
+							.jumpToMessage(t.channelId, t.id)
 						;
 					}catch(e:IllegalAccessException){
 						e.printStackTrace();
@@ -64,7 +61,7 @@ class ReplyReferencesFix:Plugin(){
 						e.printStackTrace();
 					}
 				}
-			}*/
+			}
 		}
 	}
 	override fun stop(context:Context) = patcher.unpatchAll();
