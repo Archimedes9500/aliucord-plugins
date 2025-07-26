@@ -23,6 +23,8 @@ class ReplyReferencesFix:Plugin(){
 			"onClick",
 			View::class.java
 		){
+			Logger().debug(this.`$this$0`.toString());
+			Logger().debug(this.`$message`.toString());
 			val replyViewID = Utils.getResId(
 				"chat_list_adapter_item_text_decorator",
 				"id"
@@ -31,7 +33,6 @@ class ReplyReferencesFix:Plugin(){
 				"chat_list_adapter_item_text_decorator_reply_link_icon",
 				"id"
 			);
-			Logger().debug(this.toString());
 			/*if(
 				item.itemView.id == replyViewID
 				|| item.itemView.id == iconViewID
