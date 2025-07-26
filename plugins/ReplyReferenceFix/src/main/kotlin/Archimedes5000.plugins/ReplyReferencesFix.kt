@@ -11,9 +11,9 @@ import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage
 import com.aliucord.Logger
 
 @AliucordPlugin(requiresRestart = false)
-class ReplyReferencesFix: Plugin(){
+class ReplyReferencesFix:Plugin(){
 	@SuppressLint("SetTextI18n")
-	override fun start(context: Context){
+	override fun start(context:Context){
 		with(WidgetChatListAdapterItemMessage::class.java){
 			patcher.patch( //setting listeners
 				getDeclaredMethod(
@@ -22,8 +22,8 @@ class ReplyReferencesFix: Plugin(){
 				),
 				Hook{
 					frame ->
+					val item = frame.thisObject as WidgetChatListAdapterItemMessage;
 					Logger().debug(frame.toString());
-					/*
 					val replyViewID = Utils.getResId(
 						"chat_list_adapter_item_text_decorator",
 						"id"
@@ -33,10 +33,10 @@ class ReplyReferencesFix: Plugin(){
 						"id"
 					);
 					if(
-						frame.thisObject.itemView == replyViewID
-						|| frame.thisObject.itemView == iconViewID
+						item.itemView == replyViewID
+						|| item.itemView == iconViewID
 					){
-						frame.thisObject.itemView.setOnClickListener{
+						item.itemView.setOnClickListener{
 							try{
 								var msg =
 									(
@@ -60,5 +60,5 @@ class ReplyReferencesFix: Plugin(){
 			)
 		}
 	}
-	override fun stop(context: Context) = patcher.unpatchAll();
+	override fun stop(context:Context) = patcher.unpatchAll();
 }
