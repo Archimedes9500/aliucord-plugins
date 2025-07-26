@@ -14,11 +14,11 @@ import com.aliucord.Logger
 class ReplyReferencesFix:Plugin(){
 	@SuppressLint("SetTextI18n")
 	override fun start(context:Context){
-		with(WidgetChatListAdapterItemMessage::class.java){
+		with(WidgetChatListAdapter::class.java){
 			patcher.patch( //setting listeners
 				getDeclaredMethod(
 					"onConfigure",
-					WidgetChatListAdapterItemMessage::class.java
+					WidgetChatListAdapter::class.java
 				),
 				Hook{
 					frame ->
@@ -40,10 +40,9 @@ class ReplyReferencesFix:Plugin(){
 							try{
 								var msg =
 									(
-										frame.args[0]
+										frame.args.message
 										as WidgetChatListAdapterItemMessage
 									)
-									.$repliedMessage
 								;
 								var t = msg.messageReference;
 								StoreStream.getMessagesLoader()
