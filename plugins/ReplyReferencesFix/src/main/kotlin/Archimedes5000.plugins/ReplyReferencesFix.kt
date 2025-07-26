@@ -10,7 +10,7 @@ import com.discord.stores.StoreStream
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage
 import com.discord.widgets.chat.list.entries.ChatListEntry
 import com.aliucord.Logger
-import b.i.c.q
+import b.i.c.q.b
 import com.discord.models.message.Message
 
 @AliucordPlugin(requiresRestart = false)
@@ -30,15 +30,12 @@ class ReplyReferencesFix:Plugin(){
 				"chat_list_adapter_item_text_decorator_reply_link_icon",
 				"id"
 			);
-			Logger().debug(this.message.toString());
+			Logger().debug(this.toString());
 			/*if(
 				item.itemView.id == replyViewID
 				|| item.itemView.id == iconViewID
 			){*/
-				this.itemView.setOnClickListener{
-					e as q.b,
-					msg as WidgetChatListAdapterItemMessage
-				->
+				this.itemView.setOnClickListener{e, msg, something ->
 					try{
 						var t = msg.messageReference;
 						StoreStream.getMessagesLoader()
