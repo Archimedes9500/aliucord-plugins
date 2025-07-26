@@ -8,6 +8,7 @@ import com.aliucord.patcher.Hook
 import com.aliucord.Utils
 import com.discord.stores.StoreStream
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage
+import com.discord.widgets.chat.list.entries.ChatListEntry
 import com.aliucord.Logger
 
 @AliucordPlugin(requiresRestart = false)
@@ -18,7 +19,7 @@ class ReplyReferencesFix:Plugin(){
 			patcher.patch( //setting listeners
 				getDeclaredMethod(
 					"onConfigure",
-					WidgetChatListEntry::class.java
+					ChatListEntry::class.java
 				),
 				Hook{
 					frame ->
