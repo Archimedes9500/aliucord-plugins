@@ -6,41 +6,66 @@ import android.content.Context
 import com.aliucord.patcher.Hook
 import com.aliucord.Utils
 import com.aliucord.Utils.showToast
-import android.view.View
-import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.TextView
-
-import java.net.URL
-import java.net.HttpURLConnection
-import java.io.OutputStream
-import org.json.JSONObject
+import com.discord.stores.StoreStream
+import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage
+import com.discord.databinding.WidgetChatListAdapterItemMessageBinding
 
 @AliucordPlugin(requiresRestart = false)
 class ReplyReferencesFix: Plugin(){
 	@SuppressLint("SetTextI18n")
 	override fun start(context: Context){
-		val link = URL("https://mediawiki.org/w/api.php");
-		val r = link.openConnection() as HttpURLConnection;
-		r.requestMethod = "POST";
-		r.doOutput = true;
-		r.setRequestProperty(
-			"Content-Type",
-			"application/x-www-form-urlencoded"
-		);
-		var content = "action=query&format=json&formatversion=2";
-		val body = r.outputStream as OutputStream;
-		body.write(content.toByteArray());
-		body.flush();
-		var response = r.inputStream
-			.bufferedReader()
-			.readText()
-		;
-		var j = JSONObject(response);
-		showToast(
-			j.opt("batchcomplete").toString(),
-			showLonger = false
-		);
+		with(WidgetChatListAdapterItemMessage::class.java){
+			val getBinding = getDeclaredMethod("getBinding")
+				.apply{
+					isAccessible = true
+				}
+			;
+			patcher.patch( //setting listeners
+				getDeclaredMethod(
+					"onConfigure",
+					WidgetChatListAdapterItemMessage.Model::class.java
+				),
+				Hook{
+					frame ->
+					val binding = getBinding
+						.invoke(frame.thisObject)
+						as WidgetChatListAdapterItemMessageBinding
+					;
+					val replyViewID = Utils.getResId(
+						"chat_list_adapter_item_text_decorator",
+						"id"
+					);
+					val iconViewID = Utils.getResId(
+						"chat_list_adapter_item_text_decorator_reply_link_icon",
+						"id"
+					);
+					if(
+						frame.thisObject.itemView.id == replyViewID
+						|| frame.thisObject.itemView.id == iconViewID
+					){
+						frame.thisObject.itemView.setOnClickListener{
+							try{
+								var msg =
+									(
+										frame.args[0]
+										as WidgetChatListAdapterItemMessage.Model
+									)
+									.message
+								;
+								var t = msg.messageReference;
+								StoreStream.getMessagesLoader()
+									.jumpToMessage(t.channelID, t.messageID)
+								;
+							}catch(e:IllegalAccessException){
+								e.printStackTrace();
+							}catch(e:InvocationTargetException){
+								e.printStackTrace();
+							}
+						}
+					}
+				}
+			)
+		}
 	}
 	override fun stop(context: Context) = patcher.unpatchAll();
 }
