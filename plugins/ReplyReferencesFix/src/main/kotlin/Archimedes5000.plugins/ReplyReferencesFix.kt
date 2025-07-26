@@ -8,6 +8,7 @@ import com.aliucord.patcher.after
 import com.aliucord.Utils
 import com.discord.stores.StoreStream
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage
+import com.discord.widgets.chat.list.adapter.WidgetChatListAdapter
 import com.discord.widgets.chat.list.entries.ChatListEntry
 import com.aliucord.Logger
 import b.i.c.q.b
@@ -17,7 +18,7 @@ import com.discord.models.message.Message
 class ReplyReferencesFix:Plugin(){
 	@SuppressLint("SetTextI18n")
 	override fun start(context:Context){
-		patcher.after<WidgetChatListAdapterItemMessage>(
+		patcher.after<a:WidgetChatListAdapterItemMessage, m:Message, z:Boolean>(
             "onConfigure",
             Int::class.java,
             ChatListEntry::class.java
@@ -30,7 +31,7 @@ class ReplyReferencesFix:Plugin(){
 				"chat_list_adapter_item_text_decorator_reply_link_icon",
 				"id"
 			);
-			Logger().debug(this.toString());
+			Logger().debug(this.m.toString());
 			/*if(
 				item.itemView.id == replyViewID
 				|| item.itemView.id == iconViewID
