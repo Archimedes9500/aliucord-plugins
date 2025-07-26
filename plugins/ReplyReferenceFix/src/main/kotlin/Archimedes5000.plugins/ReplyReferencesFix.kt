@@ -27,6 +27,11 @@ class ReplyReferencesFix: Plugin(){
 				),
 				Hook{
 					frame ->
+					Utils.showToast(
+						frame.toString(),
+						showLonger = false
+					);
+					/*
 					val replyViewID = Utils.getResId(
 						"chat_list_adapter_item_text_decorator",
 						"id"
@@ -36,8 +41,8 @@ class ReplyReferencesFix: Plugin(){
 						"id"
 					);
 					if(
-						frame.itemText == replyViewID
-						|| frame.thisObject.itemText == iconViewID
+						frame.thisObject.itemView == replyViewID
+						|| frame.thisObject.itemView == iconViewID
 					){
 						frame.thisObject.itemView.setOnClickListener{
 							try{
@@ -58,7 +63,7 @@ class ReplyReferencesFix: Plugin(){
 								e.printStackTrace();
 							}
 						}
-					}
+					}*/
 				}
 			)
 		}
