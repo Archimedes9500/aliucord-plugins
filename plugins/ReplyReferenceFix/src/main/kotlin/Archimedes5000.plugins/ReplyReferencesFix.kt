@@ -14,7 +14,7 @@ import com.aliucord.Logger
 class ReplyReferencesFix:Plugin(){
 	@SuppressLint("SetTextI18n")
 	override fun start(context:Context){
-		with(WidgetChatListAdapter::class.java){
+		with(WidgetChatListAdapterItemMessage::class.java){
 			patcher.patch( //setting listeners
 				getDeclaredMethod(
 					"onConfigure",
