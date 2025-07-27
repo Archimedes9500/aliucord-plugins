@@ -21,6 +21,8 @@ import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.instead;
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage;
 
+import com.aliucord.patcher.component1;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.Spannable;
@@ -139,7 +141,8 @@ class ReplyReferencesFix:Plugin(){
 			"configureReplyPreview",
 			MessageEntry::class.java
 		){
-			MessageEntry:messageEntry ->
+			frame ->
+			val messageEntry = frame.component1() as MessageEntry;
 			val type = messageEntry.getMessage().getType() as Int?;
 			if(this.replyHolder != null && this.replyLinkItem != null){
 				val message = messageEntry.getMessage()
