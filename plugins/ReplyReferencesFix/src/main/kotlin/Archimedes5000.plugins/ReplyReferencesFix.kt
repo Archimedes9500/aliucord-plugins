@@ -190,7 +190,7 @@ class ReplyReferencesFix:Plugin(){
 						){
 							var message2 = messageEntry2.getMessage() as Message;
 							this.replyHolder.setOnClickListener(
-								WidgetChatListAdapterItemMessage$configureReplyPreview$1(
+								`WidgetChatListAdapterItemMessage$configureReplyPreview$1`(
 									message2
 								)
 							);
@@ -259,7 +259,7 @@ class ReplyReferencesFix:Plugin(){
 									);
 								}else{
 									var appLog = AppLog.g as AppLog?;
-									Logger.e$default(
+									Logger.`e$default`(
 										appLog,
 										"Unhandled reply preview: "
 											+messageEntry2
