@@ -19,6 +19,7 @@ import com.discord.api.message.MessageReference;*/
 import com.aliucord.annotations.AliucordPlugin;
 import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.instead;
+import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -34,7 +35,7 @@ import android.widget.TextView;
 import androidx.annotation.LayoutRes;
 import androidx.core.text.BidiFormatter;
 import androidx.core.view.ViewCompat;
-import androidx.core.view.ViewKt;
+//import androidx.core.view.ViewKt;
 import b.a.k.b;
 import b.d.b.a.a;
 import com.discord.R;
@@ -138,15 +139,15 @@ class ReplyReferencesFix:Plugin(){
 			"configureReplyPreview",
 			MessageEntry::class.java
 		){
-			var type = null as Integer?;
+			val type = messageEntry.getMessage().getType() as Integer?;
 			if(this.replyHolder != null && this.replyLinkItem != null){
-				var message = messageEntry.getMessage()
+				val message = messageEntry.getMessage()
 					as Message
 				;
 				var replyData = messageEntry.getReplyData()
 					as MessageEntry.ReplyData?
 				;
-				var isInteraction = message.isInteraction()
+				vak isInteraction = message.isInteraction()
 					as Boolean
 				;
 				if(
@@ -155,9 +156,7 @@ class ReplyReferencesFix:Plugin(){
 					!(
 						replyData == null
 					||
-						type = messageEntry.getMessage().getType()
-						==
-						null
+						type == null
 					||
 						type.intValue() != 19
 					)
