@@ -146,7 +146,9 @@ class ReplyReferencesFix:Plugin(){
 			//reflection
 			for(prop in this.declaredMemberProperties){
 				prop.isAccessible = true;
-				this[prop.name] = this.get(prop.name);
+				this[prop.name] = this.get(prop.name)
+					as this.get(prop.name).returnType
+				;
 			}
 			///reflection
 			val messageEntry = frame.component1() as MessageEntry;
