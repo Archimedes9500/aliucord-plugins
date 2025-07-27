@@ -22,6 +22,7 @@ import com.aliucord.patcher.instead;
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage;
 
 import com.aliucord.patcher.component1;
+import com.aliucord.utils.ReflectUtils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -98,8 +99,8 @@ class ReplyReferencesFix:Plugin(){
 			Message::class.java,
 			Boolean::class.java
 		){
-			val adapter = this.`this$0` as WidgetChatListAdapterItemMessage;
-			val message = this.`$message` as Message;
+			val adapter = ReflectUtils.getField(this, "`this")$0` as WidgetChatListAdapterItemMessage;
+			val message = ReflectUtils.getField(this, "`")$message` as Message;
 			val rootView = adapter.itemView as View;
 			val elements = arrayOf(
 				"chat_list_adapter_item_text_decorator",
@@ -144,7 +145,11 @@ class ReplyReferencesFix:Plugin(){
 			frame ->
 			val messageEntry = frame.component1() as MessageEntry;
 			val type = messageEntry.getMessage().getType() as Int?;
-			if(this.replyHolder != null && this.replyLinkItem != null){
+			if(
+				ReflectUtils.getField(this, "replyHolder") != null
+			&&
+				ReflectUtils.getField(this, "replyLinkItem") != null
+			){
 				val message = messageEntry.getMessage()
 					as Message
 				;
@@ -165,8 +170,8 @@ class ReplyReferencesFix:Plugin(){
 						type != 19
 					)
 				){
-					this.replyHolder.setVisibility(0);
-					this.replyLinkItem.setVisibility(0);
+					ReflectUtils.getField(this, "replyHolder").setVisibility(0);
+					ReflectUtils.getField(this, "replyLinkItem").setVisibility(0);
 					if(isInteraction){
 						configureReplyInteraction(messageEntry);
 					}else if(replyData != null){
@@ -198,7 +203,7 @@ class ReplyReferencesFix:Plugin(){
 							messageEntry2 != null
 						){
 							var message2 = messageEntry2.getMessage() as Message;
-							this.replyHolder.setOnClickListener(
+							ReflectUtils.getField(this, "replyHolder").setOnClickListener(
 								`WidgetChatListAdapterItemMessage$configureReplyPreview$1`(
 									message2
 								)
@@ -215,16 +220,19 @@ class ReplyReferencesFix:Plugin(){
 								messageEntry2
 							);
 							if(
-								this.replyText != null
+								ReflectUtils.getField(this, "replyText") != null
 							&&
-								this.replyLeadingViewsHolder != null
+								ReflectUtils.getField(this, "replyLeadingViewsHolder") != null
 							){
 								var content = message2.getContent() as String?;
 								if (content == null) {
 									content = "";
 								}
 								if(!(content.length() == 0)){
-									var context = this.replyText.getContext() as Context;
+									var context = ReflectUtils.getField(this, "replyText")
+										.getContext()
+										as Context
+									;
 									var embeddedMessageParser = EmbeddedMessageParser
 										.INSTANCE
 										as EmbeddedMessageParser?
@@ -239,7 +247,9 @@ class ReplyReferencesFix:Plugin(){
 												StoreMessageState.State(null, null, 3, null),
 												50,
 												message2,
-												this.adapter as WidgetChatListAdapter
+												ReflectUtils.getField(this, "adapter")
+													as WidgetChatListAdapter
+												,
 											)
 										)
 										as DraweeSpanStringBuilder
@@ -250,7 +260,9 @@ class ReplyReferencesFix:Plugin(){
 										parse.length(),
 										33
 									);
-									this.replyText.setDraweeSpanStringBuilder(parse);
+									ReflectUtils.getField(this, "replyText")
+										.setDraweeSpanStringBuilder(parse)
+									;
 									configureReplyLayoutDirection();
 								}else if(message2.hasStickers()){
 									configureReplyContentWithResourceId(
@@ -283,8 +295,8 @@ class ReplyReferencesFix:Plugin(){
 						}
 					}
 				}else{
-					this.replyHolder.setVisibility(8);
-					this.replyLinkItem.setVisibility(8);
+					ReflectUtils.getField(this, "replyHolder").setVisibility(8);
+					ReflectUtils.getField(this, "replyLinkItem").setVisibility(8);
 				}
 			}
 		}
