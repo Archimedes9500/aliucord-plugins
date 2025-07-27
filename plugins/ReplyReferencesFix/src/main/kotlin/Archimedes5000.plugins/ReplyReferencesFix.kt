@@ -99,8 +99,8 @@ class ReplyReferencesFix:Plugin(){
 			Message::class.java,
 			Boolean::class.java
 		){
-			val adapter = ReflectUtils.getField(this, "`this")$0` as WidgetChatListAdapterItemMessage;
-			val message = ReflectUtils.getField(this, "`")$message` as Message;
+			val adapter = this.`this$0` as WidgetChatListAdapterItemMessage;
+			val message = this.`$message` as Message;
 			val rootView = adapter.itemView as View;
 			val elements = arrayOf(
 				"chat_list_adapter_item_text_decorator",
@@ -143,13 +143,16 @@ class ReplyReferencesFix:Plugin(){
 			MessageEntry::class.java
 		){
 			frame ->
+			//reflection
+			for(prop in this.declaredMemberProperties){
+				prop.isAccessible = true;
+				this[prop.name] = this.get(prop.name);
+			}
+			///reflection
 			val messageEntry = frame.component1() as MessageEntry;
 			val type = messageEntry.getMessage().getType() as Int?;
 			if(
-				ReflectUtils.getField(this, "replyHolder") != null
-			&&
-				ReflectUtils.getField(this, "replyLinkItem") != null
-			){
+				this.replyHolder != null && this.replyLinkItem != null){
 				val message = messageEntry.getMessage()
 					as Message
 				;
@@ -170,8 +173,8 @@ class ReplyReferencesFix:Plugin(){
 						type != 19
 					)
 				){
-					ReflectUtils.getField(this, "replyHolder").setVisibility(0);
-					ReflectUtils.getField(this, "replyLinkItem").setVisibility(0);
+					this.replyHolder.setVisibility(0);
+					this.replyLinkItem.setVisibility(0);
 					if(isInteraction){
 						configureReplyInteraction(messageEntry);
 					}else if(replyData != null){
@@ -203,7 +206,7 @@ class ReplyReferencesFix:Plugin(){
 							messageEntry2 != null
 						){
 							var message2 = messageEntry2.getMessage() as Message;
-							ReflectUtils.getField(this, "replyHolder").setOnClickListener(
+							this.replyHolder.setOnClickListener(
 								`WidgetChatListAdapterItemMessage$configureReplyPreview$1`(
 									message2
 								)
@@ -220,19 +223,16 @@ class ReplyReferencesFix:Plugin(){
 								messageEntry2
 							);
 							if(
-								ReflectUtils.getField(this, "replyText") != null
+								this.replyText != null
 							&&
-								ReflectUtils.getField(this, "replyLeadingViewsHolder") != null
+								this.replyLeadingViewsHolder != null
 							){
 								var content = message2.getContent() as String?;
 								if (content == null) {
 									content = "";
 								}
 								if(!(content.length() == 0)){
-									var context = ReflectUtils.getField(this, "replyText")
-										.getContext()
-										as Context
-									;
+									var context = this.replyText.getContext() as Context;
 									var embeddedMessageParser = EmbeddedMessageParser
 										.INSTANCE
 										as EmbeddedMessageParser?
@@ -247,9 +247,7 @@ class ReplyReferencesFix:Plugin(){
 												StoreMessageState.State(null, null, 3, null),
 												50,
 												message2,
-												ReflectUtils.getField(this, "adapter")
-													as WidgetChatListAdapter
-												,
+												this.adapter as WidgetChatListAdapter
 											)
 										)
 										as DraweeSpanStringBuilder
@@ -260,9 +258,7 @@ class ReplyReferencesFix:Plugin(){
 										parse.length(),
 										33
 									);
-									ReflectUtils.getField(this, "replyText")
-										.setDraweeSpanStringBuilder(parse)
-									;
+									this.replyText.setDraweeSpanStringBuilder(parse);
 									configureReplyLayoutDirection();
 								}else if(message2.hasStickers()){
 									configureReplyContentWithResourceId(
@@ -295,8 +291,8 @@ class ReplyReferencesFix:Plugin(){
 						}
 					}
 				}else{
-					ReflectUtils.getField(this, "replyHolder").setVisibility(8);
-					ReflectUtils.getField(this, "replyLinkItem").setVisibility(8);
+					this.replyHolder.setVisibility(8);
+					this.replyLinkItem.setVisibility(8);
 				}
 			}
 		}
