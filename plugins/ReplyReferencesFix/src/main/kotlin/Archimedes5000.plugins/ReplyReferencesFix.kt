@@ -57,6 +57,9 @@ class ReplyReferencesFix:Plugin(){
 							e.printStackTrace();
 						}
 					}
+				}else{
+					Logger().debug("Source: "+message.toString());
+					Utils.showToast("Shit", showLonger = false);
 				}
 			}
 		}
