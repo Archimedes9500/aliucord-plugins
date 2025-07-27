@@ -139,11 +139,11 @@ class ReplyReferencesFix:Plugin(){
 			"configureReplyPreview",
 			MessageEntry::class.java
 		){
-			messageEntry ->
+			frame, MessageEntry:messageEntry ->
 			val type = messageEntry.getMessage().getType() as Integer?;
 			if(this.replyHolder != null && this.replyLinkItem != null){
 				val message = messageEntry.getMessage()
-					as Message?
+					as Message
 				;
 				var replyData = messageEntry.getReplyData()
 					as MessageEntry.ReplyData?
@@ -159,7 +159,7 @@ class ReplyReferencesFix:Plugin(){
 					||
 						type == null
 					||
-						type.intValue() != 19
+						type != 19
 					)
 				){
 					this.replyHolder.setVisibility(0);
