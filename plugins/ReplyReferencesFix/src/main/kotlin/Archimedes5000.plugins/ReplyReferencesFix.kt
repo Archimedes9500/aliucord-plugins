@@ -139,8 +139,8 @@ class ReplyReferencesFix:Plugin(){
 			"configureReplyPreview",
 			MessageEntry::class.java
 		){
-			frame, MessageEntry:messageEntry ->
-			val type = messageEntry.getMessage().getType() as Integer?;
+			MessageEntry:messageEntry ->
+			val type = messageEntry.getMessage().getType() as Int?;
 			if(this.replyHolder != null && this.replyLinkItem != null){
 				val message = messageEntry.getMessage()
 					as Message
