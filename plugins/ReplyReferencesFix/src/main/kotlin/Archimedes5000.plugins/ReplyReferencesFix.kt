@@ -58,7 +58,7 @@ class ReplyReferencesFix:Plugin(){
 						}
 					}
 				}else{
-					Logger().debug("Source: "+message.toString());
+					Logger().debug("Default: "+message.toString());
 					Utils.showToast("Shit", showLonger = false);
 				}
 			}
