@@ -16,6 +16,12 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.discord.models.message.Message
 import com.discord.api.message.MessageReference;*/
+import com.aliucord.annotations.AliucordPlugin;
+import com.aliucord.entities.Plugin;
+import com.aliucord.patcher.instead;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
