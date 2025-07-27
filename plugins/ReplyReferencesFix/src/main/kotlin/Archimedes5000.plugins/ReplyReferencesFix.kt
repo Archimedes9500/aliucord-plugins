@@ -144,9 +144,9 @@ class ReplyReferencesFix:Plugin(){
 		){
 			frame ->
 			//reflection
-			for(prop in this.declaredMemberProperties){
+			for(prop in this.memberProperties){
 				prop.isAccessible = true;
-				this[prop.name] = this.get(prop.name)
+				this.set(prop.name) = this.get(prop.name)
 					as this.get(prop.name).returnType
 				;
 			}
@@ -178,7 +178,7 @@ class ReplyReferencesFix:Plugin(){
 					this.replyHolder.setVisibility(0);
 					this.replyLinkItem.setVisibility(0);
 					if(isInteraction){
-						configureReplyInteraction(messageEntry);
+						this.configureReplyInteraction(messageEntry);
 					}else if(replyData != null){
 						var messageEntry2 = replyData.getMessageEntry()
 							as MessageEntry
@@ -187,19 +187,19 @@ class ReplyReferencesFix:Plugin(){
 							as StoreMessageReplies.MessageState
 						;
 						if(replyData.isRepliedUserBlocked()){
-							configureReplySystemMessage(
+							this.configureReplySystemMessage(
 								R.string.reply_quote_message_blocked
 							);
 						}else if(
 							messageState is StoreMessageReplies.MessageState.Unloaded
 						){
-							configureReplySystemMessage(
+							this.configureReplySystemMessage(
 								R.string.reply_quote_message_not_loaded
 							);
 						}else if(
 							messageState is StoreMessageReplies.MessageState.Deleted
 						){
-							configureReplySystemMessage(
+							this.configureReplySystemMessage(
 								R.string.reply_quote_message_deleted
 							);
 						}else if(
@@ -215,7 +215,7 @@ class ReplyReferencesFix:Plugin(){
 							);
 							var type2 = message2.getType() as Integer?;
 							if(type2 != null && type2.intValue() == 7){
-								configureReplySystemMessageUserJoin(messageEntry2);
+								this.configureReplySystemMessageUserJoin(messageEntry2);
 								return;
 							}
 							var author = message2.getAuthor() as User;
@@ -261,9 +261,9 @@ class ReplyReferencesFix:Plugin(){
 										33
 									);
 									this.replyText.setDraweeSpanStringBuilder(parse);
-									configureReplyLayoutDirection();
+									this.configureReplyLayoutDirection();
 								}else if(message2.hasStickers()){
-									configureReplyContentWithResourceId(
+									this.configureReplyContentWithResourceId(
 										R.string.reply_quote_sticker_mobile
 									);
 								}else if(
@@ -273,7 +273,7 @@ class ReplyReferencesFix:Plugin(){
 								||
 									message2.hasEmbeds()
 								){
-									configureReplyContentWithResourceId(
+									this.configureReplyContentWithResourceId(
 										R.string.reply_quote_no_text_content_mobile
 									);
 								}else{
