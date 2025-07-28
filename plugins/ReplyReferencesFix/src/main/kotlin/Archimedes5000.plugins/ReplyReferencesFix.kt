@@ -7,6 +7,8 @@ import com.discord.widgets.chat.list.adapter.WidgetChatListItem;
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage;
 import com.discord.widgets.chat.list.adapter.`WidgetChatListAdapterItemMessage$getMessageRenderContext$1`;
 import com.discord.widgets.chat.list.adapter.`WidgetChatListAdapterItemMessage$getMessageRenderContext$2`;
+import com.discord.widgets.chat.list.adapter.`WidgetChatListAdapterItemMessage$getMessageRenderContext$3`;
+import com.discord.widgets.chat.list.adapter.`WidgetChatListAdapterItemMessage$getMessageRenderContext$4`;
 import com.aliucord.patcher.component1;
 import com.aliucord.patcher.component2;
 import com.aliucord.utils.ReflectUtils;
@@ -120,7 +122,7 @@ class ReplyReferencesFix:Plugin(){
 			fun configureThreadSpine(message:Message, z2:Boolean):Void?{
 				val imageView = threadEmbedSpine as ImageView?;
 				if(imageView != null){
-					imageView.setVisible(message.hasThread() && !z2);
+					ViewKt.setVisible(imageView, message.hasThread() && !z2);
 				}
 				return;
 			}
@@ -166,9 +168,9 @@ class ReplyReferencesFix:Plugin(){
 			fun getMessageRenderContext(
 					context:Context,
 					messageEntry:MessageEntry,
-					function1:Function1<SpoilerNode<*>, Unit>
+					function1:Function1<SpoilerNode<*>!, Unit!>!
 			):MessageRenderContext{
-				MessageRenderContext(
+				return MessageRenderContext(
 					context,
 					(adapter as WidgetChatListAdapter)
 						.getData()
@@ -207,11 +209,11 @@ class ReplyReferencesFix:Plugin(){
 			}
 			fun getSpoilerClickHandler(
 				message:Message
-			):Function1<SpoilerNode<*>, Unit>{
+			):Function1<SpoilerNode<*>, Unit>?{
 				if(!(adapter as WidgetChatListAdapter).getData().isSpoilerClickAllowed()){
 					return null;
 				}
-				`WidgetChatListAdapterItemMessage$getSpoilerClickHandler$1`(
+				return `WidgetChatListAdapterItemMessage$getSpoilerClickHandler$1`(
 					this, message
 				);
 			}
