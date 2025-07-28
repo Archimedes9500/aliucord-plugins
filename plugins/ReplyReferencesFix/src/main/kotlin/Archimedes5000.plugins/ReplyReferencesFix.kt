@@ -5,6 +5,8 @@ import com.aliucord.patcher.instead;
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapter;
 import com.discord.widgets.chat.list.adapter.WidgetChatListItem;
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage;
+import com.discord.widgets.chat.list.adapter.`WidgetChatListAdapterItemMessage$getMessageRenderContext$1`;
+import com.discord.widgets.chat.list.adapter.`WidgetChatListAdapterItemMessage$getMessageRenderContext$2`;
 import com.aliucord.patcher.component1;
 import com.aliucord.patcher.component2;
 import com.aliucord.utils.ReflectUtils;
@@ -118,8 +120,9 @@ class ReplyReferencesFix:Plugin(){
 			fun configureThreadSpine(message:Message, z2:Boolean):Void?{
 				val imageView = threadEmbedSpine as ImageView?;
 				if(imageView != null){
-					return imageView.setVisible(message.hasThread() && !z2);
+					imageView.setVisible(message.hasThread() && !z2);
 				}
+				return;
 			}
 			fun getAuthorTextColor(guildMember:GuildMember):Int?{
 				val view = this.itemView as View;
@@ -127,7 +130,7 @@ class ReplyReferencesFix:Plugin(){
 					guildMember,
 					ColorCompat.getThemedColor(
 						view.getContext(),
-						Utils.getResId("colorHeaderPrimary", "attr") as Int?
+						Utils.getResId("colorHeaderPrimary", "attr") as Int
 					)
 				);
 			}
@@ -144,11 +147,11 @@ class ReplyReferencesFix:Plugin(){
 			}
 			fun getMessagePreprocessor(j:Long?, message:Message, state:StoreMessageState.State):MessagePreprocessor{
 				val userSettings = StoreStream
-					.Companion
+					.Companion()
 					.getUserSettings()
 					as StoreUserSettings
 				;
-				MessagePreprocessor(
+				return MessagePreprocessor(
 					j,
 					state,
 					if(
@@ -187,11 +190,11 @@ class ReplyReferencesFix:Plugin(){
 					),
 					ColorCompat.getThemedColor(
 						context,
-						Utils.getResId("theme_chat_spoiler_bg", "attr") as Int?
+						Utils.getResId("theme_chat_spoiler_bg", "attr") as Int
 					),
 					ColorCompat.getThemedColor(
 						context,
-						Utils.getResId("theme_chat_spoiler_bg_visible", "attr") as Int?
+						Utils.getResId("theme_chat_spoiler_bg_visible", "attr") as Int
 					),
 					function1,
 					`WidgetChatListAdapterItemMessage$getMessageRenderContext$3`(
