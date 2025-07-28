@@ -72,9 +72,9 @@ import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 import kotlin.jvm.internal.DefaultConstructorMarker;
 
-@AliucordPlugin(requiresRestart = false);
+@AliucordPlugin(requiresRestart = false)
 class ReplyReferencesFix:Plugin(){
-	@SuppressLint("SetTextI18n");
+	@SuppressLint("SetTextI18n")
 	override fun start(context:Context){
 		patcher.instead<WidgetChatListAdapterItemMessage>(
 			@LayoutRes Int::class.java,
@@ -82,7 +82,7 @@ class ReplyReferencesFix:Plugin(){
 		){
 			frame ->
 			val i = frame.component1() as Int;
-			val widgetChatListAdapter as WidgetChatListAdapter;
+			val widgetChatListAdapter frame.component2() as WidgetChatListAdapter;
 			super(i, widgetChatListAdapter);
 			val findViewById = this.itemView
 				.findViewById(R.id.chat_list_adapter_item_text)
@@ -113,13 +113,13 @@ class ReplyReferencesFix:Plugin(){
 			this.threadStarterMessageHeader = this.itemView.findViewById(R.id.thread_starter_message_header) as View;
 			this.communicationDisabledIcon = this.itemView.findViewById(R.id.chat_list_adapter_item_communication_disabled_icon) as ImageView;
 	
-			fun this.configureThreadSpine(Message:message, Boolean:z2):void{
+			fun configureThreadSpine(Message:message, Boolean:z2):void{
 				val imageView = this.threadEmbedSpine as ImageView?;
 				if(imageView != null){
 					ViewKt.setVisible(imageView, message.hasThread() && !z2);
 				}
 			}
-			fun this.getAuthorTextColor(GuildMember:guildMember):int{
+			fun getAuthorTextColor(GuildMember:guildMember):int{
 				val view = this.itemView as View;
 				GuildMember.Companion.getColor(
 					guildMember,
@@ -129,7 +129,7 @@ class ReplyReferencesFix:Plugin(){
 					)
 				);
 			}
-			fun this.getLeadingEdgeSpan():LeadingMarginSpan{
+			fun getLeadingEdgeSpan():LeadingMarginSpan{
 				var i = null as int;
 				val view = this.replyLeadingViewsHolder as View;
 				if(view != null) {
@@ -140,7 +140,7 @@ class ReplyReferencesFix:Plugin(){
 				}
 				LeadingMarginSpan.Standard(i, 0);
 			}
-			fun this.getMessagePreprocessor(long:j, Message:message, StoreMessageState.State:state):MessagePreprocessor{
+			fun getMessagePreprocessor(long:j, Message:message, StoreMessageState.State:state):MessagePreprocessor{
 				val userSettings = StoreStream
 					.Companion
 					.getUserSettings()
@@ -158,7 +158,7 @@ class ReplyReferencesFix:Plugin(){
 					null as Integer?
 				);
 			}
-			fun this.getMessageRenderContext(
+			fun getMessageRenderContext(
 					Context:context,
 					MessageEntry:messageEntry,
 					Function1<? super SpoilerNode<?>, Unit>:function1
@@ -200,7 +200,7 @@ class ReplyReferencesFix:Plugin(){
 					)
 				);
 			}
-			fun this.getSpoilerClickHandler(
+			fun getSpoilerClickHandler(
 				Message:message
 			):Function1<SpoilerNode<?>, Unit>{
 				if(!(this.adapter as WidgetChatListAdapter).getData().isSpoilerClickAllowed()){
@@ -210,7 +210,7 @@ class ReplyReferencesFix:Plugin(){
 					this, message
 				);
 			}
-			fun this.processMessageText(
+			fun processMessageText(
 				SimpleDraweeSpanTextView:simpleDraweeSpanTextView,
 				MessageEntry:messageEntry
 			):void{
@@ -279,8 +279,7 @@ class ReplyReferencesFix:Plugin(){
 					) ? 0.5f : 1.0f
 				);
 			}
-		
-			fun this.shouldLinkify(String?:str):boolean{
+			fun shouldLinkify(String?:str):boolean{
 				if(str == null){
 					return false;
 				}
@@ -297,7 +296,7 @@ class ReplyReferencesFix:Plugin(){
 				}
 				return true;
 			}
-			fun this.shouldShowInteractionMessage(Message:message):boolean{
+			fun shouldShowInteractionMessage(Message:message):boolean{
 				return(
 					message.isLocalApplicationCommand()
 				||
