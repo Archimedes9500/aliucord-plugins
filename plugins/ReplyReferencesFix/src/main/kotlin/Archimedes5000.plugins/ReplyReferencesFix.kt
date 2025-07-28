@@ -115,24 +115,24 @@ class ReplyReferencesFix:Plugin(){
 			val threadStarterMessageHeader = this.itemView.findViewById(Utils.getResId("thread_starter_message_header", "id")) as View;
 			val communicationDisabledIcon = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_communication_disabled_icon", "id")) as ImageView;
 
-			fun configureThreadSpine(message:Message, z2:Boolean):void{
+			fun configureThreadSpine(message:Message, z2:Boolean):Void?{
 				val imageView = threadEmbedSpine as ImageView?;
 				if(imageView != null){
-					View.setVisible(imageView, message.hasThread() && !z2);
+					return imageView.setVisible(message.hasThread() && !z2);
 				}
 			}
-			fun getAuthorTextColor(guildMember:GuildMember):int{
+			fun getAuthorTextColor(guildMember:GuildMember):Int?{
 				val view = this.itemView as View;
-				GuildMember.Companion.getColor(
+				return GuildMember.Companion().getColor(
 					guildMember,
 					ColorCompat.getThemedColor(
 						view.getContext(),
-						Utils.getResId("colorHeaderPrimary", "attr") as int
+						Utils.getResId("colorHeaderPrimary", "attr") as Int?
 					)
 				);
 			}
 			fun getLeadingEdgeSpan():LeadingMarginSpan{
-				var i = null as int;
+				var i = null as Int?;
 				val view = replyLeadingViewsHolder as View;
 				if(view != null) {
 					view.measure(0, 0);
@@ -140,9 +140,9 @@ class ReplyReferencesFix:Plugin(){
 				}else{
 					i = 0;
 				}
-				LeadingMarginSpan.Standard(i, 0);
+				return LeadingMarginSpan.Standard(i, 0);
 			}
-			fun getMessagePreprocessor(j:long, message:Message, state:StoreMessageState.State):MessagePreprocessor{
+			fun getMessagePreprocessor(j:Long?, message:Message, state:StoreMessageState.State):MessagePreprocessor{
 				val userSettings = StoreStream
 					.Companion
 					.getUserSettings()
@@ -187,11 +187,11 @@ class ReplyReferencesFix:Plugin(){
 					),
 					ColorCompat.getThemedColor(
 						context,
-						Utils.getResId("theme_chat_spoiler_bg", "attr") as int
+						Utils.getResId("theme_chat_spoiler_bg", "attr") as Int?
 					),
 					ColorCompat.getThemedColor(
 						context,
-						Utils.getResId("theme_chat_spoiler_bg_visible", "attr") as int
+						Utils.getResId("theme_chat_spoiler_bg_visible", "attr") as Int?
 					),
 					function1,
 					`WidgetChatListAdapterItemMessage$getMessageRenderContext$3`(
@@ -215,7 +215,7 @@ class ReplyReferencesFix:Plugin(){
 			fun processMessageText(
 				simpleDraweeSpanTextView:SimpleDraweeSpanTextView,
 				messageEntry:MessageEntry
-			):void{
+			):Void?{
 				var str = null as String?;
 				var type = null as Int?;
 				val context = simpleDraweeSpanTextView.getContext() as Context;
