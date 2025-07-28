@@ -9,6 +9,7 @@ import com.discord.widgets.chat.list.adapter.`WidgetChatListAdapterItemMessage$g
 import com.discord.widgets.chat.list.adapter.`WidgetChatListAdapterItemMessage$getMessageRenderContext$2`;
 import com.discord.widgets.chat.list.adapter.`WidgetChatListAdapterItemMessage$getMessageRenderContext$3`;
 import com.discord.widgets.chat.list.adapter.`WidgetChatListAdapterItemMessage$getMessageRenderContext$4`;
+import com.discord.widgets.chat.list.adapter.`WidgetChatListAdapterItemMessage$getSpoilerClickHandler$1`;
 import com.aliucord.patcher.component1;
 import com.aliucord.patcher.component2;
 import com.aliucord.utils.ReflectUtils;
@@ -121,22 +122,20 @@ class ReplyReferencesFix:Plugin(){
 			val communicationDisabledIcon = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_communication_disabled_icon", "id")) as ImageView;
 
 			public class Companion{
-				private Companion(){
+				val Companion(){
 				}
-				
-				public Companion(
+				val Companion(
 					defaultConstructorMarker:DefaultConstructorMarker
 				){
-					this();
+					this;
 				}
 			}
 
-			fun configureThreadSpine(message:Message, z2:Boolean):Void?{
+			fun configureThreadSpine(message:Message, z2:Boolean){
 				val imageView = threadEmbedSpine as ImageView?;
 				if(imageView != null){
 					ViewKt.setVisible(imageView, message.hasThread() && !z2);
 				}
-				return;
 			}
 			fun getAuthorTextColor(guildMember:GuildMember):Int?{
 				val view = this.itemView as View;
@@ -180,7 +179,7 @@ class ReplyReferencesFix:Plugin(){
 			fun getMessageRenderContext(
 					context:Context,
 					messageEntry:MessageEntry,
-					function1:Function1<SpoilerNode<*>!, Unit!>!
+					function1:Function1<SpoilerNode<*>, Unit>
 			):MessageRenderContext{
 				return MessageRenderContext(
 					context,
@@ -232,7 +231,7 @@ class ReplyReferencesFix:Plugin(){
 			fun processMessageText(
 				simpleDraweeSpanTextView:SimpleDraweeSpanTextView,
 				messageEntry:MessageEntry
-			):Void?{
+			){
 				var str = null as String?;
 				var type = null as Int?;
 				val context = simpleDraweeSpanTextView.getContext() as Context;
@@ -269,20 +268,29 @@ class ReplyReferencesFix:Plugin(){
 							getSpoilerClickHandler(message)
 						),
 						messagePreprocessor,
-						if(if(messageEntry.isGuildForumPostFirstMessage())
-							DiscordParser.ParserOptions.FORUM_POST_FIRST_MESSAGE
-							else isWebhook
-						)
-						DiscordParser.ParserOptions.ALLOW_MASKED_LINKS
-						else DiscordParser.ParserOptions.DEFAULT,
+						if(
+							if(messageEntry.isGuildForumPostFirstMessage()){
+								DiscordParser.ParserOptions.FORUM_POST_FIRST_MESSAGE;
+							}else{
+								isWebhook;
+							}
+						){
+							DiscordParser.ParserOptions.ALLOW_MASKED_LINKS
+						}else{
+							DiscordParser.ParserOptions.DEFAULT
+						},
 						z3
 					)
 					as DraweeSpanStringBuilder
 				;
 				simpleDraweeSpanTextView.setAutoLinkMask(
-					if(messagePreprocessor.isLinkifyConflicting() || !shouldLinkify(message.getContent())) 0 else 6
+					if(
+						messagePreprocessor.isLinkifyConflicting()
+					||
+						!shouldLinkify(message.getContent())
+					) 0 else 6
 				);
-				if(parseChannelMessage.length() <= 0){
+				if(parseChannelMessage.length <= 0){
 					z2 = false;
 				}
 				if(!z2){
@@ -294,24 +302,24 @@ class ReplyReferencesFix:Plugin(){
 				type = messageEntry.getMessage().getType();
 				simpleDraweeSpanTextView.setAlpha(
 					if(
-						(type2 != null && type2.intValue() == -1)
+						(type2 != null && type2 == -1)
 					||
 						(
 							messageEntry.getMessage().getType() != null
 						&&
-							type.intValue() == -6
+							type == -6
 						)
 					) 0.5f else 1.0f
 				);
 			}
-			fun shouldLinkify(str:String?):boolean{
+			fun shouldLinkify(str:String?):Boolean{
 				if(str == null){
 					return false;
 				}
-				if(str.length() < 200){
+				if(str.length < 200){
 					return true;
 				}
-				val length = str.length() as Int;
+				val length = str.length as Int;
 				var i = 0 as Int;
 				for(i2 in 0..length) {
 					if(str.charAt(i2) == '.' && (i + 1) >= 50){
@@ -321,8 +329,8 @@ class ReplyReferencesFix:Plugin(){
 				}
 				return true;
 			}
-			fun shouldShowInteractionMessage(Message:message):boolean{
-				return(
+			fun shouldShowInteractionMessage(message:Message):Boolean{
+				return (
 					message.isLocalApplicationCommand()
 				||
 					message.isLoading()
