@@ -8,6 +8,7 @@ import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage;
 import com.aliucord.patcher.component1;
 import com.aliucord.patcher.component2;
 import com.aliucord.utils.ReflectUtils;
+import com.aliucord.utils.Utils
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -86,33 +87,33 @@ class ReplyReferencesFix:Plugin(){
 			val widgetChatListAdapter = frame.component2() as WidgetChatListAdapter;
 			WidgetChatListItem(i, widgetChatListAdapter);
 			val findViewById = this.itemView
-				.findViewById(R.id.chat_list_adapter_item_text)
+				.findViewById(Utils.getResId("chat_list_adapter_item_text", "id"))
 				as View
 			;
 			val itemText = findViewById as SimpleDraweeSpanTextView;
 			val MAX_REPLY_AST_NODES = 50 as Int;
-			val itemAvatar = this.itemView.findViewById(R.id.chat_list_adapter_item_text_avatar) as ImageView;
-			val itemName = this.itemView.findViewById(R.id.chat_list_adapter_item_text_name) as TextView;
-			val itemRoleIcon = this.itemView.findViewById(R.id.chat_list_adapter_item_text_role_icon) as RoleIconView;
-			val itemTag = this.itemView.findViewById(R.id.chat_list_adapter_item_text_tag) as TextView;
-			val replyHolder = this.itemView.findViewById(R.id.chat_list_adapter_item_text_decorator) as View;
-			val replyLinkItem = this.itemView.findViewById(R.id.chat_list_adapter_item_text_decorator_reply_link_icon) as View;
-			val replyLeadingViewsHolder = this.itemView.findViewById(R.id.chat_list_adapter_item_reply_leading_views) as View;
-			val replyName = this.itemView.findViewById(R.id.chat_list_adapter_item_text_decorator_reply_name) as TextView;
-			val replyIcon = this.itemView.findViewById(R.id.chat_list_adapter_item_text_decorator_reply_icon) as ImageView;
-			val replyAvatar = this.itemView.findViewById(R.id.chat_list_adapter_item_text_decorator_avatar) as ImageView;
-			val replyText = this.itemView.findViewById(R.id.chat_list_adapter_item_text_reply_content) as SimpleDraweeSpanTextView;
-			val itemTimestamp = this.itemView.findViewById(R.id.chat_list_adapter_item_text_timestamp) as TextView;
-			val failedUploadList = this.itemView.findViewById(R.id.chat_list_adapter_item_failed_upload_list) as FailedUploadList;
-			val itemAlertText = this.itemView.findViewById(R.id.chat_list_adapter_item_alert_text) as TextView;
-			val itemLoadingText = this.itemView.findViewById(R.id.chat_list_adapter_item_text_loading) as TextView;
-			val backgroundHighlight = this.itemView.findViewById(R.id.chat_list_adapter_item_highlighted_bg) as View;
-			val gutterHighlight = this.itemView.findViewById(R.id.chat_list_adapter_item_gutter_bg) as View;
-			val loadingDots = this.itemView.findViewById(R.id.chat_overlay_typing_dots) as TypingDots;
-			val sendError = this.itemView.findViewById(R.id.chat_list_adapter_item_text_error) as ImageView;
-			val threadEmbedSpine = this.itemView.findViewById(R.id.chat_list_adapter_item_thread_embed_spine) as ImageView;
-			val threadStarterMessageHeader = this.itemView.findViewById(R.id.thread_starter_message_header) as View;
-			val communicationDisabledIcon = this.itemView.findViewById(R.id.chat_list_adapter_item_communication_disabled_icon) as ImageView;
+			val itemAvatar = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_avatar", "id")) as ImageView;
+			val itemName = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_name", "id")) as TextView;
+			val itemRoleIcon = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_role_icon", "id")) as RoleIconView;
+			val itemTag = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_tag", "id")) as TextView;
+			val replyHolder = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_decorator", "id")) as View;
+			val replyLinkItem = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_decorator_reply_link_icon", "id")) as View;
+			val replyLeadingViewsHolder = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_reply_leading_views", "id")) as View;
+			val replyName = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_decorator_reply_name", "id")) as TextView;
+			val replyIcon = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_decorator_reply_icon", "id")) as ImageView;
+			val replyAvatar = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_decorator_avatar", "id")) as ImageView;
+			val replyText = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_reply_content", "id")) as SimpleDraweeSpanTextView;
+			val itemTimestamp = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_timestamp", "id")) as TextView;
+			val failedUploadList = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_failed_upload_list", "id")) as FailedUploadList;
+			val itemAlertText = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_alert_text", "id")) as TextView;
+			val itemLoadingText = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_loading", "id")) as TextView;
+			val backgroundHighlight = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_highlighted_bg", "id")) as View;
+			val gutterHighlight = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_gutter_bg", "id")) as View;
+			val loadingDots = this.itemView.findViewById(Utils.getResId("chat_overlay_typing_dots", "id")) as TypingDots;
+			val sendError = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_error", "id")) as ImageView;
+			val threadEmbedSpine = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_thread_embed_spine", "id")) as ImageView;
+			val threadStarterMessageHeader = this.itemView.findViewById(Utils.getResId("thread_starter_message_header", "id")) as View;
+			val communicationDisabledIcon = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_communication_disabled_icon", "id")) as ImageView;
 
 			fun configureThreadSpine(message:Message, z2:Boolean):void{
 				val imageView = threadEmbedSpine as ImageView?;
@@ -227,7 +228,7 @@ class ReplyReferencesFix:Plugin(){
 				if(message.isSourceDeleted()){
 					str = context
 						.getResources()
-						.getString(R.string.source_message_deleted)
+						.getString(Utils.getResId("source_message_deleted", "string"))
 					;
 				}else{
 					str = message.getContent();
