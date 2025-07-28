@@ -161,7 +161,7 @@ class ReplyReferencesFix:Plugin(){
 			fun getMessageRenderContext(
 					context:Context,
 					messageEntry:MessageEntry,
-					function1:Function1<? super SpoilerNode<?>, Unit>
+					function1:Function1<SpoilerNode<*>, Unit>
 			):MessageRenderContext{
 				MessageRenderContext(
 					context,
