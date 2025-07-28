@@ -75,16 +75,18 @@ import kotlin.jvm.internal.DefaultConstructorMarker;
 class ReplyReferencesFix:Plugin(){
 	@SuppressLint("SetTextI18n")
 	override fun start(context:Context){
+		inline fun <reified T> Any.getField(name: String) = ReflectUtils.getField(this, name) as? T;
 		patcher.instead<WidgetChatListAdapterItemMessage>(
 			"configureReplyPreview",
 			MessageEntry::class.java
 		){
 			frame ->
+			val messageEntry:MessageEntry = frame.component1();
 			var type:Int? = null;
-			if(this.replyHolder != null && this.replyLinkItem != null){
+			if(this.getField("replyHolder") != null && this.replyLinkItem != null){
 				val message:Message = messageEntry.getMessage();
 				val replyData:MessageEntry.ReplyData = messageEntry.getReplyData();
-				val isInteraction:Boolean:val = message.isInteraction();
+				val isInteraction:Boolean = message.isInteraction();
 				type = messageEntry.getMessage().getType();
 				if(
 					isInteraction
@@ -97,8 +99,8 @@ class ReplyReferencesFix:Plugin(){
 						type != 19
 					)
 				){
-					this.replyHolder.setVisibility(0);
-					this.replyLinkItem.setVisibility(0);
+					this.getField("replyHolder").setVisibility(0);
+					this.getField("replyLinkItem").setVisibility(0);
 					if(isInteraction){
 						configureReplyInteraction(messageEntry);
 					}else if(replyData != null){
@@ -137,7 +139,7 @@ class ReplyReferencesFix:Plugin(){
 							messageEntry2 != null
 						){
 							val message2:Message = messageEntry2.getMessage();
-							this.replyHolder.setOnClickListener(
+							this.getField("replyHolder").setOnClickListener(
 								`WidgetChatListAdapterItemMessage$configureReplyPreview$1`(
 									message2
 								)
@@ -154,16 +156,16 @@ class ReplyReferencesFix:Plugin(){
 								messageEntry2
 							);
 							if(
-								this.replyText != null
+								this.getField("replyText") != null
 							&&
-								this.replyLeadingViewsHolder != null
+								this.getField("replyLeadingViewsHolder") != null
 							){
 								val content:String = message2.getContent();
 								if(content == null){
 									content = "";
 								}
-								if(!(content.length() == 0)){
-									val context:Context = this.replyText.getContext();
+								if(!(content.length == 0)){
+									val context:Context = this.getField("replyText").getContext();
 									val embeddedMessageParser:EmbeddedMessageParser =
 										EmbeddedMessageParser.INSTANCE
 									;
@@ -183,7 +185,7 @@ class ReplyReferencesFix:Plugin(){
 												),
 												50,
 												message2,
-												this.adapter as WidgetChatListAdapter
+												this.getField("adapter") as WidgetChatListAdapter
 											)
 										)
 									;
@@ -193,7 +195,7 @@ class ReplyReferencesFix:Plugin(){
 										parse.length,
 										33
 									);
-									this.replyText.setDraweeSpanStringBuilder(parse);
+									this.getField("replyText").setDraweeSpanStringBuilder(parse);
 									configureReplyLayoutDirection();
 								}else if(message2.hasStickers()) {
 									configureReplyContentWithResourceId(
@@ -232,8 +234,8 @@ class ReplyReferencesFix:Plugin(){
 						}
 					}
 				}else{
-					this.replyHolder.setVisibility(8);
-					this.replyLinkItem.setVisibility(8);
+					this.getField("replyHolder").setVisibility(8);
+					this.getField("replyLinkItem").setVisibility(8);
 				}
 			}
 		}
