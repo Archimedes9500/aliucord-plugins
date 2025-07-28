@@ -21,7 +21,7 @@ import android.widget.TextView;
 import androidx.annotation.LayoutRes;
 import androidx.core.text.BidiFormatter;
 import androidx.core.view.ViewCompat;
-import androidx.core.view.ViewKt;
+import androidx.core.view.View;
 import b.a.k.b;
 import b.d.b.a.a;
 import com.discord.R;
@@ -116,7 +116,7 @@ class ReplyReferencesFix:Plugin(){
 			fun configureThreadSpine(message:Message, z2:Boolean):void{
 				val imageView = this.threadEmbedSpine as ImageView?;
 				if(imageView != null){
-					ViewKt.setVisible(imageView, message.hasThread() && !z2);
+					View.setVisible(imageView, message.hasThread() && !z2);
 				}
 			}
 			fun getAuthorTextColor(guildMember:GuildMember):int{
@@ -260,7 +260,9 @@ class ReplyReferencesFix:Plugin(){
 					)
 					as DraweeSpanStringBuilder
 				;
-				simpleDraweeSpanTextView.setAutoLinkMask((messagePreprocessor.isLinkifyConflicting() || !shouldLinkify(message.getContent())) ? 0 : 6);
+				simpleDraweeSpanTextView.setAutoLinkMask(
+					if(messagePreprocessor.isLinkifyConflicting() || !shouldLinkify(message.getContent())) 0 else 6
+				);
 				if(parseChannelMessage.length() <= 0){
 					z2 = false;
 				}
@@ -274,12 +276,13 @@ class ReplyReferencesFix:Plugin(){
 					(
 						(type2 != null && type2.intValue() == -1)
 					||
-					(
-						(type = messageEntry.getMessage().getType()) != null
+					if(
+						messageEntry.getMessage().getType()) != null
 					&&
-						type.intValue() == -6)
-					) ? 0.5f : 1.0f
+						type.intValue() == -6
+					) 0.5f else 1.0f
 				);
+				type = messageEntry.getMessage().getType();
 			}
 			fun shouldLinkify(String?:str):boolean{
 				if(str == null){
