@@ -21,7 +21,6 @@ import android.widget.TextView;
 import androidx.annotation.LayoutRes;
 import androidx.core.text.BidiFormatter;
 import androidx.core.view.ViewCompat;
-import androidx.core.view.ViewKt;
 import b.a.k.b;
 import b.d.b.a.a;
 import com.discord.R;
@@ -116,7 +115,7 @@ class ReplyReferencesFix:Plugin(){
 			fun configureThreadSpine(message:Message, z2:Boolean):void{
 				val imageView = this.threadEmbedSpine as ImageView?;
 				if(imageView != null){
-					ViewKt.setVisible(imageView, message.hasThread() && !z2);
+					View.setVisible(imageView, message.hasThread() && !z2);
 				}
 			}
 			fun getAuthorTextColor(guildMember:GuildMember):int{
