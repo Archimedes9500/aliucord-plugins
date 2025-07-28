@@ -94,7 +94,7 @@ class ReplyReferencesFix:Plugin(){
 					||
 						messageEntry.getMessage().getType() == null
 					||
-						type.intValue() != 19
+						type != 19
 					)
 				){
 					this.replyHolder.setVisibility(0);
@@ -142,8 +142,8 @@ class ReplyReferencesFix:Plugin(){
 									message2
 								)
 							);
-							val type2:Integer = message2.getType();
-							if(type2 != null && type2.intValue() == 7){
+							val type2:Int = message2.getType();
+							if(type2 != null && type2 == 7){
 								configureReplySystemMessageUserJoin(messageEntry2);
 								return;
 							}
