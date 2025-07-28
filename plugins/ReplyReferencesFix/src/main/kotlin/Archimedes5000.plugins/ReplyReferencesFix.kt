@@ -113,13 +113,13 @@ class ReplyReferencesFix:Plugin(){
 			this.threadStarterMessageHeader = this.itemView.findViewById(R.id.thread_starter_message_header) as View;
 			this.communicationDisabledIcon = this.itemView.findViewById(R.id.chat_list_adapter_item_communication_disabled_icon) as ImageView;
 	
-			fun configureThreadSpine(Message:message, Boolean:z2):void{
+			fun configureThreadSpine(message:Message, z2:Boolean):void{
 				val imageView = this.threadEmbedSpine as ImageView?;
 				if(imageView != null){
 					ViewKt.setVisible(imageView, message.hasThread() && !z2);
 				}
 			}
-			fun getAuthorTextColor(GuildMember:guildMember):int{
+			fun getAuthorTextColor(guildMember:GuildMember):int{
 				val view = this.itemView as View;
 				GuildMember.Companion.getColor(
 					guildMember,
@@ -140,7 +140,7 @@ class ReplyReferencesFix:Plugin(){
 				}
 				LeadingMarginSpan.Standard(i, 0);
 			}
-			fun getMessagePreprocessor(long:j, Message:message, (StoreMessageState.State):state):MessagePreprocessor{
+			fun getMessagePreprocessor(j:long, message:Message, state:StoreMessageState.State):MessagePreprocessor{
 				val userSettings = StoreStream
 					.Companion
 					.getUserSettings()
@@ -159,9 +159,9 @@ class ReplyReferencesFix:Plugin(){
 				);
 			}
 			fun getMessageRenderContext(
-					Context:context,
-					MessageEntry:messageEntry,
-					Function1<? super SpoilerNode<?>, Unit>:function1
+					context:Context,
+					messageEntry:MessageEntry,
+					function1:Function1<? super SpoilerNode<?>, Unit>
 			):MessageRenderContext{
 				MessageRenderContext(
 					context,
@@ -201,7 +201,7 @@ class ReplyReferencesFix:Plugin(){
 				);
 			}
 			fun getSpoilerClickHandler(
-				Message:message
+				message:Message
 			):Function1<SpoilerNode<?>, Unit>{
 				if(!(this.adapter as WidgetChatListAdapter).getData().isSpoilerClickAllowed()){
 					return null;
@@ -211,8 +211,8 @@ class ReplyReferencesFix:Plugin(){
 				);
 			}
 			fun processMessageText(
-				SimpleDraweeSpanTextView:simpleDraweeSpanTextView,
-				MessageEntry:messageEntry
+				simpleDraweeSpanTextView:SimpleDraweeSpanTextView,
+				messageEntry:MessageEntry
 			):void{
 				var str = null as String?;
 				var type = null as Int?;
