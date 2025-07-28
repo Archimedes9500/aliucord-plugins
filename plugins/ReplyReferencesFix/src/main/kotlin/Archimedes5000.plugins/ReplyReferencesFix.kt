@@ -82,7 +82,7 @@ class ReplyReferencesFix:Plugin(){
 		){
 			frame ->
 			val i = frame.component1() as Int;
-			val widgetChatListAdapter frame.component2() as WidgetChatListAdapter;
+			val widgetChatListAdapter = frame.component2() as WidgetChatListAdapter;
 			super(i, widgetChatListAdapter);
 			val findViewById = this.itemView
 				.findViewById(R.id.chat_list_adapter_item_text)
@@ -140,7 +140,7 @@ class ReplyReferencesFix:Plugin(){
 				}
 				LeadingMarginSpan.Standard(i, 0);
 			}
-			fun getMessagePreprocessor(long:j, Message:message, StoreMessageState.State:state):MessagePreprocessor{
+			fun getMessagePreprocessor(long:j, Message:message, (StoreMessageState.State):state):MessagePreprocessor{
 				val userSettings = StoreStream
 					.Companion
 					.getUserSettings()
