@@ -177,10 +177,10 @@ class ReplyReferencesFix:Plugin(){
 					,
 					messageEntry.getRoles(),
 					R.attr.colorTextLink,
-					WidgetChatListAdapterItemMessage$getMessageRenderContext$1
+					`WidgetChatListAdapterItemMessage$getMessageRenderContext$1`
 						.INSTANCE
 					,
-					WidgetChatListAdapterItemMessage$getMessageRenderContext$2(
+					`WidgetChatListAdapterItemMessage$getMessageRenderContext$2`(
 						this
 					),
 					ColorCompat.getThemedColor(
@@ -192,10 +192,10 @@ class ReplyReferencesFix:Plugin(){
 						R.attr.theme_chat_spoiler_bg_visible as int
 					),
 					function1,
-					WidgetChatListAdapterItemMessage$getMessageRenderContext$3(
+					`WidgetChatListAdapterItemMessage$getMessageRenderContext$3`(
 						this
 					),
-					WidgetChatListAdapterItemMessage$getMessageRenderContext$4(
+					`WidgetChatListAdapterItemMessage$getMessageRenderContext$4`(
 						context
 					)
 				);
@@ -206,7 +206,7 @@ class ReplyReferencesFix:Plugin(){
 				if(!(this.adapter as WidgetChatListAdapter).getData().isSpoilerClickAllowed()){
 					return null;
 				}
-				WidgetChatListAdapterItemMessage$getSpoilerClickHandler$1(
+				`WidgetChatListAdapterItemMessage$getSpoilerClickHandler$1`(
 					this, message
 				);
 			}
