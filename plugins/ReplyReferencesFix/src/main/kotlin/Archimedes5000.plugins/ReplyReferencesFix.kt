@@ -202,7 +202,7 @@ class ReplyReferencesFix:Plugin(){
 			}
 			fun getSpoilerClickHandler(
 				message:Message
-			):Function1<SpoilerNode<?>, Unit>{
+			):Function1<SpoilerNode<*>, Unit>{
 				if(!(this.adapter as WidgetChatListAdapter).getData().isSpoilerClickAllowed()){
 					return null;
 				}
@@ -222,7 +222,7 @@ class ReplyReferencesFix:Plugin(){
 				val  editedTimestamp = message.getEditedTimestamp() as UtcDateTime;
 				var z2 = true as Boolean;
 				var i = 0 as Int;
-				var z3 = (editedTimestamp != null ? editedTimestamp.g() : 0L) > 0 as Boolean;
+				var z3 = (if(editedTimestamp != null) editedTimestamp.g() else 0L) > 0 as Boolean;
 				if(message.isSourceDeleted()){
 					str = context
 						.getResources()
