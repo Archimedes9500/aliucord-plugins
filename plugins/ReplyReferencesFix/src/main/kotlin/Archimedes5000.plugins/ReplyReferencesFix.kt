@@ -77,22 +77,22 @@ class ReplyReferencesFix:Plugin(){
 	@SuppressLint("SetTextI18n")
 	override fun start(context:Context){
 		patcher.instead<WidgetChatListAdapterItemMessage>(
-			@LayoutRes Int::class.java,
+			Int::class.java,
 			WidgetChatListAdapter::class.java
 		){
 			frame ->
 			val i = frame.component1() as Int;
 			val widgetChatListAdapter = frame.component2() as WidgetChatListAdapter;
-			super(i, widgetChatListAdapter);
+			WidgetChatListItem(i, widgetChatListAdapter);
 			val findViewById = this.itemView
 				.findViewById(R.id.chat_list_adapter_item_text)
 				as View
 			;
-			this.itemText = findViewById as SimpleDraweeSpanTextView;
-			this.MAX_REPLY_AST_NODES = 50 as Int;
+			val itemText = findViewById as SimpleDraweeSpanTextView;
+			val MAX_REPLY_AST_NODES = 50 as Int;
 			this.itemAvatar = this.itemView.findViewById(R.id.chat_list_adapter_item_text_avatar) as ImageView;
-			this.itemName = this.itemView.findViewById(R.id.chat_list_adapter_item_text_name) as TextView;
-			this.itemRoleIcon = this.itemView.findViewById(R.id.chat_list_adapter_item_text_role_icon) as RoleIconView;
+			val itemName = this.itemView.findViewById(R.id.chat_list_adapter_item_text_name) as TextView;
+			val itemRoleIcon = this.itemView.findViewById(R.id.chat_list_adapter_item_text_role_icon) as RoleIconView;
 			this.itemTag = this.itemView.findViewById(R.id.chat_list_adapter_item_text_tag) as TextView;
 			this.replyHolder = this.itemView.findViewById(R.id.chat_list_adapter_item_text_decorator) as View;
 			this.replyLinkItem = this.itemView.findViewById(R.id.chat_list_adapter_item_text_decorator_reply_link_icon) as View;
