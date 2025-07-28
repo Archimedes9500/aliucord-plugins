@@ -149,11 +149,11 @@ class ReplyReferencesFix:Plugin(){
 				MessagePreprocessor(
 					j,
 					state,
-					(
+					if(
 						!userSettings.getIsEmbedMediaInlined()
 					||
 						!userSettings.getIsRenderEmbedsEnabled()
-					)? null : message.getEmbeds(),
+					) null else message.getEmbeds(),
 					true,
 					null as Integer?
 				);
@@ -250,10 +250,12 @@ class ReplyReferencesFix:Plugin(){
 							getSpoilerClickHandler(message)
 						),
 						messagePreprocessor,
-						messageEntry.isGuildForumPostFirstMessage()
-							? DiscordParser.ParserOptions.FORUM_POST_FIRST_MESSAGE : isWebhook
-							? DiscordParser.ParserOptions.ALLOW_MASKED_LINKS : DiscordParser.ParserOptions.DEFAULT
-						,
+						if(if(messageEntry.isGuildForumPostFirstMessage())
+							DiscordParser.ParserOptions.FORUM_POST_FIRST_MESSAGE
+							else isWebhook
+						)
+						DiscordParser.ParserOptions.ALLOW_MASKED_LINKS
+						else DiscordParser.ParserOptions.DEFAULT,
 						z3
 					)
 					as DraweeSpanStringBuilder
