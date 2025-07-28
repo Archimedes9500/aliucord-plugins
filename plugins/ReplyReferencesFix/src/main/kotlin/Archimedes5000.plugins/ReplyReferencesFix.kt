@@ -121,13 +121,12 @@ class ReplyReferencesFix:Plugin(){
 			val threadStarterMessageHeader = this.itemView.findViewById(Utils.getResId("thread_starter_message_header", "id")) as View;
 			val communicationDisabledIcon = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_communication_disabled_icon", "id")) as ImageView;
 
-			public class Companion{
-				val Companion(){
+			companion object{
+				fun Companion(){
 				}
-				val Companion(
-					defaultConstructorMarker:DefaultConstructorMarker
-				){
-					this;
+				@JvmSynthetic
+				fun Companion(defaultConstructorMarker:DefaultConstructorMarker){
+					this();
 				}
 			}
 
