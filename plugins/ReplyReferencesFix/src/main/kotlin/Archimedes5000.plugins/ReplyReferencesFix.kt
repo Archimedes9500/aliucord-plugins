@@ -21,7 +21,7 @@ import android.widget.TextView;
 import androidx.annotation.LayoutRes;
 import androidx.core.text.BidiFormatter;
 import androidx.core.view.ViewCompat;
-import androidx.core.view.View;
+import androidx.core.view.ViewKt;
 import b.a.k.b;
 import b.d.b.a.a;
 import com.discord.R;
@@ -116,7 +116,7 @@ class ReplyReferencesFix:Plugin(){
 			fun configureThreadSpine(message:Message, z2:Boolean):void{
 				val imageView = this.threadEmbedSpine as ImageView?;
 				if(imageView != null){
-					View.setVisible(imageView, message.hasThread() && !z2);
+					ViewKt.setVisible(imageView, message.hasThread() && !z2);
 				}
 			}
 			fun getAuthorTextColor(guildMember:GuildMember):int{
@@ -272,19 +272,19 @@ class ReplyReferencesFix:Plugin(){
 				simpleDraweeSpanTextView.setVisibility(i);
 				simpleDraweeSpanTextView.setDraweeSpanStringBuilder(parseChannelMessage);
 				val type2 = messageEntry.getMessage().getType() as Int;
+				type = messageEntry.getMessage().getType();
 				simpleDraweeSpanTextView.setAlpha(
 					(
 						(type2 != null && type2.intValue() == -1)
 					||
 					if(
-						messageEntry.getMessage().getType()) != null
+						messageEntry.getMessage().getType() != null
 					&&
 						type.intValue() == -6
 					) 0.5f else 1.0f
 				);
-				type = messageEntry.getMessage().getType();
 			}
-			fun shouldLinkify(String?:str):boolean{
+			fun shouldLinkify(str:String?):boolean{
 				if(str == null){
 					return false;
 				}
