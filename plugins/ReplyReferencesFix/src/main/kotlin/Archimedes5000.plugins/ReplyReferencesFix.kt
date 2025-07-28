@@ -109,7 +109,7 @@ class ReplyReferencesFix:Plugin(){
 						;
 						if(replyData.isRepliedUserBlocked()){
 							configureReplySystemMessage(
-								R.string.reply_quote_message_blocked
+								Utils.getResId("reply_quote_message_blocked", "string")
 							);
 						}else if(
 							messageState
@@ -117,7 +117,7 @@ class ReplyReferencesFix:Plugin(){
 							StoreMessageReplies.MessageState.Unloaded
 						){
 							configureReplySystemMessage(
-								R.string.reply_quote_message_not_loaded
+								Utils.getResId("reply_quote_message_not_loaded", "string")
 							);
 						}else if(
 							messageState
@@ -125,7 +125,7 @@ class ReplyReferencesFix:Plugin(){
 							StoreMessageReplies.MessageState.Deleted
 						){
 							configureReplySystemMessage(
-								R.string.reply_quote_message_deleted
+								Utils.getResId("reply_quote_message_deleted", "string")
 							);
 						}else if(
 							(
@@ -197,7 +197,10 @@ class ReplyReferencesFix:Plugin(){
 									configureReplyLayoutDirection();
 								}else if(message2.hasStickers()) {
 									configureReplyContentWithResourceId(
-										R.string.reply_quote_sticker_mobile
+										Utils.getResId(
+											"reply_quote_sticker_mobile",
+											"string"
+										)
 									);
 								}else if(
 									message2.hasAttachments()
@@ -207,7 +210,10 @@ class ReplyReferencesFix:Plugin(){
 									message2.hasEmbeds()
 								){
 									configureReplyContentWithResourceId(
-										R.string.reply_quote_no_text_content_mobile
+										Utils.getResId(
+											"reply_quote_no_text_content_mobile", 
+											"string"
+										)
 									);
 								}else{
 									val appLog:AppLog = AppLog.g;
