@@ -1,19 +1,10 @@
-package Archimedes5000.plugins;
+package Archimedes5000.plugins
 import com.aliucord.annotations.AliucordPlugin;
 import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.instead;
-import com.discord.widgets.chat.list.adapter.WidgetChatListAdapter;
-import com.discord.widgets.chat.list.adapter.WidgetChatListItem;
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage;
-import com.discord.widgets.chat.list.adapter.`WidgetChatListAdapterItemMessage$getMessageRenderContext$1`;
-import com.discord.widgets.chat.list.adapter.`WidgetChatListAdapterItemMessage$getMessageRenderContext$2`;
-import com.discord.widgets.chat.list.adapter.`WidgetChatListAdapterItemMessage$getMessageRenderContext$3`;
-import com.discord.widgets.chat.list.adapter.`WidgetChatListAdapterItemMessage$getMessageRenderContext$4`;
-import com.discord.widgets.chat.list.adapter.`WidgetChatListAdapterItemMessage$getSpoilerClickHandler$1`;
 import com.aliucord.patcher.component1;
-import com.aliucord.patcher.component2;
 import com.aliucord.utils.ReflectUtils;
-import com.aliucord.Utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -29,6 +20,7 @@ import android.widget.TextView;
 import androidx.annotation.LayoutRes;
 import androidx.core.text.BidiFormatter;
 import androidx.core.view.ViewCompat;
+//import androidx.core.view.ViewKt;
 import b.a.k.b;
 import b.d.b.a.a;
 import com.discord.R;
@@ -84,256 +76,159 @@ class ReplyReferencesFix:Plugin(){
 	@SuppressLint("SetTextI18n")
 	override fun start(context:Context){
 		patcher.instead<WidgetChatListAdapterItemMessage>(
-			Int::class.java,
-			WidgetChatListAdapter::class.java
+			"configureReplyPreview",
+			MessageEntry::class.java
 		){
 			frame ->
-			val i = frame.component1() as Int;
-			val widgetChatListAdapter = frame.component2() as WidgetChatListAdapter;
-			WidgetChatListItem(i, widgetChatListAdapter);
-			val findViewById = this.itemView
-				.findViewById(Utils.getResId("chat_list_adapter_item_text", "id"))
-				as View
-			;
-			val Companion = Companion(null) as Companion;
-			val itemText = findViewById as SimpleDraweeSpanTextView;
-			val MAX_REPLY_AST_NODES = 50 as Int;
-			val itemAvatar = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_avatar", "id")) as ImageView;
-			val itemName = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_name", "id")) as TextView;
-			val itemRoleIcon = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_role_icon", "id")) as RoleIconView;
-			val itemTag = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_tag", "id")) as TextView;
-			val replyHolder = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_decorator", "id")) as View;
-			val replyLinkItem = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_decorator_reply_link_icon", "id")) as View;
-			val replyLeadingViewsHolder = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_reply_leading_views", "id")) as View;
-			val replyName = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_decorator_reply_name", "id")) as TextView;
-			val replyIcon = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_decorator_reply_icon", "id")) as ImageView;
-			val replyAvatar = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_decorator_avatar", "id")) as ImageView;
-			val replyText = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_reply_content", "id")) as SimpleDraweeSpanTextView;
-			val itemTimestamp = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_timestamp", "id")) as TextView;
-			val failedUploadList = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_failed_upload_list", "id")) as FailedUploadList;
-			val itemAlertText = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_alert_text", "id")) as TextView;
-			val itemLoadingText = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_loading", "id")) as TextView;
-			val backgroundHighlight = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_highlighted_bg", "id")) as View;
-			val gutterHighlight = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_gutter_bg", "id")) as View;
-			val loadingDots = this.itemView.findViewById(Utils.getResId("chat_overlay_typing_dots", "id")) as TypingDots;
-			val sendError = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_error", "id")) as ImageView;
-			val threadEmbedSpine = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_thread_embed_spine", "id")) as ImageView;
-			val threadStarterMessageHeader = this.itemView.findViewById(Utils.getResId("thread_starter_message_header", "id")) as View;
-			val communicationDisabledIcon = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_communication_disabled_icon", "id")) as ImageView;
-
-			companion object{
-				fun Companion(){
-				}
-				@JvmSynthetic
-				fun Companion(defaultConstructorMarker:DefaultConstructorMarker){
-					this();
-				}
-			}
-
-			fun configureThreadSpine(message:Message, z2:Boolean){
-				val imageView = threadEmbedSpine as ImageView?;
-				if(imageView != null){
-					ViewKt.setVisible(imageView, message.hasThread() && !z2);
-				}
-			}
-			fun getAuthorTextColor(guildMember:GuildMember):Int?{
-				val view = this.itemView as View;
-				return GuildMember.Companion.getColor(
-					guildMember,
-					ColorCompat.getThemedColor(
-						view.getContext(),
-						Utils.getResId("colorHeaderPrimary", "attr") as Int
-					)
-				);
-			}
-			fun getLeadingEdgeSpan():LeadingMarginSpan{
-				var i = null as Int?;
-				val view = replyLeadingViewsHolder as View;
-				if(view != null) {
-					view.measure(0, 0);
-					i = replyLeadingViewsHolder.getMeasuredWidth();
-				}else{
-					i = 0;
-				}
-				return LeadingMarginSpan.Standard(i, 0);
-			}
-			fun getMessagePreprocessor(j:Long?, message:Message, state:StoreMessageState.State):MessagePreprocessor{
-				val userSettings = StoreStream
-					.Companion
-					.getUserSettings()
-					as StoreUserSettings
-				;
-				return MessagePreprocessor(
-					j,
-					state,
-					if(
-						!userSettings.getIsEmbedMediaInlined()
-					||
-						!userSettings.getIsRenderEmbedsEnabled()
-					) null else message.getEmbeds(),
-					true,
-					null as Integer?
-				);
-			}
-			fun getMessageRenderContext(
-					context:Context,
-					messageEntry:MessageEntry,
-					function1:Function1<SpoilerNode<*>, Unit>
-			):MessageRenderContext{
-				return MessageRenderContext(
-					context,
-					(adapter as WidgetChatListAdapter)
-						.getData()
-						.getUserId()
-					,
-					messageEntry.getAnimateEmojis(),
-					messageEntry.getNickOrUsernames(),
-					(adapter as WidgetChatListAdapter)
-						.getData()
-						.getChannelNames()
-					,
-					messageEntry.getRoles(),
-					Utils.getResId("colorTextLink", "attr"),
-					`WidgetChatListAdapterItemMessage$getMessageRenderContext$1`
-						.INSTANCE
-					,
-					`WidgetChatListAdapterItemMessage$getMessageRenderContext$2`(
-						this
-					),
-					ColorCompat.getThemedColor(
-						context,
-						Utils.getResId("theme_chat_spoiler_bg", "attr") as Int
-					),
-					ColorCompat.getThemedColor(
-						context,
-						Utils.getResId("theme_chat_spoiler_bg_visible", "attr") as Int
-					),
-					function1,
-					`WidgetChatListAdapterItemMessage$getMessageRenderContext$3`(
-						this
-					),
-					`WidgetChatListAdapterItemMessage$getMessageRenderContext$4`(
-						context
-					)
-				);
-			}
-			fun getSpoilerClickHandler(
-				message:Message
-			):Function1<SpoilerNode<*>, Unit>?{
-				if(!(adapter as WidgetChatListAdapter).getData().isSpoilerClickAllowed()){
-					return null;
-				}
-				return `WidgetChatListAdapterItemMessage$getSpoilerClickHandler$1`(
-					this, message
-				);
-			}
-			fun processMessageText(
-				simpleDraweeSpanTextView:SimpleDraweeSpanTextView,
-				messageEntry:MessageEntry
-			){
-				var str = null as String?;
-				var type = null as Int?;
-				val context = simpleDraweeSpanTextView.getContext() as Context;
-				val message = messageEntry.getMessage() as Message;
-				val isWebhook = message.isWebhook() as Boolean;
-				val  editedTimestamp = message.getEditedTimestamp() as UtcDateTime;
-				var z2 = true as Boolean;
-				var i = 0 as Int;
-				var z3 = (if(editedTimestamp != null) editedTimestamp.g() else 0L) > 0 as Boolean;
-				if(message.isSourceDeleted()){
-					str = context
-						.getResources()
-						.getString(Utils.getResId("source_message_deleted", "string"))
-					;
-				}else{
-					str = message.getContent();
-					if (str == null) {
-						str = "";
-					}
-				}
-				m.checkNotNullExpressionValue(str, "if (message.isSourceDele…ssage.content ?: \"\"\n	}");
-				val messagePreprocessor = getMessagePreprocessor(
-					(adapter as WidgetChatListAdapter).getData().getUserId(),
-					message,
-					messageEntry.getMessageState()
-				) as MessagePreprocessor;
-				val parseChannelMessage = DiscordParser
-					.parseChannelMessage(
-						context,
-						str,
-						getMessageRenderContext(
-							context,
-							messageEntry,
-							getSpoilerClickHandler(message)
-						),
-						messagePreprocessor,
-						if(
-							if(messageEntry.isGuildForumPostFirstMessage()){
-								DiscordParser.ParserOptions.FORUM_POST_FIRST_MESSAGE;
-							}else{
-								isWebhook;
-							}
-						){
-							DiscordParser.ParserOptions.ALLOW_MASKED_LINKS
-						}else{
-							DiscordParser.ParserOptions.DEFAULT
-						},
-						z3
-					)
-					as DraweeSpanStringBuilder
-				;
-				simpleDraweeSpanTextView.setAutoLinkMask(
-					if(
-						messagePreprocessor.isLinkifyConflicting()
-					||
-						!shouldLinkify(message.getContent())
-					) 0 else 6
-				);
-				if(parseChannelMessage.length <= 0){
-					z2 = false;
-				}
-				if(!z2){
-					i = 8;
-				}
-				simpleDraweeSpanTextView.setVisibility(i);
-				simpleDraweeSpanTextView.setDraweeSpanStringBuilder(parseChannelMessage);
-				val type2 = messageEntry.getMessage().getType() as Int;
+			var type:Int? = null;
+			if(this.replyHolder != null && this.replyLinkItem != null){
+				val message:Message = messageEntry.getMessage();
+				val replyData:MessageEntry.ReplyData = messageEntry.getReplyData();
+				val isInteraction:Boolean:val = message.isInteraction();
 				type = messageEntry.getMessage().getType();
-				simpleDraweeSpanTextView.setAlpha(
-					if(
-						(type2 != null && type2 == -1)
-					||
-						(
-							messageEntry.getMessage().getType() != null
-						&&
-							type == -6
-						)
-					) 0.5f else 1.0f
-				);
-			}
-			fun shouldLinkify(str:String?):Boolean{
-				if(str == null){
-					return false;
-				}
-				if(str.length < 200){
-					return true;
-				}
-				val length = str.length as Int;
-				var i = 0 as Int;
-				for(i2 in 0..length) {
-					if(str.charAt(i2) == '.' && (i + 1) >= 50){
-						return false;
-					}
-					i = i+1
-				}
-				return true;
-			}
-			fun shouldShowInteractionMessage(message:Message):Boolean{
-				return (
-					message.isLocalApplicationCommand()
+				if(
+					isInteraction
 				||
-					message.isLoading()
-				);
+					!(
+						replyData == null
+					||
+						messageEntry.getMessage().getType() == null
+					||
+						type.intValue() != 19
+					)
+				){
+					this.replyHolder.setVisibility(0);
+					this.replyLinkItem.setVisibility(0);
+					if(isInteraction){
+						configureReplyInteraction(messageEntry);
+					}else if(replyData != null){
+						val messageEntry2:MessageEntry = replyData.getMessageEntry();
+						val messageState:StoreMessageReplies.MessageState =
+							replyData
+							.getMessageState()
+						;
+						if(replyData.isRepliedUserBlocked()){
+							configureReplySystemMessage(
+								R.string.reply_quote_message_blocked
+							);
+						}else if(
+							messageState
+								is
+							StoreMessageReplies.MessageState.Unloaded
+						){
+							configureReplySystemMessage(
+								R.string.reply_quote_message_not_loaded
+							);
+						}else if(
+							messageState
+								is
+							StoreMessageReplies.MessageState.Deleted
+						){
+							configureReplySystemMessage(
+								R.string.reply_quote_message_deleted
+							);
+						}else if(
+							(
+								messageState
+									is
+								StoreMessageReplies.MessageState.Loaded
+							)
+						&&
+							messageEntry2 != null
+						){
+							val message2:Message = messageEntry2.getMessage();
+							this.replyHolder.setOnClickListener(
+								`WidgetChatListAdapterItemMessage$configureReplyPreview$1`(
+									message2
+								)
+							);
+							val type2:Integer = message2.getType();
+							if(type2 != null && type2.intValue() == 7){
+								configureReplySystemMessageUserJoin(messageEntry2);
+								return;
+							}
+							val author:User = message2.getAuthor();
+							configureReplyAuthor(
+								CoreUser(author),
+								messageEntry2.getAuthor(),
+								messageEntry2
+							);
+							if(
+								this.replyText != null
+							&&
+								this.replyLeadingViewsHolder != null
+							){
+								val content:String = message2.getContent();
+								if(content == null){
+									content = "";
+								}
+								if(!(content.length() == 0)){
+									val context:Context = this.replyText.getContext();
+									val embeddedMessageParser:EmbeddedMessageParser =
+										EmbeddedMessageParser.INSTANCE
+									;
+									val parse:DraweeSpanStringBuilder =
+										embeddedMessageParser
+										.parse(
+											EmbeddedMessageParser.ParserData(
+												context,
+												messageEntry2.getRoles(),
+												messageEntry2.getNickOrUsernames(),
+												messageEntry2.getAnimateEmojis(),
+												StoreMessageState.State(
+													null,
+													null,
+													3,
+													null
+												),
+												50,
+												message2,
+												this.adapter as WidgetChatListAdapter
+											)
+										)
+									;
+									parse.setSpan(
+										getLeadingEdgeSpan(),
+										0,
+										parse.length,
+										33
+									);
+									this.replyText.setDraweeSpanStringBuilder(parse);
+									configureReplyLayoutDirection();
+								}else if(message2.hasStickers()) {
+									configureReplyContentWithResourceId(
+										R.string.reply_quote_sticker_mobile
+									);
+								}else if(
+									message2.hasAttachments()
+								||
+									message2.shouldShowReplyPreviewAsAttachment()
+								||
+									message2.hasEmbeds()
+								){
+									configureReplyContentWithResourceId(
+										R.string.reply_quote_no_text_content_mobile
+									);
+								}else{
+									val appLog:AppLog = AppLog.g;
+									Logger.`e$default`(
+										appLog,
+										"Unhandled reply preview: "
+											+
+										messageEntry2,
+										null,
+										null,
+										6,
+										null
+									);
+								}
+							}
+						}
+					}
+				}else{
+					this.replyHolder.setVisibility(8);
+					this.replyLinkItem.setVisibility(8);
+				}
 			}
 		}
 	}
