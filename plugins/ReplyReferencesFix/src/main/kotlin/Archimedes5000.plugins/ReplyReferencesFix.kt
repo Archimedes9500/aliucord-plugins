@@ -8,7 +8,7 @@ import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage;
 import com.aliucord.patcher.component1;
 import com.aliucord.patcher.component2;
 import com.aliucord.utils.ReflectUtils;
-import com.aliucord.utils.Utils
+import com.aliucord.Utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -127,7 +127,7 @@ class ReplyReferencesFix:Plugin(){
 					guildMember,
 					ColorCompat.getThemedColor(
 						view.getContext(),
-						R.attr.colorHeaderPrimary as int
+						Utils.getResId("colorHeaderPrimary", "attr") as int
 					)
 				);
 			}
@@ -178,7 +178,7 @@ class ReplyReferencesFix:Plugin(){
 						.getChannelNames()
 					,
 					messageEntry.getRoles(),
-					R.attr.colorTextLink,
+					Utils.getResId("colorTextLink", "attr"),
 					`WidgetChatListAdapterItemMessage$getMessageRenderContext$1`
 						.INSTANCE
 					,
@@ -187,11 +187,11 @@ class ReplyReferencesFix:Plugin(){
 					),
 					ColorCompat.getThemedColor(
 						context,
-						R.attr.theme_chat_spoiler_bg as int
+						Utils.getResId("theme_chat_spoiler_bg", "attr") as int
 					),
 					ColorCompat.getThemedColor(
 						context,
-						R.attr.theme_chat_spoiler_bg_visible as int
+						Utils.getResId("theme_chat_spoiler_bg_visible", "attr") as int
 					),
 					function1,
 					`WidgetChatListAdapterItemMessage$getMessageRenderContext$3`(
