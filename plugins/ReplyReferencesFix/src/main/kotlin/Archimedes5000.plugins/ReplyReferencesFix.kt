@@ -2,6 +2,7 @@ package Archimedes5000.plugins;
 import com.aliucord.annotations.AliucordPlugin;
 import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.instead;
+import com.discord.widgets.chat.list.adapter.WidgetChatListAdapter;
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage;
 import com.aliucord.patcher.component1;
 import com.aliucord.patcher.component2;
@@ -273,13 +274,14 @@ class ReplyReferencesFix:Plugin(){
 				val type2 = messageEntry.getMessage().getType() as Int;
 				type = messageEntry.getMessage().getType();
 				simpleDraweeSpanTextView.setAlpha(
-					(
+					if(
 						(type2 != null && type2.intValue() == -1)
 					||
-					if(
-						messageEntry.getMessage().getType() != null
-					&&
-						type.intValue() == -6
+						(
+							messageEntry.getMessage().getType() != null
+						&&
+							type.intValue() == -6
+						)
 					) 0.5f else 1.0f
 				);
 			}
