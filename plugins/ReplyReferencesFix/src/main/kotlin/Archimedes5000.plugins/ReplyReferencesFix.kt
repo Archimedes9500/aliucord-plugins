@@ -94,6 +94,7 @@ class ReplyReferencesFix:Plugin(){
 				.findViewById(Utils.getResId("chat_list_adapter_item_text", "id"))
 				as View
 			;
+			val Companion = Companion(null) as Companion;
 			val itemText = findViewById as SimpleDraweeSpanTextView;
 			val MAX_REPLY_AST_NODES = 50 as Int;
 			val itemAvatar = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_text_avatar", "id")) as ImageView;
@@ -119,6 +120,17 @@ class ReplyReferencesFix:Plugin(){
 			val threadStarterMessageHeader = this.itemView.findViewById(Utils.getResId("thread_starter_message_header", "id")) as View;
 			val communicationDisabledIcon = this.itemView.findViewById(Utils.getResId("chat_list_adapter_item_communication_disabled_icon", "id")) as ImageView;
 
+			public class Companion{
+				private Companion(){
+				}
+				
+				public Companion(
+					defaultConstructorMarker:DefaultConstructorMarker
+				){
+					this();
+				}
+			}
+
 			fun configureThreadSpine(message:Message, z2:Boolean):Void?{
 				val imageView = threadEmbedSpine as ImageView?;
 				if(imageView != null){
@@ -128,7 +140,7 @@ class ReplyReferencesFix:Plugin(){
 			}
 			fun getAuthorTextColor(guildMember:GuildMember):Int?{
 				val view = this.itemView as View;
-				return GuildMember.Companion().getColor(
+				return GuildMember.Companion.getColor(
 					guildMember,
 					ColorCompat.getThemedColor(
 						view.getContext(),
@@ -149,7 +161,7 @@ class ReplyReferencesFix:Plugin(){
 			}
 			fun getMessagePreprocessor(j:Long?, message:Message, state:StoreMessageState.State):MessagePreprocessor{
 				val userSettings = StoreStream
-					.Companion()
+					.Companion
 					.getUserSettings()
 					as StoreUserSettings
 				;
