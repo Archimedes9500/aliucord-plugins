@@ -107,7 +107,7 @@ class ReplyReferencesFix:Plugin(){
 						ReflectUtils.invokeMethod(
 							this,
 							"configureReplyInteraction",
-							args = arrayOf(messageEntry)
+							arrayOf(messageEntry)
 						);
 					}else if(replyData != null){
 						val messageEntry2:MessageEntry = replyData.getMessageEntry();
@@ -119,7 +119,7 @@ class ReplyReferencesFix:Plugin(){
 							ReflectUtils.invokeMethod(
 								this,
 								"configureReplySystemMessage",
-								args = arrayOf(
+								arrayOf(
 									Utils.getResId(
 										"reply_quote_message_blocked",
 										"string"
@@ -134,7 +134,7 @@ class ReplyReferencesFix:Plugin(){
 							ReflectUtils.invokeMethod(
 								this,
 								"configureReplySystemMessage",
-								args = arrayOf(
+								arrayOf(
 									Utils.getResId(
 										"reply_quote_message_not_loaded",
 										"string"
@@ -148,7 +148,7 @@ class ReplyReferencesFix:Plugin(){
 						){
 							ReflectUtils.invokeMethod(
 								this,
-								"configureReplySystemMessage", args = arrayOf(
+								"configureReplySystemMessage", arrayOf(
 									Utils.getResId(
 										"reply_quote_message_deleted",
 										"string"
@@ -175,7 +175,7 @@ class ReplyReferencesFix:Plugin(){
 								ReflectUtils.invokeMethod(
 									this,
 									"configureReplySystemMessageUserJoin",
-									args = arrayOf(messageEntry2)
+									arrayOf(messageEntry2)
 								);
 								return;
 							}
@@ -183,7 +183,7 @@ class ReplyReferencesFix:Plugin(){
 							ReflectUtils.invokeMethod(
 								this,
 								"configureReplyAuthor",
-								args = arrayOf(
+								arrayOf(
 									CoreUser(author),
 									messageEntry2.getAuthor(),
 									messageEntry2
@@ -233,13 +233,13 @@ class ReplyReferencesFix:Plugin(){
 									ReflectUtils.invokeMethod(
 										this,
 										"configureReplyLayoutDirection",
-										args = arrayOf()
+										arrayOf()
 									);
 								}else if(message2.hasStickers()) {
 									ReflectUtils.invokeMethod(
 										this,
 										"configureReplyContentWithResourceId",
-										args = arrayOf(
+										arrayOf(
 											Utils.getResId(
 												"reply_quote_sticker_mobile",
 												"string"
@@ -256,7 +256,7 @@ class ReplyReferencesFix:Plugin(){
 									ReflectUtils.invokeMethod(
 										this,
 										"configureReplyContentWithResourceId",
-										args = arrayOf(
+										arrayOf(
 											Utils.getResId(
 												"reply_quote_no_text_content_mobile", 
 												"string"
