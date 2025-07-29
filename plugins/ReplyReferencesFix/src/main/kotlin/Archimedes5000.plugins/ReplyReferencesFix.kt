@@ -203,7 +203,7 @@ class ReplyReferencesFix:Plugin(){
 									content = "";
 								}
 								if(!(content.length == 0)){
-									val context:Context =
+									val context:Context? =
 										(
 											ReflectUtils.getField(this, "replyText")
 												as
@@ -235,19 +235,23 @@ class ReplyReferencesFix:Plugin(){
 										)
 									;
 									parse.setSpan(
-										ReflectUtils.invokeMethod(this, "getLeadingEdgeSpan", arrayOf()),
+										ReflectUtils.invokeMethod(
+											this,
+											"getLeadingEdgeSpan",
+											arrayOf()
+										) as LeadingMarginSpan,
 										0,
 										parse.length,
 										33
 									);
 									(ReflectUtils.getField(this, "replyText") as SimpleDraweeSpanTextView?)
-										.setDraweeSpanStringBuilder(parse)
+										?.setDraweeSpanStringBuilder(parse)
 									;
 									ReflectUtils.invokeMethod(
 										this,
 										"configureReplyLayoutDirection",
 										arrayOf()
-									);
+									)as Void;
 								}else if(message2.hasStickers()) {
 									ReflectUtils.invokeMethod(
 										this,
@@ -289,13 +293,17 @@ class ReplyReferencesFix:Plugin(){
 										null
 									);
 								}
+							}else{
 							}
+						}else{
 						}
+					}else{
 					}
 				}else{
 					(ReflectUtils.getField(this, "replyHolder") as View?)?.setVisibility(8);
 					(ReflectUtils.getField(this, "replyLinkItem") as View?)?.setVisibility(8);
 				}
+			}else{
 			}
 		}
 	}
