@@ -238,8 +238,8 @@ class ReplyReferencesFix:Plugin(){
 										ReflectUtils.invokeMethod(
 											this,
 											"getLeadingEdgeSpan",
-											arrayOf()
-										) as LeadingMarginSpan,
+											arrayOf<Any>()
+										),
 										0,
 										parse.length,
 										33
@@ -250,8 +250,8 @@ class ReplyReferencesFix:Plugin(){
 									ReflectUtils.invokeMethod(
 										this,
 										"configureReplyLayoutDirection",
-										arrayOf()
-									)as Void;
+										arrayOf<Any>()
+									);
 								}else if(message2.hasStickers()) {
 									ReflectUtils.invokeMethod(
 										this,
