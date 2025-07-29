@@ -77,7 +77,7 @@ import kotlin.jvm.internal.DefaultConstructorMarker;
 @AliucordPlugin(requiresRestart = false)
 class ReplyReferencesFix:Plugin(){
 	@SuppressLint("SetTextI18n")
-	override fun start(context:Context){
+	override fun start(pluginContext:Context){
 		patcher.instead<WidgetChatListAdapterItemMessage>(
 			"configureReplyPreview",
 			MessageEntry::class.java
@@ -326,5 +326,5 @@ class ReplyReferencesFix:Plugin(){
 			}
 		}
 	}
-	override fun stop(context:Context) = patcher.unpatchAll();
+	override fun stop(pluginContext:Context) = patcher.unpatchAll();
 }
