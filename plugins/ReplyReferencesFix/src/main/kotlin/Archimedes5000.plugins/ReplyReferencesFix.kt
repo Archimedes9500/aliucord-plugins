@@ -131,6 +131,16 @@ class ReplyReferencesFix:Plugin(){
 									)
 								)
 							);
+							if(message.referencedMessage != null){
+								val target = message.messageReference;
+								(ReflectUtils.getField(this, "replyHolder") as View?)?.setOnClickListener{
+									StoreStream
+										.getMessagesLoader()
+										.jumpToMessage(target.a(), target.c())
+									;
+								};
+							}else{
+							}
 						}else if(
 							messageState
 								is
@@ -147,12 +157,13 @@ class ReplyReferencesFix:Plugin(){
 								)
 							);
 							if(message.referencedMessage != null){
-								val message2:Message = Message(message.referencedMessage);
-								(ReflectUtils.getField(this, "replyHolder") as View?)?.setOnClickListener(
-									`WidgetChatListAdapterItemMessage$configureReplyPreview$1`(
-										message2
-									)
-								);
+								val target = message.messageReference;
+								(ReflectUtils.getField(this, "replyHolder") as View?)?.setOnClickListener{
+									StoreStream
+										.getMessagesLoader()
+										.jumpToMessage(target.a(), target.c())
+									;
+								};
 							}else{
 							}
 						}else if(
@@ -170,12 +181,13 @@ class ReplyReferencesFix:Plugin(){
 								)
 							);
 							if(message.referencedMessage != null){
-								val message2:Message = Message(message.referencedMessage);
-								(ReflectUtils.getField(this, "replyHolder") as View?)?.setOnClickListener(
-									`WidgetChatListAdapterItemMessage$configureReplyPreview$1`(
-										message2
-									)
-								);
+								val target = message.messageReference;
+								(ReflectUtils.getField(this, "replyHolder") as View?)?.setOnClickListener{
+									StoreStream
+										.getMessagesLoader()
+										.jumpToMessage(target.a(), target.c())
+									;
+								};
 							}else if(message.messageReference != null){
 								val target = message.messageReference;
 								(ReflectUtils.getField(this, "replyHolder") as View?)?.setOnClickListener{
