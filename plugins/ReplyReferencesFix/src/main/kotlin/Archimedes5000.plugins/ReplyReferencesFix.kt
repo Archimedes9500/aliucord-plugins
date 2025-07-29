@@ -138,6 +138,7 @@ class ReplyReferencesFix:Plugin(){
 										.getMessagesLoader()
 										.jumpToMessage(target.a(), target.c())
 									;
+									Utils.showToast("Blocked", showLonger = false);
 								};
 							}else{
 							}
@@ -163,6 +164,7 @@ class ReplyReferencesFix:Plugin(){
 										.getMessagesLoader()
 										.jumpToMessage(target.a(), target.c())
 									;
+									Utils.showToast("Unloaded", showLonger = false);
 								};
 							}else{
 							}
@@ -187,6 +189,7 @@ class ReplyReferencesFix:Plugin(){
 										.getMessagesLoader()
 										.jumpToMessage(target.a(), target.c())
 									;
+									Utils.showToast("Deleted fake", showLonger = false);
 								};
 							}else if(message.messageReference != null){
 								val target = message.messageReference;
@@ -195,6 +198,7 @@ class ReplyReferencesFix:Plugin(){
 										.getMessagesLoader()
 										.jumpToMessage(target.a(), target.c())
 									;
+									Utils.showToast("Deleted fr", showLonger = false);
 								};
 							}else{
 							}
@@ -208,11 +212,13 @@ class ReplyReferencesFix:Plugin(){
 							message.referencedMessage != null
 						){
 							val message2:Message = Message(message.referencedMessage);
-							(ReflectUtils.getField(this, "replyHolder") as View?)?.setOnClickListener(
-								`WidgetChatListAdapterItemMessage$configureReplyPreview$1`(
-									message2
-								)
-							);
+							val target = message.messageReference;
+							(ReflectUtils.getField(this, "replyHolder") as View?)?.setOnClickListener{
+								StoreStream
+									.getMessagesLoader()
+									.jumpToMessage(target.a(), target.c())
+								;
+							};
 							val type2:Int = message2.getType();
 							if(type2 != null && type2 == 7){
 								ReflectUtils.invokeMethod(
