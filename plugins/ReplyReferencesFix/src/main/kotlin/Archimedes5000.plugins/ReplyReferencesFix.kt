@@ -177,13 +177,13 @@ class ReplyReferencesFix:Plugin(){
 									)
 								);
 							}else if(message.messageReference != null){
-								val target:MessageReference = message.messageReference;
-								(ReflectUtils.getField(this, "replyHolder") as View?)?.setOnClickListener(
+								val target = message.messageReference;
+								(ReflectUtils.getField(this, "replyHolder") as View?)?.setOnClickListener{
 									StoreStream
 										.getMessagesLoader()
 										.jumpToMessage(target.a(), target.c())
 									;
-								);
+								};
 							}else{
 							}
 						}else if(
