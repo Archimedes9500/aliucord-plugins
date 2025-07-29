@@ -8,6 +8,7 @@ import com.discord.widgets.chat.list.adapter.`WidgetChatListAdapterItemMessage$c
 import com.aliucord.patcher.component1;
 import com.aliucord.utils.ReflectUtils;
 import com.aliucord.Utils;
+import com.discord.models.domain.ModelMessageDelete;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -115,8 +116,8 @@ class ReplyReferencesFix:Plugin(){
 						);
 					}else if(replyData != null){
 						val messageEntry2:MessageEntry = replyData.getMessageEntry();
-						val messageState:StoreMessageState.State =
-							messageEntry2
+						val messageState:StoreMessageReplies.MessageState =
+							replyData
 							.getMessageState()
 						;
 						if(replyData.isRepliedUserBlocked()){
@@ -133,8 +134,9 @@ class ReplyReferencesFix:Plugin(){
 						}else if(
 							messageState
 								is
-							StoreMessageState.State.Unloaded
+							StoreMessageReplies.MessageState.Unloaded
 						){
+							StoreMessageState.handleMessageUpdate(message2);
 							ReflectUtils.invokeMethod(
 								this,
 								"configureReplySystemMessage",
@@ -157,8 +159,13 @@ class ReplyReferencesFix:Plugin(){
 						}else if(
 							messageState
 								is
-							StoreMessageState.State.Deleted
+							StoreMessageReplies.MessageState.Deleted
 						){
+							val messageDelete2 = ModelMessageDelete(
+								message.messageReference.channelId,
+								message.messageReference.messageId
+							);
+							StoreMessageState.handleMessageDelete(messageDelete2);
 							ReflectUtils.invokeMethod(
 								this,
 								"configureReplySystemMessage", arrayOf(
@@ -181,7 +188,7 @@ class ReplyReferencesFix:Plugin(){
 							(
 								messageState
 									is
-								StoreMessageState.State.Loaded
+								StoreMessageReplies.MessageState.Loaded
 							)
 						&&
 							message.referencedMessage != null
