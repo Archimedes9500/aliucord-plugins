@@ -85,36 +85,35 @@ class ReplyReferencesFix:Plugin(){
 			MessageEntry::class.java
 		)balls@{
 			frame ->
-			val messageEntry:MessageEntry = frame.component1();
-			var type:Int? = null as Int?;
+			val messageEntry = frame.component1() as MessageEntry;
 			//reflect
 			val replyHolder = ReflectUtils.getField(this, "replyHolder") as View?;
 			val replyLinkItem = ReflectUtils.getField(this, "replyLinkItem") as View?;
 			val replyText = ReflectUtils.getField(this, "replyText") as SimpleDraweeSpanTextView?;
 			val replyLeadingViewsHolder = ReflectUtils.getField(this, "replyLeadingViewsHolder") as View?;
 			val adapter = ReflectUtils.getField(this, "adapter") as WidgetChatListAdapter?;
-			fun configureReplyInteraction(messageEntry){
+			fun configureReplyInteraction(messageEntry:MessageEntry){
 				ReflectUtils.invokeMethod(
 					this,
 					"configureReplyInteraction",
 					arrayOf(messageEntry)
 				);
 			}
-			fun configureReplySystemMessage(resT, resS){
+			fun configureReplySystemMessage(resT:String, resS:String){
 				ReflectUtils.invokeMethod(
 					this,
 					"configureReplySystemMessage",
 					arrayOf(Utils.getResId(resT, resS))
 				);
 			}
-			fun configureReplySystemMessageUserJoin(messageEntry){
+			fun configureReplySystemMessageUserJoin(messageEntry:MessageEntry){
 				ReflectUtils.invokeMethod(
 					this,
 					"configureReplySystemMessageUserJoin",
 					arrayOf(messageEntry)
 				);
 			}
-			fun configureReplyAuthor(coreUser, user, messageEntry){
+			fun configureReplyAuthor(coreUser:CoreUser, user:User, messageEntry:MessageEntry){
 				ReflectUtils.invokeMethod(
 					this,
 					"configureReplyAuthor",
@@ -135,7 +134,7 @@ class ReplyReferencesFix:Plugin(){
 					arrayOf<Any>()
 				);
 			}
-			fun configureReplyContentWithResourceId(resT, resS){
+			fun configureReplyContentWithResourceId(resT:String, resS:String){
 				ReflectUtils.invokeMethod(
 					this,
 					"configureReplyContentWithResourceId",
@@ -143,6 +142,7 @@ class ReplyReferencesFix:Plugin(){
 				);
 			}
 			///reflect
+			var type:Int? = null as Int?;
 			if(replyHolder != null && replyLinkItem != null){
 				val message:Message = messageEntry.getMessage();
 				val replyData:MessageEntry.ReplyData = messageEntry.getReplyData();
