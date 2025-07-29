@@ -83,7 +83,16 @@ class ReplyReferencesFix:Plugin(){
 			"configureReplyPreview",
 			MessageEntry::class.java
 		)balls@{
-			return@balls null;
+			frame ->
+			val messageEntry = frame.component1() as MessageEntry;
+			var type:Int? = null;
+			//reflect
+			val replyHolder:View? = ReflectUtils.getField(this, "replyHolder");
+			val replyLinkItem:View? = ReflectUtils.getField(this, "replyLinkItem");
+			
+			///reflect
+			if(replyHolder != null && replyLinkItem != null){
+			}
 		}
 	}
 	override fun stop(pluginContext:Context) = patcher.unpatchAll();
