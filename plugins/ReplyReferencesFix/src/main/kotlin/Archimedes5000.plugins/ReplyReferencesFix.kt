@@ -187,7 +187,7 @@ class ReplyReferencesFix:Plugin(){
 								(ReflectUtils.getField(this, "replyHolder") as View?)?.setOnClickListener{
 									StoreStream
 										.getMessagesLoader()
-										.jumpToMessage(target.g(), target.o())
+										.jumpToMessage(target.getChannelId(), target.getId())
 									;
 									Utils.showToast("Deleted fake", showLonger = false);
 								};
