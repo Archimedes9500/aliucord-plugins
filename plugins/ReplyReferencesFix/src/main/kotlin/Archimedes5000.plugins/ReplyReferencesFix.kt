@@ -82,7 +82,7 @@ class ReplyReferencesFix:Plugin(){
 		patcher.instead<WidgetChatListAdapterItemMessage>(
 			"configureReplyPreview",
 			MessageEntry::class.java
-		){
+		)balls@{
 			frame ->
 			val messageEntry = frame.component1() as MessageEntry;
 			var type:Int? = null;
@@ -178,7 +178,7 @@ class ReplyReferencesFix:Plugin(){
 									"configureReplySystemMessageUserJoin",
 									arrayOf(messageEntry2)
 								);
-								return;
+								return balls();
 							}
 							val author:User = message2.getAuthor();
 							ReflectUtils.invokeMethod(
