@@ -105,8 +105,8 @@ class ReplyReferencesFix:Plugin(){
 						type != 19
 					)
 				){
-					(ReflectUtils.getField(this, "replyHolder") as View?).setVisibility(0);
-					(ReflectUtils.getField(this, "replyLinkItem") as View?).setVisibility(0);
+					(ReflectUtils.getField(this, "replyHolder") as View?)?.setVisibility(0);
+					(ReflectUtils.getField(this, "replyLinkItem") as View?)?.setVisibility(0);
 					if(isInteraction){
 						ReflectUtils.invokeMethod(
 							this,
@@ -169,7 +169,7 @@ class ReplyReferencesFix:Plugin(){
 							messageEntry2 != null
 						){
 							val message2:Message = messageEntry2.getMessage();
-							(ReflectUtils.getField(this, "replyHolder") as View?).setOnClickListener(
+							(ReflectUtils.getField(this, "replyHolder") as View?)?.setOnClickListener(
 								`WidgetChatListAdapterItemMessage$configureReplyPreview$1`(
 									message2
 								)
@@ -209,7 +209,7 @@ class ReplyReferencesFix:Plugin(){
 												as
 											SimpleDraweeSpanTextView?
 										)
-										.getContext()
+										?.getContext()
 									;
 									val embeddedMessageParser:EmbeddedMessageParser =
 										EmbeddedMessageParser.INSTANCE
@@ -240,7 +240,7 @@ class ReplyReferencesFix:Plugin(){
 										parse.length,
 										33
 									);
-									(ReflectUtils.getField(this, "replyText") as  as SimpleDraweeSpanTextView?)
+									(ReflectUtils.getField(this, "replyText") as SimpleDraweeSpanTextView?)
 										.setDraweeSpanStringBuilder(parse)
 									;
 									ReflectUtils.invokeMethod(
@@ -293,8 +293,8 @@ class ReplyReferencesFix:Plugin(){
 						}
 					}
 				}else{
-					(ReflectUtils.getField(this, "replyHolder") as View?).setVisibility(8);
-					(ReflectUtils.getField(this, "replyLinkItem") as View?).setVisibility(8);
+					(ReflectUtils.getField(this, "replyHolder") as View?)?.setVisibility(8);
+					(ReflectUtils.getField(this, "replyLinkItem") as View?)?.setVisibility(8);
 				}
 			}
 		}
