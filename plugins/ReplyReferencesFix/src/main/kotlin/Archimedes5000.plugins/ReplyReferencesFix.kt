@@ -251,6 +251,7 @@ class ReplyReferencesFix:Plugin(){
 					replyLinkItem?.setVisibility(View.GONE);
 				}
 			}
+			null;
 		}
 	}
 	override fun stop(pluginContext:Context) = patcher.unpatchAll();
