@@ -196,7 +196,7 @@ class ReplyReferencesFix:Plugin(){
 							&&
 								this.getField("replyLeadingViewsHolder") != null
 							){
-								val content:String = message2.getContent();
+								var content:String = message2.getContent();
 								if(content == null){
 									content = "";
 								}
