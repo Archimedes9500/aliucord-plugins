@@ -78,7 +78,6 @@ import kotlin.jvm.internal.DefaultConstructorMarker;
 class ReplyReferencesFix:Plugin(){
 	@SuppressLint("SetTextI18n")
 	override fun start(context:Context){
-		inline fun <reified T> Any.getField(name: String) = ReflectUtils.getField(this, name) as? T
 		patcher.instead<WidgetChatListAdapterItemMessage>(
 			"configureReplyPreview",
 			MessageEntry::class.java
@@ -86,7 +85,11 @@ class ReplyReferencesFix:Plugin(){
 			frame ->
 			val messageEntry = frame.component1() as MessageEntry;
 			var type:Int? = null;
-			if(this.getField("replyHolder") != null && this.getField("replyLinkItem") != null){
+			if(
+				(ReflectUtils.getField(this, "replyHolder") as View?) != null
+			&&
+				(ReflectUtils.getField(this, "replyLinkItem") as View?) != null
+			){
 				val message:Message = messageEntry.getMessage();
 				val replyData:MessageEntry.ReplyData = messageEntry.getReplyData();
 				val isInteraction:Boolean = message.isInteraction();
@@ -102,8 +105,8 @@ class ReplyReferencesFix:Plugin(){
 						type != 19
 					)
 				){
-					ReflectUtils.getField(this, "replyHolder").setVisibility(0);
-					this.getField("replyLinkItem").setVisibility(0);
+					(ReflectUtils.getField(this, "replyHolder") as View?).setVisibility(0);
+					(ReflectUtils.getField(this, "replyLinkItem") as View?).setVisibility(0);
 					if(isInteraction){
 						ReflectUtils.invokeMethod(
 							this,
@@ -166,7 +169,7 @@ class ReplyReferencesFix:Plugin(){
 							messageEntry2 != null
 						){
 							val message2:Message = messageEntry2.getMessage();
-							this.getField("replyHolder").setOnClickListener(
+							(ReflectUtils.getField(this, "replyHolder") as View?).setOnClickListener(
 								`WidgetChatListAdapterItemMessage$configureReplyPreview$1`(
 									message2
 								)
@@ -178,7 +181,7 @@ class ReplyReferencesFix:Plugin(){
 									"configureReplySystemMessageUserJoin",
 									arrayOf(messageEntry2)
 								);
-								return@balls;
+								return@balls null;
 							}
 							val author:User = message2.getAuthor();
 							ReflectUtils.invokeMethod(
@@ -191,16 +194,23 @@ class ReplyReferencesFix:Plugin(){
 								)
 							);
 							if(
-								this.getField("replyText") != null
+								(ReflectUtils.getField(this, "replyText") as SimpleDraweeSpanTextView?) != null
 							&&
-								this.getField("replyLeadingViewsHolder") != null
+								(ReflectUtils.getField(this, "replyLeadingViewsHolder") as View?) != null
 							){
 								var content:String = message2.getContent();
 								if(content == null){
 									content = "";
 								}
 								if(!(content.length == 0)){
-									val context:Context = this.getField("replyText").getContext();
+									val context:Context =
+										(
+											ReflectUtils.getField(this, "replyText")
+												as
+											SimpleDraweeSpanTextView?
+										)
+										.getContext()
+									;
 									val embeddedMessageParser:EmbeddedMessageParser =
 										EmbeddedMessageParser.INSTANCE
 									;
@@ -220,7 +230,7 @@ class ReplyReferencesFix:Plugin(){
 												),
 												50,
 												message2,
-												this.getField("adapter") as WidgetChatListAdapter?
+												ReflectUtils.getField(this, "adapter") as WidgetChatListAdapter?
 											)
 										)
 									;
@@ -230,7 +240,9 @@ class ReplyReferencesFix:Plugin(){
 										parse.length,
 										33
 									);
-									this.getField("replyText").setDraweeSpanStringBuilder(parse);
+									(ReflectUtils.getField(this, "replyText") as  as SimpleDraweeSpanTextView?)
+										.setDraweeSpanStringBuilder(parse)
+									;
 									ReflectUtils.invokeMethod(
 										this,
 										"configureReplyLayoutDirection",
@@ -281,8 +293,8 @@ class ReplyReferencesFix:Plugin(){
 						}
 					}
 				}else{
-					this.getField("replyHolder").setVisibility(8);
-					this.getField("replyLinkItem").setVisibility(8);
+					(ReflectUtils.getField(this, "replyHolder") as View?).setVisibility(8);
+					(ReflectUtils.getField(this, "replyLinkItem") as View?).setVisibility(8);
 				}
 			}
 		}
