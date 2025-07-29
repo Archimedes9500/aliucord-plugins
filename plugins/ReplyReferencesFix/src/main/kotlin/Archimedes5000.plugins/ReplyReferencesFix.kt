@@ -181,12 +181,12 @@ class ReplyReferencesFix:Plugin(){
 							val type2:Int? = message2.getType();
 							if(type2 == USER_JOIN){
 								configureReplySystemMessageUserJoin(messageEntry2);
-								return@balls;
+								return@balls null;
 							}
 							val author:User = message2.getAuthor();
 							configureReplyAuthor(CoreUser(author), author, messageEntry2);
 							if(replyText != null && replyLeadingViewsHolder != null){
-								val content:String? = message2.getContent();
+								var content:String? = message2.getContent();
 								if(content == null){
 									content = "";
 								}
