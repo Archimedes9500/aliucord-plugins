@@ -178,7 +178,7 @@ class ReplyReferencesFix:Plugin(){
 									"configureReplySystemMessageUserJoin",
 									arrayOf(messageEntry2)
 								);
-								return balls();
+								return@balls;
 							}
 							val author:User = message2.getAuthor();
 							ReflectUtils.invokeMethod(
