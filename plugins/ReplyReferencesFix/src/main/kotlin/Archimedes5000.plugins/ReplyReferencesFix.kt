@@ -148,7 +148,7 @@ class ReplyReferencesFix:Plugin(){
 							);
 							if(message.referencedMessage != null){
 								val message2:Message = Message(message.referencedMessage);
-								messageState.handleMessageUpdate(message2);
+								StoreMessageReplies.handleMessageUpdate(message2);
 								(ReflectUtils.getField(this, "replyHolder") as View?)?.setOnClickListener(
 									`WidgetChatListAdapterItemMessage$configureReplyPreview$1`(
 										message2
@@ -182,7 +182,7 @@ class ReplyReferencesFix:Plugin(){
 									message.messageReference.a(), //channelId
 									message.messageReference.c() //messageId
 								);
-								messageState.handleMessageDelete(messageDelete2);
+								StoreMessageReplies.handleMessageDelete(messageDelete2);
 							}else{
 							}
 						}else if(
