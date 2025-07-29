@@ -106,7 +106,11 @@ class ReplyReferencesFix:Plugin(){
 					this.getField("replyHolder").setVisibility(0);
 					this.getField("replyLinkItem").setVisibility(0);
 					if(isInteraction){
-						ReflectUtils.invokeMethod(this, "configureReplyInteraction", args:arrayOf(messageEntry));
+						ReflectUtils.invokeMethod(
+							this,
+							"configureReplyInteraction",
+							args:arrayOf(messageEntry)
+						);
 					}else if(replyData != null){
 						val messageEntry2:MessageEntry = replyData.getMessageEntry();
 						val messageState:StoreMessageReplies.MessageState =
@@ -114,25 +118,45 @@ class ReplyReferencesFix:Plugin(){
 							.getMessageState()
 						;
 						if(replyData.isRepliedUserBlocked()){
-							ReflectUtils.invokeMethod(this, "configureReplySystemMessage", args:arrayOf(
-								Utils.getResId("reply_quote_message_blocked", "string")
-							));
+							ReflectUtils.invokeMethod(
+								this,
+								"configureReplySystemMessage",
+								args:arrayOf(
+									Utils.getResId(
+										"reply_quote_message_blocked",
+										"string"
+									)
+								)
+							);
 						}else if(
 							messageState
 								is
 							StoreMessageReplies.MessageState.Unloaded
 						){
-							ReflectUtils.invokeMethod(this, "configureReplySystemMessage", args:arrayOf(
-								Utils.getResId("reply_quote_message_not_loaded", "string")
-							));
+							ReflectUtils.invokeMethod(
+								this,
+								"configureReplySystemMessage",
+								args:arrayOf(
+									Utils.getResId(
+										"reply_quote_message_not_loaded",
+										"string"
+									)
+								)
+							);
 						}else if(
 							messageState
 								is
 							StoreMessageReplies.MessageState.Deleted
 						){
-							ReflectUtils.invokeMethod(this, "configureReplySystemMessage", args:arrayOf(
-								Utils.getResId("reply_quote_message_deleted", "string")
-							));
+							ReflectUtils.invokeMethod(
+								this,
+								"configureReplySystemMessage", args:arrayOf(
+									Utils.getResId(
+										"reply_quote_message_deleted",
+										"string"
+									)
+								)
+							);
 						}else if(
 							(
 								messageState
@@ -150,15 +174,23 @@ class ReplyReferencesFix:Plugin(){
 							);
 							val type2:Int = message2.getType();
 							if(type2 != null && type2 == 7){
-								ReflectUtils.invokeMethod(this, "configureReplySystemMessageUserJoin", args:arrayOf(messageEntry2));
+								ReflectUtils.invokeMethod(
+									this,
+									"configureReplySystemMessageUserJoin",
+									args:arrayOf(messageEntry2)
+								);
 								return;
 							}
 							val author:User = message2.getAuthor();
-							ReflectUtils.invokeMethod(this, "configureReplyAuthor", args:arrayOf(
-								CoreUser(author),
-								messageEntry2.getAuthor(),
-								messageEntry2
-							));
+							ReflectUtils.invokeMethod(
+								this,
+								"configureReplyAuthor",
+								args:arrayOf(
+									CoreUser(author),
+									messageEntry2.getAuthor(),
+									messageEntry2
+								)
+							);
 							if(
 								this.getField("replyText") != null
 							&&
@@ -200,14 +232,22 @@ class ReplyReferencesFix:Plugin(){
 										33
 									);
 									this.getField("replyText").setDraweeSpanStringBuilder(parse);
-									ReflectUtils.invokeMethod(this, "configureReplyLayoutDirection", args:arrayOf());
+									ReflectUtils.invokeMethod(
+										this,
+										"configureReplyLayoutDirection",
+										args:arrayOf()
+									);
 								}else if(message2.hasStickers()) {
-									ReflectUtils.invokeMethod(this, "configureReplyContentWithResourceId", args:arrayOf(
-										Utils.getResId(
-											"reply_quote_sticker_mobile",
-											"string"
+									ReflectUtils.invokeMethod(
+										this,
+										"configureReplyContentWithResourceId",
+										args:arrayOf(
+											Utils.getResId(
+												"reply_quote_sticker_mobile",
+												"string"
+											)
 										)
-									));
+									);
 								}else if(
 									message2.hasAttachments()
 								||
@@ -215,12 +255,16 @@ class ReplyReferencesFix:Plugin(){
 								||
 									message2.hasEmbeds()
 								){
-									ReflectUtils.invokeMethod(this, "configureReplyContentWithResourceId", args:arrayOf(
-										Utils.getResId(
-											"reply_quote_no_text_content_mobile", 
-											"string"
+									ReflectUtils.invokeMethod(
+										this,
+										"configureReplyContentWithResourceId",
+										args:arrayOf(
+											Utils.getResId(
+												"reply_quote_no_text_content_mobile", 
+												"string"
+											)
 										)
-									));
+									);
 								}else{
 									val appLog:AppLog = AppLog.g;
 									Logger.`e$default`(
