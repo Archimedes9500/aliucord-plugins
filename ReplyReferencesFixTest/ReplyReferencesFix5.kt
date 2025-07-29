@@ -308,7 +308,7 @@ class ReplyReferencesFix:Plugin(){
 										"configureReplyLayoutDirection",
 										arrayOf<Any>()
 									);
-								}else if(message2.hasStickers()) {
+								}else if(message2.hasStickers()){
 									ReflectUtils.invokeMethod(
 										this,
 										"configureReplyContentWithResourceId",
