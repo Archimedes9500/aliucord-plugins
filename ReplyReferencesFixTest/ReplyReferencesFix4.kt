@@ -145,15 +145,6 @@ class ReplyReferencesFix:Plugin(){
 									)
 								)
 							);
-							if(message.referencedMessage != null){
-								val message2:Message = message.referencedMessage;
-								(ReflectUtils.getField(this, "replyHolder") as View?)?.setOnClickListener(
-									`WidgetChatListAdapterItemMessage$configureReplyPreview$1`(
-										message2
-									)
-								);
-							}else{
-							}
 						}else if(
 							messageState
 								is
@@ -175,9 +166,9 @@ class ReplyReferencesFix:Plugin(){
 								StoreMessageReplies.MessageState.Loaded
 							)
 						&&
-							message.referencedMessage != null
+							messageEntry2 != null
 						){
-							val message2:Message = message.referencedMessage;
+							val message2:Message = messageEntry2.getMessage();
 							(ReflectUtils.getField(this, "replyHolder") as View?)?.setOnClickListener(
 								`WidgetChatListAdapterItemMessage$configureReplyPreview$1`(
 									message2
