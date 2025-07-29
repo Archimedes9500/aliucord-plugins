@@ -115,8 +115,8 @@ class ReplyReferencesFix:Plugin(){
 						);
 					}else if(replyData != null){
 						val messageEntry2:MessageEntry = replyData.getMessageEntry();
-						val messageState:StoreMessageReplies.MessageState =
-							replyData
+						val messageState:StoreMessageState.State =
+							messageEntry2
 							.getMessageState()
 						;
 						if(replyData.isRepliedUserBlocked()){
@@ -133,7 +133,7 @@ class ReplyReferencesFix:Plugin(){
 						}else if(
 							messageState
 								is
-							StoreMessageReplies.MessageState.Unloaded
+							StoreMessageState.State.Unloaded
 						){
 							ReflectUtils.invokeMethod(
 								this,
@@ -157,7 +157,7 @@ class ReplyReferencesFix:Plugin(){
 						}else if(
 							messageState
 								is
-							StoreMessageReplies.MessageState.Deleted
+							StoreMessageState.State.Deleted
 						){
 							ReflectUtils.invokeMethod(
 								this,
@@ -181,7 +181,7 @@ class ReplyReferencesFix:Plugin(){
 							(
 								messageState
 									is
-								StoreMessageReplies.MessageState.Loaded
+								StoreMessageState.State.Loaded
 							)
 						&&
 							message.referencedMessage != null
