@@ -136,7 +136,6 @@ class ReplyReferencesFix:Plugin(){
 								is
 							StoreMessageReplies.MessageState.Unloaded
 						){
-							StoreMessageState.handleMessageUpdate(message2);
 							ReflectUtils.invokeMethod(
 								this,
 								"configureReplySystemMessage",
@@ -149,6 +148,7 @@ class ReplyReferencesFix:Plugin(){
 							);
 							if(message.referencedMessage != null){
 								val message2:Message = Message(message.referencedMessage);
+								messageState.handleMessageUpdate(message2);
 								(ReflectUtils.getField(this, "replyHolder") as View?)?.setOnClickListener(
 									`WidgetChatListAdapterItemMessage$configureReplyPreview$1`(
 										message2
@@ -161,11 +161,6 @@ class ReplyReferencesFix:Plugin(){
 								is
 							StoreMessageReplies.MessageState.Deleted
 						){
-							val messageDelete2 = ModelMessageDelete(
-								message.messageReference.channelId,
-								message.messageReference.messageId
-							);
-							StoreMessageState.handleMessageDelete(messageDelete2);
 							ReflectUtils.invokeMethod(
 								this,
 								"configureReplySystemMessage", arrayOf(
@@ -182,6 +177,12 @@ class ReplyReferencesFix:Plugin(){
 										message2
 									)
 								);
+							}else if(message.messageReference != null){
+								val messageDelete2 = ModelMessageDelete(
+									message.messageReference.a(), //channelId
+									message.messageReference.c() //messageId
+								);
+								messageState.handleMessageDelete(messageDelete2);
 							}else{
 							}
 						}else if(
