@@ -74,7 +74,7 @@ import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 import kotlin.jvm.internal.DefaultConstructorMarker;
 
-@AliucordPlugin(requiresRestart = false)
+@AliucordPlugin(requiresRestart = true)
 class ReplyReferencesFix:Plugin(){
 	@SuppressLint("SetTextI18n")
 	override fun start(pluginContext:Context){
