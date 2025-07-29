@@ -102,7 +102,7 @@ class ReplyReferencesFix:Plugin(){
 						type != 19
 					)
 				){
-					this.getField("replyHolder").setVisibility(0);
+					ReflectUtils.getField(this, "replyHolder").setVisibility(0);
 					this.getField("replyLinkItem").setVisibility(0);
 					if(isInteraction){
 						ReflectUtils.invokeMethod(
