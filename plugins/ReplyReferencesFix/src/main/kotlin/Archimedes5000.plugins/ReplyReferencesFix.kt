@@ -142,10 +142,10 @@ class ReplyReferencesFix:Plugin(){
 				);
 			}
 			///reflect
-			var type:Int? = null as Int?;
+			var type = null as Int?;
 			if(replyHolder != null && replyLinkItem != null){
 				val message:Message = messageEntry.getMessage();
-				val replyData:MessageEntry.ReplyData = messageEntry.getReplyData();
+				val replyData:MessageEntry.ReplyData? = messageEntry.getReplyData();
 				val isInteraction:Boolean = message.isInteraction();
 				type = messageEntry.getMessage().getType();
 				if(isInteraction||(replyData != null && type == REPLY)){
@@ -154,7 +154,7 @@ class ReplyReferencesFix:Plugin(){
 					if(isInteraction){
 						configureReplyInteraction(messageEntry);
 					}else if(replyData != null){
-						val messageEntry2:MessageEntry = replyData.getMessageEntry();
+						val messageEntry2:MessageEntry? = replyData.getMessageEntry();
 						val messageState:StoreMessageReplies.MessageState =
 							replyData
 							.getMessageState()
@@ -173,11 +173,11 @@ class ReplyReferencesFix:Plugin(){
 							);
 						}else if(messageState is Loaded && messageEntry2 != null){
 							val message2:Message = messageEntry2.getMessage();
-							replyHolder.setOnClickListener(
+							/*replyHolder.setOnClickListener(
 								`WidgetChatListAdapterItemMessage$configureReplyPreview$1`(
 									message2
 								)
-							);
+							);*/
 							val type2:Int? = message2.getType();
 							if(type2 == USER_JOIN){
 								configureReplySystemMessageUserJoin(messageEntry2);
@@ -216,7 +216,7 @@ class ReplyReferencesFix:Plugin(){
 										)
 									;
 									parse.setSpan(getLeadingEdgeSpan(), 0, parse.length, 33);
-									replyText?.setDraweeSpanStringBuilder(parse);
+									replyText.setDraweeSpanStringBuilder(parse);
 									configureReplyLayoutDirection();
 								}else if(message2.hasStickers()){
 									configureReplyContentWithResourceId(
