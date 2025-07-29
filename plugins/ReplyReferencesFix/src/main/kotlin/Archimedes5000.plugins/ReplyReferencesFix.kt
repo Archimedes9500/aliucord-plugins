@@ -77,9 +77,7 @@ import kotlin.jvm.internal.DefaultConstructorMarker;
 class ReplyReferencesFix:Plugin(){
 	@SuppressLint("SetTextI18n")
 	override fun start(context:Context){
-		fun <reified T> Any.getField(name:String){
-			return ReflectUtils.getField(this, name) as? T;
-		}
+		inline fun <reified T> Any.getField(name: String) = ReflectUtils.getField(this, name) as? T
 		patcher.instead<WidgetChatListAdapterItemMessage>(
 			"configureReplyPreview",
 			MessageEntry::class.java
