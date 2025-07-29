@@ -88,11 +88,11 @@ class ReplyReferencesFix:Plugin(){
 			val messageEntry:MessageEntry = frame.component1();
 			var type:Int? = null as Int?;
 			//reflect
-			val replyHolder:View? = ReflectUtils.getField(this, "replyHolder");
-			val replyLinkItem:View? = ReflectUtils.getField(this, "replyLinkItem");
-			val replyText:SimpleDraweeSpanTextView? = ReflectUtils.getField(this, "replyText");
-			val replyLeadingViewsHolder:View? = ReflectUtils.getField(this, "replyLeadingViewsHolder");
-			val adapter:WidgetChatListAdapter? = ReflectUtils.getField(this, "adapter");
+			val replyHolder = ReflectUtils.getField(this, "replyHolder") as View?;
+			val replyLinkItem = ReflectUtils.getField(this, "replyLinkItem") as View?;
+			val replyText = ReflectUtils.getField(this, "replyText") as SimpleDraweeSpanTextView?;
+			val replyLeadingViewsHolder = ReflectUtils.getField(this, "replyLeadingViewsHolder") as View?;
+			val adapter = ReflectUtils.getField(this, "adapter") as WidgetChatListAdapter?;
 			fun configureReplyInteraction(messageEntry){
 				ReflectUtils.invokeMethod(
 					this,
@@ -236,9 +236,7 @@ class ReplyReferencesFix:Plugin(){
 									val appLog:AppLog = AppLog.g;
 									Logger.`e$default`(
 										appLog,
-										"Unhandled reply preview: "
-											+
-										messageEntry2,
+										"Unhandled reply preview: "+messageEntry2,
 										null,
 										null,
 										6,
