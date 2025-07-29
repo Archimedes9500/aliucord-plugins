@@ -183,7 +183,7 @@ class ReplyReferencesFix:Plugin(){
 								)
 							);
 							if(message.referencedMessage != null){
-								val target:Message = message.referencedMessage;
+								val target:Message = Message(message.referencedMessage);
 								(ReflectUtils.getField(this, "replyHolder") as View?)?.setOnClickListener{
 									StoreStream
 										.getMessagesLoader()
