@@ -131,7 +131,7 @@ class ReplyReferencesFix:Plugin(){
 									)
 								)
 							);
-							if(message.referencedMessage != null){
+							if(message.messageReference != null){
 								val target = message.messageReference;
 								(ReflectUtils.getField(this, "replyHolder") as View?)?.setOnClickListener{
 									StoreStream
@@ -157,7 +157,7 @@ class ReplyReferencesFix:Plugin(){
 									)
 								)
 							);
-							if(message.referencedMessage != null){
+							if(message.messageReference != null){
 								val target = message.messageReference;
 								(ReflectUtils.getField(this, "replyHolder") as View?)?.setOnClickListener{
 									StoreStream
@@ -183,11 +183,11 @@ class ReplyReferencesFix:Plugin(){
 								)
 							);
 							if(message.referencedMessage != null){
-								val target = message.messageReference;
+								val target:Message = message.referencedMessage;
 								(ReflectUtils.getField(this, "replyHolder") as View?)?.setOnClickListener{
 									StoreStream
 										.getMessagesLoader()
-										.jumpToMessage(target.a(), target.c())
+										.jumpToMessage(target.g(), target.o())
 									;
 									Utils.showToast("Deleted fake", showLonger = false);
 								};
@@ -219,6 +219,7 @@ class ReplyReferencesFix:Plugin(){
 									.jumpToMessage(target.a(), target.c())
 								;
 							};
+							Utils.showToast("Normal", showLonger = false);
 							val type2:Int = message2.getType();
 							if(type2 != null && type2 == 7){
 								ReflectUtils.invokeMethod(
