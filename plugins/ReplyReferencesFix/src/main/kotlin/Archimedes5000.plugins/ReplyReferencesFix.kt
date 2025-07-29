@@ -84,7 +84,7 @@ class ReplyReferencesFix:Plugin(){
 			MessageEntry::class.java
 		){
 			frame ->
-			val messageEntry:MessageEntry = frame.component1();
+			val messageEntry = frame.component1() as MessageEntry;
 			var type:Int? = null;
 			if(this.getField("replyHolder") != null && this.getField("replyLinkItem") != null){
 				val message:Message = messageEntry.getMessage();
@@ -220,7 +220,7 @@ class ReplyReferencesFix:Plugin(){
 												),
 												50,
 												message2,
-												this.getField("adapter") as WidgetChatListAdapter
+												this.getField("adapter") as WidgetChatListAdapter?
 											)
 										)
 									;
