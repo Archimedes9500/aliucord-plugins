@@ -80,6 +80,101 @@ import kotlin.jvm.internal.DefaultConstructorMarker;
 class ReplyReferencesFix:Plugin(){
 	@SuppressLint("SetTextI18n")
 	override fun start(pluginContext:Context){
+
+		fun clone(context:Context, original:View):View{
+			var clone = View(context);
+		
+			clone.alpha = original.alpha;
+			clone.background = original.background;
+			clone.clickable = original.clickable;
+			clone.contentDescription = original.contentDescription;
+			clone.drawingCacheQuality = original.drawingCacheQuality;
+			clone.duplicateParentState = original.duplicateParentState;
+			clone.id = original.id;
+			clone.requiresFadingEdge = original.requiresFadingEdge;
+			clone.fadeScrollbars = original.fadeScrollbars;
+			clone.fadingEdgeLength = original.fadingEdgeLength;
+			clone.filterTouchesWhenObscured = original.filterTouchesWhenObscured;
+			clone.fitsSystemWindows = original.fitsSystemWindows;
+			clone.isScrollContainer = original.isScrollContainer;
+			clone.focusable = original.focusable;
+			clone.focusableInTouchMode = original.focusableInTouchMode;
+			clone.hapticFeedbackEnabled = original.hapticFeedbackEnabled;
+			clone.keepScreenOn = original.keepScreenOn;
+			clone.layerType = original.layerType;
+			clone.layoutDirection = original.layoutDirection;
+			clone.longClickable = original.longClickable;
+			clone.minHeight = original.minHeight;
+			clone.minWidth = original.minWidth;
+			clone.nextFocusDown = original.nextFocusDown;
+			clone.nextFocusLeft = original.nextFocusLeft;
+			clone.nextFocusRight = original.nextFocusRight;
+			clone.nextFocusUp = original.nextFocusUp;
+			clone.onClick = original.onClick;
+			clone.padding = original.padding;
+			clone.paddingBottom = original.paddingBottom;
+			clone.paddingLeft = original.paddingLeft;
+			clone.paddingRight = original.paddingRight;
+			clone.paddingTop = original.paddingTop;
+			clone.paddingStart = original.paddingStart;
+			clone.paddingEnd = original.paddingEnd;
+			clone.saveEnabled = original.saveEnabled;
+			clone.rotation = original.rotation;
+			clone.rotationX = original.rotationX;
+			clone.rotationY = original.rotationY;
+			clone.scaleX = original.scaleX;
+			clone.scaleY = original.scaleY;
+			clone.scrollX = original.scrollX;
+			clone.scrollY = original.scrollY;
+			clone.scrollbarSize = original.scrollbarSize;
+			clone.scrollbarStyle = original.scrollbarStyle;
+			clone.scrollbars = original.scrollbars;
+			clone.scrollbarDefaultDelayBeforeFade = original.scrollbarDefaultDelayBeforeFade;
+			clone.scrollbarFadeDuration = original.scrollbarFadeDuration;
+			clone.scrollbarTrackHorizontal = original.scrollbarTrackHorizontal;
+			clone.scrollbarThumbHorizontal = original.scrollbarThumbHorizontal;
+			clone.scrollbarThumbVertical = original.scrollbarThumbVertical;
+			clone.scrollbarTrackVertical = original.scrollbarTrackVertical;
+			clone.scrollbarAlwaysDrawHorizontalTrack = original.scrollbarAlwaysDrawHorizontalTrack;
+			clone.scrollbarAlwaysDrawVerticalTrack = original.scrollbarAlwaysDrawVerticalTrack;
+			clone.soundEffectsEnabled = original.soundEffectsEnabled;
+			clone.tag = original.tag;
+			clone.textAlignment = original.textAlignment;
+			clone.textDirection = original.textDirection;
+			clone.transformPivotX = original.transformPivotX;
+			clone.transformPivotY = original.transformPivotY;
+			clone.translationX = original.translationX;
+			clone.translationY = original.translationY;
+			clone.visibility = original.visibility;
+		
+			if(s is ViewGroup){
+				clone = clone as ViewGroup;
+		
+				clone.clipChildren = original.clipChildren;
+				clone.clipToPadding = original.clipToPadding;
+				clone.layoutAnimation = original.layoutAnimation;
+				clone.animationCache = original.animationCache;
+				clone.persistentDrawingCache = original.persistentDrawingCache;
+				clone.alwaysDrawnWithCache = original.alwaysDrawnWithCache;
+				clone.addStatesFromChildren = original.addStatesFromChildren;
+				clone.descendantFocusability = original.descendantFocusability;
+				clone.animateLayoutChanges = original.animateLayoutChanges;
+			}
+		
+			if(s is LinearLayout){
+				clone = clone as LinearLayout;
+
+				clone.baselineAligned = original.baselineAligned;
+				clone.baselineAlignedChildIndex = original.baselineAlignedChildIndex;
+				clone.gravity = original.gravity;
+				clone.measureWithLargestChild = original.measureWithLargestChild;
+				clone.orientation = original.orientation;
+				clone.weightSum = original.weightSum;
+			}
+		
+			return clone;
+		}
+
 		patcher.instead<WidgetChatListAdapterItemMessage>(
 			"configureReplyPreview",
 			MessageEntry::class.java
@@ -142,6 +237,7 @@ class ReplyReferencesFix:Plugin(){
 				);
 			}
 			///reflect
+			val clone = clone(context, replyHolder);
 			var type = null as Int?;
 			if(replyHolder != null && replyLinkItem != null){
 				val message:Message = messageEntry.getMessage();
