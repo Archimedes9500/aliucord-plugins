@@ -147,7 +147,7 @@ class ReplyReferencesFix:Plugin(){
 			clone.translationY = original.translationY;
 			clone.visibility = original.visibility;
 		
-			if(s is ViewGroup){
+			if(original is ViewGroup){
 				clone = clone as ViewGroup;
 		
 				clone.clipChildren = original.clipChildren;
@@ -161,7 +161,7 @@ class ReplyReferencesFix:Plugin(){
 				clone.animateLayoutChanges = original.animateLayoutChanges;
 			}
 		
-			if(s is LinearLayout){
+			if(original is LinearLayout){
 				clone = clone as LinearLayout;
 
 				clone.baselineAligned = original.baselineAligned;
