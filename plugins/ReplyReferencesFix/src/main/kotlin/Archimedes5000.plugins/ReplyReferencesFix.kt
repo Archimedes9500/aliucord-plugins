@@ -149,8 +149,8 @@ class ReplyReferencesFix:Plugin(){
 				val isInteraction:Boolean = message.isInteraction();
 				type = messageEntry.getMessage().getType();
 				if(isInteraction||(replyData != null && type == REPLY)){
-					replyHolder.setVisibility(View.VISIBLE);
-					replyLinkItem.setVisibility(View.VISIBLE);
+					//replyHolder.setVisibility(View.VISIBLE);
+					//replyLinkItem.setVisibility(View.VISIBLE);
 					if(isInteraction){
 						configureReplyInteraction(messageEntry);
 					}else if(replyData != null){
