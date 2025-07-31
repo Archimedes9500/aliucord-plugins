@@ -10,6 +10,7 @@ import com.aliucord.utils.ReflectUtils;
 import com.aliucord.Utils;
 import com.discord.api.message.MessageTypes.*;
 import com.discord.stores.StoreMessageReplies.MessageState.*;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import android.annotation.SuppressLint;
@@ -83,96 +84,97 @@ class ReplyReferencesFix:Plugin(){
 	override fun start(pluginContext:Context){
 
 		fun clone(context:Context, original:View):View{
-			var clone = View(context);
+			val clone = (
+				when(original){
+					is View -> View(context);
+					is ViewGroup -> ViewGroup(context);
+					is LinearLayout -> LinearLayout(context);
+				}
+			).apply{
+				alpha = original.alpha;
+				background = original.background;
+				clickable = original.clickable;
+				contentDescription = original.contentDescription;
+				drawingCacheQuality = original.drawingCacheQuality;
+				duplicateParentState = original.duplicateParentState;
+				id = original.id;
+				requiresFadingEdge = original.requiresFadingEdge;
+				fadeScrollbars = original.fadeScrollbars;
+				fadingEdgeLength = original.fadingEdgeLength;
+				filterTouchesWhenObscured = original.filterTouchesWhenObscured;
+				fitsSystemWindows = original.fitsSystemWindows;
+				isScrollContainer = original.isScrollContainer;
+				focusable = original.focusable;
+				focusableInTouchMode = original.focusableInTouchMode;
+				hapticFeedbackEnabled = original.hapticFeedbackEnabled;
+				keepScreenOn = original.keepScreenOn;
+				layerType = original.layerType;
+				layoutDirection = original.layoutDirection;
+				longClickable = original.longClickable;
+				minHeight = original.minHeight;
+				minWidth = original.minWidth;
+				nextFocusDown = original.nextFocusDown;
+				nextFocusLeft = original.nextFocusLeft;
+				nextFocusRight = original.nextFocusRight;
+				nextFocusUp = original.nextFocusUp;
+				onClick = original.onClick;
+				padding = original.padding;
+				paddingBottom = original.paddingBottom;
+				paddingLeft = original.paddingLeft;
+				paddingRight = original.paddingRight;
+				paddingTop = original.paddingTop;
+				paddingStart = original.paddingStart;
+				paddingEnd = original.paddingEnd;
+				saveEnabled = original.saveEnabled;
+				rotation = original.rotation;
+				rotationX = original.rotationX;
+				rotationY = original.rotationY;
+				scaleX = original.scaleX;
+				scaleY = original.scaleY;
+				scrollX = original.scrollX;
+				scrollY = original.scrollY;
+				scrollbarSize = original.scrollbarSize;
+				scrollbarStyle = original.scrollbarStyle;
+				scrollbars = original.scrollbars;
+				scrollbarDefaultDelayBeforeFade = original.scrollbarDefaultDelayBeforeFade;
+				scrollbarFadeDuration = original.scrollbarFadeDuration;
+				scrollbarTrackHorizontal = original.scrollbarTrackHorizontal;
+				scrollbarThumbHorizontal = original.scrollbarThumbHorizontal;
+				scrollbarThumbVertical = original.scrollbarThumbVertical;
+				scrollbarTrackVertical = original.scrollbarTrackVertical;
+				scrollbarAlwaysDrawHorizontalTrack = original.scrollbarAlwaysDrawHorizontalTrack;
+				scrollbarAlwaysDrawVerticalTrack = original.scrollbarAlwaysDrawVerticalTrack;
+				soundEffectsEnabled = original.soundEffectsEnabled;
+				tag = original.tag;
+				textAlignment = original.textAlignment;
+				textDirection = original.textDirection;
+				transformPivotX = original.transformPivotX;
+				transformPivotY = original.transformPivotY;
+				translationX = original.translationX;
+				translationY = original.translationY;
+				visibility = original.visibility;
 		
-			clone.alpha = original.alpha;
-			clone.background = original.background;
-			clone.setClickable(original.isClickable());
-			clone.contentDescription = original.contentDescription;
-			clone.drawingCacheQuality = original.drawingCacheQuality;
-			clone.setDuplicateParentStateEnabled(original.isDuplicateParentStateEnabled());
-			clone.id = original.id;
-			clone.requiresFadingEdge = original.requiresFadingEdge;
-			clone.fadeScrollbars = original.fadeScrollbars;
-			clone.fadingEdgeLength = original.fadingEdgeLength;
-			clone.filterTouchesWhenObscured = original.filterTouchesWhenObscured;
-			clone.fitsSystemWindows = original.fitsSystemWindows;
-			clone.isScrollContainer = original.isScrollContainer;
-			clone.focusable = original.focusable;
-			clone.focusableInTouchMode = original.focusableInTouchMode;
-			clone.hapticFeedbackEnabled = original.hapticFeedbackEnabled;
-			clone.keepScreenOn = original.keepScreenOn;
-			clone.layerType = original.layerType;
-			clone.layoutDirection = original.layoutDirection;
-			clone.longClickable = original.longClickable;
-			clone.minHeight = original.minHeight;
-			clone.minWidth = original.minWidth;
-			clone.nextFocusDown = original.nextFocusDown;
-			clone.nextFocusLeft = original.nextFocusLeft;
-			clone.nextFocusRight = original.nextFocusRight;
-			clone.nextFocusUp = original.nextFocusUp;
-			clone.onClick = original.onClick;
-			clone.padding = original.padding;
-			clone.paddingBottom = original.paddingBottom;
-			clone.paddingLeft = original.paddingLeft;
-			clone.paddingRight = original.paddingRight;
-			clone.paddingTop = original.paddingTop;
-			clone.paddingStart = original.paddingStart;
-			clone.paddingEnd = original.paddingEnd;
-			clone.saveEnabled = original.saveEnabled;
-			clone.rotation = original.rotation;
-			clone.rotationX = original.rotationX;
-			clone.rotationY = original.rotationY;
-			clone.scaleX = original.scaleX;
-			clone.scaleY = original.scaleY;
-			clone.scrollX = original.scrollX;
-			clone.scrollY = original.scrollY;
-			clone.scrollbarSize = original.scrollbarSize;
-			clone.scrollbarStyle = original.scrollbarStyle;
-			clone.scrollbars = original.scrollbars;
-			clone.scrollbarDefaultDelayBeforeFade = original.scrollbarDefaultDelayBeforeFade;
-			clone.scrollbarFadeDuration = original.scrollbarFadeDuration;
-			clone.scrollbarTrackHorizontal = original.scrollbarTrackHorizontal;
-			clone.scrollbarThumbHorizontal = original.scrollbarThumbHorizontal;
-			clone.scrollbarThumbVertical = original.scrollbarThumbVertical;
-			clone.scrollbarTrackVertical = original.scrollbarTrackVertical;
-			clone.scrollbarAlwaysDrawHorizontalTrack = original.scrollbarAlwaysDrawHorizontalTrack;
-			clone.scrollbarAlwaysDrawVerticalTrack = original.scrollbarAlwaysDrawVerticalTrack;
-			clone.soundEffectsEnabled = original.soundEffectsEnabled;
-			clone.tag = original.tag;
-			clone.textAlignment = original.textAlignment;
-			clone.textDirection = original.textDirection;
-			clone.transformPivotX = original.transformPivotX;
-			clone.transformPivotY = original.transformPivotY;
-			clone.translationX = original.translationX;
-			clone.translationY = original.translationY;
-			clone.visibility = original.visibility;
+				if(original is ViewGroup){
+					clipChildren = original.clipChildren;
+					clipToPadding = original.clipToPadding;
+					layoutAnimation = original.layoutAnimation;
+					animationCache = original.animationCache;
+					persistentDrawingCache = original.persistentDrawingCache;
+					alwaysDrawnWithCache = original.alwaysDrawnWithCache;
+					addStatesFromChildren = original.addStatesFromChildren;
+					descendantFocusability = original.descendantFocusability;
+					animateLayoutChanges = original.animateLayoutChanges;
+				}
 		
-			if(original is ViewGroup){
-				clone = clone as ViewGroup;
-		
-				clone.clipChildren = original.clipChildren;
-				clone.clipToPadding = original.clipToPadding;
-				clone.layoutAnimation = original.layoutAnimation;
-				clone.animationCache = original.animationCache;
-				clone.persistentDrawingCache = original.persistentDrawingCache;
-				clone.alwaysDrawnWithCache = original.alwaysDrawnWithCache;
-				clone.addStatesFromChildren = original.addStatesFromChildren;
-				clone.descendantFocusability = original.descendantFocusability;
-				clone.animateLayoutChanges = original.animateLayoutChanges;
-			}
-		
-			if(original is LinearLayout){
-				clone = clone as LinearLayout;
-		
-				clone.baselineAligned = original.baselineAligned;
-				clone.baselineAlignedChildIndex = original.baselineAlignedChildIndex;
-				clone.gravity = original.gravity;
-				clone.measureWithLargestChild = original.measureWithLargestChild;
-				clone.orientation = original.orientation;
-				clone.weightSum = original.weightSum;
-			}
-		
+				if(original is LinearLayout){
+					baselineAligned = original.baselineAligned;
+					baselineAlignedChildIndex = original.baselineAlignedChildIndex;
+					gravity = original.gravity;
+					measureWithLargestChild = original.measureWithLargestChild;
+					orientation = original.orientation;
+					weightSum = original.weightSum;
+				}
+			};
 			return clone;
 		}
 
