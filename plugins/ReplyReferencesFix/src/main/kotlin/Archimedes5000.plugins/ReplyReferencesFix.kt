@@ -87,10 +87,10 @@ class ReplyReferencesFix:Plugin(){
 		
 			clone.alpha = original.alpha;
 			clone.background = original.background;
-			clone.clickable = original.clickable;
+			clone.setClickable(original.isClickable());
 			clone.contentDescription = original.contentDescription;
 			clone.drawingCacheQuality = original.drawingCacheQuality;
-			clone.duplicateParentState = original.duplicateParentState;
+			clone.setDuplicateParentStateEnabled(original.isDuplicateParentStateEnabled());
 			clone.id = original.id;
 			clone.requiresFadingEdge = original.requiresFadingEdge;
 			clone.fadeScrollbars = original.fadeScrollbars;
@@ -148,7 +148,7 @@ class ReplyReferencesFix:Plugin(){
 			clone.translationY = original.translationY;
 			clone.visibility = original.visibility;
 		
-			if(s is ViewGroup){
+			if(original is ViewGroup){
 				clone = clone as ViewGroup;
 		
 				clone.clipChildren = original.clipChildren;
@@ -162,7 +162,7 @@ class ReplyReferencesFix:Plugin(){
 				clone.animateLayoutChanges = original.animateLayoutChanges;
 			}
 		
-			if(s is LinearLayout){
+			if(original is LinearLayout){
 				clone = clone as LinearLayout;
 		
 				clone.baselineAligned = original.baselineAligned;
@@ -238,7 +238,7 @@ class ReplyReferencesFix:Plugin(){
 				);
 			}
 			///reflect
-			val clone = clone(context, replyHolder!!);
+			val clone = clone(pluginContext, replyHolder!!);
 			var type = null as Int?;
 			if(replyHolder != null && replyLinkItem != null){
 				val message:Message = messageEntry.getMessage();
