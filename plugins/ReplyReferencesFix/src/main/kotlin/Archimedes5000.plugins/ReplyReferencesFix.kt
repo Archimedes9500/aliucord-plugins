@@ -86,9 +86,8 @@ class ReplyReferencesFix:Plugin(){
 		fun clone(context:Context, original:View):View{
 			val clone = (
 				when(original){
-					is View -> View(context);
-					is ViewGroup -> ViewGroup(context);
 					is LinearLayout -> LinearLayout(context);
+					else -> View(context);
 				}
 			).apply{
 				alpha = original.alpha;
