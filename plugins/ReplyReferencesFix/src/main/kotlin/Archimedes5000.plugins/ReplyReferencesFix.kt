@@ -92,10 +92,10 @@ class ReplyReferencesFix:Plugin(){
 			).apply{
 				alpha = original.alpha;
 				background = original.background;
-				clickable = original.clickable;
+				setClickable(original.isClickable());
 				contentDescription = original.contentDescription;
 				drawingCacheQuality = original.drawingCacheQuality;
-				duplicateParentState = original.duplicateParentState;
+				setDuplicateParentStateEnabled(original.isDuplicateParentStateEnabled());
 				id = original.id;
 				requiresFadingEdge = original.requiresFadingEdge;
 				fadeScrollbars = original.fadeScrollbars;
