@@ -86,45 +86,42 @@ class ReplyReferencesFix:Plugin(){
 		fun clone(context:Context, original:View):View{
 			val clone = (
 				when(original){
-					is LinearLayout -> LinearLayout(context);
+					is LinearLayout -> FrameLayout(context);
 					else -> View(context);
 				}
 			).apply{
 				alpha = original.alpha;
 				background = original.background;
-				setClickable(original.isClickable());
+				isClickable = original.isClickable;
 				contentDescription = original.contentDescription;
 				drawingCacheQuality = original.drawingCacheQuality;
-				setDuplicateParentStateEnabled(original.isDuplicateParentStateEnabled());
+				isDuplicateParentStateEnabled = original.isDuplicateParentStateEnabled;
 				id = original.id;
-				requiresFadingEdge = original.requiresFadingEdge;
-				fadeScrollbars = original.fadeScrollbars;
-				fadingEdgeLength = original.fadingEdgeLength;
+				isHorizontalFadingEdgeEnabled = original.isHorizontalFadingEdgeEnabled;
+				isVerticalFadingEdgeEnabled = original.isVerticalFadingEdgeEnabled;
+				isFadingScrollbarsEnabled = original.isFadingScrollbarsEnabled;
+				horizontalFadingEdgeLength = original.horizontalFadingEdgeLength;
+				verticalFadingEdgeLength = original.verticalFadingEdgeLength;
 				filterTouchesWhenObscured = original.filterTouchesWhenObscured;
 				fitsSystemWindows = original.fitsSystemWindows;
 				isScrollContainer = original.isScrollContainer;
 				focusable = original.focusable;
-				focusableInTouchMode = original.focusableInTouchMode;
-				hapticFeedbackEnabled = original.hapticFeedbackEnabled;
+				isFocusableInTouchMode = original.isFocusableInTouchMode;
+				isHapticFeedbackEnabled = original.isHapticFeedbackEnabled;
 				keepScreenOn = original.keepScreenOn;
 				layerType = original.layerType;
 				layoutDirection = original.layoutDirection;
-				longClickable = original.longClickable;
-				minHeight = original.minHeight;
-				minWidth = original.minWidth;
-				nextFocusDown = original.nextFocusDown;
-				nextFocusLeft = original.nextFocusLeft;
-				nextFocusRight = original.nextFocusRight;
-				nextFocusUp = original.nextFocusUp;
-				onClick = original.onClick;
-				padding = original.padding;
-				paddingBottom = original.paddingBottom;
-				paddingLeft = original.paddingLeft;
-				paddingRight = original.paddingRight;
-				paddingTop = original.paddingTop;
-				paddingStart = original.paddingStart;
-				paddingEnd = original.paddingEnd;
-				saveEnabled = original.saveEnabled;
+				isLongClickable = original.isLongClickable;
+				minimumHeight = original.minimumHeight;
+				minimumWidth = original.minimumWidth;
+				nextFocusDownId = original.nextFocusDownId;
+				nextFocusLeftId = original.nextFocusLeftId;
+				nextFocusRightId = original.nextFocusRightId;
+				nextFocusUpId = original.nextFocusUpId;
+				onClickListener = original.onClickListener;
+				setPadding(original.paddingBottom, original.paddingLeft, original.paddingRight, original.paddingTop);
+				setPaddingRelative(original.paddingStart, original.paddingTop, original.paddingEnd, original.paddingBottom);
+				isSaveEnabled = original.isSaveEnabled;
 				rotation = original.rotation;
 				rotationX = original.rotationX;
 				rotationY = original.rotationY;
@@ -132,46 +129,42 @@ class ReplyReferencesFix:Plugin(){
 				scaleY = original.scaleY;
 				scrollX = original.scrollX;
 				scrollY = original.scrollY;
-				scrollbarSize = original.scrollbarSize;
-				scrollbarStyle = original.scrollbarStyle;
-				scrollbars = original.scrollbars;
-				scrollbarDefaultDelayBeforeFade = original.scrollbarDefaultDelayBeforeFade;
-				scrollbarFadeDuration = original.scrollbarFadeDuration;
-				scrollbarTrackHorizontal = original.scrollbarTrackHorizontal;
-				scrollbarThumbHorizontal = original.scrollbarThumbHorizontal;
-				scrollbarThumbVertical = original.scrollbarThumbVertical;
-				scrollbarTrackVertical = original.scrollbarTrackVertical;
-				scrollbarAlwaysDrawHorizontalTrack = original.scrollbarAlwaysDrawHorizontalTrack;
-				scrollbarAlwaysDrawVerticalTrack = original.scrollbarAlwaysDrawVerticalTrack;
-				soundEffectsEnabled = original.soundEffectsEnabled;
+				scrollBarSize = original.scrollBarSize;
+				scrollBarStyle = original.scrollBarStyle;
+				isHorizontalScrollBarEnabled = original.isHorizontalScrollBarEnabled;
+				scrollBarDefaultDelayBeforeFade = original.scrollbarDefaultDelayBeforeFade;
+				scrollBarFadeDuration = original.scrollBarFadeDuration;
+				scrollBarTrackHorizontal = original.scrollBarTrackHorizontal;
+				scrollBarThumbHorizontal = original.scrollBarThumbHorizontal;
+				scrollBarThumbVertical = original.scrollBarThumbVertical;
+				scrollBarTrackVertical = original.scrollBarTrackVertical;
+				scrollBarAlwaysDrawHorizontalTrack = original.scrollBarAlwaysDrawHorizontalTrack;
+				scrollBarAlwaysDrawVerticalTrack = original.scrollBarAlwaysDrawVerticalTrack;
+				isSoundEffectsEnabled = original.isSoundEffectsEnabled;
 				tag = original.tag;
 				textAlignment = original.textAlignment;
 				textDirection = original.textDirection;
-				transformPivotX = original.transformPivotX;
-				transformPivotY = original.transformPivotY;
+				pivotX = original.pivotX;
+				pivotY = original.pivotY;
 				translationX = original.translationX;
 				translationY = original.translationY;
 				visibility = original.visibility;
 		
 				if(original is ViewGroup){
-					clipChildren = original.clipChildren;
-					clipToPadding = original.clipToPadding;
-					layoutAnimation = original.layoutAnimation;
-					animationCache = original.animationCache;
-					persistentDrawingCache = original.persistentDrawingCache;
-					alwaysDrawnWithCache = original.alwaysDrawnWithCache;
-					addStatesFromChildren = original.addStatesFromChildren;
-					descendantFocusability = original.descendantFocusability;
-					animateLayoutChanges = original.animateLayoutChanges;
+					setClipChildren(original.clipChildren);
+					setClipToPadding(original.clipToPadding);
+					setLayoutAnimation(original.layoutAnimation);
+					isAnimationCacheEnabled = original.isAnimationCacheEnabled;
+					setPersistentDrawingCache(original.persistentDrawingCache);
+					isAlwaysDrawnWithCacheEnabled = original.isAlwaysDrawnWithCacheEnabled;
+					setAddStatesFromChildren(original.addStatesFromChildren);
+					setDescendantFocusability(original.descendantFocusability);
+					setLayoutTransition(original.getLayoutTransition());
 				}
 		
-				if(original is LinearLayout){
-					baselineAligned = original.baselineAligned;
-					baselineAlignedChildIndex = original.baselineAlignedChildIndex;
-					gravity = original.gravity;
-					measureWithLargestChild = original.measureWithLargestChild;
-					orientation = original.orientation;
-					weightSum = original.weightSum;
+				if(original is FrameLayout){
+					foregroundGravity = original.foregroundGravity;
+					measureAllChildren = original.measureAllChildren;
 				}
 			};
 			return clone;
