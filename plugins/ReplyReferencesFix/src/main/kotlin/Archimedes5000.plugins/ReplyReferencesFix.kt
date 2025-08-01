@@ -174,7 +174,7 @@ class ReplyReferencesFix:Plugin(){
 			MessageEntry::class.java
 		)balls@{
 			frame ->
-			val messageEntry = frame.args[1] as MessageEntry;
+			val messageEntry = frame.args[0] as MessageEntry;
 			//reflect
 			val replyHolder = ReflectUtils.getField(this, "replyHolder") as View?;
 			val replyLinkItem = ReflectUtils.getField(this, "replyLinkItem") as View?;
