@@ -108,7 +108,7 @@ class ReplyReferencesFix:Plugin(){
 				isFocusableInTouchMode = original.isFocusableInTouchMode;
 				isHapticFeedbackEnabled = original.isHapticFeedbackEnabled;
 				keepScreenOn = original.keepScreenOn;
-				setLayerType(original.layerType, null /*or use reflection*/);
+				setLayerType(original.layerType, null /*or use reflection ReflectUtils.getField(original, "mLayerPaint")*/);
 				layoutDirection = original.layoutDirection;
 				isLongClickable = original.isLongClickable;
 				minimumHeight = original.minimumHeight;
@@ -231,9 +231,10 @@ class ReplyReferencesFix:Plugin(){
 				);
 			}
 			///reflect
-			val clone = clone(pluginContext, replyHolder!!);
 			var type = null as Int?;
 			if(replyHolder != null && replyLinkItem != null){
+				val clone = clone(pluginContext, replyHolder);
+				(replyHolder.getParent() as FrameLayout).addView(clone);
 				val message:Message = messageEntry.getMessage();
 				val replyData:MessageEntry.ReplyData? = messageEntry.getReplyData();
 				val isInteraction:Boolean = message.isInteraction();
