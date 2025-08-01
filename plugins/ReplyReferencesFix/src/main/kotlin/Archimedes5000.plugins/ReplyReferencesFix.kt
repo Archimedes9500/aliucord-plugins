@@ -108,7 +108,7 @@ class ReplyReferencesFix:Plugin(){
 				isFocusableInTouchMode = original.isFocusableInTouchMode;
 				isHapticFeedbackEnabled = original.isHapticFeedbackEnabled;
 				keepScreenOn = original.keepScreenOn;
-				setLayerType(original.layerType);
+				setLayerType(original.layerType, null /*or use reflection*/);
 				layoutDirection = original.layoutDirection;
 				isLongClickable = original.isLongClickable;
 				minimumHeight = original.minimumHeight;
@@ -117,7 +117,7 @@ class ReplyReferencesFix:Plugin(){
 				nextFocusLeftId = original.nextFocusLeftId;
 				nextFocusRightId = original.nextFocusRightId;
 				nextFocusUpId = original.nextFocusUpId;
-				//setOnClickListener();
+				//onClick //impossible
 				setPadding(original.paddingBottom, original.paddingLeft, original.paddingRight, original.paddingTop);
 				setPaddingRelative(original.paddingStart, original.paddingTop, original.paddingEnd, original.paddingBottom);
 				isSaveEnabled = original.isSaveEnabled;
@@ -137,8 +137,8 @@ class ReplyReferencesFix:Plugin(){
 				horizontalScrollbarThumbDrawable = original.horizontalScrollbarThumbDrawable;
 				verticalScrollbarThumbDrawable = original.verticalScrollbarThumbDrawable;
 				verticalScrollbarTrackDrawable = original.verticalScrollbarTrackDrawable;
-				scrollBarAlwaysDrawHorizontalTrack = original.scrollbarAlwaysDrawHorizontalTrack;
-				scrollBarAlwaysDrawVerticalTrack = original.scrollbarAlwaysDrawVerticalTrack;
+				//scrollBarAlwaysDrawHorizontalTrack
+				//scrollBarAlwaysDrawVerticalTrack
 				isSoundEffectsEnabled = original.isSoundEffectsEnabled;
 				tag = original.tag;
 				textAlignment = original.textAlignment;
