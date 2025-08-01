@@ -100,8 +100,7 @@ class ReplyReferencesFix:Plugin(){
 				isHorizontalFadingEdgeEnabled = original.isHorizontalFadingEdgeEnabled;
 				isVerticalFadingEdgeEnabled = original.isVerticalFadingEdgeEnabled;
 				isScrollbarFadingEnabled = original.isScrollbarFadingEnabled;
-				setHorizontalFadingEdgeLength(original.horizontalFadingEdgeLength);
-				setVerticalFadingEdgeLength(original.verticalFadingEdgeLength);
+				setFadingEdgeLength(if(original.isHorizontalFadingEdgeEnabled) original.horizontalFadingEdgeLength else if(original.isVerticalFadingEdgeEnabled) original.verticalFadingEdgeLength else 0);
 				filterTouchesWhenObscured = original.filterTouchesWhenObscured;
 				fitsSystemWindows = original.fitsSystemWindows;
 				isScrollContainer = original.isScrollContainer;
@@ -118,7 +117,7 @@ class ReplyReferencesFix:Plugin(){
 				nextFocusLeftId = original.nextFocusLeftId;
 				nextFocusRightId = original.nextFocusRightId;
 				nextFocusUpId = original.nextFocusUpId;
-				OnClickListener = original.OnClickListener;
+				//setOnClickListener();
 				setPadding(original.paddingBottom, original.paddingLeft, original.paddingRight, original.paddingTop);
 				setPaddingRelative(original.paddingStart, original.paddingTop, original.paddingEnd, original.paddingBottom);
 				isSaveEnabled = original.isSaveEnabled;
@@ -138,8 +137,8 @@ class ReplyReferencesFix:Plugin(){
 				horizontalScrollbarThumbDrawable = original.horizontalScrollbarThumbDrawable;
 				verticalScrollbarThumbDrawable = original.verticalScrollbarThumbDrawable;
 				verticalScrollbarTrackDrawable = original.verticalScrollbarTrackDrawable;
-				scrollbarAlwaysDrawHorizontalTrack = original.scrollbarAlwaysDrawHorizontalTrack;
-				scrollbarAlwaysDrawVerticalTrack = original.scrollbarAlwaysDrawVerticalTrack;
+				scrollBarAlwaysDrawHorizontalTrack = original.scrollbarAlwaysDrawHorizontalTrack;
+				scrollBarAlwaysDrawVerticalTrack = original.scrollbarAlwaysDrawVerticalTrack;
 				isSoundEffectsEnabled = original.isSoundEffectsEnabled;
 				tag = original.tag;
 				textAlignment = original.textAlignment;
