@@ -11,7 +11,7 @@ import com.aliucord.Utils;
 import com.discord.api.message.MessageTypes.*;
 import com.discord.stores.StoreMessageReplies.MessageState.*;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -86,7 +86,7 @@ class ReplyReferencesFix:Plugin(){
 		fun clone(context:Context, original:View):View{
 			val clone = (
 				when(original){
-					is LinearLayout -> FrameLayout(context);
+					is FrameLayout -> FrameLayout(context);
 					else -> View(context);
 				}
 			).apply{
@@ -99,9 +99,9 @@ class ReplyReferencesFix:Plugin(){
 				id = original.id;
 				isHorizontalFadingEdgeEnabled = original.isHorizontalFadingEdgeEnabled;
 				isVerticalFadingEdgeEnabled = original.isVerticalFadingEdgeEnabled;
-				isFadingScrollbarsEnabled = original.isFadingScrollbarsEnabled;
-				horizontalFadingEdgeLength = original.horizontalFadingEdgeLength;
-				verticalFadingEdgeLength = original.verticalFadingEdgeLength;
+				isScrollbarFadingEnabled = original.isScrollbarFadingEnabled;
+				setHorizontalFadingEdgeLength(original.horizontalFadingEdgeLength);
+				setVerticalFadingEdgeLength(original.verticalFadingEdgeLength);
 				filterTouchesWhenObscured = original.filterTouchesWhenObscured;
 				fitsSystemWindows = original.fitsSystemWindows;
 				isScrollContainer = original.isScrollContainer;
@@ -109,7 +109,7 @@ class ReplyReferencesFix:Plugin(){
 				isFocusableInTouchMode = original.isFocusableInTouchMode;
 				isHapticFeedbackEnabled = original.isHapticFeedbackEnabled;
 				keepScreenOn = original.keepScreenOn;
-				layerType = original.layerType;
+				setLayerType(original.layerType);
 				layoutDirection = original.layoutDirection;
 				isLongClickable = original.isLongClickable;
 				minimumHeight = original.minimumHeight;
@@ -118,7 +118,7 @@ class ReplyReferencesFix:Plugin(){
 				nextFocusLeftId = original.nextFocusLeftId;
 				nextFocusRightId = original.nextFocusRightId;
 				nextFocusUpId = original.nextFocusUpId;
-				onClickListener = original.onClickListener;
+				OnClickListener = original.OnClickListener;
 				setPadding(original.paddingBottom, original.paddingLeft, original.paddingRight, original.paddingTop);
 				setPaddingRelative(original.paddingStart, original.paddingTop, original.paddingEnd, original.paddingBottom);
 				isSaveEnabled = original.isSaveEnabled;
@@ -132,14 +132,14 @@ class ReplyReferencesFix:Plugin(){
 				scrollBarSize = original.scrollBarSize;
 				scrollBarStyle = original.scrollBarStyle;
 				isHorizontalScrollBarEnabled = original.isHorizontalScrollBarEnabled;
-				scrollBarDefaultDelayBeforeFade = original.scrollbarDefaultDelayBeforeFade;
+				scrollBarDefaultDelayBeforeFade = original.scrollBarDefaultDelayBeforeFade;
 				scrollBarFadeDuration = original.scrollBarFadeDuration;
-				scrollBarTrackHorizontal = original.scrollBarTrackHorizontal;
-				scrollBarThumbHorizontal = original.scrollBarThumbHorizontal;
-				scrollBarThumbVertical = original.scrollBarThumbVertical;
-				scrollBarTrackVertical = original.scrollBarTrackVertical;
-				scrollBarAlwaysDrawHorizontalTrack = original.scrollBarAlwaysDrawHorizontalTrack;
-				scrollBarAlwaysDrawVerticalTrack = original.scrollBarAlwaysDrawVerticalTrack;
+				horizontalScrollbarTrackDrawable = original.horizontalScrollbarTrackDrawable;
+				horizontalScrollbarThumbDrawable = original.horizontalScrollbarThumbDrawable;
+				verticalScrollbarThumbDrawable = original.verticalScrollbarThumbDrawable;
+				verticalScrollbarTrackDrawable = original.verticalScrollbarTrackDrawable;
+				scrollbarAlwaysDrawHorizontalTrack = original.scrollbarAlwaysDrawHorizontalTrack;
+				scrollbarAlwaysDrawVerticalTrack = original.scrollbarAlwaysDrawVerticalTrack;
 				isSoundEffectsEnabled = original.isSoundEffectsEnabled;
 				tag = original.tag;
 				textAlignment = original.textAlignment;
@@ -151,20 +151,20 @@ class ReplyReferencesFix:Plugin(){
 				visibility = original.visibility;
 		
 				if(original is ViewGroup){
-					setClipChildren(original.clipChildren);
-					setClipToPadding(original.clipToPadding);
-					setLayoutAnimation(original.layoutAnimation);
-					isAnimationCacheEnabled = original.isAnimationCacheEnabled;
-					setPersistentDrawingCache(original.persistentDrawingCache);
-					isAlwaysDrawnWithCacheEnabled = original.isAlwaysDrawnWithCacheEnabled;
-					setAddStatesFromChildren(original.addStatesFromChildren);
-					setDescendantFocusability(original.descendantFocusability);
-					setLayoutTransition(original.getLayoutTransition());
+					(this as ViewGroup).setClipChildren(original.clipChildren);
+					(this as ViewGroup).setClipToPadding(original.clipToPadding);
+					(this as ViewGroup).setLayoutAnimation(original.layoutAnimation);
+					(this as ViewGroup).isAnimationCacheEnabled = original.isAnimationCacheEnabled;
+					(this as ViewGroup).setPersistentDrawingCache(original.persistentDrawingCache);
+					(this as ViewGroup).isAlwaysDrawnWithCacheEnabled = original.isAlwaysDrawnWithCacheEnabled;
+					(this as ViewGroup).setAddStatesFromChildren(original.addStatesFromChildren());
+					(this as ViewGroup).setDescendantFocusability(original.descendantFocusability);
+					(this as ViewGroup).setLayoutTransition(original.getLayoutTransition());
 				}
 		
 				if(original is FrameLayout){
-					foregroundGravity = original.foregroundGravity;
-					measureAllChildren = original.measureAllChildren;
+					(this as FrameLayout).foregroundGravity = original.foregroundGravity;
+					(this as FrameLayout).measureAllChildren = original.measureAllChildren;
 				}
 			};
 			return clone;
