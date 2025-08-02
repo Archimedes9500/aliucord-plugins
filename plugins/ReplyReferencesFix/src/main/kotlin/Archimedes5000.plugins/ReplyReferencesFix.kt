@@ -180,7 +180,7 @@ class ReplyReferencesFix:Plugin(){
 			val replyLinkItem = ReflectUtils.getField(this, "replyLinkItem") as View?;
 			val replyText = ReflectUtils.getField(this, "replyText") as SimpleDraweeSpanTextView?;
 			val replyLeadingViewsHolder = ReflectUtils.getField(this, "replyLeadingViewsHolder") as View?;
-			val adapter = `access$getAdapter$p`(this) as WidgetChatListAdapter;
+			val adapter:WidgetChatListAdapter = this.`access$getAdapter$p`(this);
 			fun configureReplyInteraction(messageEntry:MessageEntry){
 				ReflectUtils.invokeMethod(
 					this,
