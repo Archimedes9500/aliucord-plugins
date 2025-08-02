@@ -206,11 +206,11 @@ class ReplyReferencesFix:Plugin(){
 					arrayOf(messageEntry)
 				);
 			}
-			fun configureReplyAuthor(user:UserModel, guildMember:GuildMember, messageEntry:MessageEntry){
+			fun configureReplyAuthor(user:UserModel, guildMember:GuildMember?, messageEntry:MessageEntry){
 				ReflectUtils.invokeMethod(
 					this,
 					"configureReplyAuthor",
-					arrayOf(user as UserModel, guildMember as GuildMember, messageEntry as MessageEntry)
+					arrayOf(user as UserModel, guildMember as GuildMember?, messageEntry as MessageEntry)
 				);
 			}
 			fun getLeadingEdgeSpan(){
@@ -281,7 +281,7 @@ class ReplyReferencesFix:Plugin(){
 							val author:User = message2.getAuthor();
 							configureReplyAuthor(
 								CoreUser(author) as UserModel,
-								messageEntry2.getAuthor() as GuildMember,
+								messageEntry2.getAuthor() as GuildMember?,
 								messageEntry2
 							);
 							if(replyText != null && replyLeadingViewsHolder != null){
