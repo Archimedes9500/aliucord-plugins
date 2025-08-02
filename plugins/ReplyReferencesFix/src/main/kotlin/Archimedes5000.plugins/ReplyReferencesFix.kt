@@ -237,7 +237,7 @@ class ReplyReferencesFix:Plugin(){
 			var type = null as Int?;
 			if(replyHolder != null && replyLinkItem != null){
 				val clone = clone(pluginContext, replyHolder);
-				(replyHolder.getParent() as FrameLayout).addView(clone);
+				(replyHolder.getParent() as ViewGroup).addView(clone);
 				val message:Message = messageEntry.getMessage();
 				val replyData:MessageEntry.ReplyData? = messageEntry.getReplyData();
 				val isInteraction:Boolean = message.isInteraction();
