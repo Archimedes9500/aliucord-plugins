@@ -183,7 +183,7 @@ class ReplyReferencesFix:Plugin(){
 			val adapter = ReflectUtils
 				.invokeMethod(
 					this,
-					"access$getAdapter$p",
+					"access\$getAdapter\$p",
 					arrayOf(this)
 				)
 				as WidgetChatListAdapter?
