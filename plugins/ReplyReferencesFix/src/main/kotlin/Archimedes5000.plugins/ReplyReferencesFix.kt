@@ -185,51 +185,51 @@ class ReplyReferencesFix:Plugin(){
 				.`access$getAdapter$p`(this)
 				as WidgetChatListAdapter
 			;
-			fun configureReplyInteraction(messageEntry:MessageEntry){
+			fun WidgetChatListAdapterItemMessage.configureReplyInteraction(messageEntry:MessageEntry){
 				ReflectUtils.invokeMethod(
-					WidgetChatListAdapterItemMessage,
+					this,
 					"configureReplyInteraction",
 					arrayOf(messageEntry)
 				);
 			}
-			fun configureReplySystemMessage(resT:String, resS:String){
+			fun WidgetChatListAdapterItemMessage.configureReplySystemMessage(resT:String, resS:String){
 				ReflectUtils.invokeMethod(
-					WidgetChatListAdapterItemMessage,
+					this,
 					"configureReplySystemMessage",
 					arrayOf(Utils.getResId(resT, resS))
 				);
 			}
-			fun configureReplySystemMessageUserJoin(messageEntry:MessageEntry){
+			fun WidgetChatListAdapterItemMessage.configureReplySystemMessageUserJoin(messageEntry:MessageEntry){
 				ReflectUtils.invokeMethod(
-					WidgetChatListAdapterItemMessage,
+					this,
 					"configureReplySystemMessageUserJoin",
 					arrayOf(messageEntry)
 				);
 			}
-			fun configureReplyAuthor(user:UserModel, guildMember:GuildMember, messageEntry:MessageEntry){
+			fun WidgetChatListAdapterItemMessage.configureReplyAuthor(user:UserModel, guildMember:GuildMember, messageEntry:MessageEntry){
 				ReflectUtils.invokeMethod(
-					WidgetChatListAdapterItemMessage,
+					this,
 					"configureReplyAuthor",
 					arrayOf(user, guildMember, messageEntry)
 				);
 			}
-			fun getLeadingEdgeSpan(){
+			fun WidgetChatListAdapterItemMessage.getLeadingEdgeSpan(){
 				ReflectUtils.invokeMethod(
-					WidgetChatListAdapterItemMessage,
+					this,
 					"getLeadingEdgeSpan",
 					arrayOf<Any>()
 				);
 			}
-			fun configureReplyLayoutDirection(){
+			fun WidgetChatListAdapterItemMessage.configureReplyLayoutDirection(){
 				ReflectUtils.invokeMethod(
-					WidgetChatListAdapterItemMessage,
+					this,
 					"configureReplyLayoutDirection",
 					arrayOf<Any>()
 				);
 			}
-			fun configureReplyContentWithResourceId(resT:String, resS:String){
+			fun WidgetChatListAdapterItemMessage.configureReplyContentWithResourceId(resT:String, resS:String){
 				ReflectUtils.invokeMethod(
-					WidgetChatListAdapterItemMessage,
+					this,
 					"configureReplyContentWithResourceId",
 					arrayOf(Utils.getResId(resT, resS))
 				);
@@ -281,7 +281,7 @@ class ReplyReferencesFix:Plugin(){
 							val author:User = message2.getAuthor();
 							val guildMember:GuildMember = messageEntry2.getAuthor();
 							configureReplyAuthor(
-								CoreUser(author) as com.discord.models.user.User,
+								CoreUser(author) as UserModel,
 								guildMember as GuildMember,
 								messageEntry2 as MessageEntry
 							);
