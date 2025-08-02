@@ -206,7 +206,7 @@ class ReplyReferencesFix:Plugin(){
 					arrayOf(messageEntry)
 				);
 			}
-			fun configureReplyAuthor(coreUser:UserModel, user:GuildMemeber, messageEntry:MessageEntry){
+			fun configureReplyAuthor(coreUser:UserModel, user:GuildMember, messageEntry:MessageEntry){
 				ReflectUtils.invokeMethod(
 					this,
 					"configureReplyAuthor",
