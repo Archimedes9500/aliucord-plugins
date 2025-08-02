@@ -283,7 +283,7 @@ class ReplyReferencesFix:Plugin(){
 							configureReplyAuthor(
 								CoreUser(author) as UserModel,
 								guildMember as GuildMember,
-								messageEntry2
+								messageEntry2 as MessageEntry
 							);
 							if(replyText != null && replyLeadingViewsHolder != null){
 								var content:String? = message2.getContent();
