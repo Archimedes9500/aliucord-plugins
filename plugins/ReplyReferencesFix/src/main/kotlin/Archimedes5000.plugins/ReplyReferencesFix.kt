@@ -206,11 +206,11 @@ class ReplyReferencesFix:Plugin(){
 					arrayOf(messageEntry)
 				);
 			}
-			fun configureReplyAuthor(coreUser:UserModel, user:GuildMember, messageEntry:MessageEntry){
+			fun configureReplyAuthor(user:UserModel, guildMember:GuildMember, messageEntry:MessageEntry){
 				ReflectUtils.invokeMethod(
 					this,
 					"configureReplyAuthor",
-					arrayOf(coreUser, user, messageEntry)
+					arrayOf(user as UserModel, guildMember as GuildMember, messageEntry as MessageEntry)
 				);
 			}
 			fun getLeadingEdgeSpan(){
