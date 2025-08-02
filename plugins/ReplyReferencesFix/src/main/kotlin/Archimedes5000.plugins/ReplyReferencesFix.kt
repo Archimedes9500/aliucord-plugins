@@ -280,8 +280,8 @@ class ReplyReferencesFix:Plugin(){
 							}
 							val author:User = message2.getAuthor();
 							configureReplyAuthor(
-								CoreUser(author),
-								messageEntry2.getAuthor(),
+								CoreUser(author) as UserModel,
+								messageEntry2.getAuthor() as GuildMember,
 								messageEntry2
 							);
 							if(replyText != null && replyLeadingViewsHolder != null){
