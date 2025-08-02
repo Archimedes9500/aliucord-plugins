@@ -187,49 +187,49 @@ class ReplyReferencesFix:Plugin(){
 			;
 			fun configureReplyInteraction(messageEntry:MessageEntry){
 				ReflectUtils.invokeMethod(
-					this,
+					WidgetChatListAdapterItemMessage,
 					"configureReplyInteraction",
 					arrayOf(messageEntry)
 				);
 			}
 			fun configureReplySystemMessage(resT:String, resS:String){
 				ReflectUtils.invokeMethod(
-					this,
+					WidgetChatListAdapterItemMessage,
 					"configureReplySystemMessage",
 					arrayOf(Utils.getResId(resT, resS))
 				);
 			}
 			fun configureReplySystemMessageUserJoin(messageEntry:MessageEntry){
 				ReflectUtils.invokeMethod(
-					this,
+					WidgetChatListAdapterItemMessage,
 					"configureReplySystemMessageUserJoin",
 					arrayOf(messageEntry)
 				);
 			}
-			fun configureReplyAuthor(user:com.discord.models.user.User, guildMember:GuildMember, messageEntry:MessageEntry){
+			fun configureReplyAuthor(user:UserModel, guildMember:GuildMember, messageEntry:MessageEntry){
 				ReflectUtils.invokeMethod(
-					this,
+					WidgetChatListAdapterItemMessage,
 					"configureReplyAuthor",
-					arrayOf(user as com.discord.models.user.User, guildMember as GuildMember, messageEntry as MessageEntry)
+					arrayOf(user, guildMember, messageEntry)
 				);
 			}
 			fun getLeadingEdgeSpan(){
 				ReflectUtils.invokeMethod(
-					this,
+					WidgetChatListAdapterItemMessage,
 					"getLeadingEdgeSpan",
 					arrayOf<Any>()
 				);
 			}
 			fun configureReplyLayoutDirection(){
 				ReflectUtils.invokeMethod(
-					this,
+					WidgetChatListAdapterItemMessage,
 					"configureReplyLayoutDirection",
 					arrayOf<Any>()
 				);
 			}
 			fun configureReplyContentWithResourceId(resT:String, resS:String){
 				ReflectUtils.invokeMethod(
-					this,
+					WidgetChatListAdapterItemMessage,
 					"configureReplyContentWithResourceId",
 					arrayOf(Utils.getResId(resT, resS))
 				);
