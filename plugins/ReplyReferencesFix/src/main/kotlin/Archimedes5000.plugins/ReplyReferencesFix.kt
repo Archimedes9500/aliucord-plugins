@@ -278,9 +278,10 @@ class ReplyReferencesFix:Plugin(){
 								configureReplySystemMessageUserJoin(messageEntry2);
 								return@balls null;
 							}
+							val author:User = message2.getAuthor();
 							configureReplyAuthor(
 								CoreUser(author),
-								message2.getAuthor(),
+								author as GuildMember,
 								messageEntry2
 							);
 							if(replyText != null && replyLeadingViewsHolder != null){
