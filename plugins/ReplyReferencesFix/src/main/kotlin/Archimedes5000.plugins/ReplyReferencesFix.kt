@@ -133,10 +133,10 @@ class ReplyReferencesFix:Plugin(){
 				isHorizontalScrollBarEnabled = original.isHorizontalScrollBarEnabled;
 				scrollBarDefaultDelayBeforeFade = original.scrollBarDefaultDelayBeforeFade;
 				scrollBarFadeDuration = original.scrollBarFadeDuration;
-				horizontalScrollbarTrackDrawable = original.horizontalScrollbarTrackDrawable;
-				horizontalScrollbarThumbDrawable = original.horizontalScrollbarThumbDrawable;
-				verticalScrollbarThumbDrawable = original.verticalScrollbarThumbDrawable;
-				verticalScrollbarTrackDrawable = original.verticalScrollbarTrackDrawable;
+				//horizontalScrollbarTrackDrawable = original.horizontalScrollbarTrackDrawable; //API 29
+				//horizontalScrollbarThumbDrawable = original.horizontalScrollbarThumbDrawable; //API 29
+				//verticalScrollbarThumbDrawable = original.verticalScrollbarThumbDrawable; //API 29
+				//verticalScrollbarTrackDrawable = original.verticalScrollbarTrackDrawable; //API 29
 				//scrollBarAlwaysDrawHorizontalTrack
 				//scrollBarAlwaysDrawVerticalTrack
 				isSoundEffectsEnabled = original.isSoundEffectsEnabled;
