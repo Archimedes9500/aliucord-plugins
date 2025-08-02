@@ -12,6 +12,7 @@ import com.discord.api.message.MessageTypes.*;
 import com.discord.stores.StoreMessageReplies.MessageState.*;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import com.discord.models.user.User as UserModel;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -205,7 +206,7 @@ class ReplyReferencesFix:Plugin(){
 					arrayOf(messageEntry)
 				);
 			}
-			fun configureReplyAuthor(coreUser:CoreUser, user:User, messageEntry:MessageEntry){
+			fun configureReplyAuthor(coreUser:UserModel, user:GuildMemeber, messageEntry:MessageEntry){
 				ReflectUtils.invokeMethod(
 					this,
 					"configureReplyAuthor",
