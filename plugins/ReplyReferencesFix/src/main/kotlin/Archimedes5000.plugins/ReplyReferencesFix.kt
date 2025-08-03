@@ -13,6 +13,7 @@ import com.discord.stores.StoreMessageReplies.MessageState.*;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import com.discord.models.user.User as UserModel;
+import kotlin.reflect.jvm.*;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -176,63 +177,44 @@ class ReplyReferencesFix:Plugin(){
 		)balls@{
 			frame ->
 			val messageEntry = frame.args[0] as MessageEntry;
-			//reflect
-			val replyHolder = ReflectUtils.getField(this, "replyHolder") as View?;
-			val replyLinkItem = ReflectUtils.getField(this, "replyLinkItem") as View?;
-			val replyText = ReflectUtils.getField(this, "replyText") as SimpleDraweeSpanTextView?;
-			val replyLeadingViewsHolder = ReflectUtils.getField(this, "replyLeadingViewsHolder") as View?;
 			val adapter = WidgetChatListAdapterItemMessage
 				.`access$getAdapter$p`(this)
 				as WidgetChatListAdapter
 			;
+			val c = WidgetChatListAdapterItemMessage::class.java;
+			//reflect
+			val replyHolder = (c.getDeclaredField("replyHolder").isAccessible = true).get(this) as View?;
+			val replyLinkItem = ReflectUtils.getField(this, "replyLinkItem") as View?;
+			val replyText = ReflectUtils.getField(this, "replyText") as SimpleDraweeSpanTextView?;
+			val replyLeadingViewsHolder = ReflectUtils.getField(this, "replyLeadingViewsHolder") as View?;
+
+			var method = c.getDeclaredMethod("configureReplyInteraction").isAccessible = true;
 			fun WidgetChatListAdapterItemMessage.configureReplyInteraction(messageEntry:MessageEntry){
-				ReflectUtils.invokeMethod(
-					this,
-					"configureReplyInteraction",
-					arrayOf(messageEntry)
-				);
+				method.invoke(this, messageEntry);
 			}
+			method = c.getDeclaredMethod("configureReplySystemMessage").isAccessible = true;
 			fun WidgetChatListAdapterItemMessage.configureReplySystemMessage(resT:String, resS:String){
-				ReflectUtils.invokeMethod(
-					this,
-					"configureReplySystemMessage",
-					arrayOf(Utils.getResId(resT, resS))
-				);
+				method.invoke(this, resT, resS);
 			}
+			method = c.getDeclaredMethod("configureReplySystemMessageUserJoin").isAccessible = true;
 			fun WidgetChatListAdapterItemMessage.configureReplySystemMessageUserJoin(messageEntry:MessageEntry){
-				ReflectUtils.invokeMethod(
-					this,
-					"configureReplySystemMessageUserJoin",
-					arrayOf(messageEntry)
-				);
+				method.invoke(this, messageEntry);
 			}
+			method = c.getDeclaredMethod("configureReplyAuthor").isAccessible = true;
 			fun WidgetChatListAdapterItemMessage.configureReplyAuthor(user:UserModel, guildMember:GuildMember, messageEntry:MessageEntry){
-				ReflectUtils.invokeMethod(
-					this,
-					"configureReplyAuthor",
-					arrayOf(user, guildMember, messageEntry)
-				);
+				method.invoke(this, user, guildMember, messageEntry);
 			}
+			method = c.getDeclaredMethod("getLeadingEdgeSpan").isAccessible = true;
 			fun WidgetChatListAdapterItemMessage.getLeadingEdgeSpan(){
-				ReflectUtils.invokeMethod(
-					this,
-					"getLeadingEdgeSpan",
-					arrayOf<Any>()
-				);
+				method.invoke(this);
 			}
+			method = c.getDeclaredMethod("configureReplyLayoutDirection").isAccessible = true;
 			fun WidgetChatListAdapterItemMessage.configureReplyLayoutDirection(){
-				ReflectUtils.invokeMethod(
-					this,
-					"configureReplyLayoutDirection",
-					arrayOf<Any>()
-				);
+				method.invoke(this);
 			}
+			method = c.getDeclaredMethod("configureReplyContentWithResourceId").isAccessible = true;
 			fun WidgetChatListAdapterItemMessage.configureReplyContentWithResourceId(resT:String, resS:String){
-				ReflectUtils.invokeMethod(
-					this,
-					"configureReplyContentWithResourceId",
-					arrayOf(Utils.getResId(resT, resS))
-				);
+				method.invoke(this, Utils.getResId(resT, resS));
 			}
 			///reflect
 			var type = null as Int?;
