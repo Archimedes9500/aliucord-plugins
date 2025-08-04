@@ -294,7 +294,7 @@ class ReplyReferencesFix:Plugin(){
 				val textRoot:ViewGroup = replyHolder.getParent() as ViewGroup;
 				//val clone = clone(replyHolder.getContext(), replyHolder);
 				//textRoot.addView(clone);
-				val test = TextView(replyHolder.getContext());
+				val test = TextView(textRoot.getContext());
 				test.text = "Test";
 				textRoot.addView(test);
 				val message:Message = messageEntry.getMessage();
