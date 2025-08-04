@@ -183,37 +183,99 @@ class ReplyReferencesFix:Plugin(){
 			;
 			val c = WidgetChatListAdapterItemMessage::class.java;
 			//reflect
-			val replyHolder = (c.getDeclaredField("replyHolder").also{it.isAccessible = true}).get(this) as View?;
+			val replyHolder = (c.getDeclaredField("replyHolder").apply{isAccessible = true}).get(this) as View?;
 			val replyLinkItem = ReflectUtils.getField(this, "replyLinkItem") as View?;
 			val replyText = ReflectUtils.getField(this, "replyText") as SimpleDraweeSpanTextView?;
 			val replyLeadingViewsHolder = ReflectUtils.getField(this, "replyLeadingViewsHolder") as View?;
 
-			var method = c.getDeclaredMethod("configureReplyInteraction").also{it.isAccessible = true};
+			var method = c
+				.getDeclaredMethod(
+					"configureReplyInteraction",
+					MessageEntry::class.java
+				)
+				.apply{isAccessible = true}
+			;
 			fun WidgetChatListAdapterItemMessage.configureReplyInteraction(messageEntry:MessageEntry){
 				method.invoke(this, messageEntry);
 			}
-			method = c.getDeclaredMethod("configureReplySystemMessage").also{it.isAccessible = true};
-			fun WidgetChatListAdapterItemMessage.configureReplySystemMessage(resT:String, resS:String){
+			method = c
+				.getDeclaredMethod(
+					"configureReplySystemMessage",
+					Int::class.java
+				)
+				.apply{isAccessible = true}
+			;
+			fun WidgetChatListAdapterItemMessage
+				.configureReplySystemMessage(
+					resT:String,
+					resS:String
+			){
 				method.invoke(this, resT, resS);
 			}
-			method = c.getDeclaredMethod("configureReplySystemMessageUserJoin").also{it.isAccessible = true};
-			fun WidgetChatListAdapterItemMessage.configureReplySystemMessageUserJoin(messageEntry:MessageEntry){
+			method = c
+				.getDeclaredMethod(
+					"configureReplySystemMessageUserJoin",
+					MessageEntry::class.java
+				)
+				.apply{isAccessible = true}
+			;
+			fun WidgetChatListAdapterItemMessage
+				.configureReplySystemMessageUserJoin(
+					messageEntry:MessageEntry
+			){
 				method.invoke(this, messageEntry);
 			}
-			method = c.getDeclaredMethod("configureReplyAuthor").also{it.isAccessible = true};
-			fun WidgetChatListAdapterItemMessage.configureReplyAuthor(user:UserModel, guildMember:GuildMember, messageEntry:MessageEntry){
+			method = c
+				.getDeclaredMethod(
+					"configureReplyAuthor",
+					UserModel::class.java,
+					GuildMember::class.java,
+					MessageEntry::class.java
+				)
+				.apply{isAccessible = true}
+			;
+			fun WidgetChatListAdapterItemMessage
+				.configureReplyAuthor(
+					user:UserModel,
+					guildMember:GuildMember,
+					messageEntry:MessageEntry
+			){
 				method.invoke(this, user, guildMember, messageEntry);
 			}
-			method = c.getDeclaredMethod("getLeadingEdgeSpan").also{it.isAccessible = true};
-			fun WidgetChatListAdapterItemMessage.getLeadingEdgeSpan(){
+			method = c
+				.getDeclaredMethod(
+					"getLeadingEdgeSpan"
+				)
+				.apply{isAccessible = true}
+			;
+			fun WidgetChatListAdapterItemMessage
+				.getLeadingEdgeSpan(
+			){
 				method.invoke(this);
 			}
-			method = c.getDeclaredMethod("configureReplyLayoutDirection").also{it.isAccessible = true};
-			fun WidgetChatListAdapterItemMessage.configureReplyLayoutDirection(){
+			method = c
+				.getDeclaredMethod(
+					"configureReplyLayoutDirection"
+				)
+				.apply{isAccessible = true}
+			;
+			fun WidgetChatListAdapterItemMessage
+				.configureReplyLayoutDirection(
+			){
 				method.invoke(this);
 			}
-			method = c.getDeclaredMethod("configureReplyContentWithResourceId").also{it.isAccessible = true};
-			fun WidgetChatListAdapterItemMessage.configureReplyContentWithResourceId(resT:String, resS:String){
+			method = c
+				.getDeclaredMethod(
+					"configureReplyContentWithResourceId",
+					Int::class.java
+				)
+				.apply{isAccessible = true}
+			;
+			fun WidgetChatListAdapterItemMessage
+					.configureReplyContentWithResourceId(
+					resT:String,
+					resS:String
+				){
 				method.invoke(this, Utils.getResId(resT, resS));
 			}
 			///reflect
