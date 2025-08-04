@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import com.discord.models.user.User as UserModel;
 import kotlin.reflect.jvm.*;
+import java.lang.reflect.InvocationTargetException;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -279,7 +280,11 @@ class ReplyReferencesFix:Plugin(){
 					resT:String,
 					resS:String
 			){
-				method7.invoke(this, Utils.getResId(resT, resS));
+				try{
+					method7.invoke(this, Utils.getResId(resT, resS));
+				}catch(e:InvocationTargetException){
+					throw e.cause;
+				}
 			}
 			///reflect
 			var type = null as Int?;
