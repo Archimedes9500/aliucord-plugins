@@ -399,6 +399,7 @@ class ReplyReferencesFix:Plugin(){
 							}
 						}
 					}
+					/*
 					val textRoot:ViewGroup = replyHolder.getParent() as ViewGroup;
 					//val clone = clone(replyHolder.getContext(), replyHolder);
 					//textRoot.addView(clone);
@@ -411,9 +412,10 @@ class ReplyReferencesFix:Plugin(){
 							);
 						}
 					;
-					Logger().debug("Before: "+replyHolder.parent.toString()+"\n"+textRoot.getChildAt(2).toString())
+					Logger().debug("Before: "+replyHolder.parent.toString()+"\n"+textRoot.getChildAt(2).toString());
 					textRoot.addView(test);
-					Logger().debug("After: "+replyHolder.parent.toString()+"\n"+textRoot.getChildAt(2).toString())
+					Logger().debug("After: "+replyHolder.parent.toString()+"\n"+textRoot.getChildAt(2).toString());
+					*/
 				}else{
 					replyHolder?.setVisibility(View.GONE);
 					replyLinkItem?.setVisibility(View.GONE);
