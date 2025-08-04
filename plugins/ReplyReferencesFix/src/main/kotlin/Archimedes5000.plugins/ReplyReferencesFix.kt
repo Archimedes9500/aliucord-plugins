@@ -401,9 +401,16 @@ class ReplyReferencesFix:Plugin(){
 					val textRoot:ViewGroup = replyHolder.getParent() as ViewGroup;
 					//val clone = clone(replyHolder.getContext(), replyHolder);
 					//textRoot.addView(clone);
-					val test = TextView(textRoot.getContext());
-					test.text = "Test";
-					textRoot.addView(test);
+					val test = TextView(textRoot.getContext())
+						.apply{
+							text = "Test";
+							layoutParams = ViewGroup.LayoutParams(
+								ViewGroup.LayoutParams.WRAP_CONTENT,
+								ViewGroup.LayoutParams.WRAP_CONTENT
+							);
+						}
+					;
+					//textRoot.addView(test);
 				}else{
 					replyHolder?.setVisibility(View.GONE);
 					replyLinkItem?.setVisibility(View.GONE);
