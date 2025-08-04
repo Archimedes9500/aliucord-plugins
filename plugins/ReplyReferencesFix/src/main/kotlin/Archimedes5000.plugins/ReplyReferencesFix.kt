@@ -196,7 +196,7 @@ class ReplyReferencesFix:Plugin(){
 				.apply{isAccessible = true}
 			;
 			fun WidgetChatListAdapterItemMessage.configureReplyInteraction(messageEntry:MessageEntry){
-				method.invoke(this, arrayOf(messageEntry));
+				method.invoke(this, messageEntry);
 			}
 			method = c
 				.getDeclaredMethod(
@@ -210,7 +210,7 @@ class ReplyReferencesFix:Plugin(){
 					resT:String,
 					resS:String
 			){
-				method.invoke(this, arrayOf(Utils.getResId(resT, resS)));
+				method.invoke(this, Utils.getResId(resT, resS));
 			}
 			method = c
 				.getDeclaredMethod(
@@ -223,7 +223,7 @@ class ReplyReferencesFix:Plugin(){
 				.configureReplySystemMessageUserJoin(
 					messageEntry:MessageEntry
 			){
-				method.invoke(this, arrayOf(messageEntry));
+				method.invoke(this, messageEntry);
 			}
 			method = c
 				.getDeclaredMethod(
@@ -276,7 +276,7 @@ class ReplyReferencesFix:Plugin(){
 					resT:String,
 					resS:String
 				){
-				method.invoke(this, arrayOf(Utils.getResId(resT, resS)));
+				method.invoke(this, Utils.getResId(resT, resS));
 			}
 			///reflect
 			var type = null as Int?;
