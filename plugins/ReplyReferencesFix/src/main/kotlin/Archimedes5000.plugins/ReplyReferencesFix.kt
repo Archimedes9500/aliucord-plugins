@@ -283,7 +283,7 @@ class ReplyReferencesFix:Plugin(){
 				try{
 					method7.invoke(this, Utils.getResId(resT, resS));
 				}catch(e:InvocationTargetException){
-					throw e.cause;
+					throw if(e.cause) e.cause else "";
 				}
 			}
 			///reflect
