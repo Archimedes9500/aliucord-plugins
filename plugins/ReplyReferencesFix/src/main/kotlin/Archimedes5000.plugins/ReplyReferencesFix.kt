@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 import com.discord.models.user.User as UserModel;
 import kotlin.reflect.jvm.*;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.Throwable;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -283,7 +284,7 @@ class ReplyReferencesFix:Plugin(){
 				try{
 					method7.invoke(this, Utils.getResId(resT, resS));
 				}catch(e:InvocationTargetException){
-					throw if(e.cause) e.cause else "";
+					throw if(e.cause) e.cause else Throwable("idk");
 				}
 			}
 			///reflect
