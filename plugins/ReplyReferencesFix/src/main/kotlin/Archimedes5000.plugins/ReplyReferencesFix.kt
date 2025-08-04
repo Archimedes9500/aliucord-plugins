@@ -412,7 +412,7 @@ class ReplyReferencesFix:Plugin(){
 						}
 					;
 					Logger().debug("Before: "+replyHolder.parent.toString()+"\n"+textRoot.getChildAt(2).toString())
-					//textRoot.addView(test);
+					textRoot.addView(test);
 					Logger().debug("After: "+replyHolder.parent.toString()+"\n"+textRoot.getChildAt(2).toString())
 				}else{
 					replyHolder?.setVisibility(View.GONE);
