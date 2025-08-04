@@ -17,7 +17,7 @@ import kotlin.reflect.jvm.*;
 import kotlin.reflect.*;
 import java.lang.reflect.InvocationTargetException;
 import kotlin.Throwable;
-import com.aliucord.Logger;
+import com.aliucord.Logger as Balls;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -412,9 +412,9 @@ class ReplyReferencesFix:Plugin(){
 							);
 						}
 					;
-					Logger().debug("Before: "+replyHolder.parent.toString()+"\n"+textRoot.getChildAt(2).toString());
+					Balls().debug("Before: "+replyHolder.parent.toString()+"\n"+textRoot.getChildAt(2).toString());
 					textRoot.addView(test);
-					Logger().debug("After: "+replyHolder.parent.toString()+"\n"+textRoot.getChildAt(2).toString());
+					Balls().debug("After: "+replyHolder.parent.toString()+"\n"+textRoot.getChildAt(2).toString());
 					*/
 				}else{
 					replyHolder?.setVisibility(View.GONE);
