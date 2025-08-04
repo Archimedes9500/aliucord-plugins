@@ -14,8 +14,9 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import com.discord.models.user.User as UserModel;
 import kotlin.reflect.jvm.*;
+import kotlin.reflect.*;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.Throwable;
+import kotlin.Throwable;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
