@@ -195,7 +195,10 @@ class ReplyReferencesFix:Plugin(){
 				)
 				.apply{isAccessible = true}
 			;
-			fun WidgetChatListAdapterItemMessage.configureReplyInteraction(messageEntry:MessageEntry){
+			fun WidgetChatListAdapterItemMessage
+				.configureReplyInteraction(
+					messageEntry:MessageEntry
+			){
 				method1.invoke(this, messageEntry);
 			}
 			val method2 = c
@@ -275,7 +278,7 @@ class ReplyReferencesFix:Plugin(){
 					.configureReplyContentWithResourceId(
 					resT:String,
 					resS:String
-				){
+			){
 				method7.invoke(this, Utils.getResId(resT, resS));
 			}
 			///reflect
