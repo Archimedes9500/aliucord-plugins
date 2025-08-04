@@ -200,8 +200,8 @@ class ReplyReferencesFix:Plugin(){
 				.apply{isAccessible = true}
 			;
 			fun WidgetChatListAdapterItemMessage
-				.configureReplyInteraction(
-					messageEntry:MessageEntry
+			.configureReplyInteraction(
+				messageEntry:MessageEntry
 			){
 				method1.invoke(this, messageEntry);
 			}
@@ -213,9 +213,9 @@ class ReplyReferencesFix:Plugin(){
 				.apply{isAccessible = true}
 			;
 			fun WidgetChatListAdapterItemMessage
-				.configureReplySystemMessage(
-					resT:String,
-					resS:String
+			.configureReplySystemMessage(
+				resT:String,
+				resS:String
 			){
 				method2.invoke(this, Utils.getResId(resT, resS));
 			}
@@ -227,8 +227,8 @@ class ReplyReferencesFix:Plugin(){
 				.apply{isAccessible = true}
 			;
 			fun WidgetChatListAdapterItemMessage
-				.configureReplySystemMessageUserJoin(
-					messageEntry:MessageEntry
+			.configureReplySystemMessageUserJoin(
+				messageEntry:MessageEntry
 			){
 				method3.invoke(this, messageEntry);
 			}
@@ -242,10 +242,10 @@ class ReplyReferencesFix:Plugin(){
 				.apply{isAccessible = true}
 			;
 			fun WidgetChatListAdapterItemMessage
-				.configureReplyAuthor(
-					user:UserModel,
-					guildMember:GuildMember,
-					messageEntry:MessageEntry
+			.configureReplyAuthor(
+				user:UserModel,
+				guildMember:GuildMember,
+				messageEntry:MessageEntry
 			){
 				method4.invoke(this, user, guildMember, messageEntry);
 			}
@@ -280,9 +280,10 @@ class ReplyReferencesFix:Plugin(){
 			;
 			fun WidgetChatListAdapterItemMessage
 					.configureReplyContentWithResourceId(
-					resT:String,
-					resS:String
-			){
+						resT:String,
+						resS:String
+					)
+				{
 				try{
 					method7.invoke(this, Utils.getResId(resT, resS));
 				}catch(e:InvocationTargetException){
@@ -400,20 +401,10 @@ class ReplyReferencesFix:Plugin(){
 						}
 					}
 					val textRoot:ViewGroup = replyHolder.getParent() as ViewGroup;
-					//val clone = clone(replyHolder.getContext(), replyHolder);
+					//var clone = clone(replyHolder.getContext(), replyHolder);
 					//textRoot.addView(clone);
-					val test = TextView(textRoot.getContext())
-						.apply{
-							text = "Test";
-							layoutParams = ViewGroup.LayoutParams(
-								ViewGroup.LayoutParams.WRAP_CONTENT,
-								ViewGroup.LayoutParams.WRAP_CONTENT
-							);
-						}
-					;
-					Balls().debug("Before: "+replyHolder.parent.toString()+"\n"+textRoot.getChildAt(2).toString());
-					textRoot.addView(test);
-					Balls().debug("After: "+replyHolder.parent.toString()+"\n"+textRoot.getChildAt(2).toString());
+					//clone = clone(replyHolder.getContext(), replyHolder);
+					//textRoot.addView(clone);
 				}else{
 					replyHolder?.setVisibility(View.GONE);
 					replyLinkItem?.setVisibility(View.GONE);
