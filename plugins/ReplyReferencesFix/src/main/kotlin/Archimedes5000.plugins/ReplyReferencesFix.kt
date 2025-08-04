@@ -188,7 +188,7 @@ class ReplyReferencesFix:Plugin(){
 			val replyText = ReflectUtils.getField(this, "replyText") as SimpleDraweeSpanTextView?;
 			val replyLeadingViewsHolder = ReflectUtils.getField(this, "replyLeadingViewsHolder") as View?;
 
-			var method = c
+			val method1 = c
 				.getDeclaredMethod(
 					"configureReplyInteraction",
 					MessageEntry::class.java
@@ -196,9 +196,9 @@ class ReplyReferencesFix:Plugin(){
 				.apply{isAccessible = true}
 			;
 			fun WidgetChatListAdapterItemMessage.configureReplyInteraction(messageEntry:MessageEntry){
-				method.invoke(this, messageEntry);
+				method1.invoke(this, messageEntry);
 			}
-			method = c
+			val method2 = c
 				.getDeclaredMethod(
 					"configureReplySystemMessage",
 					Int::class.java
@@ -210,9 +210,9 @@ class ReplyReferencesFix:Plugin(){
 					resT:String,
 					resS:String
 			){
-				method.invoke(this, Utils.getResId(resT, resS));
+				method2.invoke(this, Utils.getResId(resT, resS));
 			}
-			method = c
+			val method3 = c
 				.getDeclaredMethod(
 					"configureReplySystemMessageUserJoin",
 					MessageEntry::class.java
@@ -223,9 +223,9 @@ class ReplyReferencesFix:Plugin(){
 				.configureReplySystemMessageUserJoin(
 					messageEntry:MessageEntry
 			){
-				method.invoke(this, messageEntry);
+				method3.invoke(this, messageEntry);
 			}
-			method = c
+			val method4 = c
 				.getDeclaredMethod(
 					"configureReplyAuthor",
 					UserModel::class.java,
@@ -240,9 +240,9 @@ class ReplyReferencesFix:Plugin(){
 					guildMember:GuildMember,
 					messageEntry:MessageEntry
 			){
-				method.invoke(this, arrayOf(user, guildMember, messageEntry));
+				method4.invoke(this, arrayOf(user, guildMember, messageEntry));
 			}
-			method = c
+			val method5 = c
 				.getDeclaredMethod(
 					"getLeadingEdgeSpan"
 				)
@@ -251,9 +251,9 @@ class ReplyReferencesFix:Plugin(){
 			fun WidgetChatListAdapterItemMessage
 				.getLeadingEdgeSpan(
 			){
-				method.invoke(this);
+				method5.invoke(this);
 			}
-			method = c
+			val method6 = c
 				.getDeclaredMethod(
 					"configureReplyLayoutDirection"
 				)
@@ -262,9 +262,9 @@ class ReplyReferencesFix:Plugin(){
 			fun WidgetChatListAdapterItemMessage
 				.configureReplyLayoutDirection(
 			){
-				method.invoke(this);
+				method6.invoke(this);
 			}
-			method = c
+			val method7 = c
 				.getDeclaredMethod(
 					"configureReplyContentWithResourceId",
 					Int::class.java
@@ -276,7 +276,7 @@ class ReplyReferencesFix:Plugin(){
 					resT:String,
 					resS:String
 				){
-				method.invoke(this, Utils.getResId(resT, resS));
+				method7.invoke(this, Utils.getResId(resT, resS));
 			}
 			///reflect
 			var type = null as Int?;
