@@ -297,8 +297,8 @@ class ReplyReferencesFix:Plugin(){
 				val isInteraction:Boolean = message.isInteraction();
 				type = messageEntry.getMessage().getType();
 				if(isInteraction||(replyData != null && type == REPLY)){
-					//replyHolder.setVisibility(View.VISIBLE);
-					//replyLinkItem.setVisibility(View.VISIBLE);
+					replyHolder.setVisibility(View.VISIBLE);
+					replyLinkItem.setVisibility(View.VISIBLE);
 					if(isInteraction){
 						configureReplyInteraction(messageEntry);
 					}else if(replyData != null){
@@ -399,7 +399,6 @@ class ReplyReferencesFix:Plugin(){
 							}
 						}
 					}
-					/*
 					val textRoot:ViewGroup = replyHolder.getParent() as ViewGroup;
 					//val clone = clone(replyHolder.getContext(), replyHolder);
 					//textRoot.addView(clone);
@@ -415,7 +414,6 @@ class ReplyReferencesFix:Plugin(){
 					Balls().debug("Before: "+replyHolder.parent.toString()+"\n"+textRoot.getChildAt(2).toString());
 					textRoot.addView(test);
 					Balls().debug("After: "+replyHolder.parent.toString()+"\n"+textRoot.getChildAt(2).toString());
-					*/
 				}else{
 					replyHolder?.setVisibility(View.GONE);
 					replyLinkItem?.setVisibility(View.GONE);
