@@ -240,7 +240,7 @@ class ReplyReferencesFix:Plugin(){
 					guildMember:GuildMember,
 					messageEntry:MessageEntry
 			){
-				method4.invoke(this, arrayOf(user, guildMember, messageEntry));
+				method4.invoke(this, user, guildMember, messageEntry);
 			}
 			val method5 = c
 				.getDeclaredMethod(
