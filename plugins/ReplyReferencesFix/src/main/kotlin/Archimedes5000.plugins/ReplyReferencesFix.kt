@@ -187,7 +187,8 @@ class ReplyReferencesFix:Plugin(){
 			;
 			val c = WidgetChatListAdapterItemMessage::class.java;
 			//reflect
-			val replyHolder = (c.getDeclaredField("replyHolder").apply{isAccessible = true}).get(this) as View?;
+			val replyHolder = ReflectUtils.getField(this, "replyHolder") as View?;
+			//val replyHolder = (c.getDeclaredField("replyHolder").apply{isAccessible = true}).get(this) as View?;
 			val replyLinkItem = ReflectUtils.getField(this, "replyLinkItem") as View?;
 			val replyText = ReflectUtils.getField(this, "replyText") as SimpleDraweeSpanTextView?;
 			val replyLeadingViewsHolder = ReflectUtils.getField(this, "replyLeadingViewsHolder") as View?;
@@ -279,11 +280,10 @@ class ReplyReferencesFix:Plugin(){
 				.apply{isAccessible = true}
 			;
 			fun WidgetChatListAdapterItemMessage
-					.configureReplyContentWithResourceId(
-						resT:String,
-						resS:String
-					)
-				{
+				.configureReplyContentWithResourceId(
+					resT:String,
+					resS:String
+				){
 				try{
 					method7.invoke(this, Utils.getResId(resT, resS));
 				}catch(e:InvocationTargetException){
@@ -322,11 +322,11 @@ class ReplyReferencesFix:Plugin(){
 							);
 						}else if(messageState is Loaded && messageEntry2 != null){
 							val message2:Message = messageEntry2.getMessage();
-							/*replyHolder.setOnClickListener(
+							replyHolder.setOnClickListener(
 								`WidgetChatListAdapterItemMessage$configureReplyPreview$1`(
 									message2
 								)
-							);*/
+							);
 							val type2:Int? = message2.getType();
 							if(type2 == USER_JOIN){
 								configureReplySystemMessageUserJoin(messageEntry2);
@@ -400,7 +400,7 @@ class ReplyReferencesFix:Plugin(){
 							}
 						}
 					}
-					val textRoot:ViewGroup = replyHolder.getParent() as ViewGroup;
+					//val textRoot:ViewGroup = replyHolder.getParent() as ViewGroup;
 					//var clone = clone(replyHolder.getContext(), replyHolder);
 					//textRoot.addView(clone);
 					//clone = clone(replyHolder.getContext(), replyHolder);
