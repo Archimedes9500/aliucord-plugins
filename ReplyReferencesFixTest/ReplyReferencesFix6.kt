@@ -257,7 +257,7 @@ class ReplyReferencesFix:Plugin(){
 				.apply{isAccessible = true}
 			;
 			fun WidgetChatListAdapterItemMessage
-				.getLeadingEdgeSpan(
+			.getLeadingEdgeSpan(
 			){
 				method5.invoke(this);
 			}
@@ -268,7 +268,7 @@ class ReplyReferencesFix:Plugin(){
 				.apply{isAccessible = true}
 			;
 			fun WidgetChatListAdapterItemMessage
-				.configureReplyLayoutDirection(
+			.configureReplyLayoutDirection(
 			){
 				method6.invoke(this);
 			}
@@ -280,10 +280,10 @@ class ReplyReferencesFix:Plugin(){
 				.apply{isAccessible = true}
 			;
 			fun WidgetChatListAdapterItemMessage
-				.configureReplyContentWithResourceId(
-					resT:String,
-					resS:String
-				){
+			.configureReplyContentWithResourceId(
+				resT:String,
+				resS:String
+			){
 				try{
 					method7.invoke(this, Utils.getResId(resT, resS));
 				}catch(e:InvocationTargetException){
