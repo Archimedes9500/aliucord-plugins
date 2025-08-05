@@ -88,93 +88,6 @@ import kotlin.jvm.internal.DefaultConstructorMarker;
 class ReplyReferencesFix:Plugin(){
 	@SuppressLint("SetTextI18n")
 	override fun start(pluginContext:Context){
-
-		fun clone(context:Context, original:View):View{
-			val clone = (
-				when(original){
-					is FrameLayout -> FrameLayout(context);
-					else -> View(context);
-				}
-			).apply{
-				alpha = original.alpha;
-				background = original.background;
-				isClickable = original.isClickable;
-				contentDescription = original.contentDescription;
-				drawingCacheQuality = original.drawingCacheQuality;
-				isDuplicateParentStateEnabled = original.isDuplicateParentStateEnabled;
-				id = original.id;
-				isHorizontalFadingEdgeEnabled = original.isHorizontalFadingEdgeEnabled;
-				isVerticalFadingEdgeEnabled = original.isVerticalFadingEdgeEnabled;
-				isScrollbarFadingEnabled = original.isScrollbarFadingEnabled;
-				setFadingEdgeLength(if(original.isHorizontalFadingEdgeEnabled) original.horizontalFadingEdgeLength else if(original.isVerticalFadingEdgeEnabled) original.verticalFadingEdgeLength else 0);
-				filterTouchesWhenObscured = original.filterTouchesWhenObscured;
-				fitsSystemWindows = original.fitsSystemWindows;
-				isScrollContainer = original.isScrollContainer;
-				focusable = original.focusable;
-				isFocusableInTouchMode = original.isFocusableInTouchMode;
-				isHapticFeedbackEnabled = original.isHapticFeedbackEnabled;
-				keepScreenOn = original.keepScreenOn;
-				setLayerType(original.layerType, null /*or use reflection ReflectUtils.getField(original, "mLayerPaint")*/);
-				layoutDirection = original.layoutDirection;
-				isLongClickable = original.isLongClickable;
-				minimumHeight = original.minimumHeight;
-				minimumWidth = original.minimumWidth;
-				nextFocusDownId = original.nextFocusDownId;
-				nextFocusLeftId = original.nextFocusLeftId;
-				nextFocusRightId = original.nextFocusRightId;
-				nextFocusUpId = original.nextFocusUpId;
-				//onClick //impossible
-				setPadding(original.paddingBottom, original.paddingLeft, original.paddingRight, original.paddingTop);
-				setPaddingRelative(original.paddingStart, original.paddingTop, original.paddingEnd, original.paddingBottom);
-				isSaveEnabled = original.isSaveEnabled;
-				rotation = original.rotation;
-				rotationX = original.rotationX;
-				rotationY = original.rotationY;
-				scaleX = original.scaleX;
-				scaleY = original.scaleY;
-				scrollX = original.scrollX;
-				scrollY = original.scrollY;
-				scrollBarSize = original.scrollBarSize;
-				scrollBarStyle = original.scrollBarStyle;
-				isHorizontalScrollBarEnabled = original.isHorizontalScrollBarEnabled;
-				scrollBarDefaultDelayBeforeFade = original.scrollBarDefaultDelayBeforeFade;
-				scrollBarFadeDuration = original.scrollBarFadeDuration;
-				//horizontalScrollbarTrackDrawable = original.horizontalScrollbarTrackDrawable; //API 29
-				//horizontalScrollbarThumbDrawable = original.horizontalScrollbarThumbDrawable; //API 29
-				//verticalScrollbarThumbDrawable = original.verticalScrollbarThumbDrawable; //API 29
-				//verticalScrollbarTrackDrawable = original.verticalScrollbarTrackDrawable; //API 29
-				//scrollBarAlwaysDrawHorizontalTrack
-				//scrollBarAlwaysDrawVerticalTrack
-				isSoundEffectsEnabled = original.isSoundEffectsEnabled;
-				tag = original.tag;
-				textAlignment = original.textAlignment;
-				textDirection = original.textDirection;
-				pivotX = original.pivotX;
-				pivotY = original.pivotY;
-				translationX = original.translationX;
-				translationY = original.translationY;
-				visibility = original.visibility;
-		
-				if(original is ViewGroup){
-					(this as ViewGroup).setClipChildren(original.clipChildren);
-					(this as ViewGroup).setClipToPadding(original.clipToPadding);
-					(this as ViewGroup).setLayoutAnimation(original.layoutAnimation);
-					(this as ViewGroup).isAnimationCacheEnabled = original.isAnimationCacheEnabled;
-					(this as ViewGroup).setPersistentDrawingCache(original.persistentDrawingCache);
-					(this as ViewGroup).isAlwaysDrawnWithCacheEnabled = original.isAlwaysDrawnWithCacheEnabled;
-					(this as ViewGroup).setAddStatesFromChildren(original.addStatesFromChildren());
-					(this as ViewGroup).setDescendantFocusability(original.descendantFocusability);
-					(this as ViewGroup).setLayoutTransition(original.getLayoutTransition());
-				}
-		
-				if(original is FrameLayout){
-					(this as FrameLayout).foregroundGravity = original.foregroundGravity;
-					(this as FrameLayout).measureAllChildren = original.measureAllChildren;
-				}
-			};
-			return clone;
-		}
-
 		patcher.instead<WidgetChatListAdapterItemMessage>(
 			"configureReplyPreview",
 			MessageEntry::class.java
@@ -291,22 +204,22 @@ class ReplyReferencesFix:Plugin(){
 				}
 			}
 			///reflect
-			var type = null as Int?;
+			var type:Int? = null;
 			if(replyHolder != null && replyLinkItem != null){
-				val message:Message = messageEntry.getMessage();
-				val replyData:MessageEntry.ReplyData? = messageEntry.getReplyData();
+				val message:Message = messageEntry.message;
+				val replyData:MessageEntry.ReplyData? = messageEntry.replyData;
 				val isInteraction:Boolean = message.isInteraction();
-				type = messageEntry.getMessage().getType();
+				type = messageEntry.message.type;
 				if(isInteraction||(replyData != null && type == REPLY)){
-					replyHolder.setVisibility(View.VISIBLE);
-					replyLinkItem.setVisibility(View.VISIBLE);
+					replyHolder.visibility = View.VISIBLE;
+					replyLinkItem.visibility = View.VISIBLE;
 					if(isInteraction){
 						configureReplyInteraction(messageEntry);
 					}else if(replyData != null){
-						val messageEntry2:MessageEntry? = replyData.getMessageEntry();
+						val messageEntry2:MessageEntry? = replyData.messageEntry;
 						val messageState:StoreMessageReplies.MessageState =
 							replyData
-							.getMessageState()
+							.messageState
 						;
 						if(replyData.isRepliedUserBlocked()){
 							configureReplySystemMessage(
@@ -321,31 +234,31 @@ class ReplyReferencesFix:Plugin(){
 								"string", "reply_quote_message_deleted"
 							);
 						}else if(messageState is Loaded && messageEntry2 != null){
-							val message2:Message = messageEntry2.getMessage();
+							val message2:Message = messageEntry2.message;
 							replyHolder.setOnClickListener(
 								`WidgetChatListAdapterItemMessage$configureReplyPreview$1`(
 									message2
 								)
 							);
-							val type2:Int? = message2.getType();
+							val type2:Int? = message2.type;
 							if(type2 == USER_JOIN){
 								configureReplySystemMessageUserJoin(messageEntry2);
 								return@balls null;
 							}
-							val author:User = message2.getAuthor();
-							val guildMember:GuildMember = messageEntry2.getAuthor();
+							val author:User = message2.author;
+							val guildMember:GuildMember = messageEntry2.author;
 							configureReplyAuthor(
 								CoreUser(author) as UserModel,
 								guildMember as GuildMember,
 								messageEntry2 as MessageEntry
 							);
 							if(replyText != null && replyLeadingViewsHolder != null){
-								var content:String? = message2.getContent();
+								var content:String? = message2.content;
 								if(content == null){
 									content = "";
 								}
 								if(!(content.length == 0)){
-									val context:Context = replyText.getContext();
+									val context:Context = replyText.context;
 									val embeddedMessageParser:EmbeddedMessageParser =
 										EmbeddedMessageParser
 										.INSTANCE
@@ -354,9 +267,9 @@ class ReplyReferencesFix:Plugin(){
 										.parse(
 											EmbeddedMessageParser.ParserData(
 												context,
-												messageEntry2.getRoles(),
-												messageEntry2.getNickOrUsernames(),
-												messageEntry2.getAnimateEmojis(),
+												messageEntry2.roles,
+												messageEntry2.nickOrUsernames,
+												messageEntry2.animateEmojis,
 												StoreMessageState.State(
 													null,
 													null,
@@ -400,14 +313,9 @@ class ReplyReferencesFix:Plugin(){
 							}
 						}
 					}
-					//val textRoot:ViewGroup = replyHolder.getParent() as ViewGroup;
-					//var clone = clone(replyHolder.getContext(), replyHolder);
-					//textRoot.addView(clone);
-					//clone = clone(replyHolder.getContext(), replyHolder);
-					//textRoot.addView(clone);
 				}else{
-					replyHolder?.setVisibility(View.GONE);
-					replyLinkItem?.setVisibility(View.GONE);
+					replyHolder?.visibility = View.GONE;
+					replyLinkItem?.visibility = View.GONE;
 				}
 			}
 			null;
