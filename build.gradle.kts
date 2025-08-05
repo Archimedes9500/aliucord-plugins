@@ -41,8 +41,8 @@ subprojects {
     // Fill out with your info
     aliucord {
         author("DISCORD USERNAME", 123456789L)
-        updateUrl.set("https://gitea.com/Archimedes5000/aliucord-plugins/raw/branch/builds/updater.json")
-        buildUrl.set("https://gitea.com/Archimedes5000/aliucord-plugins/raw/branch/builds/%s.zip")
+        updateUrl.set("https://raw.githubusercontent.com/USERNAME/REPONAME/builds/updater.json")
+        buildUrl.set("https://raw.githubusercontent.com/USERNAME/REPONAME/builds/%s.zip")
     }
 
     android {

@@ -11,7 +11,6 @@ import com.discord.stores.StoreUserTyping
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage
 import com.discord.widgets.chat.list.entries.ChatListEntry
 import com.discord.widgets.chat.list.entries.MessageEntry
-import com.discord.api.premium.PremiumTier
 
 // Aliucord Plugin annotation. Must be present on the main class of your plugin
 @AliucordPlugin(requiresRestart = false /* Whether your plugin requires a restart after being installed/updated */)
@@ -48,7 +47,7 @@ class MyFirstPatch : Plugin() {
 
             // Creating embeds is a pain, so Aliucord provides a convenient builder
             MessageEmbedBuilder().run {
-                setTitle("JoobJoob")
+                setTitle("Message Statistics")
                 addField("Length", (entry.message.content?.length ?: 0).toString(), false)
                 addField("ID", entry.message.id.toString(), false)
 
