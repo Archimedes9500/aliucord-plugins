@@ -171,7 +171,7 @@ class ReplyReferencesFix:Plugin(){
 			fun WidgetChatListAdapterItemMessage
 			.getLeadingEdgeSpan(
 			):LeadingMarginSpan{
-				return method5.invoke(this) as LeadingMarginSpan;
+				return (method5.invoke(this) as LeadingMarginSpan);
 			}
 			val method6 = c
 				.getDeclaredMethod(
