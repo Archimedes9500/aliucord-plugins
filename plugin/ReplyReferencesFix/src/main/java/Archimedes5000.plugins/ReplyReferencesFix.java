@@ -6,7 +6,7 @@ import com.aliucord.patcher.Hook;
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapter;
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage;
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage$configureReplyPreview$1;
-import com.aliucord.utils.ReflectUtils;
+//import com.aliucord.utils.ReflectUtils;
 import com.aliucord.Utils;
 import com.discord.api.message.MessageTypes.*;
 import com.discord.stores.StoreMessageReplies.MessageState.*;
@@ -15,7 +15,9 @@ import android.widget.FrameLayout;
 //import com.discord.models.user.User;
 import java.lang.reflect.InvocationTargetException;
 //import com.aliucord.Logger;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import Archimedes5000.plugins.util.ReflectUtils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -86,6 +88,10 @@ public class ReplyReferencesFix extends Plugin {
 	public static class Reflect{
 		public WidgetChatListAdapterItemMessage instance;
 		public Class<WidgetChatListAdapterItemMessage> c;
+		public Field field1;
+		public Field field2;
+		public Field field3;
+		public Field field4;
 		public Method method1;
 		public Method method2;
 		public Method method3;
@@ -96,6 +102,10 @@ public class ReplyReferencesFix extends Plugin {
 		public Reflect(WidgetChatListAdapterItemMessage instance){
 			this.instance = instance;
 			this.c = WidgetChatListAdapterItemMessage.class;
+			this.field1 = this.c.getDeclaredField("replyHolder");
+			this.field2 = this.c.getDeclaredField("replyLinkItem");
+			this.field3 = this.c.getDeclaredField("replyText");
+			this.field4 = this.c.getDeclaredField("replyLeadingViewsHolder");
 			this.method1 = this.c.getDeclaredMethod(
 				"configureReplyInteraction",
 				MessageEntry.class
@@ -132,6 +142,10 @@ public class ReplyReferencesFix extends Plugin {
 			);
 			this.method7.setAccessible(true);
 		}
+		public View replyHolder = field1.get(instance);
+		public View replyLinkItem = field2.get(instance);
+		public SimpleDraweeSpanTextView replyText = field3.get(instance);
+		public View replyLeadingViewsHolder = field4.get(instance);
 		public void configureReplyInteraction(
 			MessageEntry messageEntry
 		){
@@ -184,10 +198,10 @@ public class ReplyReferencesFix extends Plugin {
 					.access$getAdapter$p((WidgetChatListAdapterItemMessage)frame.thisObject)
 				;
 				//reflect
-				var replyHolder = (View)ReflectUtils.getField(frame.thisObject, "replyHolder");
-				var replyLinkItem = (View)ReflectUtils.getField(frame.thisObject, "replyLinkItem");
-				var replyText = (SimpleDraweeSpanTextView)ReflectUtils.getField(frame.thisObject, "replyText");
-				var replyLeadingViewsHolder = (View)ReflectUtils.getField(frame.thisObject, "replyLeadingViewsHolder");
+				View replyHolder = reflect.replyHolder;
+				View replyLinkItem = reflect.replyLinkItem;
+				SimpleDraweeSpanTextView replyText = reflect.replyText;
+				View replyLeadingViewsHolder = reflect.replyLeadingViewsHolder;
 				///reflect
 				Integer type;
 				if (replyHolder != null && replyLinkItem != null) {
