@@ -82,6 +82,93 @@ import java.util.Map;
 @AliucordPlugin(requiresRestart = false)
 public class ReplyReferencesFix extends Plugin {
 	@SuppressLint("SetTextI18n")
+	//reflect
+	public class Reflect{
+		public WidgetChatListAdapterItemMessage instance;
+		public Class<WidgetChatListAdapterItemMessage> c;
+		public Method method1;
+		public Method method2;
+		public Method method3;
+		public Method method4;
+		public Method method5;
+		public Method method6;
+		public Method method7;
+		public Reflect(WidgetChatListAdapterItemMessage instance){
+			this.instance = instance;
+			this.c = WidgetChatListAdapterItemMessage.class;
+			this.method1 = this.c.getDeclaredMethod(
+				"configureReplyInteraction",
+				MessageEntry.class
+			);
+			this.method1.setAccessible(true);
+			this.method2 = this.c.getDeclaredMethod(
+				"configureReplySystemMessage",
+				Integer.class
+			);
+			this.method2.setAccessible(true);
+			this.method3 = this.c.getDeclaredMethod(
+				"configureReplySystemMessageUserJoin",
+				MessageEntry.class
+			);
+			this.method3.setAccessible(true);
+			this.method4 = this.c.getDeclaredMethod(
+				"configureReplyAuthor",
+				com.discord.models.user.User.class,
+				GuildMember.class,
+				MessageEntry.class
+			);
+			this.method4.setAccessible(true);
+			this.method5 = this.c.getDeclaredMethod(
+				"getLeadingEdgeSpan"
+			);
+			this.method5.setAccessible(true);
+			this.method6 = this.c.getDeclaredMethod(
+				"configureReplyLayoutDirection"
+			);
+			this.method6.setAccessible(true);
+			this.method7 = this.c.getDeclaredMethod(
+				"configureReplyContentWithResourceId",
+				Integer.class
+			);
+			this.method7.setAccessible(true);
+		}
+		public void configureReplyInteraction(
+			MessageEntry messageEntry
+		){
+			method1.invoke(instance, messageEntry);
+		}
+		public void configureReplySystemMessage(
+			String resT,
+			String resS
+		){
+			method2.invoke(instance, Utils.getResId(resT, resS));
+		}
+		public void configureReplySystemMessageUserJoin(
+			MessageEntry messageEntry
+		){
+			method3.invoke(instance, messageEntry);
+		}
+		public void configureReplyAuthor(
+			com.discord.models.user.User user,
+			GuildMember guildMember,
+			MessageEntry messageEntry
+		){
+			method4.invoke(instance, user, guildMember, messageEntry);
+		}
+		public static void getLeadingEdgeSpan(){
+			method5.invoke(instance);
+		}
+		public void configureReplyLayoutDirection(){
+			method6.invoke(instance);
+		}
+		public void configureReplyContentWithResourceId(
+			String resT,
+			String resS
+		){
+			method7.invoke(instance, Utils.getResId(resT, resS));
+		}
+	}
+	///reflect
     @Override
 	public void start(Context pluginContext) throws Throwable {
 		patcher.patch(
@@ -92,6 +179,7 @@ public class ReplyReferencesFix extends Plugin {
 			),
 			new Hook(frame -> {
 				MessageEntry messageEntry = (MessageEntry)frame.args[0];
+				Reflect reflect = new Reflect(messageEntry);
 				WidgetChatListAdapter adapter = (WidgetChatListAdapter)WidgetChatListAdapterItemMessage
 					.access$getAdapter$p(this)
 				;
@@ -100,92 +188,6 @@ public class ReplyReferencesFix extends Plugin {
 				var replyLinkItem = (View)ReflectUtils.getField(this, "replyLinkItem");
 				var replyText = (SimpleDraweeSpanTextView)ReflectUtils.getField(this, "replyText");
 				var replyLeadingViewsHolder = (View)ReflectUtils.getField(this, "replyLeadingViewsHolder");
-				public class Reflect{
-					public WidgetChatListAdapterItemMessage instance;
-					public Class<WidgetChatListAdapterItemMessage> c;
-					public Method method1;
-					public Method method2;
-					public Method method3;
-					public Method method4;
-					public Method method5;
-					public Method method6;
-					public Method method7;
-					public Reflect(WidgetChatListAdapterItemMessage instance){
-						this.instance = instance;
-						this.c = WidgetChatListAdapterItemMessage.class;
-						this.method1 = this.c.getDeclaredMethod(
-							"configureReplyInteraction",
-							MessageEntry.class
-						);
-						this.method1.setAccessible(true);
-						this.method2 = this.c.getDeclaredMethod(
-							"configureReplySystemMessage",
-							Integer.class
-						);
-						this.method2.setAccessible(true);
-						this.method3 = this.c.getDeclaredMethod(
-							"configureReplySystemMessageUserJoin",
-							MessageEntry.class
-						);
-						this.method3.setAccessible(true);
-						this.method4 = this.c.getDeclaredMethod(
-							"configureReplyAuthor",
-							com.discord.models.user.User.class,
-							GuildMember.class,
-							MessageEntry.class
-						);
-						this.method4.setAccessible(true);
-						this.method5 = this.c.getDeclaredMethod(
-							"getLeadingEdgeSpan"
-						);
-						this.method5.setAccessible(true);
-						this.method6 = this.c.getDeclaredMethod(
-							"configureReplyLayoutDirection"
-						);
-						this.method6.setAccessible(true);
-						this.method7 = this.c.getDeclaredMethod(
-							"configureReplyContentWithResourceId",
-							Integer.class
-						);
-						this.method7.setAccessible(true);
-					}
-					public void configureReplyInteraction(
-						MessageEntry messageEntry
-					){
-						method1.invoke(instance, messageEntry);
-					}
-					public void configureReplySystemMessage(
-						String resT,
-						String resS
-					){
-						method2.invoke(instance, Utils.getResId(resT, resS));
-					}
-					public void configureReplySystemMessageUserJoin(
-						MessageEntry messageEntry
-					){
-						method3.invoke(instance, messageEntry);
-					}
-					public void configureReplyAuthor(
-						com.discord.models.user.User user,
-						GuildMember guildMember,
-						MessageEntry messageEntry
-					){
-						method4.invoke(instance, user, guildMember, messageEntry);
-					}
-					public static void getLeadingEdgeSpan(){
-						method5.invoke(instance);
-					}
-					public void configureReplyLayoutDirection(){
-						method6.invoke(instance);
-					}
-					public void configureReplyContentWithResourceId(
-						String resT,
-						String resS
-					){
-						method7.invoke(instance, Utils.getResId(resT, resS));
-					}
-				}
-				Reflect reflect = new Reflect(messageEntry);
 				///reflect
 				Integer type;
 				if (replyHolder != null && replyLinkItem != null) {
