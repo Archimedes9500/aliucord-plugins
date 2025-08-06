@@ -102,45 +102,45 @@ public class ReplyReferencesFix extends Plugin {
 		public Reflect(WidgetChatListAdapterItemMessage instance){
 			this.instance = instance;
 			this.c = WidgetChatListAdapterItemMessage.class;
-			this.field1 = this.c.getDeclaredField("replyHolder");
-			this.field2 = this.c.getDeclaredField("replyLinkItem");
-			this.field3 = this.c.getDeclaredField("replyText");
-			this.field4 = this.c.getDeclaredField("replyLeadingViewsHolder");
-			this.method1 = this.c.getDeclaredMethod(
+			this.field1 = ReflectUtils.propRef(c, "replyHolder");
+			this.field2 = ReflectUtils.propRef(c, "replyLinkItem");
+			this.field3 = ReflectUtils.propRef(c, "replyText");
+			this.field4 = ReflectUtils.propRef(c, "replyLeadingViewsHolder");
+			this.method1 = ReflectUtils.propRef(
+				c,
 				"configureReplyInteraction",
 				MessageEntry.class
 			);
-			this.method1.setAccessible(true);
-			this.method2 = this.c.getDeclaredMethod(
+			this.method2 = ReflectUtils.propRef(
+				c,
 				"configureReplySystemMessage",
 				Integer.class
 			);
-			this.method2.setAccessible(true);
-			this.method3 = this.c.getDeclaredMethod(
+			this.method3 = ReflectUtils.propRef(
+				c,
 				"configureReplySystemMessageUserJoin",
 				MessageEntry.class
 			);
-			this.method3.setAccessible(true);
-			this.method4 = this.c.getDeclaredMethod(
+			this.method4 = ReflectUtils.propRef(
+				c,
 				"configureReplyAuthor",
 				com.discord.models.user.User.class,
 				GuildMember.class,
 				MessageEntry.class
 			);
-			this.method4.setAccessible(true);
-			this.method5 = this.c.getDeclaredMethod(
+			this.method5 = ReflectUtils.propRef(
+				c,
 				"getLeadingEdgeSpan"
 			);
-			this.method5.setAccessible(true);
-			this.method6 = this.c.getDeclaredMethod(
+			this.method6 = ReflectUtils.propRef(
+				c,
 				"configureReplyLayoutDirection"
 			);
-			this.method6.setAccessible(true);
-			this.method7 = this.c.getDeclaredMethod(
+			this.method7 = ReflectUtils.propRef(
+				c,
 				"configureReplyContentWithResourceId",
 				Integer.class
 			);
-			this.method7.setAccessible(true);
 		}
 		public View replyHolder = field1.get(instance);
 		public View replyLinkItem = field2.get(instance);

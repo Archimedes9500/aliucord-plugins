@@ -3,9 +3,11 @@ import java.lang.reflect.*;
 public class ExistingProp{
 	public Object prop;
 	public ExistingProp(Field field){
+		field.setAccessible(true);
 		this.prop = field;
 	}
 	public ExistingProp(Method method){
+		method.setAccessible(true);
 		this.prop = method;
 	}
 	public Object get(Object instance){
