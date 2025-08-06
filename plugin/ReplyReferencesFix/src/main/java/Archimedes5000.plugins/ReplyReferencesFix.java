@@ -92,7 +92,7 @@ public class ReplyReferencesFix extends Plugin {
 			),
 			new Hook(frame -> {
 				MessageEntry messageEntry = (MessageEntry)frame.args[0];
-				val adapter = (WidgetChatListAdapter)WidgetChatListAdapterItemMessage
+				WidgetChatListAdapter adapter = (WidgetChatListAdapter)WidgetChatListAdapterItemMessage
 					.access$getAdapter$p(this)
 				;
 				//reflect
