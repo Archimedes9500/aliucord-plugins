@@ -1,7 +1,7 @@
 package Archimedes5000.plugins;
 import com.aliucord.annotations.AliucordPlugin;
 import com.aliucord.entities.Plugin;
-import com.aliucord.patcher.patch;
+import com.aliucord.patcher;
 import com.aliucord.patcher.Hook;
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapter;
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage;
@@ -90,7 +90,116 @@ public class ReplyReferencesFix extends Plugin {
 				MessageEntry.class
 			),
 			new Hook(frame -> {
-				MessageEntry messageEntry = frame.args[0];
+				MessageEntry messageEntry = (MessageEntry)frame.args[0];
+				val adapter = WidgetChatListAdapterItemMessage
+				.`access$getAdapter$p`(this)
+				as WidgetChatListAdapter
+			;
+			Class<WidgetChatListAdapterItemMessage> c = WidgetChatListAdapterItemMessage.class;
+			//reflect
+			var replyHolder = (View)ReflectUtils.getField(this, "replyHolder");
+			var replyLinkItem = (View)ReflectUtils.getField(this, "replyLinkItem");
+			var replyText = (SimpleDraweeSpanTextView)ReflectUtils.getField(this, "replyText");
+			var replyLeadingViewsHolder = (View)ReflectUtils.getField(this, "replyLeadingViewsHolder");
+
+			val method1 = c
+				.getDeclaredMethod(
+					"configureReplyInteraction",
+					MessageEntry.class
+				)
+				.setAccessible(true)
+			;
+			fun WidgetChatListAdapterItemMessage
+			.configureReplyInteraction(
+				messageEntry:MessageEntry
+			){
+				method1.invoke(this, messageEntry);
+			}
+			val method2 = c
+				.getDeclaredMethod(
+					"configureReplySystemMessage",
+					Integer.class
+				)
+				.setAccessible(true)
+			;
+			fun WidgetChatListAdapterItemMessage
+			.configureReplySystemMessage(
+				resT:String,
+				resS:String
+			){
+				method2.invoke(this, Utils.getResId(resT, resS));
+			}
+			val method3 = c
+				.getDeclaredMethod(
+					"configureReplySystemMessageUserJoin",
+					MessageEntry.class
+				)
+				.setAccessible(true)
+			;
+			fun WidgetChatListAdapterItemMessage
+			.configureReplySystemMessageUserJoin(
+				messageEntry:MessageEntry
+			){
+				method3.invoke(this, messageEntry);
+			}
+			val method4 = c
+				.getDeclaredMethod(
+					"configureReplyAuthor",
+					UserModel.class,
+					GuildMember.class,
+					MessageEntry.class
+				)
+				.setAccessible(true)
+			;
+			fun WidgetChatListAdapterItemMessage
+			.configureReplyAuthor(
+				user:UserModel,
+				guildMember:GuildMember,
+				messageEntry:MessageEntry
+			){
+				method4.invoke(this, user, guildMember, messageEntry);
+			}
+			val method5 = c
+				.getDeclaredMethod(
+					"getLeadingEdgeSpan"
+				)
+				.setAccessible(true)
+			;
+			fun WidgetChatListAdapterItemMessage
+			.getLeadingEdgeSpan(
+			){
+				method5.invoke(this);
+			}
+			val method6 = c
+				.getDeclaredMethod(
+					"configureReplyLayoutDirection"
+				)
+				.setAccessible(true)
+			;
+			fun WidgetChatListAdapterItemMessage
+			.configureReplyLayoutDirection(
+			){
+				method6.invoke(this);
+			}
+			val method7 = c
+				.getDeclaredMethod(
+					"configureReplyContentWithResourceId",
+					Integer.class
+				)
+				.setAccessible(true)
+			;
+			fun WidgetChatListAdapterItemMessage
+			.configureReplyContentWithResourceId(
+				resT:String,
+				resS:String
+			){
+				try{
+					method7.invoke(this, Utils.getResId(resT, resS));
+				}catch(e:InvocationTargetException){
+					throw e.cause ?: Throwable("idk");
+				}
+			}
+			///reflect
 				Integer type;
 				if (this.replyHolder != null && this.replyLinkItem != null) {
 				Message message = messageEntry.getMessage();
