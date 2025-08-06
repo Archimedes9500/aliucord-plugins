@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 //import com.discord.models.user.User;
 import java.lang.reflect.InvocationTargetException;
 //import com.aliucord.Logger;
+import java.lang.reflect.Method;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -91,114 +92,93 @@ public class ReplyReferencesFix extends Plugin {
 			),
 			new Hook(frame -> {
 				MessageEntry messageEntry = (MessageEntry)frame.args[0];
-				val adapter = WidgetChatListAdapterItemMessage
-				.`access$getAdapter$p`(this)
-				as WidgetChatListAdapter
+				val adapter = (WidgetChatListAdapter)WidgetChatListAdapterItemMessage
+				.access$getAdapter$p(this)
 			;
-			Class<WidgetChatListAdapterItemMessage> c = WidgetChatListAdapterItemMessage.class;
 			//reflect
 			var replyHolder = (View)ReflectUtils.getField(this, "replyHolder");
 			var replyLinkItem = (View)ReflectUtils.getField(this, "replyLinkItem");
 			var replyText = (SimpleDraweeSpanTextView)ReflectUtils.getField(this, "replyText");
 			var replyLeadingViewsHolder = (View)ReflectUtils.getField(this, "replyLeadingViewsHolder");
-
-			val method1 = c
-				.getDeclaredMethod(
-					"configureReplyInteraction",
-					MessageEntry.class
-				)
-				.setAccessible(true)
-			;
-			fun WidgetChatListAdapterItemMessage
-			.configureReplyInteraction(
-				messageEntry:MessageEntry
-			){
-				method1.invoke(this, messageEntry);
-			}
-			val method2 = c
-				.getDeclaredMethod(
-					"configureReplySystemMessage",
-					Integer.class
-				)
-				.setAccessible(true)
-			;
-			fun WidgetChatListAdapterItemMessage
-			.configureReplySystemMessage(
-				resT:String,
-				resS:String
-			){
-				method2.invoke(this, Utils.getResId(resT, resS));
-			}
-			val method3 = c
-				.getDeclaredMethod(
-					"configureReplySystemMessageUserJoin",
-					MessageEntry.class
-				)
-				.setAccessible(true)
-			;
-			fun WidgetChatListAdapterItemMessage
-			.configureReplySystemMessageUserJoin(
-				messageEntry:MessageEntry
-			){
-				method3.invoke(this, messageEntry);
-			}
-			val method4 = c
-				.getDeclaredMethod(
-					"configureReplyAuthor",
-					UserModel.class,
-					GuildMember.class,
-					MessageEntry.class
-				)
-				.setAccessible(true)
-			;
-			fun WidgetChatListAdapterItemMessage
-			.configureReplyAuthor(
-				user:UserModel,
-				guildMember:GuildMember,
-				messageEntry:MessageEntry
-			){
-				method4.invoke(this, user, guildMember, messageEntry);
-			}
-			val method5 = c
-				.getDeclaredMethod(
-					"getLeadingEdgeSpan"
-				)
-				.setAccessible(true)
-			;
-			fun WidgetChatListAdapterItemMessage
-			.getLeadingEdgeSpan(
-			){
-				method5.invoke(this);
-			}
-			val method6 = c
-				.getDeclaredMethod(
-					"configureReplyLayoutDirection"
-				)
-				.setAccessible(true)
-			;
-			fun WidgetChatListAdapterItemMessage
-			.configureReplyLayoutDirection(
-			){
-				method6.invoke(this);
-			}
-			val method7 = c
-				.getDeclaredMethod(
-					"configureReplyContentWithResourceId",
-					Integer.class
-				)
-				.setAccessible(true)
-			;
-			fun WidgetChatListAdapterItemMessage
-			.configureReplyContentWithResourceId(
-				resT:String,
-				resS:String
-			){
-				try{
-					method7.invoke(this, Utils.getResId(resT, resS));
-				}catch(e:InvocationTargetException){
-					throw e.cause ?: Throwable("idk");
+			public static class Reflect{
+				public WidgetChatListAdapterItemMessage instance;
+				public Class<WidgetChatListAdapterItemMessage> c;
+				public Reflect(WidgetChatListAdapterItemMessage instance){
+					this.instance = instance;
+					this.c = WidgetChatListAdapterItemMessage.class;
+				}
+				public void configureReplyInteraction(
+					MessageEntry messageEntry
+				){
+					Method method = c.getDeclaredMethod(
+						"configureReplyInteraction",
+						MessageEntry.class
+					);
+					method.setAccessible(true);
+					method.invoke(instance, messageEntry);
+				}
+				public void configureReplySystemMessage(
+					String resT,
+					String resS
+				){
+					Method method = c.getDeclaredMethod(
+						"configureReplySystemMessage",
+						Integer.class
+					);
+					method.setAccessible(true);
+					method.invoke(instance, Utils.getResId(resT, resS));
+				}
+				public void configureReplySystemMessageUserJoin(
+					MessageEntry messageEntry
+				){
+					Method method = c.getDeclaredMethod(
+						"configureReplySystemMessageUserJoin",
+						MessageEntry.class
+					);
+					method.setAccessible(true);
+					method.invoke(instance, messageEntry);
+				}
+				public void configureReplyAuthor(
+					com.discord.models.user.User user,
+					GuildMember guildMember,
+					MessageEntry messageEntry
+				){
+					Method method = c.getDeclaredMethod(
+						"configureReplyAuthor",
+						com.discord.models.user.User.class,
+						GuildMember.class,
+						MessageEntry.class
+					);
+					method.setAccessible(true);
+					method.invoke(instance, user, guildMember, messageEntry);
+				}
+				public static void getLeadingEdgeSpan(){
+					Method method = c.getDeclaredMethod(
+						"getLeadingEdgeSpan"
+					);
+					method.setAccessible(true);
+					method.invoke(instance);
+				}
+				public void configureReplyLayoutDirection(){
+					Method method = c.getDeclaredMethod(
+						"configureReplyLayoutDirection"
+					);
+					method.setAccessible(true);
+					method.invoke(instance);
+				}
+				public void configureReplyContentWithResourceId(
+					String resT,
+					String resS
+				){
+					Method method = c.getDeclaredMethod(
+						"configureReplyContentWithResourceId",
+						Integer.class
+					);
+					method.setAccessible(true);
+					method.invoke(instance, Utils.getResId(resT, resS));
 				}
 			}
+			var reflect = new Reflect(messageEntry);
 			///reflect
 				Integer type;
 				if (this.replyHolder != null && this.replyLinkItem != null) {
@@ -209,27 +189,27 @@ public class ReplyReferencesFix extends Plugin {
 						this.replyHolder.setVisibility(0);
 						this.replyLinkItem.setVisibility(0);
 						if (isInteraction) {
-							configureReplyInteraction(messageEntry);
+							reflect.configureReplyInteraction(messageEntry);
 						} else if (replyData != null) {
 							MessageEntry messageEntry2 = replyData.getMessageEntry();
 							StoreMessageReplies.MessageState messageState = replyData.getMessageState();
 							if (replyData.isRepliedUserBlocked()) {
-								configureReplySystemMessage(R.string.reply_quote_message_blocked);
+								reflect.configureReplySystemMessage(R.string.reply_quote_message_blocked);
 							} else if (messageState instanceof StoreMessageReplies.MessageState.Unloaded) {
-								configureReplySystemMessage(R.string.reply_quote_message_not_loaded);
+								reflect.configureReplySystemMessage(R.string.reply_quote_message_not_loaded);
 							} else if (messageState instanceof StoreMessageReplies.MessageState.Deleted) {
-								configureReplySystemMessage(R.string.reply_quote_message_deleted);
+								reflect.configureReplySystemMessage(R.string.reply_quote_message_deleted);
 							} else if ((messageState instanceof StoreMessageReplies.MessageState.Loaded) && messageEntry2 != null) {
 								Message message2 = messageEntry2.getMessage();
 								this.replyHolder.setOnClickListener(new WidgetChatListAdapterItemMessage$configureReplyPreview$1(message2));
 								Integer type2 = message2.getType();
 								if (type2 != null && type2.intValue() == 7) {
-									configureReplySystemMessageUserJoin(messageEntry2);
+									reflect.configureReplySystemMessageUserJoin(messageEntry2);
 									return;
 								}
 								User author = message2.getAuthor();
 								m.checkNotNull(author);
-								configureReplyAuthor(new CoreUser(author), messageEntry2.getAuthor(), messageEntry2);
+								reflect.configureReplyAuthor(new CoreUser(author), messageEntry2.getAuthor(), messageEntry2);
 								if (this.replyText != null && this.replyLeadingViewsHolder != null) {
 									String content = message2.getContent();
 									if (content == null) {
@@ -242,11 +222,11 @@ public class ReplyReferencesFix extends Plugin {
 										DraweeSpanStringBuilder parse = embeddedMessageParser.parse(new EmbeddedMessageParser.ParserData(context, messageEntry2.getRoles(), messageEntry2.getNickOrUsernames(), messageEntry2.getAnimateEmojis(), new StoreMessageState.State(null, null, 3, null), 50, message2, (WidgetChatListAdapter) this.adapter));
 										parse.setSpan(getLeadingEdgeSpan(), 0, parse.length(), 33);
 										this.replyText.setDraweeSpanStringBuilder(parse);
-										configureReplyLayoutDirection();
+										reflect.configureReplyLayoutDirection();
 									} else if (message2.hasStickers()) {
-										configureReplyContentWithResourceId(R.string.reply_quote_sticker_mobile);
+										reflect.configureReplyContentWithResourceId(R.string.reply_quote_sticker_mobile);
 									} else if (message2.hasAttachments() || message2.shouldShowReplyPreviewAsAttachment() || message2.hasEmbeds()) {
-										configureReplyContentWithResourceId(R.string.reply_quote_no_text_content_mobile);
+										reflect.configureReplyContentWithResourceId(R.string.reply_quote_no_text_content_mobile);
 									} else {
 										AppLog appLog = AppLog.g;
 										Logger.e$default(appLog, "Unhandled reply preview: " + messageEntry2, null, null, 6, null);
