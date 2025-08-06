@@ -157,7 +157,7 @@ class ReplyReferencesFix:Plugin(){
 			fun WidgetChatListAdapterItemMessage
 			.configureReplyAuthor(
 				user:UserModel,
-				guildMember:GuildMember,
+				guildMember:GuildMember?,
 				messageEntry:MessageEntry
 			){
 				method4.invoke(this, user, guildMember, messageEntry);
@@ -245,10 +245,10 @@ class ReplyReferencesFix:Plugin(){
 								return@balls null;
 							}
 							val author:User = message2.author;
-							val guildMember:GuildMember = messageEntry2.author;
+							val guildMember:GuildMember? = messageEntry2.author;
 							configureReplyAuthor(
 								CoreUser(author) as UserModel,
-								guildMember as GuildMember,
+								guildMember as GuildMember?,
 								messageEntry2 as MessageEntry
 							);
 							if(replyText != null && replyLeadingViewsHolder != null){
