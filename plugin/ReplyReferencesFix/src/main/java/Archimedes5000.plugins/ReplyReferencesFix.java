@@ -1,10 +1,10 @@
-package Archimedes5000.plugins
+package Archimedes5000.plugins;
 import com.aliucord.annotations.AliucordPlugin;
 import com.aliucord.entities.Plugin;
 import com.aliucord.patcher.instead;
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapter;
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage;
-import com.discord.widgets.chat.list.adapter.`WidgetChatListAdapterItemMessage$configureReplyPreview$1`;
+import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage$configureReplyPreview$1;
 import com.aliucord.patcher.component1;
 import com.aliucord.utils.ReflectUtils;
 import com.aliucord.Utils;
@@ -12,12 +12,12 @@ import com.discord.api.message.MessageTypes.*;
 import com.discord.stores.StoreMessageReplies.MessageState.*;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import com.discord.models.user.User as UserModel;
+import com.discord.models.user.User;
 import kotlin.reflect.jvm.*;
 import kotlin.reflect.*;
 import java.lang.reflect.InvocationTargetException;
 import kotlin.Throwable;
-import com.aliucord.Logger as Balls;
+import com.aliucord.Logger;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -96,6 +96,7 @@ public class MyFirstJavaPlugin extends Plugin {
 				MessageEntry.class
 			),
 			new Hook(frame -> {
+				MessageEntry messageEntry = frame.args[0];
 				Integer type;
 				if (this.replyHolder != null && this.replyLinkItem != null) {
 				Message message = messageEntry.getMessage();
@@ -159,5 +160,5 @@ public class MyFirstJavaPlugin extends Plugin {
 		);
 	}
 	@Override
-	public void stop(Context pluginContext) {patcher.unpatchAll()};
+	public void stop(Context pluginContext) {patcher.unpatchAll();};
 }
