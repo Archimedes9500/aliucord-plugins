@@ -1,23 +1,20 @@
 package Archimedes5000.plugins;
 import com.aliucord.annotations.AliucordPlugin;
 import com.aliucord.entities.Plugin;
-import com.aliucord.patcher.instead;
+import com.aliucord.patcher.patch;
+import com.aliucord.patcher.Hook;
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapter;
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage;
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage$configureReplyPreview$1;
-import com.aliucord.patcher.component1;
 import com.aliucord.utils.ReflectUtils;
 import com.aliucord.Utils;
 import com.discord.api.message.MessageTypes.*;
 import com.discord.stores.StoreMessageReplies.MessageState.*;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import com.discord.models.user.User;
-import kotlin.reflect.jvm.*;
-import kotlin.reflect.*;
+//import com.discord.models.user.User;
 import java.lang.reflect.InvocationTargetException;
-import kotlin.Throwable;
-import com.aliucord.Logger;
+//import com.aliucord.Logger;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -80,12 +77,9 @@ import d0.t.n;
 import d0.z.d.m;
 import java.util.List;
 import java.util.Map;
-import kotlin.Unit;
-import kotlin.jvm.functions.Function1;
-import kotlin.jvm.internal.DefaultConstructorMarker;
 
 @AliucordPlugin(requiresRestart = false)
-public class MyFirstJavaPlugin extends Plugin {
+public class ReplyReferencesFix extends Plugin {
 	@SuppressLint("SetTextI18n")
     @Override
 	public void start(Context pluginContext) throws Throwable {
