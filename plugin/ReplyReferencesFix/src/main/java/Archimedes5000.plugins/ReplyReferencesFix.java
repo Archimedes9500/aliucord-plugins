@@ -156,7 +156,7 @@ public class ReplyReferencesFix extends Plugin {
 			method4.invoke(instance, user, guildMember, messageEntry);
 		}
 		public LeadingMarginSpan getLeadingEdgeSpan(){
-			method5.invoke(instance);
+			return method5.invoke(instance);
 		}
 		public void configureReplyLayoutDirection(){
 			method6.invoke(instance);
