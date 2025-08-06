@@ -1,4 +1,4 @@
-package com.aliucord.util;
+package Archimedes5000.util;
 import java.lang.reflect.*;
 public class ExistingProp{
 	public Object prop;
@@ -37,34 +37,5 @@ public class ExistingProp{
 			//throw ThisShitIsNotAMethodException;
 		}
 		return o;
-	}
-}
-
-import java.lang.reflect.*;
-class ReflectUtils{
-	public static ExistingProp propRef(Class<?> c, String name, Class<?>... classes){
-		Object prop;
-		if(classes.length == 0){
-			try{
-				prop = c.getDeclaredField(name);
-				return new ExistingProp((Field)prop);
-			}catch(NoSuchFieldException e){
-				try{
-					prop = c.getDeclaredMethod(name);
-					return new ExistingProp((Method)prop);
-				}catch(NoSuchMethodException ee){
-					ee.printStackTrace();
-					return null;
-				}
-			}
-		}else{
-			try{
-				prop = c.getDeclaredMethod(name, classes);
-				return new ExistingProp((Method)prop);
-			}catch(NoSuchMethodException e){
-				e.printStackTrace();
-				return null;
-			}
-		}
 	}
 }
