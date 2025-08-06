@@ -179,9 +179,9 @@ public class ReplyReferencesFix extends Plugin {
 			),
 			new Hook(frame -> {
 				MessageEntry messageEntry = (MessageEntry)frame.args[0];
-				Reflect reflect = new Reflect(frame.thisObject);
+				Reflect reflect = new Reflect((WidgetChatListAdapterItemMessage)frame.thisObject);
 				WidgetChatListAdapter adapter = (WidgetChatListAdapter)WidgetChatListAdapterItemMessage
-					.access$getAdapter$p(frame.thisObject)
+					.access$getAdapter$p((WidgetChatListAdapterItemMessage)frame.thisObject)
 				;
 				//reflect
 				var replyHolder = (View)ReflectUtils.getField(frame.thisObject, "replyHolder");
