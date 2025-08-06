@@ -1,7 +1,7 @@
 package Archimedes5000.plugins.util;
 import java.lang.reflect.*;
 import Archimedes5000.plugins.util.ExistingProp;
-class ReflectUtils{
+public class ReflectUtils{
 	public static ExistingProp propRef(Class<?> c, String name, Class<?>... classes){
 		Object prop;
 		if(classes.length == 0){
