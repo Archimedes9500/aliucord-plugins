@@ -100,7 +100,7 @@ public class ReplyReferencesFix extends Plugin {
 				var replyLinkItem = (View)ReflectUtils.getField(this, "replyLinkItem");
 				var replyText = (SimpleDraweeSpanTextView)ReflectUtils.getField(this, "replyText");
 				var replyLeadingViewsHolder = (View)ReflectUtils.getField(this, "replyLeadingViewsHolder");
-				public static class Reflect{
+				public class Reflect{
 					public WidgetChatListAdapterItemMessage instance;
 					public Class<WidgetChatListAdapterItemMessage> c;
 					public Method method1;
