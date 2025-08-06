@@ -83,7 +83,7 @@ import java.util.Map;
 public class ReplyReferencesFix extends Plugin {
 	@SuppressLint("SetTextI18n")
 	//reflect
-	public class Reflect{
+	public static class Reflect{
 		public WidgetChatListAdapterItemMessage instance;
 		public Class<WidgetChatListAdapterItemMessage> c;
 		public Method method1;
@@ -155,7 +155,7 @@ public class ReplyReferencesFix extends Plugin {
 		){
 			method4.invoke(instance, user, guildMember, messageEntry);
 		}
-		public static void getLeadingEdgeSpan(){
+		public LeadingMarginSpan getLeadingEdgeSpan(){
 			method5.invoke(instance);
 		}
 		public void configureReplyLayoutDirection(){
@@ -179,15 +179,15 @@ public class ReplyReferencesFix extends Plugin {
 			),
 			new Hook(frame -> {
 				MessageEntry messageEntry = (MessageEntry)frame.args[0];
-				Reflect reflect = new Reflect(messageEntry);
+				Reflect reflect = new Reflect(frame.thisObject);
 				WidgetChatListAdapter adapter = (WidgetChatListAdapter)WidgetChatListAdapterItemMessage
-					.access$getAdapter$p(this)
+					.access$getAdapter$p(frame.thisObject)
 				;
 				//reflect
-				var replyHolder = (View)ReflectUtils.getField(this, "replyHolder");
-				var replyLinkItem = (View)ReflectUtils.getField(this, "replyLinkItem");
-				var replyText = (SimpleDraweeSpanTextView)ReflectUtils.getField(this, "replyText");
-				var replyLeadingViewsHolder = (View)ReflectUtils.getField(this, "replyLeadingViewsHolder");
+				var replyHolder = (View)ReflectUtils.getField(frame.thisObject, "replyHolder");
+				var replyLinkItem = (View)ReflectUtils.getField(frame.thisObject, "replyLinkItem");
+				var replyText = (SimpleDraweeSpanTextView)ReflectUtils.getField(frame.thisObject, "replyText");
+				var replyLeadingViewsHolder = (View)ReflectUtils.getField(frame.thisObject, "replyLeadingViewsHolder");
 				///reflect
 				Integer type;
 				if (replyHolder != null && replyLinkItem != null) {
@@ -228,8 +228,8 @@ public class ReplyReferencesFix extends Plugin {
 										Context context = replyText.getContext();
 										EmbeddedMessageParser embeddedMessageParser = EmbeddedMessageParser.INSTANCE;
 										m.checkNotNullExpressionValue(context, "context");
-										DraweeSpanStringBuilder parse = embeddedMessageParser.parse(new EmbeddedMessageParser.ParserData(context, messageEntry2.getRoles(), messageEntry2.getNickOrUsernames(), messageEntry2.getAnimateEmojis(), new StoreMessageState.State(null, null, 3, null), 50, message2, (WidgetChatListAdapter) this.adapter));
-										parse.setSpan(getLeadingEdgeSpan(), 0, parse.length(), 33);
+										DraweeSpanStringBuilder parse = embeddedMessageParser.parse(new EmbeddedMessageParser.ParserData(context, messageEntry2.getRoles(), messageEntry2.getNickOrUsernames(), messageEntry2.getAnimateEmojis(), new StoreMessageState.State(null, null, 3, null), 50, message2, (WidgetChatListAdapter) adapter));
+										parse.setSpan(reflect.getLeadingEdgeSpan(), 0, parse.length(), 33);
 										replyText.setDraweeSpanStringBuilder(parse);
 										reflect.configureReplyLayoutDirection();
 									} else if (message2.hasStickers()) {
