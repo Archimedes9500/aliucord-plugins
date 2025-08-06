@@ -201,11 +201,11 @@ public class ReplyReferencesFix extends Plugin {
 							MessageEntry messageEntry2 = replyData.getMessageEntry();
 							StoreMessageReplies.MessageState messageState = replyData.getMessageState();
 							if (replyData.isRepliedUserBlocked()) {
-								reflect.configureReplySystemMessage(R.string.reply_quote_message_blocked);
+								reflect.configureReplySystemMessage("reply_quote_message_blocked", "string");
 							} else if (messageState instanceof StoreMessageReplies.MessageState.Unloaded) {
-								reflect.configureReplySystemMessage(R.string.reply_quote_message_not_loaded);
+								reflect.configureReplySystemMessage("reply_quote_message_not_loaded", "string");
 							} else if (messageState instanceof StoreMessageReplies.MessageState.Deleted) {
-								reflect.configureReplySystemMessage(R.string.reply_quote_message_deleted);
+								reflect.configureReplySystemMessage("reply_quote_message_deleted", "string");
 							} else if ((messageState instanceof StoreMessageReplies.MessageState.Loaded) && messageEntry2 != null) {
 								Message message2 = messageEntry2.getMessage();
 								this.replyHolder.setOnClickListener(new WidgetChatListAdapterItemMessage$configureReplyPreview$1(message2));
@@ -231,9 +231,9 @@ public class ReplyReferencesFix extends Plugin {
 										this.replyText.setDraweeSpanStringBuilder(parse);
 										reflect.configureReplyLayoutDirection();
 									} else if (message2.hasStickers()) {
-										reflect.configureReplyContentWithResourceId(R.string.reply_quote_sticker_mobile);
+										reflect.configureReplyContentWithResourceId("reply_quote_sticker_mobile", "string");
 									} else if (message2.hasAttachments() || message2.shouldShowReplyPreviewAsAttachment() || message2.hasEmbeds()) {
-										reflect.configureReplyContentWithResourceId(R.string.reply_quote_no_text_content_mobile);
+										reflect.configureReplyContentWithResourceId("reply_quote_no_text_content_mobile", "string");
 									} else {
 										AppLog appLog = AppLog.g;
 										Logger.e$default(appLog, "Unhandled reply preview: " + messageEntry2, null, null, 6, null);
