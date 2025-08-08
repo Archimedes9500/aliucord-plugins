@@ -7,6 +7,7 @@ import com.aliucord.patcher.before;
 import com.discord.views.sticker.StickerView;
 import com.discord.api.sticker.BaseSticker;
 import com.discord.api.sticker.Sticker;
+import com.discord.api.sticker.StickerType;
 import com.discord.api.sticker.StickerFormatType;
 import com.discord.api.sticker.StickerPartial;
 import com.discord.rlottie.RLottieImageView;
@@ -15,7 +16,6 @@ import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.drawable.`ScalingUtils$ScaleType`;
 import com.discord.utilities.rx.ObservableExtensionsKt;
 import com.discord.utilities.stickers.StickerUtils;
-import com.discord.rlottie.RLottieImageView;
 import com.discord.stores.StoreStream;
 import com.discord.stores.StoreUserSettings;
 import d0.z.d.m;
@@ -54,9 +54,9 @@ class GifStickersFix:Plugin(){
 				this.l = null;
 			}
 			this.k = baseSticker;
-			val ordinal: Int? = baseSticker.a().ordinal();
+			val ordinal: Int? = (baseSticker.a() as StickerType).ordinal;
 			if(ordinal == 4){
-				val simpleDraweeView5: SimpleDraweeView = this.j.f188b;
+				val simpleDraweeView5: SimpleDraweeView = this.j.b;
 				m.checkNotNullExpressionValue(simpleDraweeView5, "binding.stickerViewImageview");
 				simpleDraweeView5.setVisibility(0);
 				val imageView2: ImageView = this.j.d;
@@ -66,7 +66,7 @@ class GifStickersFix:Plugin(){
 				m.checkNotNullExpressionValue(rLottieImageView2, "binding.stickerViewLottie");
 				rLottieImageView2.setVisibility(8);
 				this.j.f188b.setImageDrawable(null);
-				val simpleDraweeView6: SimpleDraweeView = this.j.f188b;
+				val simpleDraweeView6: SimpleDraweeView = this.j.b;
 				m.checkNotNullExpressionValue(simpleDraweeView6, "binding.stickerViewImageview");
 				val hierarchy2: GenericDraweeHierarchy = simpleDraweeView6.getHierarchy();
 				m.checkNotNullExpressionValue(hierarchy2, "binding.stickerViewImageview.hierarchy");
@@ -74,9 +74,9 @@ class GifStickersFix:Plugin(){
 				hierarchy2.n(v.l);
 				val stickerUtils: StickerUtils = StickerUtils.INSTANCE;
 				val context: Context = getContext();
-				val j: Observable = Observable.j(ObservableExtensionsKt.`restSubscribeOn$default`(stickerUtils.fetchSticker(context, baseSticker), false, 1, null), StoreUserSettings.`observeStickerAnimationSettings$default`(StoreStream.Companion.getUserSettings(), false, 1, null), a.j);
+				val j: Observable = Observable.j(ObservableExtensionsKt.`restSubscribeOn$default`(stickerUtils.fetchSticker(context, baseSticker), false, 1, null), StoreUserSettings.`observeStickerAnimationSettings$default`(StoreStream.getUserSettings(), false, 1, null), a.j);
 				m.checkNotNullExpressionValue(j, "Observable.combineLatest…lobalAnimationSettings) }");
-				ObservableExtensionsKt.`appSubscribe$default`(ObservableExtensionsKt.ui(j), StickerView.class.java, null as Context?, b.a.y.q0.b(this), null as Function1, null as Function0, null as Function0, d(this, num, baseSticker), 58, null as Object);
+				ObservableExtensionsKt.`appSubscribe$default`(ObservableExtensionsKt.ui(j), StickerView::class.java, null as Context?, b.a.y.q0.b(this), null as Function1?, null as Function0?, null as Function0?, d(this, num, baseSticker), 58, null as Any?);
 		
 				it.result = null;
 			}else{
