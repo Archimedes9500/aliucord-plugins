@@ -26,7 +26,7 @@ import kotlinx.coroutines.Job;
 import rx.Observable;
 import rx.Subscription;
 
-AliucordPlugin(requiresRestart = true)
+@AliucordPlugin(requiresRestart = true)
 class GifStickersFix:Plugin(){
 	@SuppressLint("SetTextI18n")
 	override fun start(pluginContext:Context){
@@ -76,7 +76,7 @@ class GifStickersFix:Plugin(){
 				val context: Context = getContext();
 				val j: Observable = Observable.j(ObservableExtensionsKt.`restSubscribeOn$default`(stickerUtils.fetchSticker(context, baseSticker), false, 1, null), StoreUserSettings.`observeStickerAnimationSettings$default`(StoreStream.Companion.getUserSettings(), false, 1, null), a.j);
 				m.checkNotNullExpressionValue(j, "Observable.combineLatest…lobalAnimationSettings) }");
-				ObservableExtensionsKt.`appSubscribe$default`(ObservableExtensionsKt.ui(j), StickerView.class.java, null as Context?, new b.a.y.q0.b(this), null as Function1, null as Function0, null as Function0, new d(this, num, baseSticker), 58, null as Object);
+				ObservableExtensionsKt.`appSubscribe$default`(ObservableExtensionsKt.ui(j), StickerView.class.java, null as Context?, b.a.y.q0.b(this), null as Function1, null as Function0, null as Function0, d(this, num, baseSticker), 58, null as Object);
 		
 				it.result = null;
 			}else{
