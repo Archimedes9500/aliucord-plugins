@@ -1,4 +1,4 @@
-package Archimedes5000.plugins.util;
+package alt.archimedes5000.plugins.util;
 import java.lang.reflect.*;
 import Archimedes5000.plugins.util.ExistingProp;
 public class ReflectUtils{

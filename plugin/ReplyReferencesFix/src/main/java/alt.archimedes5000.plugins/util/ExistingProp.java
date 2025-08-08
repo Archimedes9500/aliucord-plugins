@@ -1,4 +1,4 @@
-package Archimedes5000.util;
+package alt.archimedes5000.util;
 import java.lang.reflect.*;
 public class ExistingProp{
 	public Object prop;

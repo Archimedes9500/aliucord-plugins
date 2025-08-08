@@ -20,7 +20,7 @@ subprojects {
 
     configure<LibraryExtension> {
         // TODO: Change to your package name
-        namespace = "Archimedes5000.plugins"
+        namespace = "alt.archimedes5000.plugins"
 
         compileSdk = 34
 
@@ -44,7 +44,7 @@ subprojects {
 
     configure<AliucordExtension> {
         // TODO: Change to your name and user ID
-        author("DISCORD USERNAME", 0L)
+        author("Archimedes5000", 0L)
 
         updateUrl.set("https://raw.githubusercontent.com/$repo/builds/updater.json")
         buildUrl.set("https://raw.githubusercontent.com/$repo/builds/%s.zip")

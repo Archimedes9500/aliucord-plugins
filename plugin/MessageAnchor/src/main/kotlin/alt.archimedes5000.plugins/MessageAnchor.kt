@@ -1,4 +1,4 @@
-package Archimedes5000.plugins
+package alt.archimedes5000.plugins
 import com.aliucord.annotations.AliucordPlugin
 import android.annotation.SuppressLint
 import java.lang.reflect.InvocationTargetException
