@@ -18,7 +18,7 @@ import com.discord.utilities.rx.ObservableExtensionsKt;
 import com.discord.utilities.stickers.StickerUtils;
 import com.discord.stores.StoreStream;
 import com.discord.stores.StoreUserSettings;
-import d0.z.d.m;
+import d0.z.d.m as m;
 import java.lang.Object;
 import kotlin.jvm.functions.Function0;
 import kotlin.jvm.functions.Function1;
@@ -65,7 +65,7 @@ class GifStickersFix:Plugin(){
 				val rLottieImageView2: RLottieImageView = this.j.c;
 				m.checkNotNullExpressionValue(rLottieImageView2, "binding.stickerViewLottie");
 				rLottieImageView2.setVisibility(8);
-				this.j.f188b.setImageDrawable(null);
+				this.j.b.setImageDrawable(null);
 				val simpleDraweeView6: SimpleDraweeView = this.j.b;
 				m.checkNotNullExpressionValue(simpleDraweeView6, "binding.stickerViewImageview");
 				val hierarchy2: GenericDraweeHierarchy = simpleDraweeView6.getHierarchy();
@@ -76,7 +76,7 @@ class GifStickersFix:Plugin(){
 				val context: Context = getContext();
 				val j: Observable = Observable.j(ObservableExtensionsKt.`restSubscribeOn$default`(stickerUtils.fetchSticker(context, baseSticker), false, 1, null), StoreUserSettings.`observeStickerAnimationSettings$default`(StoreStream.getUserSettings(), false, 1, null), a.j);
 				m.checkNotNullExpressionValue(j, "Observable.combineLatest…lobalAnimationSettings) }");
-				ObservableExtensionsKt.`appSubscribe$default`(ObservableExtensionsKt.ui(j), StickerView::class.java, null as Context?, b.a.y.q0.b(this), null as Function1?, null as Function0?, null as Function0?, d(this, num, baseSticker), 58, null as Any?);
+				ObservableExtensionsKt.`appSubscribe$default`(ObservableExtensionsKt.ui(j), StickerView::class.java, null as Context?, b.a.y.q0.b(this), null as Function1<*, *>?, null as Function0<*>?, null as Function0<*>?, d(this, num, baseSticker), 58, null as Any?);
 		
 				it.result = null;
 			}else{
