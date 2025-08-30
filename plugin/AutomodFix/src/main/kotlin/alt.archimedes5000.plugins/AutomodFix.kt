@@ -6,7 +6,7 @@ import android.content.Context;
 import com.aliucord.patcher.before;
 import com.discord.models.message.Message;
 import com.discord.stores.StoreMessages;
-import com.aliucord.Utils.Logger;
+import com.aliucord.Logger;
 
 @AliucordPlugin(requiresRestart = true)
 class AutomodFix:Plugin(){
