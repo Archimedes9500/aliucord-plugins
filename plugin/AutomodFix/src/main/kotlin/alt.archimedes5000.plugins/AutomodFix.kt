@@ -13,13 +13,12 @@ class AutomodFix:Plugin(){
 	@SuppressLint("SetTextI18n")
 	override fun start(pluginContext:Context){
 		patcher.before<StoreMessages?>(
-			"access\$handleLocalMessageCreate",
-			StoreMessages::class.java,
-			Message::class.java
+			"handleMessageCreate",
+			List<com.discord.api.message.Message>::class.java
 		)balls@{
 			frame ->
-			val message = frame.args[1] as? Message?;
-			Logger().debug(message.toString());
+			val messages = frame.args[0] as? List<com.discord.api.message.Message>?;
+			Logger().debug(messages.toString());
 		}
 	}
 	override fun stop(pluginContext:Context) = patcher.unpatchAll();
