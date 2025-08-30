@@ -14,7 +14,7 @@ class AutomodFix:Plugin(){
 	override fun start(pluginContext:Context){
 		patcher.before<StoreMessages?>(
 			"handleMessageCreate",
-			List<com.discord.api.message.Message>::class.java
+			List::class.java
 		)balls@{
 			frame ->
 			val messages = frame.args[0] as? List<com.discord.api.message.Message>?;
