@@ -18,8 +18,8 @@ class AutomodFix:Plugin(){
 			Message::class.java
 		)balls@{
 			frame ->
-			val store = frame.args[0] as StoreMessages?;
-			val message = frame.args[1] as Message;
+			val store = frame.args[0] as? StoreMessages;
+			val message = frame.args[1] as? Message;
 			Logger().debug(message.toString());
 		}
 	}
