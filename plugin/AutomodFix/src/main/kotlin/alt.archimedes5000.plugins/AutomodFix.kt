@@ -13,7 +13,7 @@ class AutomodFix:Plugin(){
 	@SuppressLint("SetTextI18n")
 	override fun start(pluginContext:Context){
 		patcher.before<StoreMessages>(
-			"access$handleLocalMessageCreate",
+			"access\$handleLocalMessageCreate",
 			StoreMessages::class.java,
 			Message::class.java
 		)balls@{
