@@ -6,12 +6,12 @@ import android.content.Context;
 import com.aliucord.patcher.patch;
 import com.aliucord.patcher.PreHook;
 import com.discord.api.message.Message;
-import com.discord.models.message.Message as MessageModel;
+//import com.discord.models.message.Message as MessageModel;
 import com.discord.stores.StoreMessages;
 import com.aliucord.Logger;
 
 @AliucordPlugin(requiresRestart = false)
-public class BetterTextReplace extends Plugin {
+public class BetterReplaceText extends Plugin {
 	@SuppressLint("SetTextI18n")
     @Override
 	public void start(Context pluginContext) throws Throwable{
@@ -54,10 +54,10 @@ public class BetterTextReplace extends Plugin {
 				int.class
 			),
 			new PreHook(frame -> {
-				Message this = (Message)frame.thisObject;
+				Message message = (Message)frame.thisObject;
 				//this.content = Utils.replace(frame.args[3]);
-				this.content = frame.args[3]+"aaa";
-				Logger().debug(this.toString)
+				message.content = frame.args[3]+"aaa";
+				Logger().debug(message.toString);
 			})
 		);
 	}
