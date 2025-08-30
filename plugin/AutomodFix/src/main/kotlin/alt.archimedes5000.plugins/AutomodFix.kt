@@ -12,7 +12,7 @@ import com.aliucord.Logger;
 class AutomodFix:Plugin(){
 	@SuppressLint("SetTextI18n")
 	override fun start(pluginContext:Context){
-		patcher.before<StoreMessages>(
+		patcher.before<StoreMessages?>(
 			"access\$handleLocalMessageCreate",
 			StoreMessages::class.java,
 			Message::class.java
