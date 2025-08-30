@@ -20,7 +20,7 @@ class AutomodFix:Plugin(){
 			frame ->
 			val store = frame.args[0] as StoreMessages;
 			val message = frame.args[1] as Message;
-			Logger().debug(message);
+			Logger().debug(message.toString());
 		}
 	}
 	override fun stop(pluginContext:Context) = patcher.unpatchAll();
