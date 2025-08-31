@@ -76,7 +76,7 @@ public class BetterReplaceText extends Plugin {
 						"content",
 						frame.args[3]+"aaa"
 					);
-					//frame.setResult(message);
+					frame.setResult(message);
 				}catch(Throwable e){
 					new Logger().error(e);
 				}
