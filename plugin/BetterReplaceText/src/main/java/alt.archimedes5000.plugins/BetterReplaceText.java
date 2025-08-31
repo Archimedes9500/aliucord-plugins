@@ -30,18 +30,20 @@ public class BetterReplaceText extends Plugin {
 	@SuppressLint("SetTextI18n")
     @Override
 	public void start(Context pluginContext) throws Throwable{
-		patcher.patch(
-			Message.class.getDeclaredConstructors()[1],
-			new PreHook(frame -> {
-				Message message = (Message)frame.thisObject;
-				try{
-					frame.args[3] = "aaa";
-					new Logger().debug("aaa");
-				}catch(Throwable e){
-					new Logger().error(e);
-				}
-			})
-		);
+		for(Constructor c: Message.class.getDeclaredConstructors()){
+			patcher.patch(
+				c[i],
+				new PreHook(frame -> {
+					Message message = (Message)frame.thisObject;
+					try{
+						frame.args[3] = "Constructor "+i.toString();
+						new Logger().debug("Constructor "+i.toString());
+					}catch(Throwable e){
+						new Logger().error(e);
+					}
+				})
+			);
+		}
 	}
 	@Override
 	public void stop(Context pluginContext){
