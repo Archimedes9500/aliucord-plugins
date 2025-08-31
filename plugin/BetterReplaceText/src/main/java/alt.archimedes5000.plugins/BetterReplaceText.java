@@ -38,8 +38,8 @@ public class BetterReplaceText extends Plugin {
 				new PreHook(frame -> {
 					Message message = (Message)frame.thisObject;
 					try{
-						frame.args[3] = "Constructor "+i;
-						new Logger().debug("Constructor "+i);
+						frame.args[3] = "Constructor "+i[0];
+						new Logger().debug("Constructor "+i[0]);
 					}catch(Throwable e){
 						new Logger().error(e);
 					}
