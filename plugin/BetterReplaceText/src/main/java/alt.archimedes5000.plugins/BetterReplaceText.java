@@ -44,8 +44,8 @@ public class BetterReplaceText extends Plugin {
 						new Logger().error(e);
 					}
 				})
-				i[0]++;
 			);
+			i[0]++;
 		}
 	}
 	@Override
