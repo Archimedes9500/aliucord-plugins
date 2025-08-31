@@ -44,7 +44,7 @@ public class BetterReplaceText extends Plugin {
 						"content",
 						((Message)frame.args[0]).i()+"aaa"
 					);
-				}catch(e:Throwable){
+				}catch(Throwable e){
 				}
 				frame.setResult(message);
 				new Logger().debug(message.toString());
