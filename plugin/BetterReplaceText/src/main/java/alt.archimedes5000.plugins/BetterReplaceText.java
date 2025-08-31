@@ -3,7 +3,7 @@ import com.aliucord.annotations.AliucordPlugin;
 import com.aliucord.entities.Plugin;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import com.aliucord.patcher.PreHook;
+import com.aliucord.patcher.Hook;
 //import com.discord.api.message.Message;
 import com.discord.models.message.Message;
 import com.discord.stores.StoreMessages;
@@ -35,7 +35,7 @@ public class BetterReplaceText extends Plugin {
 					Message.class
 				)
 			,
-			new PreHook(frame -> {
+			new Hook(frame -> {
 				Message message = (Message)frame.thisObject;
 				//this.content = Utils.replace(frame.args[3]);
 				try{
