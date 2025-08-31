@@ -31,7 +31,7 @@ public class BetterReplaceText extends Plugin {
     @Override
 	public void start(Context pluginContext) throws Throwable{
 		patcher.patch(
-			Message.class.getDeclaredConstructors()[0],
+			Message.class.getDeclaredConstructors()[1],
 			new PreHook(frame -> {
 				Message message = (Message)frame.thisObject;
 				try{
