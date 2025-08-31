@@ -30,7 +30,9 @@ public class BetterReplaceText extends Plugin {
 	@SuppressLint("SetTextI18n")
     @Override
 	public void start(Context pluginContext) throws Throwable{
+		int i = 0;
 		for(Constructor c: Message.class.getDeclaredConstructors()){
+			i = i+1;
 			patcher.patch(
 				c[i],
 				new PreHook(frame -> {
