@@ -20,6 +20,7 @@ import com.discord.api.message.attachment.MessageAttachment;
 import com.discord.api.message.call.MessageCall;
 import com.discord.api.message.embed.MessageEmbed;
 import com.discord.api.message.reaction.MessageReaction;
+import com.discord.api.message.MessageReference;
 import com.discord.api.user.User;
 import com.discord.api.utcdatetime.UtcDateTime;
 import java.util.List;
