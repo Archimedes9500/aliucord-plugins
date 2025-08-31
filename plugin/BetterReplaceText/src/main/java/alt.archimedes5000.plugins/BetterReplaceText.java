@@ -68,15 +68,16 @@ public class BetterReplaceText extends Plugin {
 					int.class
 				)
 			,
-			new Hook(frame -> {
+			new PreHook(frame -> {
 				Message message = (Message)frame.thisObject;
 				try{
-					ReflectUtils.setField(
+					/*ReflectUtils.setField(
 						message,
 						"content",
 						frame.args[3]+"aaa"
 					);
-					frame.setResult(message);
+					//frame.setResult(message);*/
+					frame.args[3] = "aaa";
 				}catch(Throwable e){
 					new Logger().error(e);
 				}
