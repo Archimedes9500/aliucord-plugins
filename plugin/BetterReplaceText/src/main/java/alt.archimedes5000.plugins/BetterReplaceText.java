@@ -42,7 +42,7 @@ public class BetterReplaceText extends Plugin {
 					ReflectUtils.setField(
 						message,
 						"content",
-						((com.discord.api.message.Message)frame.args[0]).i()+"aaa"
+						"aaa"
 					);
 				}catch(Throwable e){
 				}
