@@ -4,8 +4,8 @@ import com.aliucord.entities.Plugin;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import com.aliucord.patcher.Hook;
-//import com.discord.api.message.Message;
-import com.discord.models.message.Message;
+import com.discord.api.message.Message;
+//import com.discord.models.message.Message;
 import com.discord.stores.StoreMessages;
 import com.aliucord.Logger;
 import com.aliucord.utils.ReflectUtils;
@@ -32,7 +32,39 @@ public class BetterReplaceText extends Plugin {
 		patcher.patch(
 			Message.class
 				.getDeclaredConstructor(
-					com.discord.api.message.Message.class
+					long.class,
+					long.class,
+					User.class,
+					String.class,
+					UtcDateTime.class,
+					UtcDateTime.class,
+					Boolean.class,
+					Boolean.class,
+					List.class,
+					List.class,
+					List.class,
+					List.class,
+					List.class,
+					String.class,
+					Boolean.class,
+					Long.class,
+					Integer.class,
+					MessageActivity.class,
+					Application.class,
+					Long.class,
+					MessageReference.class,
+					Long.class,
+					List.class,
+					List.class,
+					Message.class,
+					Interaction.class,
+					Channel.class,
+					List.class,
+					MessageCall.class,
+					Long.class,
+					GuildMember.class,
+					Boolean.class,
+					int.class,
 				)
 			,
 			new Hook(frame -> {
@@ -41,9 +73,9 @@ public class BetterReplaceText extends Plugin {
 					ReflectUtils.setField(
 						message,
 						"content",
-						((com.discord.api.message.Message)frame.args[0]).i()+"aaa"
+						frame.args[3]+"aaa"
 					);
-					frame.setResult(message);
+					//frame.setResult(message);
 				}catch(Throwable e){
 					new Logger().error(e);
 				}
