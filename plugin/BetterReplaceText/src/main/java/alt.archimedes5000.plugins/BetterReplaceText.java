@@ -31,41 +31,7 @@ public class BetterReplaceText extends Plugin {
     @Override
 	public void start(Context pluginContext) throws Throwable{
 		var c = Message.class
-			.getDeclaredConstructor(
-				long.class,
-				long.class,
-				User.class,
-				String.class,
-				UtcDateTime.class,
-				UtcDateTime.class,
-				Boolean.class,
-				Boolean.class,
-				List.class,
-				List.class,
-				List.class,
-				List.class,
-				List.class,
-				String.class,
-				Boolean.class,
-				Long.class,
-				Integer.class,
-				MessageActivity.class,
-				Application.class,
-				Long.class,
-				MessageReference.class,
-				Long.class,
-				List.class,
-				List.class,
-				Message.class,
-				Interaction.class,
-				Channel.class,
-				List.class,
-				MessageCall.class,
-				Long.class,
-				GuildMember.class,
-				Boolean.class,
-				int.class
-			)
+			.getDeclaredConstructors()[0]
 		;
 		if(c == null){
 			new Logger().debug("aaa");
