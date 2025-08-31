@@ -64,7 +64,7 @@ public class BetterReplaceText extends Plugin {
 					Long.class,
 					GuildMember.class,
 					Boolean.class,
-					int.class,
+					int.class
 				)
 			,
 			new Hook(frame -> {
