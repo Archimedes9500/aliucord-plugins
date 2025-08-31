@@ -35,7 +35,7 @@ public class BetterReplaceText extends Plugin {
 		for(Constructor<Message> c: Message.class.getDeclaredConstructors()){
 			i = i+1;
 			patcher.patch(
-				c[i],
+				c,
 				new PreHook(frame -> {
 					Message message = (Message)frame.thisObject;
 					try{
