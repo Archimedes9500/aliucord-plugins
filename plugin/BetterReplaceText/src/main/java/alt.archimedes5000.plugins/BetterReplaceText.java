@@ -30,9 +30,9 @@ public class BetterReplaceText extends Plugin {
     @Override
 	public void start(Context pluginContext) throws Throwable{
 		patcher.patch(
-			com.discord.models.message.Message.class
+			Message.class
 				.getDeclaredConstructor(
-					Message.class
+					com.discord.api.message.Message.class
 				)
 			,
 			new Hook(frame -> {
