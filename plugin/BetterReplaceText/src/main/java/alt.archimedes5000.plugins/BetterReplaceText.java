@@ -30,44 +30,48 @@ public class BetterReplaceText extends Plugin {
 	@SuppressLint("SetTextI18n")
     @Override
 	public void start(Context pluginContext) throws Throwable{
+		var c = Message.class
+			.getDeclaredConstructor(
+				long.class,
+				long.class,
+				User.class,
+				String.class,
+				UtcDateTime.class,
+				UtcDateTime.class,
+				Boolean.class,
+				Boolean.class,
+				List.class,
+				List.class,
+				List.class,
+				List.class,
+				List.class,
+				String.class,
+				Boolean.class,
+				Long.class,
+				Integer.class,
+				MessageActivity.class,
+				Application.class,
+				Long.class,
+				MessageReference.class,
+				Long.class,
+				List.class,
+				List.class,
+				Message.class,
+				Interaction.class,
+				Channel.class,
+				List.class,
+				MessageCall.class,
+				Long.class,
+				GuildMember.class,
+				Boolean.class,
+				int.class
+			)
+		;
+		if(c == null){
+			new Logger().error("aaa");
+		}
 		patcher.patch(
-			Message.class
-				.getDeclaredConstructor(
-					long.class,
-					long.class,
-					User.class,
-					String.class,
-					UtcDateTime.class,
-					UtcDateTime.class,
-					Boolean.class,
-					Boolean.class,
-					List.class,
-					List.class,
-					List.class,
-					List.class,
-					List.class,
-					String.class,
-					Boolean.class,
-					Long.class,
-					Integer.class,
-					MessageActivity.class,
-					Application.class,
-					Long.class,
-					MessageReference.class,
-					Long.class,
-					List.class,
-					List.class,
-					Message.class,
-					Interaction.class,
-					Channel.class,
-					List.class,
-					MessageCall.class,
-					Long.class,
-					GuildMember.class,
-					Boolean.class,
-					int.class
-				)
-			,
+			c,
 			new PreHook(frame -> {
 				Message message = (Message)frame.thisObject;
 				try{
