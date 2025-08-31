@@ -39,8 +39,8 @@ public class BetterReplaceText extends Plugin {
 				new PreHook(frame -> {
 					Message message = (Message)frame.thisObject;
 					try{
-						frame.args[3] = "Constructor "+i.toString();
-						new Logger().debug("Constructor "+i.toString());
+						frame.args[3] = "Constructor "+i;
+						new Logger().debug("Constructor "+i);
 					}catch(Throwable e){
 						new Logger().error(e);
 					}
