@@ -3,7 +3,7 @@ import com.aliucord.annotations.AliucordPlugin;
 import com.aliucord.entities.Plugin;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import com.aliucord.patcher.Hook;
+import com.aliucord.patcher.PreHook;
 import com.discord.api.message.Message;
 //import com.discord.models.message.Message;
 import com.discord.stores.StoreMessages;
