@@ -37,17 +37,17 @@ public class BetterReplaceText extends Plugin {
 			,
 			new Hook(frame -> {
 				Message message = (Message)frame.thisObject;
-				//this.content = Utils.replace(frame.args[3]);
 				try{
 					ReflectUtils.setField(
 						message,
 						"content",
 						"aaa"
 					);
+					frame.setResult(message);
 				}catch(Throwable e){
+					new Logger().debug(message.toString());
+					new Logger().error(e);
 				}
-				frame.setResult(message);
-				new Logger().debug(message.toString());
 			})
 		);
 	}
