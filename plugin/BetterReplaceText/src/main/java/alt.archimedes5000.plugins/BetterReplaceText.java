@@ -68,7 +68,7 @@ public class BetterReplaceText extends Plugin {
 			)
 		;
 		if(c == null){
-			new Logger().error("aaa");
+			new Logger().debug("aaa");
 		}
 		patcher.patch(
 			c,
