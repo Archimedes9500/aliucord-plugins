@@ -9,6 +9,7 @@ import com.discord.api.message.Message;
 import com.discord.stores.StoreMessages;
 import com.aliucord.Logger;
 import com.aliucord.utils.ReflectUtils;
+import java.lang.reflect.Constructor;
 
 import com.discord.api.application.Application;
 import com.discord.api.botuikit.Component;
@@ -31,7 +32,7 @@ public class BetterReplaceText extends Plugin {
     @Override
 	public void start(Context pluginContext) throws Throwable{
 		int i = 0;
-		for(Constructor c: Message.class.getDeclaredConstructors()){
+		for(Constructor<Message> c: Message.class.getDeclaredConstructors()){
 			i = i+1;
 			patcher.patch(
 				c[i],
