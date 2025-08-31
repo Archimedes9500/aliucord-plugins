@@ -38,11 +38,14 @@ public class BetterReplaceText extends Plugin {
 			new PreHook(frame -> {
 				Message message = (Message)frame.thisObject;
 				//this.content = Utils.replace(frame.args[3]);
-				ReflectUtils.setField(
-					message,
-					"content",
-					((Message)frame.args[0]).i()+"aaa"
-				);
+				try{
+					ReflectUtils.setField(
+						message,
+						"content",
+						((Message)frame.args[0]).i()+"aaa"
+					);
+				}catch(e:Throwable){
+				}
 				frame.setResult(message);
 				new Logger().debug(message.toString());
 			})
