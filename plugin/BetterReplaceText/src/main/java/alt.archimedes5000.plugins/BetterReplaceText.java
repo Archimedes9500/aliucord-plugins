@@ -32,7 +32,7 @@ public class BetterReplaceText extends Plugin {
     @Override
 	public void start(Context pluginContext) throws Throwable{
 		int i = 0;
-		for(Constructor<Message> c: Message.class.getDeclaredConstructors()){
+		for(Constructor<?> c: Message.class.getDeclaredConstructors()){
 			i = i+1;
 			patcher.patch(
 				c,
