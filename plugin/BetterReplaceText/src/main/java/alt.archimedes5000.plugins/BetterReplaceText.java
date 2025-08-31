@@ -33,20 +33,23 @@ public class BetterReplaceText extends Plugin {
 	public void start(Context pluginContext) throws Throwable{
 		final int[] i = {0};
 		for(Constructor<?> c: Message.class.getDeclaredConstructors()){
-			patcher.patch(
-				c,
-				new PreHook(frame -> {
-					Message message = (Message)frame.thisObject;
-					try{
-						frame.args[3] = "Constructor "+i[0];
-						new Logger().debug("Constructor "+i[0]);
-					}catch(Throwable e){
-						new Logger().error(e);
-					}
-				})
-			);
-			i[0]++;
+			if(c != null){
+				patcher.patch(
+					c,
+					new PreHook(frame -> {
+						Message message = (Message)frame.thisObject;
+						try{
+							frame.args[3] = "Constructor "+i[0];
+							new Logger().debug("Constructor "+i[0]);
+						}catch(Throwable e){
+							new Logger().error(e);
+						}
+					})
+				);
+				i[0]++;
+			}
 		}
+		new Logger().debug("Patched "+i[0]+" constructors");
 	}
 	@Override
 	public void stop(Context pluginContext){
