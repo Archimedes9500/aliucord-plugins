@@ -31,20 +31,20 @@ public class BetterReplaceText extends Plugin {
 	@SuppressLint("SetTextI18n")
     @Override
 	public void start(Context pluginContext) throws Throwable{
-		int i = 0;
+		final int[] i = {0};
 		for(Constructor<?> c: Message.class.getDeclaredConstructors()){
-			i = i+1;
 			patcher.patch(
 				c,
 				new PreHook(frame -> {
 					Message message = (Message)frame.thisObject;
 					try{
-						final frame.args[3] = "Constructor "+i;
-						final new Logger().debug("Constructor "+i);
+						frame.args[3] = "Constructor "+i;
+						new Logger().debug("Constructor "+i);
 					}catch(Throwable e){
 						new Logger().error(e);
 					}
 				})
+				i[0]++;
 			);
 		}
 	}
