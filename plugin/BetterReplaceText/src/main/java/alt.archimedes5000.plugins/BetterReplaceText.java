@@ -36,6 +36,7 @@ public class BetterReplaceText extends Plugin {
 				Message message = (Message)frame.thisObject;
 				try{
 					frame.args[3] = "aaa";
+					new Logger().debug("aaa");
 				}catch(Throwable e){
 					new Logger().error(e);
 				}
