@@ -8,7 +8,7 @@ import com.discord.api.message.Message;
 //import com.discord.models.message.Message as MessageModel;
 import com.discord.stores.StoreMessages;
 import com.aliucord.Logger;
-import com.aloucord.utils.ReflectUtils;
+import com.aliucord.utils.ReflectUtils;
 
 import com.discord.api.application.Application;
 import com.discord.api.botuikit.Component;
@@ -38,7 +38,11 @@ public class BetterReplaceText extends Plugin {
 			new PreHook(frame -> {
 				Message message = (Message)frame.thisObject;
 				//this.content = Utils.replace(frame.args[3]);
-				ReflectUtils.setField(message, "content", ((Message)frame.args[0]).i()+"aaa");
+				ReflectUtils.setField(
+					message,
+					"content",
+					((Message)frame.args[0]).i()+"aaa"
+				);
 				frame.setResult(message);
 				new Logger().debug(message.toString());
 			})
