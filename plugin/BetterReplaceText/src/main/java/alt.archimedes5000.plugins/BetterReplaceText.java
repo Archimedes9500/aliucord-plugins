@@ -41,12 +41,10 @@ public class BetterReplaceText extends Plugin {
 					ReflectUtils.setField(
 						message,
 						"content",
-						"aaa"
+						((com.discord.api.message.Message)frame.args[0]).i()+"aaa"
 					);
-					frame.setResult(message);
-					new Logger().debug(message.toString());
+					//frame.setResult(message);
 				}catch(Throwable e){
-					new Logger().debug(message.toString());
 					new Logger().error(e);
 				}
 			})
