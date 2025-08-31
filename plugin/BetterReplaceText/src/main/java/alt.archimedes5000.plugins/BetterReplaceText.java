@@ -30,47 +30,16 @@ public class BetterReplaceText extends Plugin {
     @Override
 	public void start(Context pluginContext) throws Throwable{
 		patcher.patch(
-			Message.class
-			.getDeclaredMethod(
-				"Message",
-				long.class,
-				long.class,
-				User.class,
-				String.class,
-				UtcDateTime.class,
-				UtcDateTime.class,
-				Boolean.class,
-				Boolean.class,
-				List.class,
-				List.class,
-				List.class,
-				List.class,
-				List.class,
-				String.class,
-				Boolean.class,
-				Long.class,
-				Integer.class,
-				MessageActivity.class,
-				Application.class,
-				Long.class,
-				MessageReference.class,
-				Long.class,
-				List.class,
-				List.class,
-				Message.class,
-				Interaction.class,
-				Channel.class,
-				List.class,
-				MessageCall.class,
-				Long.class,
-				GuildMember.class,
-				Boolean.class,
-				int.class
-			),
+			com.discord.models.message.Message.class
+				.getDeclaredConstructor(
+					Message.class
+				)
+			,
 			new PreHook(frame -> {
 				Message message = (Message)frame.thisObject;
 				//this.content = Utils.replace(frame.args[3]);
-				frame.args[3] = frame.args[3]+"aaa";
+				ReflectUtils.setField(message, "content", (Message)frame.args[0].i()+"aaa");
+				frame.setResult(message);
 				new Logger().debug(message.toString());
 			})
 		);
