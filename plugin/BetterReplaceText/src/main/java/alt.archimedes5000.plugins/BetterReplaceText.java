@@ -43,7 +43,7 @@ public class BetterReplaceText extends Plugin {
 						"content",
 						((com.discord.api.message.Message)frame.args[0]).i()+"aaa"
 					);
-					//frame.setResult(message);
+					frame.setResult(message);
 				}catch(Throwable e){
 					new Logger().error(e);
 				}
