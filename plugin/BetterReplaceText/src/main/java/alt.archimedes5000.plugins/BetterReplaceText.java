@@ -68,12 +68,14 @@ public class BetterReplaceText extends Plugin {
 						message.component29(),
 						message.component30(),
 						message.component31(),
+						message.component32(),
 						message.component33(),
 						message.component34(),
 						message.component35(),
 						message.component36(),
 						message.component37(),
-						message.component38()
+						message.component38(),
+						message.component39()
 					),
 					data.component8()
 				);
