@@ -22,12 +22,12 @@ public class BetterReplaceText extends Plugin {
 			DiscordParser.class
 			.getDeclaredMethod(
 				"parseChannelMessage",
-				Context,
-				String,
-				MessageRenderContext,
-				MessagePreprocessor,
-				ParserOptions,
-				boolean
+				Context.class,
+				String.class,
+				MessageRenderContext.class,
+				MessagePreprocessor.class,
+				ParserOptions.class,
+				boolean.class
 			),
 			new PreHook(frame -> {
 				DiscordParser parser = (DiscordParser)frame.thisObject;
