@@ -12,6 +12,16 @@ import com.aliucord.utils.ReflectUtils;
 import java.lang.reflect.Constructor;
 
 import com.discord.utilities.textprocessing.DiscordParser;
+import android.content.Context;
+import b.a.t.b.b.b;
+import b.a.t.b.b.e;
+import com.discord.simpleast.core.node.Node;
+import com.discord.simpleast.core.parser.Parser;
+import com.discord.utilities.textprocessing.node.EditedMessageNode;
+import com.discord.utilities.textprocessing.node.ZeroSpaceWidthNode;
+import com.facebook.drawee.span.DraweeSpanStringBuilder;
+import d0.z.d.m;
+import java.util.List;
 
 @AliucordPlugin(requiresRestart = false)
 public class BetterReplaceText extends Plugin {
