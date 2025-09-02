@@ -73,6 +73,7 @@ public class BetterReplaceText extends Plugin {
 						message.component35(),
 						message.component36(),
 						message.component37(),
+						"aaa",
 						message.component38()
 					),
 					data.component8()
