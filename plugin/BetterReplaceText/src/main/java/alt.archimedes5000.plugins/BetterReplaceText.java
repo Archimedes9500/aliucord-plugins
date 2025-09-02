@@ -36,7 +36,6 @@ public class BetterReplaceText extends Plugin {
 					data.component5(),
 					data.component6(),
 					new Message(
-						message.component0(),
 						message.component1(),
 						message.component2(),
 						message.component3(),
