@@ -12,10 +12,8 @@ import com.aliucord.utils.ReflectUtils;
 import java.lang.reflect.Constructor;
 
 import com.discord.utilities.textprocessing.DiscordParser;
-import com.discord.utilities.textprocessing.DiscordParser.*;
+import com.discord.utilities.textprocessing.*;
 import android.content.Context;
-import b.a.t.b.b.b;
-import b.a.t.b.b.e;
 import com.discord.simpleast.core.node.Node;
 import com.discord.simpleast.core.parser.Parser;
 import com.discord.utilities.textprocessing.node.EditedMessageNode;
