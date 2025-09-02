@@ -12,6 +12,7 @@ import com.aliucord.utils.ReflectUtils;
 import java.lang.reflect.Constructor;
 
 import com.discord.utilities.textprocessing.DiscordParser;
+import com.discord.utilities.textprocessing.DiscordParser.*;
 import android.content.Context;
 import b.a.t.b.b.b;
 import b.a.t.b.b.e;
