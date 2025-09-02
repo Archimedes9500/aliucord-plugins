@@ -11,8 +11,7 @@ import com.aliucord.Logger;
 import com.aliucord.utils.ReflectUtils;
 import java.lang.reflect.Constructor;
 
-import com.discord.widgets.chat.list.utils.EmbeddedMessageParser;
-import com.discord.widgets.chat.list.utils.EmbeddedMessageParser.ParserData;
+import com.discord.utilities.textprocessing.DiscordParser;
 
 @AliucordPlugin(requiresRestart = false)
 public class BetterReplaceText extends Plugin {
