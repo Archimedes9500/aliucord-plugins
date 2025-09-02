@@ -22,6 +22,7 @@ public class BetterReplaceText extends Plugin {
 		patcher.patch(
 			EmbeddedMessageParser.class
 			.getDeclaredMethod(
+				"parse",
 				ParserData.class
 			),
 			new PreHook(frame -> {
