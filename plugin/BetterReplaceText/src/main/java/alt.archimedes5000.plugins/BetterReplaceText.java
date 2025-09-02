@@ -11,45 +11,36 @@ import com.aliucord.Logger;
 import com.aliucord.utils.ReflectUtils;
 import java.lang.reflect.Constructor;
 
-import com.discord.api.application.Application;
-import com.discord.api.botuikit.Component;
-import com.discord.api.channel.Channel;
-import com.discord.api.guildmember.GuildMember;
-import com.discord.api.interaction.Interaction;
-import com.discord.api.message.activity.MessageActivity;
-import com.discord.api.message.attachment.MessageAttachment;
-import com.discord.api.message.call.MessageCall;
-import com.discord.api.message.embed.MessageEmbed;
-import com.discord.api.message.reaction.MessageReaction;
-import com.discord.api.message.MessageReference;
-import com.discord.api.user.User;
-import com.discord.api.utcdatetime.UtcDateTime;
-import java.util.List;
+import com.discord.widgets.chat.list.utils.EmbeddedMessageParser;
+import com.discord.widgets.chat.list.utils.EmbeddedMessageParser.ParserData;
 
 @AliucordPlugin(requiresRestart = false)
 public class BetterReplaceText extends Plugin {
 	@SuppressLint("SetTextI18n")
     @Override
 	public void start(Context pluginContext) throws Throwable{
-		final int[] i = {0};
-		for(Constructor<?> c: Message.class.getDeclaredConstructors()){
-			if(c != null){
-				patcher.patch(
-					c,
-					new PreHook(frame -> {
-						Message message = (Message)frame.thisObject;
-						try{
-							frame.args[3] = "Constructor "+i[0];
-							new Logger().debug("Constructor "+i[0]);
-						}catch(Throwable e){
-							new Logger().error(e);
-						}
-					})
+		patcher.patch(
+			EmbeddedMessageParser.class
+			.getDeclaredMethod(
+				ParserData.class
+			),
+			new PreHook(frame -> {
+				EmbeddedMessageParser parser = (EmbeddedMessageParser)frame.thisObject;
+				ParserData data = (ParserData)frame.args[0];
+				String content = data.getMessage().getContent();
+				frame.args[0] = new ParserData(
+					data.component1(),
+					data.component2(),
+					data.component3(),
+					data.component4(),
+					data.component5(),
+					data.component6(),
+					"https://youtu.be/7MHYrDk2rG0",
+					data.component8()
 				);
-				i[0]++;
-			}
-		}
-		new Logger().debug("Patched "+i[0]+" constructors");
+				new Logger().debug(frame.args[0].toString());
+			})
+		);
 	}
 	@Override
 	public void stop(Context pluginContext){
