@@ -8,7 +8,14 @@ import com.discord.widgets.chat.list.actions.WidgetChatListActions
 import com.discord.widgets.chat.list.actions.WidgetChatListActions.Model
 import com.discord.widgets.chat.list.actions.`WidgetChatListActions$configureUI$14`
 import com.discord.databinding.WidgetChatListActionsBinding
+import com.aliucord.utils.ReflectDelegates.accessGetter
+import com.aliucord.patcher.Hook
+import com.aliucord.patcher.PreHook
+import com.aliucord.utils.ViewUtils.findViewById
+import android.view.LayoutInflater
 import androidx.core.content.ContextCompat
+import com.aliucord.Utils
+import com.discord.R
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
@@ -26,13 +33,12 @@ import com.discord.utilities.color.ColorCompat
 @AliucordPlugin
 class QuoteReply: Plugin(){
 	var state: Boolean = false;
-	var quoteText: CharSequence = CharSequence("");
+	var quoteText: CharSequence = "";
+
+	val WidgetChatListActions.binding by accessGetter<WidgetChatListActionsBinding>("getBinding");
 
 	@SuppressLint("SetTextI18n")
 	override fun start(ctx: Context) {
-		val WidgetChatListActions.binding by
-			accessGetter<WidgetChatListActionsBinding>("getBinding")
-		;
 
 		this.state = false;//settings.getBool("default", false);
 
@@ -52,6 +58,7 @@ class QuoteReply: Plugin(){
 			}
 		)
 
+		val inflater = LayoutInflater.from(ctx);
 		val quoteIcon = ContextCompat.drawable(Utils.appContext, R.e.ic_quote_white_a60_24dp);
 		val quote: LinearLayout = inflater.inflate(R.layout.widget_chat_input).findViewById("chat_input_context_reply_mention_button");
 		quote.setId(View.generateViewId());
@@ -66,10 +73,10 @@ class QuoteReply: Plugin(){
 	
 		patcher.patch(
 			WidgetChatInput::class.java.getDeclaredMethod(
-				"access$configureUI",
+				"access\$configureUI",
 				WidgetChatInput::class.java,
-				ChatInputViewModel.ViewState::class.java,
-			},
+				ChatInputViewModel.ViewState::class.java
+			),
 			Hook{(frame, input: WidgetChatInput, viewState: ChatInputViewModel.ViewState) ->
 				val binding = WidgetChatInput.`access$getBinding$p`(input);
 				binding.root.findViewById<RelativeLayout>("chat_input_context_bar").addView(quote, 1);
@@ -89,9 +96,9 @@ class QuoteReply: Plugin(){
 			PreHook{(frame, _: Context, _: MessageManager, messageContent: MessageContent) ->
 				val (text: String, users: List<User>) = messageContent;
 				if(false/*settings.getBool("replace", false)*/){
-					frame.args[2] = MessageContent(quote, users);
+					frame.args[2] = MessageContent(this.quoteText, users);
 				}else{
-					frame.args[2] = MessageContent(quote+text, users)
+					frame.args[2] = MessageContent(this.quoteText+text, users)
 				}
 			}
 		)
@@ -117,13 +124,13 @@ class QuoteReply: Plugin(){
 
 	fun configureButton(drawable, text){
 		val color = if(this.state){
-			ColorCompat.getThemedColor(requireContext, R.attr.colorControlBrandForeground);
+			ColorCompat.getThemedColor(Utils.appContext, R.attr.colorControlBrandForeground);
 		}else{
-			ColorCompat.getThemedColor(requireContext, R.attr.colorTextMuted);
+			ColorCompat.getThemedColor(Utils.appContext, R.attr.colorTextMuted);
 		);
 		ColorCompat.tintWithColor(drawable, color);
-        text.setTextColor(color);
-        text.setText(if(state) R.string.reply_mention_on else R.string.reply_mention_off);
+		text.setTextColor(color);
+		text.setText(if(state) R.string.reply_mention_on else R.string.reply_mention_off);
 	}
 
 	override fun stop(ctx: Context) {
