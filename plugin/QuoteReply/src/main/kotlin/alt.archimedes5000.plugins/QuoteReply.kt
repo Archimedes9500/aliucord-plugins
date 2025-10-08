@@ -115,7 +115,7 @@ class QuoteReply: Plugin(){
 		}
 		str.replace("\n", "\n>");
 		str = str+"\n"
-		return CharSequence(str);
+		return str as CharSequence;
 	}
 
 	fun toggleButton(){
