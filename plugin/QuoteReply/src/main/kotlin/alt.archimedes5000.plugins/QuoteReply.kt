@@ -8,10 +8,10 @@ import com.discord.widgets.chat.list.actions.WidgetChatListActions
 import com.discord.widgets.chat.list.actions.WidgetChatListActions.Model
 import com.discord.widgets.chat.list.actions.`WidgetChatListActions$configureUI$14`
 import com.discord.databinding.WidgetChatListActionsBinding
-import com.aliucord.utils.ReflectDelegates.accessGetter
+import com.aliucord.utils.accessGetter
 import com.aliucord.patcher.Hook
 import com.aliucord.patcher.PreHook
-import com.aliucord.utils.ViewUtils.findViewById
+import com.aliucord.utils.findViewById
 import android.view.LayoutInflater
 import androidx.core.content.ContextCompat
 import com.aliucord.Utils
@@ -47,7 +47,7 @@ class QuoteReply: Plugin(){
 				"configureUI",
 				WidgetChatListActions.Model::class.java
 			),
-			Hook { (frame, model: WidgetChatListActions.Model) ->
+			Hook{(frame, model: WidgetChatListActions.Model) ->
 				val actions = frame.thisObject as WidgetChatListActions;
 				var quote: CharSequence = quote(model.message);
 				val replyButton = actions.binding.root.findViewById<View>("dialog_chat_actions_reply");
@@ -59,8 +59,8 @@ class QuoteReply: Plugin(){
 		)
 
 		val inflater = LayoutInflater.from(ctx);
-		val quoteIcon = ContextCompat.drawable(Utils.appContext, R.e.ic_quote_white_a60_24dp);
-		val quote: LinearLayout = inflater.inflate(R.layout.widget_chat_input).findViewById("chat_input_context_reply_mention_button");
+		val quoteIcon = ContextCompat.getDrawable(Utils.appContext, R.e.ic_quote_white_a60_24dp);
+		val quote: LinearLayout = inflater.inflate(R.layout.widget_chat_input, null, false).findViewById("chat_input_context_reply_mention_button");
 		quote.setId(View.generateViewId());
 		quote.getLayoutParams().addRule(RelativeLayout.LEFT_OF, R.id.chat_input_context_reply_mention_button);
 		val drawable = quote.findViewById<ImageView>("chat_input_context_reply_mention_button_image")
@@ -127,14 +127,14 @@ class QuoteReply: Plugin(){
 			ColorCompat.getThemedColor(Utils.appContext, R.attr.colorControlBrandForeground);
 		}else{
 			ColorCompat.getThemedColor(Utils.appContext, R.attr.colorTextMuted);
-		);
+		};
 		ColorCompat.tintWithColor(drawable, color);
 		text.setTextColor(color);
 		text.setText(if(state) R.string.reply_mention_on else R.string.reply_mention_off);
 	}
 
-	override fun stop(ctx: Context) {
-		patcher.unpatchAll()
+	override fun stop(ctx: Context){
+		patcher.unpatchAll();
 	}
 
 }
