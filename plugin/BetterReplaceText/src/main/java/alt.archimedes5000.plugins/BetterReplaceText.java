@@ -51,3 +51,19 @@ public class BetterReplaceText extends Plugin {
 		patcher.unpatchAll();
 	};
 }
+
+patchMessageEmbeds(){
+	patcher.after<MessageEmbed>("k")balls@{frame ->
+		if(frame.result == "rich"){
+			if(frame.c() != null || (frame.f() != null && frame.m() != null)){
+				frame.result = "article";
+			}else if(frame.f() != null){
+				frame.result = "image";
+			}else if(frame.m() != null){
+				frame.result = "video";
+			}else{
+				frame.result = null;
+			}
+		}
+	}
+}
