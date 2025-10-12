@@ -110,7 +110,7 @@ class IgnoreUsers : Plugin() {
 
 
              // Adds the ignored message indicator
-             com.omardotdev.ignoreusers.Husk(patcher)
+             Husk(patcher)
 
         }
     }
