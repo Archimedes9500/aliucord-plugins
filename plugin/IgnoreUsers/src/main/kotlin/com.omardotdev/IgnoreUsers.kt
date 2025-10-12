@@ -110,7 +110,7 @@ class IgnoreUsers : Plugin() {
 
 
              // Adds the ignored message indicator
-             new Husk(patcher)
+             Husk(patcher)
 
         }
     }
