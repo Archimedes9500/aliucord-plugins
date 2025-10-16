@@ -1,4 +1,4 @@
-package com.omardotdev.ignoreusers;
+package io.github.juby210.acplugins;
 
 import com.discord.api.channel.Channel;
 import com.discord.api.role.GuildRole;
@@ -23,12 +23,34 @@ import kotlin.jvm.functions.Function14;
 import com.discord.widgets.chat.list.model.WidgetChatListModelMessages$Companion$get$1;
 import com.aliucord.api.PatcherAPI;
 import com.aliucord.patcher.InsteadHook;
+import com.aliucord.Logger;
 
 public class Husk{
-	Husk(PatcherAPI patcher){
-		patcher.patch(WidgetChatListModelMessages$Companion$get$1.getDeclaredMethod("invoke", WidgetChatListModelMessages.MessagesWithMetadata.class, Channel.class, Map.class, List.class, Map.class, Long.class, Map.class, Long.class, boolean.class, boolean.class, boolean.class, long.class, Map.class, InviteEmbedModel.class),
-			InsteadHook((frame, WidgetChatListModelMessages.MessagesWithMetadata messagesWithMetadata, Channel channel, Map<Long, Integer> map, List<Long> list, Map<Long, GuildMember> map2, Long l, Map<Long, GuildRole> map3, Long l2, boolean z2, boolean z3, boolean z4, long j, Map<Long, ComponentChatListState.ComponentStoreState> map4, InviteEmbedModel inviteEmbedModel) -> {
-				WidgetChatListModelMessages$Companion$get$1 this = (WidgetChatListModelMessages$Companion$get$1) frame.thisObject
+	Husk(IgnoreUsers instance, PatcherAPI patcher){
+		try{patcher.patch(WidgetChatListModelMessages$Companion$get$1.class.getDeclaredMethod("invoke", WidgetChatListModelMessages.MessagesWithMetadata.class, Channel.class, Map.class, List.class, Map.class, Long.class, Map.class, Long.class, boolean.class, boolean.class, boolean.class, long.class, Map.class, InviteEmbedModel.class, boolean.class),
+			new InsteadHook(frame -> {
+				//this
+				WidgetChatListModelMessages$Companion$get$1 _this = (WidgetChatListModelMessages$Companion$get$1) frame.thisObject;
+
+				//args
+				WidgetChatListModelMessages.MessagesWithMetadata messagesWithMetadata = (WidgetChatListModelMessages.MessagesWithMetadata) frame.args[0];
+				Channel channel = (Channel) frame.args[1];
+				Map<Long, Integer> map = (Map<Long, Integer>) frame.args[2];
+				List<Long> list = (List<Long>) frame.args[3];
+				Map<Long, GuildMember> map2 = (Map<Long, GuildMember>) frame.args[4];
+				Long l = (Long) frame.args[5];
+				Map<Long, GuildRole> map3 = (Map<Long, GuildRole>) frame.args[6];
+				Long l2 = (Long) frame.args[7];
+				boolean z2 = (boolean) frame.args[8];
+				boolean z3 = (boolean) frame.args[9];
+				boolean z4 = (boolean) frame.args[10];
+				long j = (long) frame.args[11];
+				Map<Long, ComponentChatListState.ComponentStoreState> map4 = (Map<Long, ComponentChatListState.ComponentStoreState>) frame.args[12];
+				InviteEmbedModel inviteEmbedModel = (InviteEmbedModel) frame.args[13];
+				boolean ass = (boolean) frame.args[14];
+
+				(new Logger("Husk")).debug(map.toString()+"\n"+instance.ignoredUsers.toString());
+
 				Object obj;
 				boolean z5;
 				boolean z6;
@@ -38,7 +60,7 @@ public class Husk{
 				Message message2;
 				WidgetChatListModelMessages.Companion companion;
 				WidgetChatListModelMessages.Items items;
-				WidgetChatListModelMessages$Companion$get$1 widgetChatListModelMessages$Companion$get$1 = this;
+				WidgetChatListModelMessages$Companion$get$1 widgetChatListModelMessages$Companion$get$1 = _this;
 				WidgetChatListModelMessages.MessagesWithMetadata messagesWithMetadata2 = messagesWithMetadata;
 				Map<Long, Integer> map5 = map;
 				m.checkNotNullParameter(messagesWithMetadata2, "messagesWithMetadata");
@@ -73,10 +95,10 @@ public class Husk{
 					Integer type = message5.getType();
 					if (type != null && type.intValue() == 21) {
 						User author = ((Message) WidgetChatListModelMessages.Companion.access$getThreadStarterMessageAndChannel(companion2, channel, widgetChatListModelMessages$Companion$get$1.$channel, message5, messagesWithMetadata2).getFirst()).getAuthor();
-						z6 = map5.containsKey(author != null ? Long.valueOf(author.getId()) : null);
+						z6 = map5.containsKey(author != null ? Long.valueOf(author.getId()) : null) || instance.ignoredUsers.contains(author != null ? Long.toString(author.getId()) : null);
 					} else {
 						User author2 = message5.getAuthor();
-						z6 = map5.containsKey(author2 != null ? Long.valueOf(author2.getId()) : null);
+						z6 = map5.containsKey(author2 != null ? Long.valueOf(author2.getId()) : null) || instance.ignoredUsers.contains(author2 != null ? Long.toString(author2.getId()) : null);
 					}
 					if (!z6 || (i2 = i2 + 1) != 1) {
 						z7 = z8;
@@ -108,7 +130,7 @@ public class Husk{
 							Channel channel3 = widgetChatListModelMessages$Companion$get$1.$channel;
 							m.checkNotNullExpressionValue(map2, "guildMembers");
 							items = items2;
-							items.addItems(WidgetChatListModelMessages.Companion.getMessageItems$default(companion, channel3, map2, map3, map, messagesWithMetadata.getMessageThreads().get(Long.valueOf(message2.getId())), messagesWithMetadata.getThreadCountsAndLatestMessages().get(Long.valueOf(message2.getId())), message2, messagesWithMetadata.getMessageState().get(Long.valueOf(message2.getId())), messagesWithMetadata.getMessageReplyState(), z11, access$shouldConcatMessage, l2, z2, z3, z4, j, true, map4, inviteEmbedModel, false, 524288, null));
+							items.addItems(WidgetChatListModelMessages.Companion.getMessageItems$default(companion, channel3, map2, map3, map, messagesWithMetadata.getMessageThreads().get(Long.valueOf(message2.getId())), messagesWithMetadata.getThreadCountsAndLatestMessages().get(Long.valueOf(message2.getId())), message2, messagesWithMetadata.getMessageState().get(Long.valueOf(message2.getId())), messagesWithMetadata.getMessageReplyState(), z11, access$shouldConcatMessage, l2, z2, z3, z4, j, true, map4, inviteEmbedModel, false, ass, 524288, null));
 						}
 					} else {
 						message3 = message;
@@ -120,11 +142,11 @@ public class Husk{
 					if (!z9) {
 						m.checkNotNullExpressionValue(l, str);
 						items2 = items;
-						widgetChatListModelMessages$Companion$get$1 = this;
+						widgetChatListModelMessages$Companion$get$1 = _this;
 						z9 = WidgetChatListModelMessages.Companion.access$tryAddNewMessagesSeparator(companion, items2, l.longValue(), z10, message2.getId(), widgetChatListModelMessages$Companion$get$1.$channel);
 					} else {
 						items2 = items;
-						widgetChatListModelMessages$Companion$get$1 = this;
+						widgetChatListModelMessages$Companion$get$1 = _this;
 					}
 					messagesWithMetadata2 = messagesWithMetadata;
 					map5 = map;
@@ -139,7 +161,7 @@ public class Husk{
 				long id4 = message7 != null ? message7.getId() : 0L;
 				m.checkNotNullExpressionValue(l, "newMessagesMarkerMessageId");
 				long longValue = l.longValue();
-				Iterator<T> it = messagesWithMetadata.getMessages().iterator();
+				Iterator<Message> it = messagesWithMetadata.getMessages().iterator();
 				while (true) {
 					if (!it.hasNext()) {
 						obj = null;
@@ -149,10 +171,8 @@ public class Husk{
 					User author3 = ((Message) obj).getAuthor();
 					if (author3 == null || author3.getId() != j) {
 						z5 = false;
-						continue;
 					} else {
 						z5 = true;
-						continue;
 					}
 					if (z5) {
 						break;
@@ -160,7 +180,7 @@ public class Husk{
 				}
 				Message message8 = (Message) obj;
 				return new WidgetChatListModelMessages(items3, id3, id4, map2, longValue, message8 != null ? Long.valueOf(message8.getId()) : null);
-			}),
-		);
+			})
+		);}catch(Exception e){};
 	}
 }
