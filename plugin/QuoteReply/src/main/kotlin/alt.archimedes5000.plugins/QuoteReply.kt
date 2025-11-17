@@ -1,4 +1,4 @@
-package alt.archimedes9500.plugins
+package alt.archimedes5000.plugins
 
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
@@ -38,7 +38,7 @@ class QuoteReply: Plugin(){
 	val WidgetChatListActions.binding by accessGetter<WidgetChatListActionsBinding>("getBinding");
 
 	@SuppressLint("SetTextI18n")
-	override fun start(ctx: Context) {
+	override fun start(ctx: Context){
 
 		this.state = false;//settings.getBool("default", false);
 
