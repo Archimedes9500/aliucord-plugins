@@ -5,7 +5,6 @@ import com.android.build.gradle.LibraryExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
 
-// TODO: Change to your repository
 val repo = "Archimedes9500/aliucord-plugins"
 
 subprojects {
@@ -19,7 +18,6 @@ subprojects {
     }
 
     configure<LibraryExtension> {
-        // TODO: Change to your package name
         namespace = "alt.archimedes5000.plugins"
 
         compileSdk = 34
@@ -43,7 +41,6 @@ subprojects {
     }
 
     configure<AliucordExtension> {
-        // TODO: Change to your name and user ID
         author("Archimedes5000", 0L)
 
         updateUrl.set("https://raw.githubusercontent.com/$repo/builds/updater.json")
