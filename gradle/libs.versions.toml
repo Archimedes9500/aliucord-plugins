@@ -1,19 +1,19 @@
 [versions]
-aliucord = "2.4.0"
-aliucord-gradle = "2.1.1"
-android = "7.4.2"
-discord = "126021"
+discord = "aliucord-SNAPSHOT"
+aliucord = "main-SNAPSHOT"
+#noinspection GradleDependency Aliucord uses Kotlin 1.5.21
 kotlin = "1.5.21"
-ktlint-plugin = "12.1.1"
+android = "7.4.2"
+ktlintPlugin = "12.1.1"
+#noinspection GradleDependency Newer versions incompatible with other plugins
 ktlint = "0.50.0"
 
 [libraries]
-aliucord = { module = "com.aliucord:Aliucord", version.ref = "aliucord" }
 discord = { module = "com.discord:discord", version.ref = "discord" }
-kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+aliucord = { module = "com.aliucord:Aliucord", version.ref = "aliucord" }
 
 [plugins]
-aliucord-plugin = { id = "com.aliucord.plugin", version.ref = "aliucord-gradle" }
 android-library = { id = "com.android.library", version.ref = "android" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint-plugin" }
+aliucord = { id = "com.aliucord.gradle", version.ref = "aliucord" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintPlugin" }
