@@ -22,12 +22,12 @@ class NCP: Plugin(){
 	fun encrypt(string: String): String{
 		var s = StringBuilder(string);
 		val r = Regex("""<.*?>|[\[\]\(\)*~#-_>\n]""");
-		val matches = r.findAll(string);
+		val matches = r.findAll(string as CharSequence);
 	
 		var out = StringBuilder(string);
 		for(i in out.indices){
 			if(matches.any{m -> i in m.range}) continue;
-			out[i] = (out[i].toInt()+key[ver]?.get(i))?.toChar();
+			out[i] = (out[i]?.toInt()+key[ver]?.get(i))?.toChar();
 		};
 		return ver+out.toString();
 	};
@@ -35,12 +35,12 @@ class NCP: Plugin(){
 		val v = string.substring(0, 4)
 		var s = StringBuilder(string.substring(4));
 		val r = Regex("""<.*?>|[\[\]\(\)*~#-_>\n]""");
-		val matches = r.findAll(string.substring(4));
+		val matches = r.findAll(string.substring(4) as CharSequence);
 	
 		var out = StringBuilder(string);
 		for(i in out.indices){
 			if(matches.any{m -> i in m.range}) continue;
-			out[i] = (out[i].toInt()-key[v]?.get(i))?.toChar();
+			out[i] = (out[i]?.toInt()-key[v]?.get(i))?.toChar();
 		};
 		return out.toString();
 	};
