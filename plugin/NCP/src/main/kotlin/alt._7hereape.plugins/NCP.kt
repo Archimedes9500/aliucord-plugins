@@ -27,7 +27,7 @@ class NCP: Plugin(){
 		var out = StringBuilder(string);
 		for(i in out.indices){
 			if(matches.any{m -> i in m.range}) continue;
-			out[i] = (out[i].toInt()+key[ver][i]).toChar();
+			out[i] = (out[i].toInt()+key[ver]?.get(i))?.toChar();
 		};
 		return ver+out.toString();
 	};
@@ -40,7 +40,7 @@ class NCP: Plugin(){
 		var out = StringBuilder(string);
 		for(i in out.indices){
 			if(matches.any{m -> i in m.range}) continue;
-			out[i] = (out[i].toInt()-key[v]?.get(i)?.toChar();
+			out[i] = (out[i].toInt()-key[v]?.get(i))?.toChar();
 		};
 		return out.toString();
 	};
