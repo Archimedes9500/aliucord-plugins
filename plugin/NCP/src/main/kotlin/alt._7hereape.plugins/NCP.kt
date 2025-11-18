@@ -1,4 +1,4 @@
-package alt.7hereape.plugins
+package alt._7hereape.plugins
 
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
