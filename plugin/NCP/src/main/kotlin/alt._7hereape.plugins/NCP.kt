@@ -4,6 +4,14 @@ import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
 import android.annotation.SuppressLint
 import android.content.Context
+import com.aliucord.patcher.PreHook
+import com.discord.api.user.User
+import com.discord.widgets.chat.input.ChatInputViewModel
+import com.discord.widgets.chat.input.ChatInputViewModel.ViewState
+import com.discord.widgets.chat.MessageManager
+import com.discord.widgets.chat.MessageContent
+import kotlin.jvm.functions.Function1
+import com.discord.models.message.Message
 
 @AliucordPlugin
 class NCP: Plugin(){
@@ -14,7 +22,7 @@ class NCP: Plugin(){
 	fun encrypt(string: String): String{
 		var s = StringBuilder(string);
 		val r = Regex("""<.*?>|[\[\]\(\)*~#-_>\n]""");
-		val matches = r.findAll(s.toString());
+		val matches = r.findAll(string);
 	
 		var out = StringBuilder(string);
 		for(i in out.indices){
@@ -32,7 +40,7 @@ class NCP: Plugin(){
 		var out = StringBuilder(string);
 		for(i in out.indices){
 			if(matches.any{m -> i in m.range}) continue;
-			out[i] = (out[i].toInt()-this.key[v][i]).toChar();
+			out[i] = (out[i].toInt()-key[v]?.get(i)?.toChar();
 		};
 		return out.toString();
 	};
@@ -51,7 +59,7 @@ class NCP: Plugin(){
 			PreHook{(frame, _: Context, _: MessageManager, messageContent: MessageContent) ->
 				val (text: String, users: List<User>) = messageContent;
 				frame.args[2] = MessageContent(encrypt(text), users);
-			};
+			}
 		);
 	};
 
