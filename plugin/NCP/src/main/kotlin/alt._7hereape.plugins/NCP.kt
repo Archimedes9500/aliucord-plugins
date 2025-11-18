@@ -5,7 +5,7 @@ import com.aliucord.entities.Plugin
 import android.annotation.SuppressLint
 import android.content.Context
 import com.aliucord.patcher.PreHook
-import com.discord.api.user.User
+import com.discord.models.user.User
 import com.discord.widgets.chat.input.ChatInputViewModel
 import com.discord.widgets.chat.input.ChatInputViewModel.ViewState
 import com.discord.widgets.chat.MessageManager
@@ -56,8 +56,8 @@ class NCP: Plugin(){
 				Boolean::class.javaPrimitiveType,
 				Function1::class.java
 			),
-			PreHook{frame, _: Context, _: MessageManager, messageContent: MessageContent ->
-				val (text: String, users: List<User>) = messageContent;
+			PreHook{frame ->
+				val (text: String, users: List<User>) = frame.args[2];
 				frame.args[2] = MessageContent(encrypt(text), users);
 			}
 		);
