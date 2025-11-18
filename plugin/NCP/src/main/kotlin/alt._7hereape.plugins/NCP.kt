@@ -56,8 +56,8 @@ class NCP: Plugin(){
 				Boolean::class.javaPrimitiveType,
 				Function1::class.java
 			),
-			PreHook{frame ->
-				val (text: String, users: List<User>) = frame.args[2];
+			PreHook{frame, (_: Context, _: MessageManager, messageContent: MessageContent) ->
+				val (text: String, users: List<User>) = frame.args[2] as MessageContent;
 				frame.args[2] = MessageContent(encrypt(text), users);
 			}
 		);
