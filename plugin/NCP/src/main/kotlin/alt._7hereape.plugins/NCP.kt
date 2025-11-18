@@ -22,7 +22,7 @@ class NCP: Plugin(){
 	fun encrypt(string: String): String{
 		var s = StringBuilder(string);
 		val r = Regex("""<.*?>|[\[\]\(\)*~#-_>\n]""");
-		val matches = r.findAll(string as CharSequence);
+		val matches = r.findAll(string, 0);
 	
 		var out = StringBuilder(string);
 		for(i in out.indices){
@@ -35,7 +35,7 @@ class NCP: Plugin(){
 		val v = string.substring(0, 4)
 		var s = StringBuilder(string.substring(4));
 		val r = Regex("""<.*?>|[\[\]\(\)*~#-_>\n]""");
-		val matches = r.findAll(string.substring(4) as CharSequence);
+		val matches = r.findAll(string, 4);
 	
 		var out = StringBuilder(string);
 		for(i in out.indices){
