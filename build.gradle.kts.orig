@@ -1,0 +1,17 @@
+<<<<<<< HEAD
+@file:Suppress("DSL_SCOPE_VIOLATION")
+
+plugins {
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.aliucord) apply false
+    alias(libs.plugins.ktlint) apply false
+}
+=======
+plugins {
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.aliucord.plugin) apply true
+    alias(libs.plugins.ktlint) apply false
+}
+>>>>>>> 7a971fb315c00aad1bde2c6ec2baf015335b9cf9
