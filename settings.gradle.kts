@@ -1,35 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
 pluginManagement {
-<<<<<<< HEAD
-	repositories {
-		google()
-		gradlePluginPortal()
-		maven("https://maven.aliucord.com/snapshots")
-		maven("https://maven.aliucord.com/releases")
-		maven("https://jitpack.io")
-	}
-}
-
-dependencyResolutionManagement {
-	repositories {
-		google()
-		mavenCentral()
-		maven("https://maven.aliucord.com/snapshots")
-	}
-
-	repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-}
-
-rootProject.name = "aliucord-plugins"
-
-rootDir
-	.resolve("plugin")
-	.listFiles { file ->
-		file.isDirectory && file.resolve("build.gradle.kts").exists()
-	}!!
-	.forEach { include(":plugin:${it.name}") }
-=======
     repositories {
         google()
         gradlePluginPortal()
@@ -59,4 +30,3 @@ include(":plugins")
 rootDir.resolve("plugins")
     .listFiles { file -> file.isDirectory && file.resolve("build.gradle.kts").exists() }!!
     .forEach { include(":plugins:${it.name}") }
->>>>>>> 7a971fb315c00aad1bde2c6ec2baf015335b9cf9
