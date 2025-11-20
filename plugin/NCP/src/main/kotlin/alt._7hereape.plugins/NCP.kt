@@ -30,6 +30,7 @@ class NCP: Plugin(){
 			while(matcher.find(i)){
 				val m = matcher.toMatchResult();
 				if(i >= m.start() && i < m.end()){i++;continue};
+				i++;
 			};
 		}else{
 			return string;
