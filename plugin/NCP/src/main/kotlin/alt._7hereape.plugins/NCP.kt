@@ -23,10 +23,10 @@ class NCP: Plugin(){
 		val r = Regex("""<.*?>|[\[\]\(\)*~#-_>\n]""");
 		val matches = r.findAll(string, 0);
 
-		var out = StringBuilder(string);
+		//var out = StringBuilder(string);
 		if(key[ver] != null){
-			for(i in out.indices){
-				//if(matches.any{m -> i in m.range}) continue;
+			for(i in string.indices){
+				if(matches.any{m -> i in m.range}) continue;
 			};
 		}else{
 			return string;
