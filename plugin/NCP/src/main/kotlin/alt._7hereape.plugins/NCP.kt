@@ -17,7 +17,8 @@ import com.discord.models.message.Message
 class NCP: Plugin(){
 	val ver = "nana";
 	val key: HashMap<String, Array<Int>> = hashMapOf(
-		"nana" to arrayOf();
+		"nana" to arrayOf()
+	);
 	fun encrypt(string: String): String{
 		var s = StringBuilder(string);
 		val r = Regex("""<.*?>|[\[\]\(\)*~#-_>\n]""");
