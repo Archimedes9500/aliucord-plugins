@@ -30,9 +30,9 @@ class NCP: Plugin(){
 			for(i in string.indices){
 				val m = matcher.toMatchResult();
 				if(i >= m.start() && i < m.end()) continue;
-				val c = out[i]!!;
-				val k = k[ver]!!.get(i)!!
-				out[i] = (c.toInt()!!+k).toChar()!!;
+				val c = out[i]!!.toInt();
+				val k = key[ver]!!.get(i)!!;
+				out[i] = (c+k).toChar()!!;
 				if(i == m.end()) matcher.find(i);
 			};
 		}else{
