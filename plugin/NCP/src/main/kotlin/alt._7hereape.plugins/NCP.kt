@@ -40,7 +40,7 @@ class NCP: Plugin(){
 		};
 		return ver+out.toString();
 	};
-	fun encrypt(string: String): String{
+	fun decrypt(string: String): String{
 		val r = Pattern.compile("""<.*?>|[\[\]\(\)*~#-_>\n]""");
 		val matcher = r.matcher(string.substring(10));
 
