@@ -6,5 +6,4 @@ aliucord {
 		"""
 		""".trimIndent()
 	)
-	excludeFromUpdaterJson.set(true)
 }
