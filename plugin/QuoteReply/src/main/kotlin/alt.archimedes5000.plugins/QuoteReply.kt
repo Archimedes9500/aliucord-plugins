@@ -9,6 +9,7 @@ import com.discord.widgets.chat.list.actions.WidgetChatListActions.Model
 import com.discord.widgets.chat.list.actions.`WidgetChatListActions$configureUI$14`
 import com.discord.databinding.WidgetChatListActionsBinding
 import com.aliucord.utils.accessGetter
+import com.aliucord.patcher.* //retarded
 import com.aliucord.patcher.Hook
 import com.aliucord.patcher.PreHook
 import com.aliucord.utils.findViewById
