@@ -25,8 +25,7 @@ class NCP: Plugin(){
 		val matcher = r.matcher(string);
 
 		var out = StringBuilder(string);
-		matcher.find(0);
-		if(key[ver] != null){
+		if(key[ver] != null && matcher.find(0)){
 			for(i in string.indices){
 				val m = matcher.toMatchResult();
 				if(i >= m.start() && i < m.end()) continue;
