@@ -25,10 +25,13 @@ class NCP: Plugin(){
 		val matches = r.findAll(string, 0);
 	
 		var out = StringBuilder(string);
-		if(key[ver] == null) return string;
-		for(i in out.indices){
-			if(matches.any{m -> i in m.range}) continue;
-			out[i] = (s[i]!!.toInt()+key[ver][i])!!.toChar();
+		if(key[ver] != null){
+			for(i in out.indices){
+				if(matches.any{m -> i in m.range}) continue;
+				out[i] = (s[i]!!.toInt()+key[ver][i])!!.toChar();
+			};
+		}else{
+			return string;
 		};
 		return ver+out.toString();
 	};
@@ -39,10 +42,13 @@ class NCP: Plugin(){
 		val matches = r.findAll(string, 4);
 	
 		var out = StringBuilder(string);
-		if(key[ver] == null) return string;
-		for(i in out.indices){
-			if(matches.any{m -> i in m.range}) continue;
-			out[i] = (s[i]!!.toInt()-key[ver][i])!!.toChar();
+		if(key[ver] != null){
+			for(i in out.indices){
+				if(matches.any{m -> i in m.range}) continue;
+				out[i] = (s[i]!!.toInt()-key[ver][i])!!.toChar();
+			};
+		}else{
+			return string;
 		};
 		return out.toString();
 	};
