@@ -26,8 +26,11 @@ class NCP: Plugin(){
 		//var out = StringBuilder(string);
 		if(key[ver] != null){
 			for(i in string.indices){
-				if(matches.none{m -> i in m.range}){
+				val shit = false;
+				for(m in matches){
+					if(i in m.range) shit = true;
 				};
+				if(shit) continue;
 			};
 		}else{
 			return string;
