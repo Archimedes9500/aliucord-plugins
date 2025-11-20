@@ -29,7 +29,7 @@ class NCP: Plugin(){
 		if(key[ver] != null){
 			while(matcher.find(i)){
 				val m = matcher.toMatchResult();
-				if(i >= m.start && i < m.end){i++;continue};
+				if(i >= m.start() && i < m.end()){i++;continue};
 			};
 		}else{
 			return string;
