@@ -22,7 +22,7 @@ import android.widget.TextView
 @AliucordPlugin(requiresRestart = false)
 class MessageAnchor : Plugin(){
 	@SuppressLint("SetTextI18n")
-	val settings = SettingsAPI("MessageAnchor");
+	//val settings = SettingsAPI("MessageAnchor");
 	override fun start(context: Context){
 		with(WidgetChatListActions::class.java){
 			val getBinding = getDeclaredMethod("getBinding")
