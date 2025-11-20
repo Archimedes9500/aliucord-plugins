@@ -38,7 +38,7 @@ subprojects {
     }
 
     configure<AliucordExtension> {
-        author("Archumedes5000", 0L)
+        author("Archimedes5000", 0L)
         github("https://github.com/Archimedes9500/aliucord-plugins/")
     }
 
