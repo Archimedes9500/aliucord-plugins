@@ -10,5 +10,4 @@ aliucord {
 		* Hold Message->Copy ID to save, hold Message->Reply to jump to saved
 		""".trimIndent()
 	)
-	excludeFromUpdaterJson.set(true)
 }
