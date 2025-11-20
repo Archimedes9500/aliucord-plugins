@@ -44,7 +44,6 @@ subprojects {
 
 	configure<KtlintExtension> {
 		version.set(libs.versions.ktlint.asProvider())
-
 		coloredOutput.set(true)
 		outputColorName.set("RED")
 		ignoreFailures.set(true)
