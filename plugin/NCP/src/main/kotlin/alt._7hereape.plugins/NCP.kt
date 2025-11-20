@@ -25,17 +25,20 @@ class NCP: Plugin(){
 		val matcher = r.matcher(string);
 
 		var out = StringBuilder(string);
-		var i = 0;
+		matcher.find(0);
 		if(key[ver] != null){
-			while(matcher.find(i)){
+			for(i in string.indices){
 				val m = matcher.toMatchResult();
-				if(i >= m.start() && i < m.end()){i++;continue};
-				i++;
+				if(i >= m.start() && i < m.end()) continue;
+				val c = out[i]!!;
+				val k = k[ver]!!.get(i)!!
+				out[i] = (c.toInt()!!+k).toChar()!!;
+				if(i == m.end()) matcher.find(i);
 			};
 		}else{
 			return string;
 		};
-		return string;
+		return ver+out.toString();
 	};
 
 	override fun start(pluginContext: Context){
