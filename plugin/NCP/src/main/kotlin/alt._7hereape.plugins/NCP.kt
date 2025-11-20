@@ -26,7 +26,7 @@ class NCP: Plugin(){
 		var out = StringBuilder(string);
 		if(key[ver] != null){
 			for(i in out.indices){
-				if(matches.any{m -> i in m.range}) continue;
+				//if(matches.any{m -> i in m.range}) continue;
 			};
 		}else{
 			return string;
