@@ -28,7 +28,7 @@ class NCP: Plugin(){
 		var flag = matcher.find(0);
 		if(key[ver] != null){
 			for(i in string.indices){
-				if(!flag){
+				if(flag){
 					val m = matcher.toMatchResult();
 					if(i >= m.start() && i < m.end()) continue;
 					if(i == m.end()) flag = matcher.find(i);
@@ -50,7 +50,7 @@ class NCP: Plugin(){
 		var flag = matcher.find(0);
 		if(key[ver] != null){
 			for(i in string.indices){
-				if(!flag){
+				if(flag){
 					val m = matcher.toMatchResult();
 					if(i >= m.start() && i < m.end()) continue;
 					if(i == m.end()) flag = matcher.find(i);
