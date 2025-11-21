@@ -41,7 +41,7 @@ class NCP: Plugin(){
 	};
 	fun Int.wrap(ver: String): Int{
 		val m = meta[ver]!!;
-		return mod((this-m.min!!), (m.limit!!-m.min!!+1))+m.min!!;
+		return mod((this-m["min"]!!), (m["limit"]!!-m["min"]!!+1))+m["min"]!!;
 	};
 	fun encrypt(string: String): String{
 		val r = Pattern.compile("""<.*?>|[\[\]\(\)*~#-_>\n]""");
