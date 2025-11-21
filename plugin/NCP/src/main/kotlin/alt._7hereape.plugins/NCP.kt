@@ -11,7 +11,7 @@ import com.discord.widgets.chat.input.ChatInputViewModel.ViewState
 import com.discord.widgets.chat.MessageManager
 import com.discord.widgets.chat.MessageContent
 import kotlin.jvm.functions.Function1
-import com.discord.models.message.Message
+import com.discord.api.message.Message
 import java.util.regex.Pattern
 
 @AliucordPlugin
@@ -80,6 +80,14 @@ class NCP: Plugin(){
 				val (text: String, users: List<User>) = frame.args[2] as MessageContent;
 				if(text.substring(0, 10) != "nanahirape") return@PreHook;
 				frame.args[2] = MessageContent(encrypt(text.substring(10)), users);
+			}
+		);
+		patcher.patch(
+			Message::class.java.getDeclaredMethod("i"),
+			Hook{frame ->
+				if(frame.result == null) return@Hook;
+				val text = frame.result as String;
+				frame.result = decrypt(text);
 			}
 		);
 	};
