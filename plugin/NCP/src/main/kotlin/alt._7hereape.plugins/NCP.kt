@@ -113,6 +113,7 @@ class NCP: Plugin(){
 			Hook{frame ->
 				if(frame.result == null) return@Hook;
 				val text = frame.result as String;
+				if(text.length < 10) return@Hook;
 				frame.result = decrypt(text);
 			}
 		);
