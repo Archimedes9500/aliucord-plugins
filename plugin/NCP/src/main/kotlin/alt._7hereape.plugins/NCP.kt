@@ -4,6 +4,7 @@ import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
 import android.annotation.SuppressLint
 import android.content.Context
+import com.aliucord.patcher.Hook
 import com.aliucord.patcher.PreHook
 import com.discord.models.user.User
 import com.discord.widgets.chat.input.ChatInputViewModel
