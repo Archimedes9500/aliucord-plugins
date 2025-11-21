@@ -28,10 +28,10 @@ class NCP: Plugin(){
 			"limit" to 0xFFFD
 		)
 	);
-	fun mod(x, y){
+	fun mod(x, y): Int{
 		return ((x%y)+y)%y;
 	};
-	function Int.wrap(ver: String): Int{
+	fun Int.wrap(ver: String): Int{
 		var (min, max, limit) = meta[ver]!!;
 		return mod((this-min), (limit-min+1))+min;
 	};
