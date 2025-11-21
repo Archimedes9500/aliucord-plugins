@@ -27,15 +27,13 @@ class NCP: Plugin(){
 			"min" to  0x4E00,
 			"max" to 0x9FFF,
 			"limit" to 0xFFFD,
-			"length" to 1,
-			"seed" to null
+			"length" to 1
 		),
 		"nanahira01" to hashMapOf(
 			"min" to  0x4E00,
 			"max" to 0x9FFF,
 			"limit" to 0xFFFD,
-			"length" to 2000,
-			"seed" to null
+			"length" to 2000
 		)
 	);
 	fun mod(x: Int, y: Int): Int{
