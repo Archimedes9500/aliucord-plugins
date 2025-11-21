@@ -31,11 +31,11 @@ class NCP: Plugin(){
 				if(!flag){
 					val m = matcher.toMatchResult();
 					if(i >= m.start() && i < m.end()) continue;
+					if(i == m.end()) flag = matcher.find(i);
 				};
 				val c = out[i]!!.toInt();
 				val k = key[ver]!!.get(i)!!;
 				out[i] = (c+k).toChar()!!;
-				if(i == m.end()) flag = matcher.find(i);
 			};
 		}else{
 			return string;
@@ -53,11 +53,11 @@ class NCP: Plugin(){
 				if(!flag){
 					val m = matcher.toMatchResult();
 					if(i >= m.start() && i < m.end()) continue;
+					if(i == m.end()) flag = matcher.find(i);
 				};
 				val c = out[i]!!.toInt();
 				val k = key[ver]!!.get(i)!!;
 				out[i] = (c-k).toChar()!!;
-				if(i == m.end()) flag = matcher.find(i);
 			};
 		}else{
 			return string;
