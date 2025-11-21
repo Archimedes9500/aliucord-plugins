@@ -58,7 +58,7 @@ class NCP: Plugin(){
 				};
 				val c = out[i]!!.toInt();
 				val l = meta[ver]!!.get("length")!!;
-				val k = key[ver]!!.get(i%(l+1))!!;
+				val k = key[ver]!!.get(i%l)!!;
 				out[i] = (c+k).wrap(ver).toChar()!!;
 			};
 		}else{
@@ -82,7 +82,7 @@ class NCP: Plugin(){
 				};
 				val c = out[i]!!.toInt();
 				val l = meta[ver]!!.get("length")!!;
-				val k = key[ver]!!.get(i%(l+1))!!;
+				val k = key[ver]!!.get(i%l)!!;
 				out[i] = (c-k).wrap(ver).toChar()!!;
 			};
 		}else{
