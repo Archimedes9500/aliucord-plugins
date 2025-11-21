@@ -104,7 +104,7 @@ class NCP: Plugin(){
 			),
 			PreHook{frame ->
 				val (text: String, users: List<User>) = frame.args[2] as MessageContent;
-				if(text.substring(0, 10) != "nanahirape") return@PreHook;
+				if(text.substring(0, 10) != "nanahirape" || text.length < 11) return@PreHook;
 				frame.args[2] = MessageContent(encrypt(text.substring(10)), users);
 			}
 		);
