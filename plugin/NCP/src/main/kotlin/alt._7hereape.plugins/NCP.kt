@@ -46,8 +46,8 @@ class NCP: Plugin(){
 		val r = Pattern.compile("""<.*?>|[\[\]\(\)*~#-_>\n]""");
 		val matcher = r.matcher(string.substring(10));
 
-		var out = StringBuilder(string);
-		var flag = matcher.find(10);
+		var out = StringBuilder(string.substring(10));
+		var flag = matcher.find(0);
 		if(key[ver] != null){
 			for(i in string.indices){
 				if(flag){
