@@ -57,8 +57,8 @@ class NCP: Plugin(){
 					if(i == m.end()) flag = matcher.find(i);
 				};
 				val c = out[i]!!.toInt();
-				val l: Int = meta[key]!!.get("length")!!
-				val k = key[ver]!!.get(i%l+1)!!;
+				val l = meta[ver]!!.get("length")!!;
+				val k = key[ver]!!.get(i%(l+1))!!;
 				out[i] = (c+k).wrap(ver).toChar()!!;
 			};
 		}else{
@@ -81,8 +81,8 @@ class NCP: Plugin(){
 					if(i == m.end()) flag = matcher.find(i);
 				};
 				val c = out[i]!!.toInt();
-				val l: Int = meta[key]!!.get("length")!!
-				val k = key[ver]!!.get(i%l+1)!!;
+				val l = meta[ver]!!.get("length")!!;
+				val k = key[ver]!!.get(i%(l+1))!!;
 				out[i] = (c-k).wrap(ver).toChar()!!;
 			};
 		}else{
