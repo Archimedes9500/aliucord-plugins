@@ -27,21 +27,23 @@ class NCP: Plugin(){
 			"min" to  0x4E00,
 			"max" to 0x9FFF,
 			"limit" to 0xFFFD,
-			"length" to 1
+			"length" to 1,
+			"seed" to null
 		),
 		"nanahira01" to hashMapOf(
 			"min" to  0x4E00,
 			"max" to 0x9FFF,
 			"limit" to 0xFFFD,
-			"length" to 2000
+			"length" to 2000,
+			"seed" to null
 		)
 	);
-	fun mod(x, y): Int{
+	fun mod(x: Int, y: Int): Int{
 		return ((x%y)+y)%y;
 	};
 	fun Int.wrap(ver: String): Int{
-		var (min, max, limit) = meta[ver]!!;
-		return mod((this-min), (limit-min+1))+min;
+		val m = meta[ver]!!;
+		return mod((this-m.min!!), (m.limit!!-m.min!!+1))+m.min!!;
 	};
 	fun encrypt(string: String): String{
 		val r = Pattern.compile("""<.*?>|[\[\]\(\)*~#-_>\n]""");
