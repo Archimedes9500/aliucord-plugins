@@ -20,16 +20,16 @@ class NCP: Plugin(){
 	val ver = "nanahira00";
 	val versions = mapOf(
 		"nanahira00" to Encryption(
-			key = intArrayOf(0x4E00),
+			key = Key(0x4E00),
 			charset = Charset(0x4E00..0x9FFF)
 		).apply{
-			offset = {i -> key[i]!!};
+			offset = {i -> key[i]};
 		},
 		"nanahira01" to Encryption(
-			key = intArrayOf(0x1500),
+			key = Key(0x1500),
 			charset = Charset(0x1500..0x15FF, 0x3400..0x4CFF, 0x4E00..0x9EFF, 0xA100..0xA3FF, 0xA500..0xA5FF, 0x10600..0x106FF, 0x12000..0x122FF, 0x13000..0x133FF, 0x14400..0x145FF, 0x16800..0x169FF, 0x20000..0x285FF)
 		).apply{
-			offset = {i -> key[i]!!};
+			offset = {i -> key[i]};
 		}
 	);
 
