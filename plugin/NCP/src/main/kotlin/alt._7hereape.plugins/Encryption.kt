@@ -1,7 +1,8 @@
 package alt._7hereape.plugins
 
-class Encryption(
+class Encryption<T>(
 	val key: IntArray,
-	val charset: Charset,
-	val offset: (i: Int) -> Int
-){};
+	val charset: Charset
+){
+	lateinit var offset: (i: Int) -> Int;
+};
