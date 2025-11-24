@@ -1,6 +1,6 @@
 package alt._7hereape.plugins
 
-class Encryption<T>(
+class Encryption(
 	val key: IntArray,
 	val charset: Charset
 ){
