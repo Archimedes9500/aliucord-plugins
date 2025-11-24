@@ -2,8 +2,8 @@ package alt._7hereape.plugins
 
 class Charset(vararg ranges: IntRange){
 	val list: List<Int> = ranges.flatMap{it.toList()}.distinct().sorted();
-	val min = list.first();
-	val max = list.last();
+	val min = 0;
+	val max = list.lastIndex();
 
 	operator fun get(i: Int): Int{
 		return list[mod((i-min), (max-min+1))+min]!!;
