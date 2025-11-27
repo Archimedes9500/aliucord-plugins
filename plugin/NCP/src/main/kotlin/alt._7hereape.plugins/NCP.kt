@@ -68,8 +68,8 @@ class NCP: Plugin(){
 					if(i >= m.start() && i < m.end()) continue;
 					if(i == m.end()) flag = matcher.find(i);
 				};
-				val offset = encryption.offset(i);
-				out[i] = encryption.charset.char(out, i, (-offset));
+				val offset = -encryption.offset(i);
+				out[i] = encryption.charset.char(out, i, offset);
 			};
 		}else{
 			return string;
