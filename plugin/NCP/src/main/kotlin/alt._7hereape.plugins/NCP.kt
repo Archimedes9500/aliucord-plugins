@@ -69,7 +69,7 @@ class NCP: Plugin(){
 					if(i == m.end()) flag = matcher.find(i);
 				};
 				val offset = encryption.offset(i);
-				out[i] = (out[i]!!.toInt()-offset).toChar();
+				out[i] = (out[i].toInt()-offset).toChar();
 			};
 		}else{
 			return string;
