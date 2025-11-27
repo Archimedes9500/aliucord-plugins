@@ -15,8 +15,6 @@ import kotlin.jvm.functions.Function1
 import com.discord.api.message.Message
 import java.util.regex.Pattern
 
-import com.aliucord.Logger
-
 @AliucordPlugin
 class NCP: Plugin(){
 	val ver = "nanahira00";
@@ -70,9 +68,8 @@ class NCP: Plugin(){
 					if(i >= m.start() && i < m.end()) continue;
 					if(i == m.end()) flag = matcher.find(i);
 				};
-				val offset = -encryption.offset(i);
-				Logger().debug(offset.toString());
-				out[i] = encryption.charset.char(out, i, offset);
+				val offset = encryption.offset(i);
+				out[i] = (out[i]!!.toInt()-offset).toChar();
 			};
 		}else{
 			return string;
