@@ -8,5 +8,7 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
+      - name: checkout
+        uses: actions/checkout@v5
       - name: use git
         run: git ${{ github.event.inputs.params }}	
