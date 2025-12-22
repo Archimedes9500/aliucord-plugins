@@ -1,3 +1,4 @@
+name: Git
 on: 
   workflow_dispatch:
     inputs:
