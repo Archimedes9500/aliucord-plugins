@@ -1,0 +1,13 @@
+on: 
+  workflow_dispatch:
+    inputs:
+      params:
+        required: false
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: set env
+        run: echo "params='${{ github.event.inputs.params }}'" >> $GITHUB_ENV
+      - name: use git
+        run: git $params	
