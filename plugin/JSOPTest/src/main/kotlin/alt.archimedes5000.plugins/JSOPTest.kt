@@ -11,7 +11,7 @@ import org.json.*
 @AliucordPlugin(requiresRestart = false)
 class JSOPTest: Plugin(){
 	@SuppressLint("SetTextI18n")
-	val settings = SettingsUtilsJSON("JSOPTest");
+	override val settings = SettingsUtilsJSON("JSOPTest");
 	override fun start(pluginContext: Context){
 		val imports = settings.getObject("import", Map<String, String>::class);
 		val jsop = JSOP(imports, object{
