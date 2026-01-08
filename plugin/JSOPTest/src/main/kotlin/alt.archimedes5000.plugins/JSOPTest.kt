@@ -6,7 +6,6 @@ import android.content.Context
 import com.aliucord.Utils.showToast
 import com.aliucord.SettingsUtilsJSON
 import com.discord.stores.StoreStream
-import com.discord.api.user.User
 import com.discord.models.user.MeUser
 import org.json.*
 
