@@ -20,7 +20,9 @@ class JSOPTest: Plugin(){
 		});
 
 		val body = settings2.getObject<JSONArray>("body", JSONArray());
-		if(!jsop.run<Boolean?>(body.getJSONArray(0))?: false){
+		if(jsop.run<Boolean?>(body.getJSONArray(0))){
+			showToast("Yuore a bot", showLonger = true);
+		}else{
 			showToast("Yuore not a bot", showLonger = true);
 		};
 	};
