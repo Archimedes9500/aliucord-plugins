@@ -19,11 +19,14 @@ class JSOPTest: Plugin(){
 			val `$author`: User = StoreStream.getUsers().me as User;
 		});
 
+		logger.debug("aaa");
 		val body = settings2.getObject<JSONArray>("body", JSONArray());
-		if(jsop.run<Boolean?>(body.getJSONArray(0)) == true){
+		if(jsop.run<Boolean>(body.getJSONArray(0)) == true){
 			showToast("Yuore a bot", showLonger = true);
+			logger.debug("bbb");
 		}else{
 			showToast("Yuore not a bot", showLonger = true);
+			logger.debug("ccc");
 		};
 	};
 	override fun stop(pluginContext: Context) = patcher.unpatchAll();
