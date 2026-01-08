@@ -6,20 +6,21 @@ import android.content.Context
 import com.aliucord.Utils.showToast
 import com.aliucord.SettingsUtilsJSON
 import com.discord.stores.StoreStream
+import com.discord.api.user.User
 import org.json.*
 
 @AliucordPlugin(requiresRestart = false)
 class JSOPTest: Plugin(){
 	@SuppressLint("SetTextI18n")
-	override val settings = SettingsUtilsJSON("JSOPTest");
+	val settings2 = SettingsUtilsJSON("JSOPTest");
 	override fun start(pluginContext: Context){
-		val imports = settings.getObject("import", Map<String, String>::class);
+		val imports = settings2.getObject("import", Map<String, String>::class.java);
 		val jsop = JSOP(imports, object{
 			val `$author`: User = StoreStream.getUsers().me;
 		});
 
-		val body = settings.getObject("body", JSONArray::class);
-		if(jsop.run<Boolean?>(body.getJSONArray(0))){
+		val body = settings2.getObject("body", JSONArray::class) as JSONArray;
+		if(jsop.run<Boolean>(body.getJSONArray(0))){
 			showToast("Yuore not a bot", showLonger = true);
 		};
 	};
