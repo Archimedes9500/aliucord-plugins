@@ -19,7 +19,7 @@ class JSOPTest: Plugin(){
 			val `$author`: User = StoreStream.getUsers().me as User;
 		});
 
-		val body = settings2.getObject("body", JSONArray(), JSONArray::class) as JSONArray;
+		val body = settings2.getObject<JSONArray>("body", JSONArray());
 		if(!jsop.run<Boolean?>(body.getJSONArray(0))?: false){
 			showToast("Yuore not a bot", showLonger = true);
 		};
