@@ -14,7 +14,7 @@ class JSOPTest: Plugin(){
 	@SuppressLint("SetTextI18n")
 	val settings2 = SettingsUtilsJSON("JSOPTest");
 	override fun start(pluginContext: Context){
-		val imports = settings2.getObject("import", mapOf(), Map::class);
+		val imports = settings2.getObject("import", mapOf<String, String>(), Map::class);
 		val jsop = JSOP(imports, object{
 			val `$author`: User = StoreStream.getUsers().me as User;
 		});
