@@ -14,13 +14,13 @@ class JSOPTest: Plugin(){
 	@SuppressLint("SetTextI18n")
 	val settings2 = SettingsUtilsJSON("JSOPTest");
 	override fun start(pluginContext: Context){
-		val imports = settings2.getObject("import", Map<String, String>::class.java);
+		val imports = settings2.getObject("import", Map::class);
 		val jsop = JSOP(imports, object{
-			val `$author`: User = StoreStream.getUsers().me;
+			val `$author`: User = StoreStream.getUsers().me as User;
 		});
 
 		val body = settings2.getObject("body", JSONArray::class) as JSONArray;
-		if(jsop.run<Boolean>(body.getJSONArray(0))){
+		if(!jsop.run<Boolean>(body.getJSONArray(0))?: false){
 			showToast("Yuore not a bot", showLonger = true);
 		};
 	};
