@@ -18,14 +18,13 @@ class JSOPTest: Plugin(){
 			val `$me`: MeUser = StoreStream.getUsers().me;
 		});
 
-		val body = settings.getObject<JSONArray>("balls", JSONArray());
-		/*val isBot = jsop.run<Boolean>(body.optJSONArray(0));
+		val body = settings.getObject<JSONArray>("body", JSONArray());
+		val isBot = jsop.run<Boolean>(body.getJSONArray(0));
 		when(isBot){
 			false -> showToast("Yuore not a bot", showLonger = true);
 			true-> showToast("Yuore a bot", showLonger = true);
 			else -> showToast("Idk wtf yuore", showLonger = true);
-		};*/
-		showToast(body.toString(), showLonger = true);
+		};
 	};
 	override fun stop(pluginContext: Context) = patcher.unpatchAll();
 };
