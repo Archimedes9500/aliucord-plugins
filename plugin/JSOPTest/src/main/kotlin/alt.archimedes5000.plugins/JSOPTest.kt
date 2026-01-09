@@ -19,7 +19,7 @@ class JSOPTest: Plugin(){
 			val `$me`: MeUser = StoreStream.getUsers().me;
 		});
 
-		val body = settings2.getJSONArray("body", JSONArray());
+		val body = settings.getObject<JSONArray>("balls", JSONArray());
 		if(jsop.run<Boolean>(body.getJSONArray(0)) == true){
 			showToast("Yuore a bot", showLonger = true);
 		}else{
