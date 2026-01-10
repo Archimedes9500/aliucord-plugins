@@ -12,13 +12,14 @@ import org.json.*
 @AliucordPlugin(requiresRestart = true)
 class JSOPTest: Plugin(){
 	@SuppressLint("SetTextI18n")
+	val settings2 = SettingsUtilsJSON("JSOPTest");
 	override fun start(pluginContext: Context){
 		val imports = settings.getObject<Map<String, String>>("import", mapOf());
 		val jsop = JSOP(imports, object{
 			val `$me`: MeUser = StoreStream.getUsers().me;
 		});
 
-		val body = settings.getObject<JSONArray>("body", JSONArray());
+		val body = settings2.getSONArray("body", JSONArray());
 		val isBot = jsop.run<Boolean>(body.getJSONArray(0));
 		when(isBot){
 			false -> showToast("Yuore not a bot", showLonger = true);
