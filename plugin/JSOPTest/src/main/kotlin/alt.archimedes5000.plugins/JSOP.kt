@@ -137,7 +137,7 @@ class JSOP(
 	};
 	fun exec(returnType: String, expr: Expression): Any?{
 		val name = expr.name;
-
+		if(expr.reciever == null) return null;//wharrr
 		val reciever = processArg(expr.reciever);
 		val recieverType = expr.reciever.first;
 		val args = expr.args.map{processArg(it)?.second}.toTypedArray();
