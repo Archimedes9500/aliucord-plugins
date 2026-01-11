@@ -5,12 +5,8 @@ pluginManagement {
         google()
         gradlePluginPortal()
         maven {
-            name = "aliucord-releases"
+            name = "aliucord"
             url = uri("https://maven.aliucord.com/releases")
-        }
-        maven {
-            name = "aliucord-snapshots"
-            url = uri("https://maven.aliucord.com/snapshots")
         }
     }
 }
@@ -21,8 +17,12 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven {
-            name = "aliucord"
+            name = "aliucord-releases"
             url = uri("https://maven.aliucord.com/releases")
+        }
+        maven {
+            name = "aliucord-snapshots"
+            url = uri("https://maven.aliucord.com/snapshots")
         }
     }
 }
