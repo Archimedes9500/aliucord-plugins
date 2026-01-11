@@ -125,19 +125,22 @@ class JSOP(
 	};
 	fun processArg(arg: Pair<String, Any?>): Pair<String, Any?>?{
 		var (type, value) = arg;
+		val setUpValue = envSetup(value);
 		return if(value == null){
 			arg;
+		}else if(setUpValue){
+			Pair(type, setUpValue);
 		}else if(value is Expression){
 			Pair(type, exec(type, value));
-		}else if(envSetup(value)!!::class.java == Class.forName(imports[type]!!)){
-			Pair(type, envSetup(value));
+		}else if(setUpValue::class.java == Class.forName(imports[type]!!)){
+			Pair(type, setUpValue);
 		}else{
-			convert(Pair(type, envSetup(value)));
+			convert(Pair(type, setUpValue));
 		};
 	};
 	fun exec(returnType: String, expr: Expression): Any?{
 		val name = expr.name;
-		if(expr.reciever == null) return null;//wharrr
+
 		val reciever = processArg(expr.reciever);
 		val recieverType = expr.reciever.first;
 		val args = expr.args.map{processArg(it)?.second}.toTypedArray();
