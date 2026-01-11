@@ -1,6 +1,6 @@
 [versions]
 aliucord = "main-SNAPSHOT"
-aliucord-gradle = "2.2.0"
+aliucord-gradle = "main-SNAPSHOT"
 android = "8.13.1"
 discord = "126021"
 kotlin = "2.2.21"
