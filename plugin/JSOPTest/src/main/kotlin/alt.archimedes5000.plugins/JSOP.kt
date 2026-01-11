@@ -128,7 +128,7 @@ class JSOP(
 		val setUpValue = envSetup(value);
 		return if(value == null){
 			arg;
-		}else if(setUpValue){
+		}else if(setUpValue == null){
 			Pair(type, setUpValue);
 		}else if(value is Expression){
 			Pair(type, exec(type, value));
