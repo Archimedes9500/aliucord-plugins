@@ -126,13 +126,14 @@ class JSOP(
 	fun processArg(arg: Pair<String, Any?>): Pair<String, Any?>?{
 		var (type, value) = arg;
 		val setUpValue = envSetup(value);
+		val argClass = Class.forName(imports[type]!!);
 		return if(value == null){
 			arg;
 		}else if(setUpValue == null){
 			Pair(type, setUpValue);
 		}else if(value is Expression){
 			Pair(type, exec(type, value));
-		}else if(setUpValue::class.java == Class.forName(imports[type]!!)){
+		}else if(setUpValue::class.java == argClass){
 			Pair(type, setUpValue);
 		}else{
 			convert(Pair(type, setUpValue));
