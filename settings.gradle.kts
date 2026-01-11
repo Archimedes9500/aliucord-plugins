@@ -5,11 +5,11 @@ pluginManagement {
         google()
         gradlePluginPortal()
         maven {
-            name = "aliucord"
+            name = "aliucord-releases"
             url = uri("https://maven.aliucord.com/releases")
         }
         maven {
-            name = "aliucord"
+            name = "aliucord-snapshots"
             url = uri("https://maven.aliucord.com/snapshots")
         }
     }
