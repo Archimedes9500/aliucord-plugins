@@ -300,6 +300,7 @@ class JSOP(
 		
 		//try method
 		try{
+			if(args.isEmpty()) throw NoSuchMethodException("actually it just means args are empty");
 			val method = recieverClass.getDeclaredMethod(name, *types).apply{isAccessible = true};
 			returnValue = method.invoke(reciever?.second, *args);
 		}catch(e: NoSuchMethodException){
