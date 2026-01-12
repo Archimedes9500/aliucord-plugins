@@ -12,7 +12,11 @@ class JSOP(
 		val name: String,
 		val reciever: Pair<String, Any?>,
 		val args: List<Pair<String, Any?>>
-	);
+	){
+		fun toString(): String{
+			return "[$name, $reciever, ${args.joinToString(", ")}]"
+		};
+	};
 
 	//error utils
 	var line: Int = 0;
@@ -237,7 +241,7 @@ class JSOP(
 		};
 	};
 	fun exec(returnType: String, expr: Expression): Any?{
-		this.lastExpr = expr;
+		this.lastExpr = JSONArray(expr.toString());
 
 		val name = expr.name;
 		val reciever = processArg(expr.reciever);
@@ -314,17 +318,14 @@ class JSOP(
 	};
 
 	//public interface
-	inline fun <reified T>run(line: JSONArray): Pair<T?, String?>?{
+	inline fun <reified T>run(line: JSONArray): Pair<T?, ArrayList<String>>{
 		this.line++;
 		val expr = parseExpr(line);
 		if(expr != null){
 			this.defaultClass = T::class.java;
-			return Pair(
-				exec("", expr) as? T,
-				this.errors[this.errors.size]
-			);
+			return Pair(exec("", expr) as? T, this.errors);
 		}else{
-			return null;
+			return Pair(null, this.errors);
 		};
 	};
 	inline fun <reified T>run(body: JSONArray, results: ArrayList<T?>): ArrayList<String>{
