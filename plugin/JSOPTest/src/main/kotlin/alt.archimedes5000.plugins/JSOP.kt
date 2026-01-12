@@ -52,7 +52,7 @@ class JSOP(
 	};
 	fun UNKNOWN_TYPE(type: String): String{
 		return "ERROR unknown type: $type\n"+
-			"	(it was not declared in "imports")\n"+
+			"	(it was not declared in \"imports\")\n"+
 			"	on line ${this.line}\n"+
 			"	${this.lastExpr}"
 		;
