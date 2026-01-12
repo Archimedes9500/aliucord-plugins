@@ -15,6 +15,7 @@ class JSOPTest: Plugin(){
 	val settings2 = SettingsUtilsJSON("JSOPTest");
 	override fun start(pluginContext: Context){
 		val imports = settings.getObject<Map<String, String>>("import", mapOf());
+		logger.debug(imports);
 		val jsop = JSOP(imports, object{
 			val `$me`: MeUser = StoreStream.getUsers().me;
 		});
