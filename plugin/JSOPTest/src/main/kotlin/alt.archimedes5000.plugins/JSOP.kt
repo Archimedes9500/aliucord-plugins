@@ -16,7 +16,7 @@ class JSOP(
 
 	//error utils
 	var line: Int = 0;
-	lateinit lastExpr: JSONArray;
+	lateinit var lastExpr: JSONArray;
 	val errors = ArrayList<String>();
 
 	//errors
@@ -50,7 +50,7 @@ class JSOP(
 				${this.lastExpr}
 		""".trimIndent();
 	};
-	fun UNKNOWN_TYPE(arg: Pair<String, Any?>): String{
+	fun UNKNOWN_TYPE(type: String): String{
 		return """
 			ERROR unknown type: $type
 				(it was not declared in "imports")
@@ -162,7 +162,7 @@ class JSOP(
 		if(types.distinct().size <= 1){
 			return output
 		}else{
-			errors.add(INVALID_VALUE(array, "is not a valid Object of Args with uniform type"));
+			errors.add(INVALID_VALUE(obj, "is not a valid Object of Args with uniform type"));
 			return null;
 		};
 	};
@@ -202,7 +202,7 @@ class JSOP(
 		val o = value::class.java.declaredMethods
 			?.find{
 				it.name == "to"+type;
-				it.parameterCount = 0;
+				it.parameterCount == 0;
 			}
 			?.apply{isAccessible = true}
 			?.invoke(value)
@@ -220,7 +220,7 @@ class JSOP(
 
 		val setUpValue = envSetup(value);
 		val argClass = Class.forName(imports[type]);
-		if(argaClass == null){
+		if(argClass == null){
 			errors.add(UNKNOWN_TYPE(type));
 		};
 
@@ -272,7 +272,7 @@ class JSOP(
 
 		val recieverClass = Class.forName(imports[recieverType]);
 		if(recieverClass == null){
-			errors.add(UNKNOWN_TYPE(recieverClass));
+			errors.add(UNKNOWN_TYPE(recieverType));
 			return null;
 		};
 
@@ -280,7 +280,7 @@ class JSOP(
 		
 		//try method
 		try{
-			val method = recieverClass.getDeclaredMethod(name, *types)?.apply{isAccessible = true};
+			val method = recieverClass.getDeclaredMethod(name, *types).apply{isAccessible = true};
 			returnValue = method.invoke(reciever?.second, *args);
 		}catch(e: NoSuchMethodException){
 			//try constructor
@@ -288,13 +288,13 @@ class JSOP(
 				val thisClass = Class.forName(imports[name]);
 				if(thisClass == null) throw NoSuchMethodException();
 				//expr name resolves to a class
-				val constr = thisClass.getDeclaredConstructor(*types)?.apply{isAccessible = true};
-				returnValue = constr.invoke(*args);
+				val constr = thisClass.getDeclaredConstructor(*types).apply{isAccessible = true};
+				returnValue = constr.newInstance(*args);
 			}catch(e: NoSuchMethodException){
 				//try field
 				if(args.size == 0){
 					try{
-						val field = recieverClass.declaredField(name)?.apply{isAccessible = true};
+						val field = recieverClass.getDeclaredField(name).apply{isAccessible = true};
 						returnValue = field.get(reciever?.second);
 					}catch(e: NoSuchFieldException){
 						returnValue = null;
@@ -328,7 +328,8 @@ class JSOP(
 		};
 	};
 	inline fun <reified T>run(body: JSONArray, results: ArrayList<T?>): ArrayList<String>{
-		for(line in body){
+		for(i in 0 until body.length()){
+			val line = body.getJSONArray(i);
 			this.line++
 			val expr = parseExpr(line);
 			if(expr != null){
