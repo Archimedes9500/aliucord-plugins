@@ -307,13 +307,11 @@ class JSOP(
 		}catch(e: NoSuchMethodException){
 			//try constructor
 			try{
-				val fullName = imports[name];
-				val thisClass = Class.forName(fullName?: "");
-			}catch(e: ClassNotFoundException){
+				val thisClass = Class.forName(imports[name]?: "");
 				//expr name resolves to a class
 				val constr = thisClass.getDeclaredConstructor(*types).apply{isAccessible = true};
 				returnValue = constr.newInstance(*args);
-			}catch(e: NoSuchMethodException){
+			}catch(e: Exception){
 				//try field
 				if(args.size == 0){
 					try{
