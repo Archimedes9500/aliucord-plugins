@@ -223,9 +223,13 @@ class JSOP(
 		var (type, value) = arg;
 
 		val setUpValue = envSetup(value);
-		val argClass = Class.forName(imports[type]);
-		if(argClass == null){
+
+		try{
+			val fullName = imports[type];
+			val argClass = Class.forName(fullName?: "");
+		}catch(e: NoSuchClassException){
 			errors.add(UNKNOWN_TYPE(type));
+			return null;
 		};
 
 		return if(value == null){
@@ -249,11 +253,12 @@ class JSOP(
 
 		val types = expr.args
 			.map{
-				Class.forName(
-					imports[
-						processArg(it)?.first
-					]
-				)
+				try{
+					val fullName = imports[processArg(it)?.first];
+					Class.forName(fullName?: "");
+				}catch(e: NoSuchClassException){
+					null;
+				};
 			}
 			.toTypedArray()
 		;
@@ -264,18 +269,27 @@ class JSOP(
 			.toTypedArray()
 		;
 
-		val returnClass = if(returnType != ""){
-			Class.forName(imports[returnType]);
-		}else{
-			defaultClass;
-		};
+		val returnClass =
+			if(returnType != ""){
+				try{
+					val fullName = imports[returnType];
+					Class.forName(fullName?: "");
+				}catch(e: NoSuchClassException){
+					null;
+				};
+			}else{
+				defaultClass;
+			}
+		;
 		if(returnClass == null){
 			errors.add(UNKNOWN_TYPE(returnType));
 			return null;
 		};
 
-		val recieverClass = Class.forName(imports[recieverType]);
-		if(recieverClass == null){
+		try{
+			val fullName = imports[recieverType];
+			val recieverClass = Class.forName(fullName?: "");
+		}catch(e: NoSuchClassException){
 			errors.add(UNKNOWN_TYPE(recieverType));
 			return null;
 		};
@@ -289,8 +303,9 @@ class JSOP(
 		}catch(e: NoSuchMethodException){
 			//try constructor
 			try{
-				val thisClass = Class.forName(imports[name]);
-				if(thisClass == null) throw NoSuchMethodException();
+				val fullName = imports[name];
+				val thisClass = Class.forName(fullName?: "");
+			}catch(e: NoSuchClassException){
 				//expr name resolves to a class
 				val constr = thisClass.getDeclaredConstructor(*types).apply{isAccessible = true};
 				returnValue = constr.newInstance(*args);
