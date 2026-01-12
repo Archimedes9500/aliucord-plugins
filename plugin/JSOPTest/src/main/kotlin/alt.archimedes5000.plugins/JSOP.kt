@@ -59,6 +59,11 @@ class JSOP(
 			"		${this.imports.toString()}"
 		;
 	};
+	fun DEBUG(value: Any): String{
+		return "ERROR debug:\n"+
+			"	${value.toString()}"
+		;
+	};
 
 
 	//parse utils
