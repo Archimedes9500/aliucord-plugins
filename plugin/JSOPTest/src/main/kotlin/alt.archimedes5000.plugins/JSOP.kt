@@ -60,7 +60,13 @@ class JSOP(
 		;
 	};
 	inline fun <reified T>DEBUG(value: T): String{
-		return "ERROR debug:\n"+(value as T).joinToString(", ", "[", "]");
+		var out = "[";
+		for(e in value){
+			if(out != "[") out += ", ";
+			out += e.toString();
+		};
+		out += "]";
+		return "ERROR debug:\n"+out;
 	};
 
 
