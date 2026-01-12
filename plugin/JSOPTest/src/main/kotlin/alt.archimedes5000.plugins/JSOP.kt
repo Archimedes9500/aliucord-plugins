@@ -59,7 +59,7 @@ class JSOP(
 			"		${this.imports.toString()}"
 		;
 	};
-	fun DEBUG(value: Any): String{
+	fun <T>DEBUG(value: T): String{
 		return "ERROR debug:\n"+
 			"	${value.toString()}"
 		;
@@ -303,7 +303,7 @@ class JSOP(
 
 		var returnValue: Any? = null;
 
-		errors.add(DEBUG(args));
+		errors.add(DEBUG<Array<Any?>>(args));
 
 		//try method
 		try{
