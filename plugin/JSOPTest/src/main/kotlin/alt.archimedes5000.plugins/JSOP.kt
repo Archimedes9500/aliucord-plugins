@@ -59,16 +59,6 @@ class JSOP(
 			"		${this.imports.toString()}"
 		;
 	};
-	inline fun DEBUG(value: Array<Any?>): String{
-		var out = "[";
-		for(e in value){
-			if(out != "[") out += ", ";
-			out += e.toString();
-		};
-		out += "]";
-		return "ERROR debug:\n"+out;
-	};
-
 
 	//parse utils
 	fun parseArg(obj: JSONObject): Pair<String, Any?>?{
@@ -307,11 +297,9 @@ class JSOP(
 
 		var returnValue: Any? = null;
 
-		errors.add(DEBUG(args));
-
 		//try method
 		try{
-			if(args.isEmpty() || args == null){
+			if(args.isEmpty()){
 				throw NoSuchMethodException("actually it just means args are empty");
 			};
 			val method = recieverClass.getDeclaredMethod(name, *types).apply{isAccessible = true};
