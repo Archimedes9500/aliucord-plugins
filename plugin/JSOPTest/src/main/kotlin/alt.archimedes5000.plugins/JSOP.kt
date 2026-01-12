@@ -302,7 +302,9 @@ class JSOP(
 		};
 
 		var returnValue: Any? = null;
-		
+
+		errors.add(DEBUG(args));
+
 		//try method
 		try{
 			if(args.isEmpty() || args == null){
