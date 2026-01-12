@@ -25,36 +25,36 @@ class JSOP(
 
 	//errors
 	fun INVALID_ARGUMENT(arg: JSONObject, reason: String): String{
-		return """ERROR invalid argument: ${arg}\n"""+
-			"""	because it $reason\n"""+
-			"""	on line ${this.line}:\n"""+
-			"""	${this.lastExpr}"""
+		return "ERROR invalid argument: ${arg}\n"+
+			"	because it $reason\n"+
+			"	on line ${this.line}:\n"+
+			"	${this.lastExpr}"
 		;
 	};
 	fun INVALID_VALUE(value: Any?, reason: String): String{
-		return """ERROR invalid value: ${value}\n"""+
-			"""	because it $reason\n"""+
-			"""	on line ${this.line}:\n"""+
-			"""	${this.lastExpr}"""
+		return "ERROR invalid value: ${value}\n"+
+			"	because it $reason\n"+
+			"	on line ${this.line}:\n"+
+			"	${this.lastExpr}"
 		;
 	};
 	fun LINE_SKIPPED(value: Any?): String{
-		return """ERROR skipped line: ${this.line}\n"""+
-			"""	because it was invalid."""
+		return "ERROR skipped line: ${this.line}\n"+
+			"	because it was invalid."
 		;
 	};
 	fun CONVERSION_FAILED(type: String, value: Any?): String{
-		return """ERROR failed to convert value: ${value}\n"""+
-			"""	to type: $type\n"""+
-			"""	on line ${this.line}:\n"""+
-			"""	${this.lastExpr}"""
+		return "ERROR failed to convert value: ${value}\n"+
+			"	to type: $type\n"+
+			"	on line ${this.line}:\n"+
+			"	${this.lastExpr}"
 		;
 	};
 	fun UNKNOWN_TYPE(type: String): String{
-		return """ERROR unknown type: $type\n"""+
-			"""	(it was not declared in "imports")\n"""+
-			"""	on line ${this.line}\n"""+
-			"""	${this.lastExpr}"""
+		return "ERROR unknown type: $type\n"+
+			"	(it was not declared in "imports")\n"+
+			"	on line ${this.line}\n"+
+			"	${this.lastExpr}"
 		;
 	};
 
