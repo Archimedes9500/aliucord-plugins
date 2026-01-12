@@ -60,9 +60,7 @@ class JSOP(
 		;
 	};
 	fun <T>DEBUG(value: T): String{
-		return "ERROR debug:\n"+
-			"	${value.toString()}"
-		;
+		return "ERROR debug:\n"+value.joinToString();
 	};
 
 
