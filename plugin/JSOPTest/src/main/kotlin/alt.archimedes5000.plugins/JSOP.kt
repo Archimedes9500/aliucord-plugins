@@ -307,7 +307,7 @@ class JSOP(
 
 		var returnValue: Any? = null;
 
-		errors.add(DEBUG<Array<Any?>>(args));
+		errors.add(DEBUG(args));
 
 		//try method
 		try{
