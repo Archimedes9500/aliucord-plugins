@@ -256,7 +256,7 @@ class JSOP(
 		if(reciever == null) return null;
 		val recieverType = reciever.first;
 
-		val types = expr.args
+		val types: Array<String> = expr.args
 			.map{
 				try{
 					val fullName = imports[processArg(it)?.first];
@@ -267,7 +267,7 @@ class JSOP(
 			}
 			.toTypedArray()
 		;
-		val args = expr.args
+		val args: Array<Any?> = expr.args
 			.map{
 				processArg(it)?.second
 			}
