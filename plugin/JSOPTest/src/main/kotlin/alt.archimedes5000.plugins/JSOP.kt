@@ -26,41 +26,41 @@ class JSOP(
 	//errors
 	fun INVALID_ARGUMENT(arg: JSONObject, reason: String): String{
 		return """
-			ERROR invalid argument: ${arg.toString()}
-				because it $reason
-				on line ${this.line.toString()}:
-				${this.lastExpr?.toString()}
-		""".trimIndent();
+			|ERROR invalid argument: ${arg.toString()}
+			|	because it $reason
+			|	on line ${this.line.toString()}:
+			|	${this.lastExpr?.toString()}
+		""".trimMargin();
 	};
 	fun INVALID_VALUE(value: Any?, reason: String): String{
 		return """
-			ERROR invalid value: ${value?.toString()}
-				because it $reason
-				on line ${this.line.toString()}:
-				${this.lastExpr?.toString()}
-		""".trimIndent();
+			|ERROR invalid value: ${value?.toString()}
+			|	because it $reason
+			|	on line ${this.line.toString()}:
+			|	${this.lastExpr?.toString()}
+		""".trimMargin();
 	};
 	fun LINE_SKIPPED(value: Any?): String{
 		return """
-			ERROR skipped line: ${this.line.toString()}
-				because it was invalid.
-		""".trimIndent();
+			|ERROR skipped line: ${this.line.toString()}
+			|	because it was invalid.
+		""".trimMargin();
 	};
 	fun CONVERSION_FAILED(type: String, value: Any?): String{
 		return """
-			ERROR failed to convert value: ${value?.toString()}
-				to type: $type
-				on line ${this.line.toString()}:
-				${this.lastExpr?.toString()}
-		""".trimIndent();
+			|ERROR failed to convert value: ${value?.toString()}
+			|	to type: $type
+			|	on line ${this.line.toString()}:
+			|	${this.lastExpr?.toString()}
+		""".trimMargin();
 	};
 	fun UNKNOWN_TYPE(type: String): String{
 		return """
-			ERROR unknown type: $type
-				(it was not declared in "imports")
-				on line ${this.line.toString()}:
-				${this.lastExpr?.toString()}
-		""".trimIndent();
+			|ERROR unknown type: $type
+			|	(it was not declared in "imports")
+			|	on line ${this.line.toString()}:
+			|	${this.lastExpr?.toString()}
+		""".trimMargin();
 	};
 
 
