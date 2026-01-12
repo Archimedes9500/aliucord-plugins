@@ -13,7 +13,7 @@ class JSOP(
 		val reciever: Pair<String, Any?>,
 		val args: List<Pair<String, Any?>>
 	){
-		fun toString(): String{
+		override fun toString(): String{
 			return "[$name, $reciever, ${args.joinToString(", ")}]"
 		};
 	};
