@@ -59,7 +59,7 @@ class JSOP(
 			"		${this.imports.toString()}"
 		;
 	};
-	inline fun <reified T>DEBUG(value: T): String{
+	inline fun DEBUG(value: Array<Any?>): String{
 		var out = "[";
 		for(e in value){
 			if(out != "[") out += ", ";
