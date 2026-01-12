@@ -246,7 +246,8 @@ class JSOP(
 
 		val name = expr.name;
 		val reciever = processArg(expr.reciever);
-		val recieverType = expr.reciever.first;
+		if(reciever == null) return null;
+		val recieverType = reciever.first;
 
 		val types = expr.args
 			.map{
