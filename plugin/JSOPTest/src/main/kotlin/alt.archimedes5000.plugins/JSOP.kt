@@ -59,8 +59,8 @@ class JSOP(
 			"		${this.imports.toString()}"
 		;
 	};
-	fun <T>DEBUG(value: T): String{
-		return "ERROR debug:\n"+value.joinToString(", ", "[", "]");
+	inline fun <reified T>DEBUG(value: T): String{
+		return "ERROR debug:\n"+(value as T).joinToString(", ", "[", "]");
 	};
 
 
