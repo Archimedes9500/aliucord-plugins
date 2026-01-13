@@ -58,6 +58,7 @@ class JSOPTest: Plugin(){
 					.toInt()
 				);
 				frame.setResult(result);
+				logger.debug("success "+view.toString());
 			}
 		);
 	};
