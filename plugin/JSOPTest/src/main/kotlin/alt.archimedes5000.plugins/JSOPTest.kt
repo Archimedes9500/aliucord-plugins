@@ -40,7 +40,7 @@ class JSOPTest: Plugin(){
 		val viewID = Utils.getResId("chat_list_adapter_item_text", "id");
 		patcher.patch(
 			WidgetChatListAdapterItemTextBinding::class.java
-				.getDeclaredMethod("a", View:class.java)
+				.getDeclaredMethod("a", View::class.java)
 			,
 			Hook{
 				frame ->
