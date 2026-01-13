@@ -45,7 +45,7 @@ class JSOPTest: Plugin(){
 			Hook{
 				frame ->
 				val result = frame.getResult() as WidgetChatListAdapterItemTextBinding;
-				val view: LinkifiedTextView = result.f2335b;
+				val view: LinkifiedTextView = result.f16318b;
 				val id = view.id;
 				if(id != viewID){
 					logger.debug("failed: "+id+" ≠ "+viewID);
