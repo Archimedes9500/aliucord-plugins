@@ -12,7 +12,9 @@ import com.discord.models.user.MeUser
 
 import android.view.View
 import java.time.Instant
+import com.aliucord.Utils
 import com.discord.databinding.WidgetChatListAdapterItemTextBinding
+import com.aliucord.patcher.Hook
 import com.discord.utilities.view.text.LinkifiedTextView
 
 @AliucordPlugin(requiresRestart = true)
