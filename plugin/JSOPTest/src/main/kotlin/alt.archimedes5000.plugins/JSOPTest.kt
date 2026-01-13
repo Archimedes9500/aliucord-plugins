@@ -17,6 +17,8 @@ import com.discord.databinding.WidgetChatListAdapterItemTextBinding
 import com.aliucord.patcher.Hook
 import com.discord.utilities.view.text.LinkifiedTextView
 
+import com.discord.widgets.settings.WidgetSettingsAppearance
+
 @AliucordPlugin(requiresRestart = true)
 class JSOPTest: Plugin(){
 	@SuppressLint("SetTextI18n")
@@ -39,6 +41,20 @@ class JSOPTest: Plugin(){
 */
 		val viewID = Utils.getResId("chat_list_adapter_item_text", "id");
 		logger.debug("start: "+viewID);
+		patcher.patch(
+			WidgetSettingsAppearance::class.java.getDeclaredMethod("onViewBoundOrOnResume"),
+			Hook{
+				frame ->
+				logger.debug("balls bound or resumed");
+			}
+		);
+		patcher.patch(
+			WidgetSettingsAppearance::class.java.getDeclaredMethod("onViewBound", View::class.java),
+			Hook{
+				frame ->
+				logger.debug("balls bound "+(frame.args[0] as View).toString());
+			}
+		);
 		patcher.patch(
 			WidgetChatListAdapterItemTextBinding::class.java
 				.getDeclaredMethod("a", View::class.java)
