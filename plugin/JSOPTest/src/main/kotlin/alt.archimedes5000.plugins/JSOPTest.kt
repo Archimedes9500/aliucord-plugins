@@ -39,9 +39,9 @@ class JSOPTest: Plugin(){
 */
 		val viewID = Utils.getResId("chat_list_adapter_item_text", "id");
 		patcher.patch(
-			WidgetChatListAdapterItemTextBinding::class.java
-				.getDeclaredMethod("a", View:class.java)
-			,
+			WidgetChatListAdapterItemTextBinding::class.java,
+			"a",
+			arrayOf(View:class.java),
 			Hook{frame ->
 				val result = frame.getResult() as WidgetChatListAdapterItemTextBinding;
 				val view: LinkifiedTextView = result.f2335b;
