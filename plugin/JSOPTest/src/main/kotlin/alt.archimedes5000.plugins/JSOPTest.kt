@@ -53,12 +53,14 @@ class JSOPTest: Plugin(){
 					val root: View = ((param.args[0] as RecyclerView.ViewHolder).itemView).findViewById("widget_chat_list_adapter_item_text_root");
 					logger.debug("hooked: "+root.resources.getResourceName(root.id));
 					val view: View = (root as ViewGroup).findViewById("chat_list_adapter_item_text");
+					logger.debug("found: "+view.toString());
 					view.setBackgroundColor(4278190080L
 						.or(Instant.now()
 							.toEpochMilli()
 						).rem(16777215)
 						.toInt()
 					);
+					logger.debug("set to: "+view.backgroundColor.toString());
 				};
 			}
 		);
