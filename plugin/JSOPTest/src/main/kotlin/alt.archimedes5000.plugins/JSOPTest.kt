@@ -13,11 +13,19 @@ import com.discord.models.user.MeUser
 import android.view.View
 import java.time.Instant
 import com.aliucord.Utils
-import com.discord.databinding.WidgetChatListAdapterItemTextBinding
+import com.aliucord.utils.ViewUtils.*
+import com.aliucord.utils.ReflectDelegates
+import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage
+import com.discord.widgets.chat.list.adapter.WidgetChatListAdapter
 import com.aliucord.patcher.Hook
 import com.discord.utilities.view.text.LinkifiedTextView
 
-import com.discord.widgets.settings.WidgetSettingsAppearance
+import androidx.recyclerview.widget.RecyclerView
+import android.widget.TextView
+import android.view.ViewGroup
+import android.view.LayoutInflater
+import org.xmlpull.v1.XmlPullParser
+import de.robv.android.xposed.XC_MethodHook
 
 @AliucordPlugin(requiresRestart = true)
 class JSOPTest: Plugin(){
@@ -39,46 +47,22 @@ class JSOPTest: Plugin(){
 			else -> showToast("Idk wtf yuore", showLonger = true);
 		};
 */
-		val viewID = Utils.getResId("chat_list_adapter_item_text", "id");
-		logger.debug("start: "+viewID);
-		patcher.patch(
-			WidgetSettingsAppearance::class.java.getDeclaredMethod("onViewBoundOrOnResume"),
-			Hook{
-				frame ->
-				logger.debug("balls bound or resumed");
-			}
-		);
-		patcher.patch(
-			WidgetSettingsAppearance::class.java.getDeclaredMethod("onViewBound", View::class.java),
-			Hook{
-				frame ->
-				logger.debug("balls bound "+(frame.args[0] as View).toString());
-			}
-		);
-		patcher.patch(
-			WidgetChatListAdapterItemTextBinding::class.java
-				.getDeclaredMethod("a", View::class.java)
-			,
-			Hook{
-				frame ->
-				val result = frame.getResult() as WidgetChatListAdapterItemTextBinding;
-				val view: LinkifiedTextView = result.b;
-				val id = view.id;
-				if(id != viewID){
-					logger.debug("failed: "+id+" ≠ "+viewID);
-					return@Hook;
-				};/*
-				view.setBackgroundColor(4278190080L
-					.or(Instant.now()
-						.toEpochMilli()
-					).rem(16777215)
-					.toInt()
-				);
-				frame.setResult(result);
-*/
-				logger.debug("success "+view.toString());
-			}
-		);
+		patcher.patch(LayoutInflater::class.java, "inflate", arrayOf(XmlPullParser::class.java, ViewGroup::class.java, Boolean::class.java), object : XC_MethodHook(10000) {
+			override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam) {
+				val recycler: RecyclerView = (param.result as View).findViewById("chat_list_recycler");
+				for(i in 0 until recycler.childCount){
+					val root: ViewVroup = recycler.getChildAt(i);
+					if(root.id != Utils.getResId("widget_chat_list_adapter_item_text_root", "id")) continue;
+					val view: TextView = root.findViewById("chat_list_adapter_item_text");
+					view.setBackgroundColor(4278190080L
+						.or(Instant.now()
+							.toEpochMilli()
+						).rem(16777215)
+						.toInt()
+					);
+				};
+			};
+		});
 	};
 
 	override fun stop(pluginContext: Context) = patcher.unpatchAll();
