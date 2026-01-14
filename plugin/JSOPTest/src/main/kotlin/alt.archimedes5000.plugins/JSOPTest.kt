@@ -47,6 +47,7 @@ class JSOPTest: Plugin(){
 		patcher.patch(LayoutInflater::class.java, "inflate", arrayOf(XmlPullParser::class.java, ViewGroup::class.java, Boolean::class.java), object : XC_MethodHook(10000) {
 			override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam) {
 				val recycler: RecyclerView = (param.result as View).findViewById("chat_list_recycler");
+				logger.debug(recycler);
 				for(i in 0 until recycler.childCount){
 					val root = recycler.getChildAt(i);
 					if(root.id != rootID) continue;
