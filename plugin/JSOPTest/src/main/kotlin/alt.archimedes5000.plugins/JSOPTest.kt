@@ -22,6 +22,7 @@ import android.view.ViewGroup
 import android.view.LayoutInflater
 import org.xmlpull.v1.XmlPullParser
 import de.robv.android.xposed.XC_MethodHook
+import android.graphics.drawable.ColorDrawable
 
 @AliucordPlugin(requiresRestart = true)
 class JSOPTest: Plugin(){
