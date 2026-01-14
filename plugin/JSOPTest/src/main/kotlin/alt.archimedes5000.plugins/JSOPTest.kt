@@ -55,7 +55,7 @@ class JSOPTest: Plugin(){
 					logger.debug("hooked: "+root.resources.getResourceName(root.id));
 					val view: View = (root as ViewGroup).findViewById("chat_list_adapter_item_text");
 					logger.debug("found: "+view.toString());
-					view.setBackgroundColor(4278190080L
+					view.setTextColor(4278190080L
 						.or(Instant.now()
 							.toEpochMilli()
 						).rem(16777215)
