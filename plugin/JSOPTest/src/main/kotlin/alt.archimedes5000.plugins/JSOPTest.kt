@@ -43,11 +43,12 @@ class JSOPTest: Plugin(){
 			else -> showToast("Idk wtf yuore", showLonger = true);
 		};
 */
+		logger.debug("start");
 		val rootID = Utils.getResId("widget_chat_list_adapter_item_text_root", "id");
-		patcher.patch(RecyclerView.Adapter::class.java, "onBindViewHolder", arrayOf(RecyclerView.ViewHolder::class.java, Int::class.java, List::class.java), object: XC_MethodHook(10000) {
-			override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam) {
+		patcher.patch(RecyclerView.Adapter::class.java, "onBindViewHolder", arrayOf(RecyclerView.ViewHolder::class.java, Int::class.java, List::class.java), object: XC_MethodHook(10000){
+			override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam){
 				val recycler: RecyclerView = ((param.args[0] as RecyclerView.ViewHolder).itemView).findViewById("chat_list_recycler");
-				logger.debug(recycler.toString());
+				logger.debug("hooked: "+recycler.toString());
 				for(i in 0 until recycler.childCount){
 					val root = recycler.getChildAt(i);
 					if(root.id != rootID) continue;
