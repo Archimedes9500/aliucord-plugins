@@ -53,7 +53,7 @@ class JSOPTest: Plugin(){
 				override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam){
 					val root: View = ((param.args[0] as RecyclerView.ViewHolder).itemView).findViewById("widget_chat_list_adapter_item_text_root");
 					logger.debug("hooked: "+root.resources.getResourceName(root.id));
-					val view: View = (root as ViewGroup).findViewById("chat_list_adapter_item_text");
+					val view: TextView = (root as ViewGroup).findViewById("chat_list_adapter_item_text");
 					logger.debug("found: "+view.toString());
 					view.setTextColor(4278190080L
 						.or(Instant.now()
