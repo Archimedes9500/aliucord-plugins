@@ -60,7 +60,7 @@ class JSOPTest: Plugin(){
 						).rem(16777215)
 						.toInt()
 					);
-					logger.debug("set to: "+view.backgroundColor.toString());
+					logger.debug("set to: "+(view.background as ColorDrawable).color.toString(16));
 				};
 			}
 		);
