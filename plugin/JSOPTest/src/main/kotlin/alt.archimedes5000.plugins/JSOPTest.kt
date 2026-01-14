@@ -13,12 +13,8 @@ import com.discord.models.user.MeUser
 import android.view.View
 import java.time.Instant
 import com.aliucord.Utils
-import com.aliucord.utils.ViewUtils.*
-import com.aliucord.utils.ReflectDelegates
-import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemMessage
-import com.discord.widgets.chat.list.adapter.WidgetChatListAdapter
+import com.aliucord.utils.ViewUtils
 import com.aliucord.patcher.Hook
-import com.discord.utilities.view.text.LinkifiedTextView
 
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.TextView
@@ -51,8 +47,8 @@ class JSOPTest: Plugin(){
 			override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam) {
 				val recycler: RecyclerView = (param.result as View).findViewById("chat_list_recycler");
 				for(i in 0 until recycler.childCount){
-					val root: ViewVroup = recycler.getChildAt(i);
-					if(root.id != Utils.getResId("widget_chat_list_adapter_item_text_root", "id")) continue;
+					val root: ViewGroup = recycler.getChildAt(i);
+					if((root as View).id != Utils.getResId("widget_chat_list_adapter_item_text_root", "id")) continue;
 					val view: TextView = root.findViewById("chat_list_adapter_item_text");
 					view.setBackgroundColor(4278190080L
 						.or(Instant.now()
