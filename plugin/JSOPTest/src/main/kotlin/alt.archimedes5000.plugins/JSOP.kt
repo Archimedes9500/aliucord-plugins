@@ -309,12 +309,9 @@ class JSOP(
 				val companionClass: Class<*> = recieverClass
 					.getDeclaredField("Companion")
 					.apply{isAccessible = true}
-					.get(null)
+					.get(null)::class.java
 				;
-				val method: Method = companionClass
-					.getDeclaredMethod(name, *types)
-					.apply{isAccessible = true}
-				;
+				val method: Method = companionClass.getDeclaredMethod(name, *types).apply{isAccessible = true};
 				returnValue = method.invoke(reciever?.second, *args);
 			}catch(e: Exception){
 				//try constructor
@@ -332,8 +329,12 @@ class JSOP(
 						}catch(e: NoSuchFieldException){
 							//try extension field
 							try{
-								val companionClass = recieverClass.getDeclaredField("Companion").apply{isAccessible = true}.get(null);
-								val field = companionClass.getDeclaredField(name).apply{isAccessible = true};
+								val companionClass: Class<*> = recieverClass
+									.getDeclaredField("Companion")
+									.apply{isAccessible = true}
+									.get(null)::class.java
+								;
+								val field: Field = companionClass.getDeclaredField(name).apply{isAccessible = true};
 								returnValue = field.get(reciever?.second);
 							}catch(e: NoSuchFieldException){
 								returnValue = null;
