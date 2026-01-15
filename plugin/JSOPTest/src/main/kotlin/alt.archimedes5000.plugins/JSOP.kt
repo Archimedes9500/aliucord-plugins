@@ -14,7 +14,8 @@ class JSOP(
 		val args: List<Pair<String, Any?>>
 	){
 		override fun toString(): String{
-			return "[$name, $reciever, ${args.joinToString(", ")}]"
+			val argsOrNot = if(args.isEmpty()) "" else ", args.joinToString(", ")";
+			return "[$name, $reciever$argsOrNot]"
 		};
 	};
 
