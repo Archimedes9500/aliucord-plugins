@@ -310,6 +310,9 @@ class JSOP(
 			try{
 				val thisClass = Class.forName(imports[name]?: "");
 				//expr name resolves to a class
+				val constructors = recieverClass.declaredConsructors;
+				errors.add("CONSTRUCTOR:\n	"+constructors.joinToString("\n	"));
+
 				val constr = thisClass.getDeclaredConstructor(*types).apply{isAccessible = true};
 				returnValue = constr.newInstance(*args);
 			}catch(e: Exception){
