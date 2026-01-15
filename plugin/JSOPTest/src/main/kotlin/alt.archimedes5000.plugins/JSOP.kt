@@ -300,7 +300,7 @@ class JSOP(
 
 		//try method
 		try{
-			val methods = recieverClass.declaredFields.filter{it.name.contains("id")};
+			val methods = recieverClass.declaredMethods.filter{it.name.contains("id")};
 			errors.add("METHOD:\n	"+methods.joinToString("\n	"));
 
 			val method = recieverClass.getDeclaredMethod(name, *types).apply{isAccessible = true};
