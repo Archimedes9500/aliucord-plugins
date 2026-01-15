@@ -201,7 +201,7 @@ class JSOP(
 		val (type, value) = arg;
 		if(value == null) return arg;
 
-		val converted = value::class.java.declaredMethods
+		val converted = value::class.declaredFunctions
 			?.find{
 				it.name == "to"+type;
 				it.parameterCount == 0;
