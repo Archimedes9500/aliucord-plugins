@@ -205,10 +205,9 @@ class JSOP(
 		val converted = value::class.declaredFunctions
 			?.find{
 				it.name == "to"+type;
-				it.parameters.isEmpty();
 			} as? KFunction<*>
 			?.apply{isAccessible = true}
-			?.invoke(value)
+			?.call(value)
 		;
 		val argClass = try{
 			 Class.forName(imports[type]?: "");
