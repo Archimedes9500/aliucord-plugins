@@ -29,12 +29,12 @@ class JSOPTest: Plugin(){
 	@SuppressLint("SetTextI18n")
 	val settings2 = SettingsUtilsJSON("JSOPTest");
 
-	override fun start(pluginContext: Context){/*
+	override fun start(pluginContext: Context){
 		val imports = settings.getObject<MutableMap<String, String>>("imports", mutableMapOf());
+
 		val jsop = JSOP(imports, object{
 			val `$me`: MeUser = StoreStream.getUsers().me;
 		});
-
 		val body = settings2.getJSONArray("body", JSONArray())!!;
 		val (isBot, errors) = jsop.run<Boolean>(body.getJSONArray(0));
 		if(!errors.isEmpty()) logger.debug(errors.joinToString("\n"));
@@ -43,8 +43,8 @@ class JSOPTest: Plugin(){
 			true-> showToast("Yuore a bot", showLonger = true);
 			else -> showToast("Idk wtf yuore", showLonger = true);
 		};
-*/
-		logger.debug("start");
+
+		val styles = settings2.getJSONArray("chat_list_adapter_item_text", JSONArray())!!;
 		patcher.patch(
 			RecyclerView.Adapter::class.java,
 			"onBindViewHolder",
@@ -52,16 +52,13 @@ class JSOPTest: Plugin(){
 			object: XC_MethodHook(10000){
 				override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam){
 					val root: View = ((param.args[0] as RecyclerView.ViewHolder).itemView).findViewById("widget_chat_list_adapter_item_text_root");
-					logger.debug("hooked: "+root.resources.getResourceName(root.id));
+					logger.debug("hooked: "+root.toString());
 					val view: TextView = (root as ViewGroup).findViewById("chat_list_adapter_item_text");
-					logger.debug("found: "+view.toString());
-					view.setBackgroundColor(4278190080L
-						.or(Instant.now()
-							.toEpochMilli()
-							.rem(16777215L)
-						)
-						.toInt()
-					);
+
+					val jsop = JSOP(imports, object{
+						val `$view`: View = view;
+					}); 
+					val (_, errors) = jsop.run<Unit>(styles.getJSONArray(0));
 					logger.debug("set to: "+(view.background as ColorDrawable).color.toString(16));
 				};
 			}
