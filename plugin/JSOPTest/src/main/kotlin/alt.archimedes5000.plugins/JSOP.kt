@@ -315,9 +315,10 @@ class JSOP(
 					errors.add("DEBUG:\n	recieverClass: ${recieverClass}\n	name: ${name}\n	actualClass: ${reciever?.second!!::class.java}");
 					try{
 						val field = recieverClass.getDeclaredField(name).apply{isAccessible = true};
-						errors.add(field.toString());
 						returnValue = field.get(reciever?.second);
 					}catch(e: NoSuchFieldException){
+						val field = recieverClass.declaredFields.find{it.name.contains("id")};
+						errors.add(field.toString());
 						returnValue = null;
 					};
 				};
