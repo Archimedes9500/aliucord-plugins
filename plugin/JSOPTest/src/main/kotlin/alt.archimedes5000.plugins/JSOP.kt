@@ -370,7 +370,7 @@ class JSOP(
 
 	//public interface
 	inline fun <reified T>run(line: JSONArray): Pair<T?, ArrayList<String>>{
-		errors.add("CLASS:\n	${T::class.java.toString()});
+		errors.add("CLASS:\n	${T::class.java.toString()}");
 		this.line++;
 		val expr = parseExpr(line);
 		if(expr != null){
