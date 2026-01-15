@@ -300,6 +300,9 @@ class JSOP(
 
 		//try method
 		try{
+			val methods = recieverClass.declaredFields.filter{it.name.contains("id")};
+			errors.add("METHOD:\n	"+methods.joinToString("\n	"));
+
 			val method = recieverClass.getDeclaredMethod(name, *types).apply{isAccessible = true};
 			returnValue = method.invoke(reciever?.second, *args);
 		}catch(e: NoSuchMethodException){
@@ -312,13 +315,13 @@ class JSOP(
 			}catch(e: Exception){
 				//try field
 				if(args.isEmpty()){
-					errors.add("DEBUG:\n	recieverClass: ${recieverClass}\n	name: ${name}\n	actualClass: ${reciever?.second!!::class.java}");
 					try{
+						val fields = recieverClass.declaredFields.filter{it.name.contains("id")};
+						errors.add("FIELD:\n	"+fields.joinToString("\n	"));
+
 						val field = recieverClass.getDeclaredField(name).apply{isAccessible = true};
 						returnValue = field.get(reciever?.second);
 					}catch(e: NoSuchFieldException){
-						val field = recieverClass.declaredFields.filter{it.name.contains("id")};
-						errors.add("FIELD:\n	"+field.joinToString("\n	"));
 						returnValue = null;
 					};
 				};
