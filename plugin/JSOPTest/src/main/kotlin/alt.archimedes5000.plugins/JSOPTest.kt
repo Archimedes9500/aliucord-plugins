@@ -59,7 +59,7 @@ class JSOPTest: Plugin(){
 						.or(Instant.now()
 							.toEpochMilli()
 						).rem(16777215L)
-						.toInt()*/0xFFFF0000
+						.toInt()*/0xFFFF0000.toInt()
 					);
 					logger.debug("set to: "+(view.background as ColorDrawable).color.toString(16));
 				};
