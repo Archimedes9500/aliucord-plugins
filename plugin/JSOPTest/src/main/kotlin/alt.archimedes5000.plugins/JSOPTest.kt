@@ -58,7 +58,8 @@ class JSOPTest: Plugin(){
 					view.setBackgroundColor(4278190080L
 						.or(Instant.now()
 							.toEpochMilli()
-						).rem(16777215L)
+							.rem(16777215L)
+						)
 						.toInt()
 					);
 					logger.debug("set to: "+(view.background as ColorDrawable).color.toString(16));
