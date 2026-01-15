@@ -53,18 +53,18 @@ class JSOPTest: Plugin(){
 				override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam){
 					val root: View = ((param.args[0] as RecyclerView.ViewHolder).itemView).findViewById("widget_chat_list_adapter_item_text_root");
 					if(root == null) return;
-					logger.debug("===================================");
-					logger.debug("hooked: "+root.toString());
+					//logger.debug("===================================");
+					//logger.debug("hooked: "+root.toString());
 					val view: TextView = (root as ViewGroup).findViewById("chat_list_adapter_item_text");
-					logger.debug("view: "+view.toString());
+					//logger.debug("view: "+view.toString());
 
 					val jsop = JSOP(imports, object{
 						val `$view`: View = view;
 					});
-					logger.debug("styles: "+styles.toString());
+					//logger.debug("styles: "+styles.toString());
 					val line = styles.getJSONArray(0);
-					logger.debug("line: "+line.toString());
-					val (output, errors) = jsop.run<Int>(line);//dies here
+					//logger.debug("line: "+line.toString());
+					val (output, errors) = jsop.run<Instant>(line);
 					logger.debug("output: "+output);
 					if(!errors.isEmpty()) logger.debug(errors.joinToString("\n"));
 					logger.debug("set to: "+(view.background as ColorDrawable).color.toString(16));
