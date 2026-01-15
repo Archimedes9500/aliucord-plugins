@@ -317,8 +317,8 @@ class JSOP(
 						val field = recieverClass.getDeclaredField(name).apply{isAccessible = true};
 						returnValue = field.get(reciever?.second);
 					}catch(e: NoSuchFieldException){
-						val field = recieverClass.declaredFields.find{it.name.contains("id")};
-						errors.add(field.toString());
+						val field = recieverClass.declaredFields.filter{it.name.contains("id")};
+						errors.add("FIELD:\n	"+field.joinToString("\n	"));
 						returnValue = null;
 					};
 				};
