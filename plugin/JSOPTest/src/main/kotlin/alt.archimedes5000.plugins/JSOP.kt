@@ -306,10 +306,10 @@ class JSOP(
 		}catch(e: NoSuchMethodException){
 			//try extension method
 			try{
-				val companionClass = (recieverClass.kotlin as KClass<*>).companionObject.java;
+				val companionClass = recieverClass.getDeclaredField("Companion").apply{isAccessible = true}.get(null);
 				val method = companionClass.getDeclaredMethod(name, *types).apply{isAccessible = true};
 				returnValue = method.invoke(reciever?.second, *args);
-			}catch(e: NoSuchMethodException){
+			}catch(e: Exception){
 				//try constructor
 				try{
 					val thisClass = Class.forName(imports[name]?: "");
@@ -323,8 +323,9 @@ class JSOP(
 							val field = recieverClass.getDeclaredField(name).apply{isAccessible = true};
 							returnValue = field.get(reciever?.second);
 						}catch(e: NoSuchFieldException){
+							//try extension field
 							try{
-								val companionClass = (recieverClass.kotlin as KClass<*>).companionObject.java;
+								val companionClass = recieverClass.getDeclaredField("Companion").apply{isAccessible = true}.get(null);
 								val field = companionClass.getDeclaredField(name).apply{isAccessible = true};
 								returnValue = field.get(reciever?.second);
 							}catch(e: NoSuchFieldException){
