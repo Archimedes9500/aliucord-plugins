@@ -236,7 +236,7 @@ class JSOP(
 			Pair(type, setUpValue);
 		}else if(value is Expression){
 			Pair(type, exec(type, value));
-		}else if(setUpValue::class.java == argClass){
+		}else if(argClass.isAssignableFrom(setUpValue::class.java)){
 			Pair(type, setUpValue);
 		}else{
 			convert(Pair(type, setUpValue));
