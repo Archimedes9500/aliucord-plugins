@@ -1,6 +1,7 @@
 package alt.archimedes5000.plugins;
 import java.lang.reflect.*;
 import kotlin.reflect.*;
+import kotlin.reflect.full.*;
 import org.json.*;
 
 class JSOP(
@@ -201,7 +202,7 @@ class JSOP(
 		val (type, value) = arg;
 		if(value == null) return arg;
 
-		val converted = value::class.declaredFunctions
+		val converted = value::class.memberFunctions
 			?.find{
 				it.name == "to"+type;
 				it.parameterCount == 0;
