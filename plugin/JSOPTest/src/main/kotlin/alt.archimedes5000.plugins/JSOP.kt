@@ -1,5 +1,6 @@
 package alt.archimedes5000.plugins;
 import java.lang.reflect.*;
+import kotlin.reflect.*;
 import org.json.*;
 
 class JSOP(
@@ -300,32 +301,30 @@ class JSOP(
 
 		//try method
 		try{
-			val methods = recieverClass.declaredMethods.filter{it.name.contains("id")};
-			errors.add("METHOD:\n	"+methods.joinToString("\n	"));
-
 			val method = recieverClass.getDeclaredMethod(name, *types).apply{isAccessible = true};
 			returnValue = method.invoke(reciever?.second, *args);
 		}catch(e: NoSuchMethodException){
-			//try constructor
+			//try extension method
 			try{
-				val thisClass = Class.forName(imports[name]?: "");
-				//expr name resolves to a class
-				val constructors = recieverClass.declaredConsructors;
-				errors.add("CONSTRUCTOR:\n	"+constructors.joinToString("\n	"));
-
-				val constr = thisClass.getDeclaredConstructor(*types).apply{isAccessible = true};
-				returnValue = constr.newInstance(*args);
-			}catch(e: Exception){
-				//try field
-				if(args.isEmpty()){
-					try{
-						val fields = recieverClass.declaredFields.filter{it.name.contains("id")};
-						errors.add("FIELD:\n	"+fields.joinToString("\n	"));
-
-						val field = recieverClass.getDeclaredField(name).apply{isAccessible = true};
-						returnValue = field.get(reciever?.second);
-					}catch(e: NoSuchFieldException){
-						returnValue = null;
+				val companionClass = recieverClass.kotlin.companionObject.java;
+				val method = companionClass.getDeclaredMethod(name, *types).apply{isAccessible = true};
+				returnValue = method.invoke(reciever?.second, *args);
+			}catch(e: NoSuchMethodException){
+				//try constructor
+				try{
+					val thisClass = Class.forName(imports[name]?: "");
+					//expr name resolves to a class
+					val constr = thisClass.getDeclaredConstructor(*types).apply{isAccessible = true};
+					returnValue = constr.newInstance(*args);
+				}catch(e: Exception){
+					//try field
+					if(args.isEmpty()){
+						try{
+							val field = recieverClass.getDeclaredField(name).apply{isAccessible = true};
+							returnValue = field.get(reciever?.second);
+						}catch(e: NoSuchFieldException){
+							returnValue = null;
+						};
 					};
 				};
 			};
