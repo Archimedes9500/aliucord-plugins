@@ -215,12 +215,8 @@ class JSOP(
 			try{
 				 Class.forName(type);
 			}catch(e: ClassNotFoundException){
-				null;
+				this.defaultClass;
 			};
-		};
-		if(argClass == null){
-			errors.add(UNKNOWN_TYPE(type));
-			return null;
 		};
 
 		if(converted != null && converted::class == argClass){
@@ -370,7 +366,6 @@ class JSOP(
 
 	//public interface
 	inline fun <reified T>run(line: JSONArray): Pair<T?, ArrayList<String>>{
-		errors.add("CLASS:\n	${T::class.java.toString()}");
 		this.line++;
 		val expr = parseExpr(line);
 		if(expr != null){
