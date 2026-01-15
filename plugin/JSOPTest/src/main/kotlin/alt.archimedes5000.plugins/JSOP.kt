@@ -306,8 +306,15 @@ class JSOP(
 		}catch(e: NoSuchMethodException){
 			//try extension method
 			try{
-				val companionClass = recieverClass.getDeclaredField("Companion").apply{isAccessible = true}.get(null);
-				val method = companionClass.getDeclaredMethod(name, *types).apply{isAccessible = true};
+				val companionClass: Class<*> = recieverClass
+					.getDeclaredField("Companion")
+					.apply{isAccessible = true}
+					.get(null)
+				;
+				val method: Method = companionClass
+					.getDeclaredMethod(name, *types)
+					.apply{isAccessible = true}
+				;
 				returnValue = method.invoke(reciever?.second, *args);
 			}catch(e: Exception){
 				//try constructor
