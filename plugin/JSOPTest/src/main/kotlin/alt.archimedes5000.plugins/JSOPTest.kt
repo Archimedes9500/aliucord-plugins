@@ -55,6 +55,7 @@ class JSOPTest: Plugin(){
 					if(root == null) return;
 					logger.debug("hooked: "+root.toString());
 					val view: TextView = (root as ViewGroup).findViewById("chat_list_adapter_item_text");
+					if(root == null) return;
 
 					val jsop = JSOP(imports, object{
 						val `$view`: View = view;
