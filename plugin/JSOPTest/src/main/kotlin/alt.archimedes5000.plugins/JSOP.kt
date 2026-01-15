@@ -205,8 +205,8 @@ class JSOP(
 		val converted = value::class.declaredFunctions
 			?.find{
 				it.name == "to"+type;
-				it.parameterCount == 0;
-			} as KFunction
+				it.parameters.isEmpty();
+			} as? KFunction<*>
 			?.apply{isAccessible = true}
 			?.invoke(value)
 		;
