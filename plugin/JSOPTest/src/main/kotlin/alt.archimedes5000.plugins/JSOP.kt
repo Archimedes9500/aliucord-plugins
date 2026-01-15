@@ -359,6 +359,8 @@ class JSOP(
 			return returnValue;
 		}else if(returnValue::class.java == returnClass){
 			return returnValue;
+		}else if(returnType == "" && returnClass.isAssignableFrom(returnValue::class.java)){
+			return returnValue;
 		}else{
 			return convert(Pair(returnType, returnValue));
 		};
