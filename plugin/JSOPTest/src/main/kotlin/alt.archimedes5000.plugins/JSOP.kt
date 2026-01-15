@@ -311,10 +311,11 @@ class JSOP(
 				returnValue = constr.newInstance(*args);
 			}catch(e: Exception){
 				//try field
-				errors.add("DEBUG:\n	recieverClass: ${recieverClass}\n	name: ${name}\n	actualClass: ${reciever?.second!!::class.java}");
 				if(args.isEmpty()){
+					errors.add("DEBUG:\n	recieverClass: ${recieverClass}\n	name: ${name}\n	actualClass: ${reciever?.second!!::class.java}");
 					try{
 						val field = recieverClass.getDeclaredField(name).apply{isAccessible = true};
+						errors.add(field.toString());
 						returnValue = field.get(reciever?.second);
 					}catch(e: NoSuchFieldException){
 						returnValue = null;
