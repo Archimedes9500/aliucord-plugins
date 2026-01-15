@@ -300,9 +300,6 @@ class JSOP(
 
 		//try method
 		try{
-			if(args.isEmpty()){
-				throw NoSuchMethodException("actually it just means args are empty");
-			};
 			val method = recieverClass.getDeclaredMethod(name, *types).apply{isAccessible = true};
 			returnValue = method.invoke(reciever?.second, *args);
 		}catch(e: NoSuchMethodException){
@@ -314,7 +311,8 @@ class JSOP(
 				returnValue = constr.newInstance(*args);
 			}catch(e: Exception){
 				//try field
-				if(args.size == 0){
+				errors.add("DEBUG:\n	recieverClass: ${recieverClass}\n	name: ${name}\n	actualClass: ${reciever?.second::class.java}");
+				if(args.isEmpty()){
 					try{
 						val field = recieverClass.getDeclaredField(name).apply{isAccessible = true};
 						returnValue = field.get(reciever?.second);
