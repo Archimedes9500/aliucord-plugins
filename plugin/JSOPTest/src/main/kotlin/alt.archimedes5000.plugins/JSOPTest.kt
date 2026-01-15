@@ -52,7 +52,8 @@ class JSOPTest: Plugin(){
 			object: XC_MethodHook(10000){
 				override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam){
 					val root: View = ((param.args[0] as RecyclerView.ViewHolder).itemView).findViewById("widget_chat_list_adapter_item_text_root");
-					logger.debug("==================================================");
+					if(root == null) return;
+					logger.debug("===================================");
 					logger.debug("hooked: "+root.toString());
 					val view: TextView = (root as ViewGroup).findViewById("chat_list_adapter_item_text");
 					logger.debug("view: "+view.toString());
