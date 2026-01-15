@@ -59,6 +59,7 @@ class JSOPTest: Plugin(){
 						val `$view`: View = view;
 					}); 
 					val (_, errors) = jsop.run<Unit>(styles.getJSONArray(0));
+					if(!errors.isEmpty()) logger.debug(errors.joinToString("\n"));
 					logger.debug("set to: "+(view.background as ColorDrawable).color.toString(16));
 				};
 			}
