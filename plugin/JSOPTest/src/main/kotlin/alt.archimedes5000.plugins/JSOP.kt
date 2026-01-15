@@ -201,7 +201,7 @@ class JSOP(
 		val (type, value) = arg;
 		if(value == null) return arg;
 
-		val o = value::class.java.declaredMethods
+		val converted = value::class.java.declaredMethods
 			?.find{
 				it.name == "to"+type;
 				it.parameterCount == 0;
@@ -209,9 +209,22 @@ class JSOP(
 			?.apply{isAccessible = true}
 			?.invoke(value)
 		;
+		val argClass = try{
+			 Class.forName(imports[type]?: "");
+		}catch(e: ClassNotFoundException){
+			try{
+				 Class.forName(type);
+			}catch(e: ClassNotFoundException){
+				null;
+			};
+		};
+		if(argClass == null){
+			errors.add(UNKNOWN_TYPE(type));
+			return null;
+		};
 
-		if(o != null && o::class == value::class){
-			return Pair(type, o);
+		if(converted != null && converted::class == argClass){
+			return Pair(type, converted);
 		}else{
 			errors.add(CONVERSION_FAILED(type, value));
 			return null;
