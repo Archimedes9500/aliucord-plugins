@@ -309,9 +309,6 @@ class JSOP(
 
 		//try method
 		try{
-			val members = recieverClass.declaredMethods.filter{it.name.contains("to")};
-			errors.add("METHODS:\n	"+members.joinToString("\n	"));
-
 			val method = recieverClass.getDeclaredMethod(name, *types).apply{isAccessible = true};
 			returnValue = method.invoke(reciever?.second, *args);
 		}catch(e: NoSuchMethodException){
@@ -322,6 +319,9 @@ class JSOP(
 					.apply{isAccessible = true}
 					.get(null)::class.java
 				;
+				val members = recieverClass.declaredMethods;
+				errors.add("METHODS:\n	"+members.joinToString("\n	"));
+
 				val method: Method = companionClass.getDeclaredMethod(name, *types).apply{isAccessible = true};
 				returnValue = method.invoke(reciever?.second, *args);
 			}catch(e: Exception){
