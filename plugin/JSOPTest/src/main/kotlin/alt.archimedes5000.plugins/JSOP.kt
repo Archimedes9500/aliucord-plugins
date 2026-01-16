@@ -202,23 +202,13 @@ class JSOP(
 		val (type, value) = arg;
 		if(value == null) return arg;
 
-		val actualKClass: KClass<*>? = value::class;
-		val methods: Collection<KFunction<*>>? = actualKClass?.declaredFunctions;
-		val method: KFunction<*>? = methods?.find{
-			it.name == "to"+type
-		&&
-			it.parameters.size == 1
+		val actualClass: Class<*>? = value::class.javaObjectType;
+		val methods = actualClass?.methods;
+		val method: Method? = methods?.find{
+			it.name == type.decapitalize()+"Value" && it.parameterCount == 0;
 		}?.apply{isAccessible = true};
-		val converted: Any? = method?.call(value);
-/*
-		val converted = value::class.declaredFunctions
-			?.find{
-				it.name == "to"+type;
-			} as? KFunction<*>
-			?.apply{isAccessible = true}
-			?.call(value)
-		;
-*/
+		val converted: Any? = method?.invoke(value);
+
 		val argClass = try{
 			 Class.forName(imports[type]?: "");
 		}catch(e: ClassNotFoundException){
