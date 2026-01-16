@@ -1,7 +1,7 @@
 package alt.archimedes5000.plugins;
 import java.lang.reflect.*;
 import kotlin.reflect.*;
-import kotlin.reflect.full.*;
+import kotlin.reflect.full.declaredFunctions;
 import org.json.*;
 
 class JSOP(
@@ -202,6 +202,15 @@ class JSOP(
 		val (type, value) = arg;
 		if(value == null) return arg;
 
+		val actualKClass: KClass<*>? = value::class;
+		val methods: Collection<KFunction<*>>? = actualKClass?.declaredFunctions;
+		val method: KFunction<*>? = methods?.find{
+			it.name == "to"+type
+		&&
+			it.parameters.size == 1
+		}?.apply{isAccessible = true};
+		val converted: Any? = method?.call(value);
+/*
 		val converted = value::class.declaredFunctions
 			?.find{
 				it.name == "to"+type;
@@ -209,6 +218,7 @@ class JSOP(
 			?.apply{isAccessible = true}
 			?.call(value)
 		;
+*/
 		val argClass = try{
 			 Class.forName(imports[type]?: "");
 		}catch(e: ClassNotFoundException){
@@ -219,7 +229,7 @@ class JSOP(
 			};
 		};
 
-		if(converted != null && converted::class == argClass){
+		if(converted != null && converted::class == argClass.kotlin){
 			return Pair(type, converted);
 		}else{
 			errors.add(CONVERSION_FAILED(type, value));
