@@ -774,14 +774,8 @@ fun java.lang.Float.unaryPlus(): Float{
 fun java.lang.Float.unaryMinus(): Float{
 	return (this as Float).unaryMinus();
 };
-fun java.lang.Float.toByte(): Byte{
-	return (this as Float).toByte();
-};
 fun java.lang.Float.toChar(): Char{
 	return (this as Float).toChar();
-};
-fun java.lang.Float.toShort(): Short{
-	return (this as Float).toShort();
 };
 fun java.lang.Float.toInt(): Int{
 	return (this as Float).toInt();
@@ -915,14 +909,8 @@ fun java.lang.Double.unaryPlus(): Double{
 fun java.lang.Double.unaryMinus(): Double{
 	return (this as Double).unaryMinus();
 };
-fun java.lang.Double.toByte(): Byte{
-	return (this as Double).toByte();
-};
 fun java.lang.Double.toChar(): Char{
 	return (this as Double).toChar();
-};
-fun java.lang.Double.toShort(): Short{
-	return (this as Double).toShort();
 };
 fun java.lang.Double.toInt(): Int{
 	return (this as Double).toInt();
