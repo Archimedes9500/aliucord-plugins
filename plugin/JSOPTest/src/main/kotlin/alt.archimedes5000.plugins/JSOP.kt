@@ -202,7 +202,7 @@ class JSOP(
 		if(value == null) return arg;
 
 		val actualClass: Class<*>? = value::class.javaObjectType;
-		val companionClass: Class<*> = actualClass
+		val companionClass: Class<*>? = actualClass
 			?.getDeclaredField("Companion")
 			?.apply{isAccessible = true}
 			?.get(null)::class.javaObjectType
@@ -378,7 +378,11 @@ class JSOP(
 		this.line++;
 		val expr = parseExpr(line);
 		if(expr != null){
-			this.defaultClass = T::class.javaObjectType;
+			if(T is Any){
+				this.defaultClass = T::class.javaObjectType;
+			}else{
+				this.defaultClass = T::class.java;
+			};
 			return Pair(exec("", expr) as? T, this.errors);
 		}else{
 			return Pair(null, this.errors);
@@ -390,7 +394,11 @@ class JSOP(
 			this.line++
 			val expr = parseExpr(line);
 			if(expr != null){
-				this.defaultClass = T::class.javaObjectType;
+				if(T is Any){
+					this.defaultClass = T::class.javaObjectType;
+				}else{
+					this.defaultClass = T::class.java;
+				};
 				results.add(exec("", expr) as? T);
 			};
 		};

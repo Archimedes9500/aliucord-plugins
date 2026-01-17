@@ -132,17 +132,17 @@ fun java.lang.Byte.rangeTo(other: Int): IntRange{
 fun java.lang.Byte.rangeTo(other: Long): LongRange{
 	return (this as Byte).rangeTo(other);
 };
-fun java.lang.Byte.rangeUntil(other: Byte): IntRange{
-	return (this as Byte).rangeUntil(other);
+fun java.lang.Byte.until(other: Byte): IntRange{
+	return (this as Byte).until(other);
 };
-fun java.lang.Byte.rangeUntil(other: Short): IntRange{
-	return (this as Byte).rangeUntil(other);
+fun java.lang.Byte.until(other: Short): IntRange{
+	return (this as Byte).until(other);
 };
-fun java.lang.Byte.rangeUntil(other: Int): IntRange{
-	return (this as Byte).rangeUntil(other);
+fun java.lang.Byte.until(other: Int): IntRange{
+	return (this as Byte).until(other);
 };
-fun java.lang.Byte.rangeUntil(other: Long): LongRange{
-	return (this as Byte).rangeUntil(other);
+fun java.lang.Byte.until(other: Long): LongRange{
+	return (this as Byte).until(other);
 };
 fun java.lang.Byte.toByte(): Byte{
 	return (this as Byte).toByte();
@@ -318,17 +318,17 @@ fun java.lang.Short.rangeTo(other: Int): IntRange{
 fun java.lang.Short.rangeTo(other: Long): LongRange{
 	return (this as Short).rangeTo(other);
 };
-fun java.lang.Short.rangeUntil(other: Byte): IntRange{
-	return (this as Short).rangeUntil(other);
+fun java.lang.Short.until(other: Byte): IntRange{
+	return (this as Short).until(other);
 };
-fun java.lang.Short.rangeUntil(other: Short): IntRange{
-	return (this as Short).rangeUntil(other);
+fun java.lang.Short.until(other: Short): IntRange{
+	return (this as Short).until(other);
 };
-fun java.lang.Short.rangeUntil(other: Int): IntRange{
-	return (this as Short).rangeUntil(other);
+fun java.lang.Short.until(other: Int): IntRange{
+	return (this as Short).until(other);
 };
-fun java.lang.Short.rangeUntil(other: Long): LongRange{
-	return (this as Short).rangeUntil(other);
+fun java.lang.Short.until(other: Long): LongRange{
+	return (this as Short).until(other);
 };
 fun java.lang.Short.toByte(): Byte{
 	return (this as Short).toByte();
@@ -504,17 +504,17 @@ fun java.lang.Integer.rangeTo(other: Int): IntRange{
 fun java.lang.Integer.rangeTo(other: Long): LongRange{
 	return (this as Int).rangeTo(other);
 };
-fun java.lang.Integer.rangeUntil(other: Byte): IntRange{
-	return (this as Int).rangeUntil(other);
+fun java.lang.Integer.until(other: Byte): IntRange{
+	return (this as Int).until(other);
 };
-fun java.lang.Integer.rangeUntil(other: Short): IntRange{
-	return (this as Int).rangeUntil(other);
+fun java.lang.Integer.until(other: Short): IntRange{
+	return (this as Int).until(other);
 };
-fun java.lang.Integer.rangeUntil(other: Int): IntRange{
-	return (this as Int).rangeUntil(other);
+fun java.lang.Integer.until(other: Int): IntRange{
+	return (this as Int).until(other);
 };
-fun java.lang.Integer.rangeUntil(other: Long): LongRange{
-	return (this as Int).rangeUntil(other);
+fun java.lang.Integer.until(other: Long): LongRange{
+	return (this as Int).until(other);
 };
 fun java.lang.Integer.shl(bitCount: Int): Int{
 	return (this as Int).shl(bitCount);
@@ -711,17 +711,17 @@ fun java.lang.Long.rangeTo(other: Int): LongRange{
 fun java.lang.Long.rangeTo(other: Long): LongRange{
 	return (this as Long).rangeTo(other);
 };
-fun java.lang.Long.rangeUntil(other: Byte): LongRange{
-	return (this as Long).rangeUntil(other);
+fun java.lang.Long.until(other: Byte): LongRange{
+	return (this as Long).until(other);
 };
-fun java.lang.Long.rangeUntil(other: Short): LongRange{
-	return (this as Long).rangeUntil(other);
+fun java.lang.Long.until(other: Short): LongRange{
+	return (this as Long).until(other);
 };
-fun java.lang.Long.rangeUntil(other: Int): LongRange{
-	return (this as Long).rangeUntil(other);
+fun java.lang.Long.until(other: Int): LongRange{
+	return (this as Long).until(other);
 };
-fun java.lang.Long.rangeUntil(other: Long): LongRange{
-	return (this as Long).rangeUntil(other);
+fun java.lang.Long.until(other: Long): LongRange{
+	return (this as Long).until(other);
 };
 fun java.lang.Long.shl(bitCount: Int): Long{
 	return (this as Long).shl(bitCount);
