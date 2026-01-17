@@ -187,7 +187,7 @@ class JSOP(
 	//exec utils
 	fun envSetup(value: Any?): Any?{
 		try{
-			val field = this.env::class.java
+			val field = this.env::class.javaObjectType
 				.getDeclaredField(value.toString())
 				.apply{isAccessible = true}
 			;
@@ -202,9 +202,14 @@ class JSOP(
 		if(value == null) return arg;
 
 		val actualClass: Class<*>? = value::class.javaObjectType;
-		val methods = actualClass?.methods;
+		val companionClass: Class<*> = actualClass
+			?.getDeclaredField("Companion")
+			?.apply{isAccessible = true}
+			?.get(null)::class.javaObjectType
+		;
+		val methods = companionClass?.declaredMethods;
 		val method: Method? = methods?.find{
-			it.name == type.decapitalize()+"Value" && it.parameterCount == 0;
+			it.name == "to"+type && it.parameterCount == 0;
 		}?.apply{isAccessible = true};
 		val converted: Any? = method?.invoke(value);
 
@@ -246,7 +251,7 @@ class JSOP(
 			Pair(type, setUpValue);
 		}else if(value is Expression){
 			Pair(type, exec(type, value));
-		}else if(argClass.isAssignableFrom(setUpValue::class.java)){
+		}else if(argClass.isAssignableFrom(setUpValue::class.javaObjectType)){
 			Pair(type, setUpValue);
 		}else{
 			convert(Pair(type, setUpValue));
@@ -317,9 +322,9 @@ class JSOP(
 				val companionClass: Class<*> = recieverClass
 					.getDeclaredField("Companion")
 					.apply{isAccessible = true}
-					.get(null)::class.java
+					.get(null)::class.javaObjectType
 				;
-				val members = recieverClass.declaredMethods;
+				val members = companionClass.declaredMethods;
 				errors.add("METHODS:\n	"+members.joinToString("\n	"));
 
 				val method: Method = companionClass.getDeclaredMethod(name, *types).apply{isAccessible = true};
@@ -343,7 +348,7 @@ class JSOP(
 								val companionClass: Class<*> = recieverClass
 									.getDeclaredField("Companion")
 									.apply{isAccessible = true}
-									.get(null)::class.java
+									.get(null)::class.javaObjectType
 								;
 								val field: Field = companionClass.getDeclaredField(name).apply{isAccessible = true};
 								returnValue = field.get(reciever?.second);
@@ -359,9 +364,9 @@ class JSOP(
 		if(returnValue == null){
 			errors.add(INVALID_VALUE(expr, "is not a valid Expression, name did not resolve to method, constructor or field"));
 			return returnValue;
-		}else if(returnValue::class.java == returnClass){
+		}else if(returnValue::class.javaObjectType == returnClass){
 			return returnValue;
-		}else if(returnType == "" && returnClass.isAssignableFrom(returnValue::class.java)){
+		}else if(returnType == "" && returnClass.isAssignableFrom(returnValue::class.javaObjectType)){
 			return returnValue;
 		}else{
 			return convert(Pair(returnType, returnValue));
@@ -373,7 +378,7 @@ class JSOP(
 		this.line++;
 		val expr = parseExpr(line);
 		if(expr != null){
-			this.defaultClass = T::class.java;
+			this.defaultClass = T::class.javaObjectType;
 			return Pair(exec("", expr) as? T, this.errors);
 		}else{
 			return Pair(null, this.errors);
@@ -385,7 +390,7 @@ class JSOP(
 			this.line++
 			val expr = parseExpr(line);
 			if(expr != null){
-				this.defaultClass = T::class.java;
+				this.defaultClass = T::class.javaObjectType;
 				results.add(exec("", expr) as? T);
 			};
 		};
