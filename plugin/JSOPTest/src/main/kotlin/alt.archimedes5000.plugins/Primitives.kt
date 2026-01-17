@@ -132,18 +132,6 @@ fun java.lang.Byte.rangeTo(other: Int): IntRange{
 fun java.lang.Byte.rangeTo(other: Long): LongRange{
 	return (this as Byte).rangeTo(other);
 };
-fun java.lang.Byte.until(other: Byte): IntRange{
-	return (this as Byte).until(other);
-};
-fun java.lang.Byte.until(other: Short): IntRange{
-	return (this as Byte).until(other);
-};
-fun java.lang.Byte.until(other: Int): IntRange{
-	return (this as Byte).until(other);
-};
-fun java.lang.Byte.until(other: Long): LongRange{
-	return (this as Byte).until(other);
-};
 fun java.lang.Byte.toByte(): Byte{
 	return (this as Byte).toByte();
 };
@@ -164,27 +152,6 @@ fun java.lang.Byte.toFloat(): Float{
 };
 fun java.lang.Byte.toDouble(): Double{
 	return (this as Byte).toDouble();
-};
-fun java.lang.Byte.toString(): String{
-	return (this as Byte).toString();
-};
-fun java.lang.Byte.equals(other: Any?): Boolean{
-	return (this as Byte).equals(other);
-};
-fun java.lang.Short.equals(other: Any?): Boolean{
-	return (this as Short).equals(other);
-};
-fun java.lang.Short.equals(other: Any?): Boolean{
-	return (this as Short).equals(other);
-};
-fun java.lang.Short.equals(other: Any?): Boolean{
-	return (this as Short).equals(other);
-};
-fun java.lang.Short.equals(other: Any?): Boolean{
-	return (this as Short).equals(other);
-};
-fun java.lang.Short.equals(other: Any?): Boolean{
-	return (this as Short).equals(other);
 };
 fun java.lang.Short.compareTo(other: Byte): Int{
 	return (this as Short).compareTo(other);
@@ -318,18 +285,6 @@ fun java.lang.Short.rangeTo(other: Int): IntRange{
 fun java.lang.Short.rangeTo(other: Long): LongRange{
 	return (this as Short).rangeTo(other);
 };
-fun java.lang.Short.until(other: Byte): IntRange{
-	return (this as Short).until(other);
-};
-fun java.lang.Short.until(other: Short): IntRange{
-	return (this as Short).until(other);
-};
-fun java.lang.Short.until(other: Int): IntRange{
-	return (this as Short).until(other);
-};
-fun java.lang.Short.until(other: Long): LongRange{
-	return (this as Short).until(other);
-};
 fun java.lang.Short.toByte(): Byte{
 	return (this as Short).toByte();
 };
@@ -350,27 +305,6 @@ fun java.lang.Short.toFloat(): Float{
 };
 fun java.lang.Short.toDouble(): Double{
 	return (this as Short).toDouble();
-};
-fun java.lang.Short.toString(): String{
-	return (this as Short).toString();
-};
-fun java.lang.Short.equals(other: Any?): Boolean{
-	return (this as Short).equals(other);
-};
-fun java.lang.Integer.equals(other: Any?): Boolean{
-	return (this as Int).equals(other);
-};
-fun java.lang.Integer.equals(other: Any?): Boolean{
-	return (this as Int).equals(other);
-};
-fun java.lang.Integer.equals(other: Any?): Boolean{
-	return (this as Int).equals(other);
-};
-fun java.lang.Integer.equals(other: Any?): Boolean{
-	return (this as Int).equals(other);
-};
-fun java.lang.Integer.equals(other: Any?): Boolean{
-	return (this as Int).equals(other);
 };
 fun java.lang.Integer.compareTo(other: Byte): Int{
 	return (this as Int).compareTo(other);
@@ -504,18 +438,6 @@ fun java.lang.Integer.rangeTo(other: Int): IntRange{
 fun java.lang.Integer.rangeTo(other: Long): LongRange{
 	return (this as Int).rangeTo(other);
 };
-fun java.lang.Integer.until(other: Byte): IntRange{
-	return (this as Int).until(other);
-};
-fun java.lang.Integer.until(other: Short): IntRange{
-	return (this as Int).until(other);
-};
-fun java.lang.Integer.until(other: Int): IntRange{
-	return (this as Int).until(other);
-};
-fun java.lang.Integer.until(other: Long): LongRange{
-	return (this as Int).until(other);
-};
 fun java.lang.Integer.shl(bitCount: Int): Int{
 	return (this as Int).shl(bitCount);
 };
@@ -557,27 +479,6 @@ fun java.lang.Integer.toFloat(): Float{
 };
 fun java.lang.Integer.toDouble(): Double{
 	return (this as Int).toDouble();
-};
-fun java.lang.Integer.toString(): String{
-	return (this as Int).toString();
-};
-fun java.lang.Integer.equals(other: Any?): Boolean{
-	return (this as Int).equals(other);
-};
-fun java.lang.Long.equals(other: Any?): Boolean{
-	return (this as Long).equals(other);
-};
-fun java.lang.Long.equals(other: Any?): Boolean{
-	return (this as Long).equals(other);
-};
-fun java.lang.Long.equals(other: Any?): Boolean{
-	return (this as Long).equals(other);
-};
-fun java.lang.Long.equals(other: Any?): Boolean{
-	return (this as Long).equals(other);
-};
-fun java.lang.Long.equals(other: Any?): Boolean{
-	return (this as Long).equals(other);
 };
 fun java.lang.Long.compareTo(other: Byte): Int{
 	return (this as Long).compareTo(other);
@@ -711,18 +612,6 @@ fun java.lang.Long.rangeTo(other: Int): LongRange{
 fun java.lang.Long.rangeTo(other: Long): LongRange{
 	return (this as Long).rangeTo(other);
 };
-fun java.lang.Long.until(other: Byte): LongRange{
-	return (this as Long).until(other);
-};
-fun java.lang.Long.until(other: Short): LongRange{
-	return (this as Long).until(other);
-};
-fun java.lang.Long.until(other: Int): LongRange{
-	return (this as Long).until(other);
-};
-fun java.lang.Long.until(other: Long): LongRange{
-	return (this as Long).until(other);
-};
 fun java.lang.Long.shl(bitCount: Int): Long{
 	return (this as Long).shl(bitCount);
 };
@@ -764,36 +653,6 @@ fun java.lang.Long.toFloat(): Float{
 };
 fun java.lang.Long.toDouble(): Double{
 	return (this as Long).toDouble();
-};
-fun java.lang.Long.toString(): String{
-	return (this as Long).toString();
-};
-fun java.lang.Long.equals(other: Any?): Boolean{
-	return (this as Long).equals(other);
-};
-fun java.lang.Float.equals(other: Any?): Boolean{
-	return (this as Float).equals(other);
-};
-fun java.lang.Float.equals(other: Any?): Boolean{
-	return (this as Float).equals(other);
-};
-fun java.lang.Float.equals(other: Any?): Boolean{
-	return (this as Float).equals(other);
-};
-fun java.lang.Float.equals(other: Any?): Boolean{
-	return (this as Float).equals(other);
-};
-fun java.lang.Float.equals(other: Any?): Boolean{
-	return (this as Float).equals(other);
-};
-fun java.lang.Float.equals(other: Any?): Boolean{
-	return (this as Float).equals(other);
-};
-fun java.lang.Float.equals(other: Any?): Boolean{
-	return (this as Float).equals(other);
-};
-fun java.lang.Float.equals(other: Any?): Boolean{
-	return (this as Float).equals(other);
 };
 fun java.lang.Float.compareTo(other: Byte): Int{
 	return (this as Float).compareTo(other);
@@ -936,36 +795,6 @@ fun java.lang.Float.toFloat(): Float{
 fun java.lang.Float.toDouble(): Double{
 	return (this as Float).toDouble();
 };
-fun java.lang.Float.toString(): String{
-	return (this as Float).toString();
-};
-fun java.lang.Float.equals(other: Any?): Boolean{
-	return (this as Float).equals(other);
-};
-fun java.lang.Double.equals(other: Any?): Boolean{
-	return (this as Double).equals(other);
-};
-fun java.lang.Double.equals(other: Any?): Boolean{
-	return (this as Double).equals(other);
-};
-fun java.lang.Double.equals(other: Any?): Boolean{
-	return (this as Double).equals(other);
-};
-fun java.lang.Double.equals(other: Any?): Boolean{
-	return (this as Double).equals(other);
-};
-fun java.lang.Double.equals(other: Any?): Boolean{
-	return (this as Double).equals(other);
-};
-fun java.lang.Double.equals(other: Any?): Boolean{
-	return (this as Double).equals(other);
-};
-fun java.lang.Double.equals(other: Any?): Boolean{
-	return (this as Double).equals(other);
-};
-fun java.lang.Double.equals(other: Any?): Boolean{
-	return (this as Double).equals(other);
-};
 fun java.lang.Double.compareTo(other: Byte): Int{
 	return (this as Double).compareTo(other);
 };
@@ -1106,12 +935,6 @@ fun java.lang.Double.toFloat(): Float{
 };
 fun java.lang.Double.toDouble(): Double{
 	return (this as Double).toDouble();
-};
-fun java.lang.Double.toString(): String{
-	return (this as Double).toString();
-};
-fun java.lang.Double.equals(other: Any?): Boolean{
-	return (this as Double).equals(other);
 };
 
 //missing conversion functions for Boolean

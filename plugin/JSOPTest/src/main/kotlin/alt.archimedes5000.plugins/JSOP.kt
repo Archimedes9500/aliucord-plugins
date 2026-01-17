@@ -201,11 +201,12 @@ class JSOP(
 		val (type, value) = arg;
 		if(value == null) return arg;
 
-		val actualClass: Class<*>? = value::class.javaObjectType;
-		val companionClass: Class<*>? = actualClass
-			?.getDeclaredField("Companion")
-			?.apply{isAccessible = true}
-			?.get(null)::class.javaObjectType
+		val actualClass: Class<*> = value::class.javaObjectType;
+		val companionClass: Class<*> = actualClass
+			.getDeclaredField("Companion")
+			.apply{isAccessible = true}
+			.get(null)!!::class
+			.javaObjectType
 		;
 		val methods = companionClass?.declaredMethods;
 		val method: Method? = methods?.find{
@@ -374,31 +375,23 @@ class JSOP(
 	};
 
 	//public interface
-	inline fun <reified T>run(line: JSONArray): Pair<T?, ArrayList<String>>{
+	inline fun <reified T: Any>run(line: JSONArray): Pair<T?, ArrayList<String>>{
 		this.line++;
 		val expr = parseExpr(line);
 		if(expr != null){
-			if(T is Any){
-				this.defaultClass = T::class.javaObjectType;
-			}else{
-				this.defaultClass = T::class.java;
-			};
+			this.defaultClass = T::class.javaObjectType;
 			return Pair(exec("", expr) as? T, this.errors);
 		}else{
 			return Pair(null, this.errors);
 		};
 	};
-	inline fun <reified T>run(body: JSONArray, results: ArrayList<T?>): ArrayList<String>{
+	inline fun <reified T: Any>run(body: JSONArray, results: ArrayList<T?>): ArrayList<String>{
 		for(i in 0 until body.length()){
 			val line = body.getJSONArray(i);
 			this.line++
 			val expr = parseExpr(line);
 			if(expr != null){
-				if(T is Any){
-					this.defaultClass = T::class.javaObjectType;
-				}else{
-					this.defaultClass = T::class.java;
-				};
+				this.defaultClass = T::class.javaObjectType;
 				results.add(exec("", expr) as? T);
 			};
 		};
