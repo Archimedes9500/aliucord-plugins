@@ -262,6 +262,7 @@ class JSOP(
 		this.lastExpr = JSONArray(expr.toString());
 
 		val name = expr.name;
+		check(name != "toEpochMilli"){"${expr.toString()}"};
 		val reciever = processArg(expr.reciever);
 		if(reciever == null) return null;
 		val recieverType = reciever.first;
