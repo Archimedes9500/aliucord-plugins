@@ -377,7 +377,7 @@ class JSOP(
 
 	//public interface
 	inline fun <reified T: Any>run(line: JSONArray): Pair<T?, ArrayList<String>>{
-		throw IllegalStateException(JSONArray.toString());
+		throw Thowable(line.toString());
 		this.line++;
 		val expr = parseExpr(line);
 		if(expr != null){
