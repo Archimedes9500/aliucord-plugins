@@ -101,7 +101,7 @@ class JSOP(
 		};
 	};
 	fun parseExpr(expr: JSONArray): Expression?{
-		check(expr.optString(0) != "toEpochMilli"){
+		check(expr.optString(0) != "now"){
 			"parseExpr\n${expr}\n${errors.joinToString("\n	")}";
 		};
 		val name = expr.optString(0);
@@ -261,7 +261,7 @@ class JSOP(
 		};
 	};
 	fun exec(returnType: String, expr: Expression): Any?{
-		check(expr.name != "toEpochMilli"){
+		check(expr.name != "now"){
 			"exec\n$expr\n${errors.joinToString("\n	")}";
 		};
 		this.lastExpr = JSONArray(expr.toString());
