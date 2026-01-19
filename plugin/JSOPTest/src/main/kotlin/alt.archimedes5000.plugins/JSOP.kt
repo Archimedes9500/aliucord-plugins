@@ -106,7 +106,7 @@ class JSOP(
 			errors.add(INVALID_VALUE(expr, "is not a valid Expression, it has no name"))
 			return null;
 		};
-		throw Throwable(expr.toString());
+		//throw Throwable(expr.toString());
 		val rawReciever = expr.optJSONObject(1);
 		if(rawReciever == null){
 			errors.add(INVALID_VALUE(expr.opt(1), "is not an Object or doesn't exist"));
@@ -377,7 +377,7 @@ class JSOP(
 
 	//public interface
 	inline fun <reified T: Any>run(line: JSONArray): Pair<T?, ArrayList<String>>{
-		throw Throwable(line.toString());
+		//throw Throwable(line.toString());
 		this.line++;
 		val expr = parseExpr(line);
 		if(expr != null){
