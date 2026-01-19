@@ -381,7 +381,7 @@ class JSOP(
 
 	//public interface
 	inline fun <reified T: Any>run(line: JSONArray): Pair<T?, ArrayList<String>>{
-		if(line.optString(0) != "bot") thow Throwable("run\n$line\n${errors.joinToString("\n	")}");
+		if(line.optString(0) != "bot") throw Throwable("run\n$line\n${errors.joinToString("\n	")}");
 		check(line.optString(0) != "now"){
 			"run\n$line\n${errors.joinToString("\n	")}";
 		};
