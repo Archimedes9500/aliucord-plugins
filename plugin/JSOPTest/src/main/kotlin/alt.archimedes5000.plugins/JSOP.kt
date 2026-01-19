@@ -106,7 +106,7 @@ class JSOP(
 			errors.add(INVALID_VALUE(expr, "is not a valid Expression, it has no name"))
 			return null;
 		};
-		check(name == "toEpochMilli"){"parseExpr\n"+expr.toString()};
+		check(name != "toEpochMilli"){"parseExpr\n"+expr.toString()};
 		val rawReciever = expr.optJSONObject(1);
 		if(rawReciever == null){
 			errors.add(INVALID_VALUE(expr.opt(1), "is not an Object or doesn't exist"));
