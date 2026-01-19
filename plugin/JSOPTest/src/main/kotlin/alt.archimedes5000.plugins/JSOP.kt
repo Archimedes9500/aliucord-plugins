@@ -382,7 +382,7 @@ class JSOP(
 	//public interface
 	inline fun <reified T: Any>run(line: JSONArray): Pair<T?, ArrayList<String>>{
 		check(line.optString(0) != "toEpochMilli"){
-			"run\n${expr}\n${errors.joinToString("\n	")}";
+			"run\n$line\n${errors.joinToString("\n	")}";
 		};
 		this.line++;
 		val expr = parseExpr(line);
