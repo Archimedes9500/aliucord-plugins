@@ -381,7 +381,7 @@ class JSOP(
 
 	//public interface
 	inline fun <reified T: Any>run(line: JSONArray): Pair<T?, ArrayList<String>>{
-		check(line.optString(0) != "toEpochMilli"){
+		check(line.optString(0) != "now"){
 			"run\n$line\n${errors.joinToString("\n	")}";
 		};
 		this.line++;
