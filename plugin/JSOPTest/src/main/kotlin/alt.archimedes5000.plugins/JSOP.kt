@@ -101,12 +101,14 @@ class JSOP(
 		};
 	};
 	fun parseExpr(expr: JSONArray): Expression?{
+		check(expr.optString(0) != "toEpochMilli"){
+			"parseExpr\n${expr}\n${errors.joinToString("\n	")}";
+		};
 		val name = expr.optString(0);
 		if(name == null){
 			errors.add(INVALID_VALUE(expr, "is not a valid Expression, it has no name"))
 			return null;
 		};
-		check(name != "toEpochMilli"){"parseExpr\n"+expr.toString()};
 		val rawReciever = expr.optJSONObject(1);
 		if(rawReciever == null){
 			errors.add(INVALID_VALUE(expr.opt(1), "is not an Object or doesn't exist"));
@@ -259,10 +261,12 @@ class JSOP(
 		};
 	};
 	fun exec(returnType: String, expr: Expression): Any?{
+		check(expr.name != "toEpochMilli"){
+			"exec\n$expr\n${errors.joinToString("\n	")}";
+		};
 		this.lastExpr = JSONArray(expr.toString());
 
 		val name = expr.name;
-		check(name != "toEpochMilli"){"${expr.toString()}"};
 		val reciever = processArg(expr.reciever);
 		if(reciever == null) return null;
 		val recieverType = reciever.first;
@@ -377,6 +381,9 @@ class JSOP(
 
 	//public interface
 	inline fun <reified T: Any>run(line: JSONArray): Pair<T?, ArrayList<String>>{
+		check(line.optString(0) != "toEpochMilli"){
+			"run\n${expr}\n${errors.joinToString("\n	")}";
+		};
 		this.line++;
 		val expr = parseExpr(line);
 		if(expr != null){
