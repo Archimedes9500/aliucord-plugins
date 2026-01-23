@@ -8,7 +8,7 @@ import com.aliucord.SettingsUtilsJSON
 import org.json.*
 
 import com.aliucord.Utils
-import com.aliucord.patcher.Hook
+import com.aliucord.patcher.*
 
 import android.content.SharedPreferences
 import com.discord.stores.StoreStream
@@ -32,12 +32,12 @@ class SettingsBackup: Plugin(){
 					is Boolean -> editor.putBoolean(key, value);
 					is Float -> editor.putFloat(key, value);
 					is Long -> editor.putLong(key, value);
-					is Set<String> -> editor.putStringSet(key, value);
+					is Set<out String> -> editor.putStringSet(key, value);
 				};
 			};
 		};
 
-		patcher.after<SharedPreferences>(
+		patcher.before<SharedPreferences>(
 			"apply"
 		){frame ->
 			val prefs = frame.thisObject as SharedPreferences;
@@ -46,7 +46,7 @@ class SettingsBackup: Plugin(){
 			settings2.putObject<Map<String, Any?>>("settings", currentSettings);
 		};
 
-		patcher.after<SharedPreferences>(
+		patcher.before<SharedPreferences>(
 			"commit"
 		){frame ->
 			val pref = frame.thisObject as SharedPreferences;
