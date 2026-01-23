@@ -21,7 +21,7 @@ class SettingsBackup: Plugin(){
 
 	override fun start(pluginContext: Context){
 
-		val storeAuth = StoreStream.getAuthentication();
+		val storeAuth = StoreStream.authentication;
 		val editor: SharedPreferences.Editor = storeAuth.prefs.edit();
 		val backupSettings = settings.getObject<Map<String, Any?>>("settings", mapOf());
 		if(!backupSettings.isEmpty()){
@@ -40,33 +40,16 @@ class SettingsBackup: Plugin(){
 		patcher.before<SharedPreferences.Editor>(
 			"apply"
 		){frame ->
-			val prefs = frame.thisObject as SharedPreferences;
-
-			val currentSettings = prefs.all;
+			val currentSettings = StoreStream.authentication.prefs.all;
 			settings2.setObject("settings", currentSettings);
 		};
 
 		patcher.before<SharedPreferences.Editor>(
 			"commit"
 		){frame ->
-			val pref = frame.thisObject as SharedPreferences;
-
-			val currentSettings = pref.all;
+			val currentSettings = StoreStream.authentication.prefs.all;
 			settings2.setObject("settings", currentSettings);
 		};
-/*
-		patcher.after<StoreAuthentication>(
-			"handleAuthState$app_productionGoogleRelease",
-			AuthState::class.java
-		){frame ->
-			val storeAuth = frame.thisObject as StoreAuthentication;
-
-			val backupSettings = settings.getObject<Map<String, Any?>>("backup", mapOf());
-			if(backupSettings.isEmpty()) return@after;
-			val editor: SharedPreferences.Editor = storeAuth.prefs.edit();
-			
-		};
-*/
 	};
 	override fun stop(pluginContext: Context) = patcher.unpatchAll();
 };
