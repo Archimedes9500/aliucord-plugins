@@ -17,7 +17,7 @@ import com.discord.stores.StoreAuthentication
 @AliucordPlugin(requiresRestart = true)
 class SettingsBackup: Plugin(){
 	@SuppressLint("SetTextI18n")
-	val settings2 = SettingsUtilsJSON("Discord");
+	val settings2 = SettingsUtils("Discord");
 
 	override fun start(pluginContext: Context){
 
@@ -66,7 +66,7 @@ class SettingsBackup: Plugin(){
 			val editor: SharedPreferences.Editor = storeAuth.prefs.edit();
 			
 		};
-	};
 */
+	};
 	override fun stop(pluginContext: Context) = patcher.unpatchAll();
 };
