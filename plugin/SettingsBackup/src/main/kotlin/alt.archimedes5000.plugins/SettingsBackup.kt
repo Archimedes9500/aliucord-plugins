@@ -43,7 +43,7 @@ class SettingsBackup: Plugin(){
 			val prefs = frame.thisObject as SharedPreferences;
 
 			val currentSettings = prefs.all;
-			settings2.setObject<Map<String, Any?>>("settings", currentSettings);
+			settings2.setObject("settings", currentSettings);
 		};
 
 		patcher.before<SharedPreferences>(
@@ -52,7 +52,7 @@ class SettingsBackup: Plugin(){
 			val pref = frame.thisObject as SharedPreferences;
 
 			val currentSettings = pref.all;
-			settings2.setObject<Map<String, Any?>>("settings", currentSettings);
+			settings2.setObject("settings", currentSettings);
 		};
 /*
 		patcher.after<StoreAuthentication>(
