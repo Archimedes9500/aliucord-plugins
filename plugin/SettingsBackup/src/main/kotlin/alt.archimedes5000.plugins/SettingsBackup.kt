@@ -14,7 +14,7 @@ import android.content.SharedPreferences
 import com.discord.stores.StoreStream
 import com.discord.stores.StoreAuthentication
 
-import android.app.`SharedPreferencesImpl$EditorImpl`
+import android.app.SharedPreferencesImpl.EditorImpl
 
 @AliucordPlugin(requiresRestart = true)
 class SettingsBackup: Plugin(){
