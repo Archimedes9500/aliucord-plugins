@@ -14,6 +14,8 @@ import android.content.SharedPreferences
 import com.discord.stores.StoreStream
 import com.discord.stores.StoreAuthentication
 
+import android.app.`SharedPreferencesImpl$EditorImpl`
+
 @AliucordPlugin(requiresRestart = true)
 class SettingsBackup: Plugin(){
 	@SuppressLint("SetTextI18n")
@@ -37,14 +39,14 @@ class SettingsBackup: Plugin(){
 			};
 		};
 
-		patcher.before<SharedPreferences.Editor>(
+		patcher.before<`SharedPreferencesImpl$EditorImpl`>(
 			"apply"
 		){frame ->
 			val currentSettings = StoreStream.getAuthentication().prefs.all;
 			settings2.setObject("settings", currentSettings);
 		};
 
-		patcher.before<SharedPreferences.Editor>(
+		patcher.before<`SharedPreferencesImpl$EditorImpl`>(
 			"commit"
 		){frame ->
 			val currentSettings = StoreStream.getAuthentication().prefs.all;
