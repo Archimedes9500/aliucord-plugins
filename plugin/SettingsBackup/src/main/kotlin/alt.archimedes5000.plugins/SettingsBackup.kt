@@ -17,7 +17,7 @@ import com.discord.stores.StoreAuthentication
 @AliucordPlugin(requiresRestart = true)
 class SettingsBackup: Plugin(){
 	@SuppressLint("SetTextI18n")
-	val settings2 = SettingsUtils("Discord");
+	val settings2 = SettingsUtilsJSON("Discord");
 
 	override fun start(pluginContext: Context){
 
@@ -32,7 +32,7 @@ class SettingsBackup: Plugin(){
 					is Boolean -> editor.putBoolean(key, value);
 					is Float -> editor.putFloat(key, value);
 					is Long -> editor.putLong(key, value);
-					is Set<*> -> if(value.all{it is String}) editor.putStringSet(key, value);
+					is Set<*> -> if(value.all{it is String}) editor.putStringSet(key, value as Set<String>);
 				};
 			};
 		};
@@ -43,7 +43,7 @@ class SettingsBackup: Plugin(){
 			val prefs = frame.thisObject as SharedPreferences;
 
 			val currentSettings = prefs.all;
-			settings2.putObject<Map<String, Any?>>("settings", currentSettings);
+			settings2.setObject<Map<String, Any?>>("settings", currentSettings);
 		};
 
 		patcher.before<SharedPreferences>(
@@ -52,7 +52,7 @@ class SettingsBackup: Plugin(){
 			val pref = frame.thisObject as SharedPreferences;
 
 			val currentSettings = pref.all;
-			settings2.putObject<Map<String, Any?>>("settings", currentSettings);
+			settings2.setObject<Map<String, Any?>>("settings", currentSettings);
 		};
 /*
 		patcher.after<StoreAuthentication>(
