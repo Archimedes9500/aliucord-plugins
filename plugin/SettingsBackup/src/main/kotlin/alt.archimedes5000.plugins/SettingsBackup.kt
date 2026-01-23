@@ -37,7 +37,7 @@ class SettingsBackup: Plugin(){
 			};
 		};
 
-		patcher.before<SharedPreferences>(
+		patcher.before<SharedPreferences.Editor>(
 			"apply"
 		){frame ->
 			val prefs = frame.thisObject as SharedPreferences;
@@ -46,7 +46,7 @@ class SettingsBackup: Plugin(){
 			settings2.setObject("settings", currentSettings);
 		};
 
-		patcher.before<SharedPreferences>(
+		patcher.before<SharedPreferences.Editor>(
 			"commit"
 		){frame ->
 			val pref = frame.thisObject as SharedPreferences;
