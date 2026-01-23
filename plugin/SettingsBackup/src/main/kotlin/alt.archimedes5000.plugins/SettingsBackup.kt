@@ -32,7 +32,7 @@ class SettingsBackup: Plugin(){
 					is Boolean -> editor.putBoolean(key, value);
 					is Float -> editor.putFloat(key, value);
 					is Long -> editor.putLong(key, value);
-					is Set<out String> -> editor.putStringSet(key, value);
+					is Set<*> -> if(value.all{it is String}) editor.putStringSet(key, value);
 				};
 			};
 		};
