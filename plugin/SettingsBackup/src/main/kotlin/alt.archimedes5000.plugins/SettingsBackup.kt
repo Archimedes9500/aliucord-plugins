@@ -37,15 +37,15 @@ class SettingsBackup: Plugin(){
 			};
 		};
 
-		patcher.patch(editor::class.java.getDeclaredMethod("apply"), BeforeHook{frame ->
+		patcher.patch(editor::class.java.getDeclaredMethod("apply"), PreHook{frame ->
 			val currentSettings = StoreStream.getAuthentication().prefs.all;
 			settings2.setObject("settings", currentSettings);
 		});
 
-		patcher.patch(editor::class.java.getDeclaredMethod("commit"), BeforeHook{frame ->
+		patcher.patch(editor::class.java.getDeclaredMethod("commit"), PreHook{frame ->
 			val currentSettings = StoreStream.getAuthentication().prefs.all;
 			settings2.setObject("settings", currentSettings);
-		};
+		});
 	};
 	override fun stop(pluginContext: Context) = patcher.unpatchAll();
 };
