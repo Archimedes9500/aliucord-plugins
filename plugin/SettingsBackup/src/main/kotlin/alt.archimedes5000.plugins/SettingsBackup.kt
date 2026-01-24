@@ -11,8 +11,8 @@ import com.aliucord.Utils
 import com.aliucord.patcher.*
 
 import android.content.SharedPreferences
+import com.discord.stores.Store
 import com.discord.stores.StoreStream
-import com.discord.stores.StoreAuthentication
 
 @AliucordPlugin(requiresRestart = true)
 class SettingsBackup: Plugin(){
@@ -28,7 +28,7 @@ class SettingsBackup: Plugin(){
 			"nux" to StoreStream::getNux
 		);
 		for((storeKey, store) in stores){
-			val editor = store().prefs.edit();
+			val editor: SharedPreferences.Editor = (store() as Store).prefs.edit();
 			val backupSettings = settings.getObject<Map<String, Any?>>(storeKey, mapOf());
 			if(!backupSettings.isEmpty()){
 				for((key, value) in backupSettings){
@@ -42,16 +42,16 @@ class SettingsBackup: Plugin(){
 					};
 				};
 			}else{
-				val currentSettings = store().prefs.all;
+				val currentSettings = (store() as Store).prefs.all;
 				settings2.setObject(storeKey, currentSettings);
 			};
 			patcher.patch(editor::class.java.getDeclaredMethod("apply"), PreHook{frame ->
-				val currentSettings = store().prefs.all;
+				val currentSettings = (store() as Store).prefs.all;
 				settings2.setObject(storeKey, currentSettings);
 			});
 	
 			patcher.patch(editor::class.java.getDeclaredMethod("commit"), PreHook{frame ->
-				val currentSettings = store().prefs.all;
+				val currentSettings = (store() as Store).prefs.all;
 				settings2.setObject(storeKey, currentSettings);
 			});
 		};
