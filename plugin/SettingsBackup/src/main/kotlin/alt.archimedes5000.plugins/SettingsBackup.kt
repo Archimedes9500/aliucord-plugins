@@ -21,31 +21,40 @@ class SettingsBackup: Plugin(){
 
 	override fun start(pluginContext: Context){
 
-		val storeAuth = StoreStream.getAuthentication();
-		val editor = storeAuth.prefs.edit();
-		val backupSettings = settings.getObject<Map<String, Any?>>("settings", mapOf());
-		if(!backupSettings.isEmpty()){
-			for((key, value) in backupSettings){
-				when(value){
-					is String -> editor.putString(key, value);
-					is Int -> editor.putInt(key, value);
-					is Boolean -> editor.putBoolean(key, value);
-					is Float -> editor.putFloat(key, value);
-					is Long -> editor.putLong(key, value);
-					is Set<*> -> if(value.all{it is String}) editor.putStringSet(key, value as Set<String>);
+		val stores = mapOf(
+			"auth" to StoreStream::getAuthentication,
+			"emoji" to StoreStream::getEmoji,
+			"stickers" to StoreStream::getStickers,
+			"nux" to StoreStream::getNux
+		);
+		for((storeKey, store) in stores){
+			val editor = store().prefs.edit();
+			val backupSettings = settings.getObject<Map<String, Any?>>(storeKey, mapOf());
+			if(!backupSettings.isEmpty()){
+				for((key, value) in backupSettings){
+					when(value){
+						is String -> editor.putString(key, value);
+						is Int -> editor.putInt(key, value);
+						is Boolean -> editor.putBoolean(key, value);
+						is Float -> editor.putFloat(key, value);
+						is Long -> editor.putLong(key, value);
+						is Set<*> -> if(value.all{it is String}) editor.putStringSet(key, value as Set<String>);
+					};
 				};
+			}else{
+				val currentSettings = store().prefs.all;
+				settings2.setObject(storeKey, currentSettings);
 			};
+			patcher.patch(editor::class.java.getDeclaredMethod("apply"), PreHook{frame ->
+				val currentSettings = store().prefs.all;
+				settings2.setObject(storeKey, currentSettings);
+			});
+	
+			patcher.patch(editor::class.java.getDeclaredMethod("commit"), PreHook{frame ->
+				val currentSettings = store().prefs.all;
+				settings2.setObject(storeKey, currentSettings);
+			});
 		};
-
-		patcher.patch(editor::class.java.getDeclaredMethod("apply"), PreHook{frame ->
-			val currentSettings = StoreStream.getAuthentication().prefs.all;
-			settings2.setObject("settings", currentSettings);
-		});
-
-		patcher.patch(editor::class.java.getDeclaredMethod("commit"), PreHook{frame ->
-			val currentSettings = StoreStream.getAuthentication().prefs.all;
-			settings2.setObject("settings", currentSettings);
-		});
 	};
 	override fun stop(pluginContext: Context) = patcher.unpatchAll();
 };
