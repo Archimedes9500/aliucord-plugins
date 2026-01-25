@@ -23,7 +23,7 @@ class SettingsBackup: Plugin(){
 
 		val storeAuth = StoreStream.getAuthentication();
 		val editor: SharedPreferences.Editor = storeAuth.prefs.edit();
-		val auth: MutableMap<String, Any?> = settings2.getObject("auth", mutableMapOf<String, Any?>());
+		val auth = settings2.getObject("auth", mutableMapOf<String, Any>());
 		if(!auth.isEmpty()){
 			for((key, value) in auth){
 				when(value){
@@ -44,7 +44,7 @@ class SettingsBackup: Plugin(){
 		val fFavoriteEmoji = storeEmoji::class.java.getDeclaredField("storeMediaFavorites");
 		val fFrequentEmoji = storeEmoji::class.java.getDeclaredField("frecencyCache");
 
-		var emoji: MutableMap<String, Any> = settings2.getObject("emoji", mutableMapOf<String, Any?>());
+		var emoji = settings2.getObject("emoji", mutableMapOf<String, Any>());
 
 		val favoriteEmoji = emoji["favorite"];
 		if(favoriteEmoji != null){
