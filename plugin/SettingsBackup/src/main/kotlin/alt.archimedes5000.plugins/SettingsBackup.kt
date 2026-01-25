@@ -11,8 +11,10 @@ import com.aliucord.Utils
 import com.aliucord.patcher.*
 
 import android.content.SharedPreferences
-import com.discord.stores.Store
 import com.discord.stores.StoreStream
+import com.discord.stores.StoreAuthentication
+import com.discord.stores.StoreEmoji
+import com.discord.stores.StoreNux
 
 @AliucordPlugin(requiresRestart = true)
 class SettingsBackup: Plugin(){
@@ -41,11 +43,15 @@ class SettingsBackup: Plugin(){
 		};
 
 		val storeEmoji = StoreStream.getEmojis();
-		val fFavoriteEmoji = storeEmoji::class.java.getDeclaredField("mediaFavoritesStore").apply{isAccessible = true};
-		val fFrequentEmoji = storeEmoji::class.java.getDeclaredField("frecencyCache").apply{isAccessible = true};
-
+		val fFavoriteEmoji = StoreEmoji::class.java
+			.getDeclaredField("mediaFavoritesStore")
+			.apply{isAccessible = true}
+		;
+		val fFrequentEmoji = StoreEmoji::class.java
+			.getDeclaredField("frecencyCache")
+			.apply{isAccessible = true}
+		;
 		var emoji = settings2.getObject("emoji", mutableMapOf<String, Any>());
-
 		val favoriteEmoji = emoji["favorite"];
 		if(favoriteEmoji != null){
 			fFavoriteEmoji.set(storeEmoji, favoriteEmoji);
