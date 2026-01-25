@@ -9,7 +9,7 @@ import org.json.*
 
 import com.aliucord.Utils
 import com.aliucord.patcher.*
-import sun.misc.Unsafe
+import java.lang.reflect.*
 
 import android.content.SharedPreferences
 import com.discord.stores.StoreStream
@@ -22,12 +22,24 @@ class SettingsBackup: Plugin(){
 	@SuppressLint("SetTextI18n")
 	val settings2 = SettingsUtilsJSON("Discord");
 
-	@Suppress("UNCHECKED_CAST")
-	val unsafe = Unsafe::class.java
+	val cUnsafe = Class.forName("sun.misc.Unsafe");
+	val unsafe = cUnsafe
 		.getDeclaredField("theUnsafe")
 		.apply{isAccessible = true}
 		.get(null)
-		as Unsafe
+	;
+	val fFavoriteEmoji = StoreEmoji::class.java
+		.getDeclaredField("mediaFavoritesStore")
+		.apply{isAccessible = true}
+	;
+	val oFavoriteEmoji: Long = unsafe
+		.getDeclaredMethod("objectFieldOffset", Field::class.java)
+		.invoke(unsafe, fFavoriteEmoji)
+		as Long
+	;
+	val fFrequentEmoji = StoreEmoji::class.java
+		.getDeclaredField("frecencyCache")
+		.apply{isAccessible = true}
 	;
 
 	override fun start(pluginContext: Context){
@@ -52,21 +64,15 @@ class SettingsBackup: Plugin(){
 		};
 
 		val storeEmoji = StoreStream.getEmojis();
-		val oFavoriteEmoji: Long = unsafe.objectFieldOffset(
-			StoreEmoji::class.java
-			.getDeclaredField("mediaFavoritesStore")
-			.apply{isAccessible = true}
-		);
-		val fFrequentEmoji = StoreEmoji::class.java
-			.getDeclaredField("frecencyCache")
-			.apply{isAccessible = true}
-		;
 		var emoji = settings2.getObject("emoji", mutableMapOf<String, Any>());
 		val favoriteEmoji = emoji["favorite"];
 		if(favoriteEmoji != null){
 			fFavoriteEmoji.set(storeEmoji, favoriteEmoji);
 		}else{
-			emoji["favorite"] = unsafe.getObject(storeEmoji, oFavoriteEmoji);
+			emoji["favorite"] = cUnsafe
+				.getDeclatedMethod("getObject", Any::class.java, Long::class.javaPrimitiveType)
+				.invoke(unsafe, storeEmoji, oFavoriteEmoji)
+			;
 		};
 		val frequentEmoji = emoji["frequent"];
 		if(frequentEmoji != null){
