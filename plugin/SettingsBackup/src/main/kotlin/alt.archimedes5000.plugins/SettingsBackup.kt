@@ -56,7 +56,7 @@ class SettingsBackup: Plugin(){
 		if(favoriteEmoji != null){
 			fFavoriteEmoji.set(storeEmoji, favoriteEmoji);
 		}else{
-			,//emoji["favorite"] = fFavoriteEmoji.get(storeEmoji);
+			//emoji["favorite"] = fFavoriteEmoji.get(storeEmoji);
 		};
 		val frequentEmoji = emoji["frequent"];
 		if(frequentEmoji != null){
