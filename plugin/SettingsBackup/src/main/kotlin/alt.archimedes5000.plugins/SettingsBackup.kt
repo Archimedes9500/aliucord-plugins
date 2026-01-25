@@ -35,11 +35,13 @@ class SettingsBackup: Plugin(){
 		.getDeclaredField("mediaFavoritesStore")
 		.apply{isAccessible = true}
 	;
+/*
 	val oFavoriteEmoji: Long = unsafe::class.java
 		.getDeclaredMethod("objectFieldOffset", Field::class.java)
 		.invoke(unsafe, fFavoriteEmoji as Field)
 		as Long
 	;
+*/
 	val fFrequentEmoji = StoreEmoji::class.java
 		.getDeclaredField("frecencyCache")
 		.apply{isAccessible = true}
@@ -78,6 +80,9 @@ class SettingsBackup: Plugin(){
 		if(favoriteEmoji != null){
 			fFavoriteEmoji.set(storeEmoji, favoriteEmoji);
 		}else{
+			emoji["favorite"] = StoreMediaFavorites.`access$getFavorites$p`(
+				fFavoriteEmoji.get(storeEmoji)
+			);
 /*
 			emoji["favorite"] = cUnsafe
 				.getDeclaredMethod("getObject", Any::class.java, Long::class.javaPrimitiveType)
