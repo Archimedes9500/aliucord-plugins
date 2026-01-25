@@ -78,11 +78,13 @@ class SettingsBackup: Plugin(){
 		if(favoriteEmoji != null){
 			fFavoriteEmoji.set(storeEmoji, favoriteEmoji);
 		}else{
+/*
 			emoji["favorite"] = cUnsafe
 				.getDeclaredMethod("getObject", Any::class.java, Long::class.javaPrimitiveType)
 				.invoke(unsafe, storeEmoji, oFavoriteEmoji)
 				as StoreMediaFavorites
 			;
+*/
 		};
 		val frequentEmoji = emoji["frequent"];
 		if(frequentEmoji != null){
