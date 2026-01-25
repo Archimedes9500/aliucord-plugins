@@ -15,6 +15,7 @@ import android.content.SharedPreferences
 import com.discord.stores.StoreStream
 import com.discord.stores.StoreAuthentication
 import com.discord.stores.StoreEmoji
+import com.discord.stores.StoreMediaFavorites
 import com.discord.stores.StoreNux
 
 @AliucordPlugin(requiresRestart = true)
@@ -27,6 +28,7 @@ class SettingsBackup: Plugin(){
 		.getDeclaredField("theUnsafe")
 		.apply{isAccessible = true}
 		.get(null)
+		as Field
 	;
 	val fFavoriteEmoji = StoreEmoji::class.java
 		.getDeclaredField("mediaFavoritesStore")
@@ -72,6 +74,7 @@ class SettingsBackup: Plugin(){
 			emoji["favorite"] = cUnsafe
 				.getDeclaredMethod("getObject", Any::class.java, Long::class.javaPrimitiveType)
 				.invoke(unsafe, storeEmoji, oFavoriteEmoji)
+				as StoreMediaFavorites
 			;
 		};
 		val frequentEmoji = emoji["frequent"];
