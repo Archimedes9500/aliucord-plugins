@@ -33,7 +33,7 @@ class SettingsBackup: Plugin(){
 		.getDeclaredField("mediaFavoritesStore")
 		.apply{isAccessible = true}
 	;
-	val oFavoriteEmoji: Long = (unsafe::class.java
+	val oFavoriteEmoji: Long = unsafe::class.java
 		.getDeclaredMethod("objectFieldOffset", Field::class.java)
 		.invoke(unsafe, fFavoriteEmoji as Field)
 		as Long
