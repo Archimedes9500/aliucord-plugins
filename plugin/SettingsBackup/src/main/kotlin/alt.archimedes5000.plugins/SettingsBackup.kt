@@ -66,7 +66,7 @@ class SettingsBackup: Plugin(){
 			settings2.setObject("auth", currentAuth);
 		};
 
-		data class EmojiBackup(
+		class EmojiBackup(
 			var favorite: StoreMediaFavorites? = null,
 			var frequent: Persister<MediaFrecencyTracker>? = null
 		);
