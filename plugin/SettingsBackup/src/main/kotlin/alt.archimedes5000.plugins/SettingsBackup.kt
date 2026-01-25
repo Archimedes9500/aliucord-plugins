@@ -10,7 +10,6 @@ import org.json.*
 import com.aliucord.Utils
 import com.aliucord.patcher.*
 
-import com.google.gson.Gson
 import com.aliucord.utils.GsonUtils
 import com.google.gson.reflect.TypeToken
 
@@ -67,7 +66,7 @@ class SettingsBackup: Plugin(){
 		val storeEmoji = StoreStream.getEmojis();
 		var emoji = settings2.getObject("emoji", mutableMapOf<String, Any>());
 		val favoriteEmoji = GsonUtils.fromJson(
-			GsonUtils.gson.toJsonTree(emoji["favorite"]),
+			GsonUtils.toJson(emoji["favorite"]),
 			object: TypeToken<StoreMediaFavorites>(){}.type
 		);
 		if(favoriteEmoji != null){
@@ -78,7 +77,7 @@ class SettingsBackup: Plugin(){
 			);
 		};
 		val frequentEmoji = GsonUtils.fromJson(
-			GsonUtils.gson.toJsonTree(emoji["frequent"]),
+			GsonUtils.toJson(emoji["frequent"]),
 			object: TypeToken<Persister<MediaFrecencyTracker>>(){}.type
 		);
 		if(frequentEmoji != null){
