@@ -67,22 +67,24 @@ class SettingsBackup: Plugin(){
 		};
 
 		val storeEmoji = StoreStream.getEmojis();
+/*
 		data class EmojiBackup(
 			var favorite: StoreMediaFavorites? = null,
 			var frequent: Persister<MediaFrecencyTracker>? = null
 		);
-		var emoji = settings2.getObject("emoji", EmojiBackup());
-		val favoriteEmoji = emoji.favorite;
+*/
+		var emoji = settings2.getObject("emoji", /*EmojiBackup()*/mutableMapOf<String, Any>());
+		val favoriteEmoji = emoji["favorite"];
 		if(favoriteEmoji != null){
 			fFavoriteEmoji.set(storeEmoji, favoriteEmoji);
 		}else{
-			emoji.favorite = cUnsafe
+			emoji["favorite"] = cUnsafe
 				.getDeclaredMethod("getObject", Any::class.java, Long::class.javaPrimitiveType)
 				.invoke(unsafe, storeEmoji, oFavoriteEmoji)
 				as StoreMediaFavorites
 			;
 		};
-		val frequentEmoji = emoji.frequent;
+		val frequentEmoji = emoji["frequent"];
 		if(frequentEmoji != null){
 			fFrequentEmoji.set(storeEmoji, frequentEmoji);
 		}else{
