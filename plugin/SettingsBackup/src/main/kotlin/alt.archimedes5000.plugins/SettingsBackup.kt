@@ -81,7 +81,7 @@ class SettingsBackup: Plugin(){
 			fFavoriteEmoji.set(storeEmoji, favoriteEmoji);
 		}else{
 			emoji["favorite"] = StoreMediaFavorites.`access$getFavorites$p`(
-				fFavoriteEmoji.get(storeEmoji)
+				fFavoriteEmoji.get(storeEmoji) as StoreMediaFavorites
 			);
 /*
 			emoji["favorite"] = cUnsafe
