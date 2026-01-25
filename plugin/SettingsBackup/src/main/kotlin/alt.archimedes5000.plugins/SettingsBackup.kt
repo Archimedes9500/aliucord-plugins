@@ -93,7 +93,7 @@ class SettingsBackup: Plugin(){
 		};
 		val frequentEmoji = emoji["frequent"];
 		if(frequentEmoji != null){
-			fFrequentEmoji.set(storeEmoji, frequentEmoji);
+			fFrequentEmoji.set(storeEmoji, frequentEmoji as Persister<MediaFrecencyTracker>);
 		}else{
 			emoji["frequent"] = fFrequentEmoji.get(storeEmoji) as Persister<MediaFrecencyTracker>;
 		};
