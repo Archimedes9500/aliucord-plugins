@@ -21,40 +21,54 @@ class SettingsBackup: Plugin(){
 
 	override fun start(pluginContext: Context){
 
-		val stores = mapOf(
-			"auth" to StoreStream::getAuthentication,
-			"emojis" to StoreStream::getEmojis,
-			//"stickers" to StoreStream::getStickers,//insane
-			"nux" to StoreStream::getNux
-		);
-		for((storeKey, store) in stores){
-			val editor: SharedPreferences.Editor = (store() as Store).prefs.edit();
-			val backupSettings = settings.getObject<Map<String, Any?>>(storeKey, mapOf());
-			if(!backupSettings.isEmpty()){
-				for((key, value) in backupSettings){
-					when(value){
-						is String -> editor.putString(key, value);
-						is Int -> editor.putInt(key, value);
-						is Boolean -> editor.putBoolean(key, value);
-						is Float -> editor.putFloat(key, value);
-						is Long -> editor.putLong(key, value);
-						is Set<*> -> if(value.all{it is String}) editor.putStringSet(key, value as Set<String>);
-					};
+		val storeAuth = StoreStream.getAuthentication();
+		val editor: SharedPreferences.Editor = storeAuth.prefs.edit();
+		val auth = settings2.getObject<Map<String, Any?>>("auth", mapOf());
+		if(!auth.isEmpty()){
+			for((key, value) in auth){
+				when(value){
+					is String -> editor.putString(key, value);
+					is Int -> editor.putInt(key, value);
+					is Boolean -> editor.putBoolean(key, value);
+					is Float -> editor.putFloat(key, value);
+					is Long -> editor.putLong(key, value);
+					is Set<*> -> if(value.all{it is String}) editor.putStringSet(key, value as Set<String>);
 				};
-			}else{
-				val currentSettings = (store() as Store).prefs.all;
-				settings2.setObject(storeKey, currentSettings);
 			};
-			patcher.patch(editor::class.java.getDeclaredMethod("apply"), PreHook{frame ->
-				val currentSettings = (store() as Store).prefs.all;
-				settings2.setObject(storeKey, currentSettings);
-			});
-	
-			patcher.patch(editor::class.java.getDeclaredMethod("commit"), PreHook{frame ->
-				val currentSettings = (store() as Store).prefs.all;
-				settings2.setObject(storeKey, currentSettings);
-			});
+		}else{
+			val currentAuth = storeAuth.prefs.all;
+			settings2.setObject("auth", currentAuth);
 		};
+
+		val storeEmoji = StoreStream.getEmojis();
+		val fFavoriteEmoji = storeEmoji::class.java.getDeclaredField("storeMediaFavorites");
+		val fFrequentEmoji = storeEmoji::class.java.getDeclaredField("frecencyCache");
+
+		var emoji = settings.getObject<Map<String, Map<String, Any?>>>("emoji", mapOf());
+
+		val favoriteEmoji = emoji["favorite"]?: emptyList();
+		if(!favoriteEmoji.isEmpty()){
+			fFavoriteEmoji.set(storeEmoji);
+		}else{
+			emoji.set("favorite", fFavoriteEmoji.get(storeEmoji));
+		};
+		val frequentEmoji = emoji["frequent"]?: emptyList();
+		if(!frequentEmoji.isEmpty()){
+			fFavoriteEmoji.set(storeEmoji);
+		}else{
+			emoji.set("frequent", fFrequentEmoji.get(storeEmoji));
+		};
+		settings2.setObject("emoji", emoji);
+
+		patcher.patch(editor::class.java.getDeclaredMethod("apply"), PreHook{frame ->
+			val currentAuth = storeAuth.prefs.all;
+			settings2.setObject("auth", currentAuth);
+		});
+
+		patcher.patch(editor::class.java.getDeclaredMethod("commit"), PreHook{frame ->
+			val currentAuth = storeAuth.prefs.all;
+			settings2.setObject("auth", currentAuth);
+		});
 	};
 	override fun stop(pluginContext: Context) = patcher.unpatchAll();
 };
