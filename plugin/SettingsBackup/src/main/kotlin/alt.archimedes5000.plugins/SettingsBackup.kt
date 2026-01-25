@@ -88,7 +88,7 @@ class SettingsBackup: Plugin(){
 		if(frequentEmoji != null){
 			fFrequentEmoji.set(storeEmoji, frequentEmoji);
 		}else{
-			emoji.frequent = fFrequentEmoji.get(storeEmoji) as Persister<MediaFrecencyTracker>;
+			emoji["frequent"] = fFrequentEmoji.get(storeEmoji) as Persister<MediaFrecencyTracker>;
 		};
 		settings2.setObject("emoji", emoji!!);
 
