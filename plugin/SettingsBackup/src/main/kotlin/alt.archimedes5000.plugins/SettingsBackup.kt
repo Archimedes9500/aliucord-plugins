@@ -9,6 +9,7 @@ import org.json.*
 
 import com.aliucord.Utils
 import com.aliucord.patcher.*
+import java.lang.invoke.MethodHandles
 
 import android.content.SharedPreferences
 import com.discord.stores.StoreStream
@@ -43,10 +44,18 @@ class SettingsBackup: Plugin(){
 		};
 
 		val storeEmoji = StoreStream.getEmojis();
-		val fFavoriteEmoji = StoreEmoji::class.java
-			.getDeclaredField("mediaFavoritesStore")
-			.apply{isAccessible = true}
+		val fFavoriteEmoji = MethodHandles
+			.privateLookupIn(
+				StoreEmoji::class.java,
+				MethodHandles.lookup()
+			)
+			.unreflectVarHandle(
+				StoreEmoji::class.java
+				.getDeclaredField("mediaFavoritesStore")
+				.apply{isAccessible = true}
+			)
 		;
+
 		val fFrequentEmoji = StoreEmoji::class.java
 			.getDeclaredField("frecencyCache")
 			.apply{isAccessible = true}
@@ -56,7 +65,7 @@ class SettingsBackup: Plugin(){
 		if(favoriteEmoji != null){
 			fFavoriteEmoji.set(storeEmoji, favoriteEmoji);
 		}else{
-			//emoji["favorite"] = fFavoriteEmoji.get(storeEmoji);
+			emoji["favorite"] = fFavoriteEmoji.get(storeEmoji);
 		};
 		val frequentEmoji = emoji["frequent"];
 		if(frequentEmoji != null){
