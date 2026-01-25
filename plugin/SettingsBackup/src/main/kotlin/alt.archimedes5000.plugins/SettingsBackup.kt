@@ -10,7 +10,7 @@ import org.json.*
 import com.aliucord.Utils
 import com.aliucord.patcher.*
 
-import com.aliucord.utils.GsonUtils.*
+import com.aliucord.utils.GsonUtils
 import com.google.gson.reflect.TypeToken
 
 import android.content.SharedPreferences
@@ -65,8 +65,8 @@ class SettingsBackup: Plugin(){
 
 		val storeEmoji = StoreStream.getEmojis();
 		var emoji = settings2.getObject("emoji", mutableMapOf<String, Any>());
-		val favoriteEmoji = gson.fromJson(
-			gson.toJsonTree(emoji["favorite"]),
+		val favoriteEmoji = GsonUtils.gson.fromJson(
+			GsonUtils.gson.toJsonTree(emoji["favorite"]),
 			object: TypeToken<StoreMediaFavorites>(){}.type
 		);
 		if(favoriteEmoji != null){
@@ -76,8 +76,8 @@ class SettingsBackup: Plugin(){
 				fFavoriteEmoji.get(storeEmoji) as StoreMediaFavorites
 			);
 		};
-		val frequentEmoji = gson.fromJson(
-			gson.toJsonTree(emoji["frequent"]),
+		val frequentEmoji = GsonUtils.gson.fromJson(
+			GsonUtils.gson.toJsonTree(emoji["frequent"]),
 			object: TypeToken<Persister<MediaFrecencyTracker>>(){}.type
 		);
 		if(frequentEmoji != null){
