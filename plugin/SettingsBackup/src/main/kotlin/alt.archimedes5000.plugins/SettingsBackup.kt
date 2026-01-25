@@ -66,11 +66,11 @@ class SettingsBackup: Plugin(){
 			settings2.setObject("auth", currentAuth);
 		};
 
-		class EmojiBackup(
+		val storeEmoji = StoreStream.getEmojis();
+		data class EmojiBackup(
 			var favorite: StoreMediaFavorites? = null,
 			var frequent: Persister<MediaFrecencyTracker>? = null
 		);
-		val storeEmoji = StoreStream.getEmojis();
 		var emoji = settings2.getObject("emoji", EmojiBackup());
 		val favoriteEmoji = emoji.favorite;
 		if(favoriteEmoji != null){
@@ -88,7 +88,7 @@ class SettingsBackup: Plugin(){
 		}else{
 			emoji.frequent = fFrequentEmoji.get(storeEmoji) as Persister<MediaFrecencyTracker>;
 		};
-		settings2.setObject("emoji", emoji as EmojiBackup);
+		settings2.setObject("emoji", emoji!!);
 
 		patcher.patch(editor::class.java.getDeclaredMethod("apply"), PreHook{frame ->
 			val currentAuth = storeAuth.prefs.all;
