@@ -17,6 +17,7 @@ import com.discord.stores.StoreAuthentication
 import com.discord.stores.StoreEmoji
 import com.discord.stores.StoreMediaFavorites
 import com.discord.utilities.persister.Persister
+import com.discord.utilities.media.MediaFrecencyTracker
 import com.discord.stores.StoreNux
 
 @AliucordPlugin(requiresRestart = true)
