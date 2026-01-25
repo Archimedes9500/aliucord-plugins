@@ -65,8 +65,8 @@ class SettingsBackup: Plugin(){
 
 		val storeEmoji = StoreStream.getEmojis();
 		var emoji = settings2.getObject("emoji", mutableMapOf<String, Any>());
-		val favoriteEmoji = GsonUtils.gson.fromJson(
-			GsonUtils.gson.toJsonTree(emoji["favorite"]),
+		val favoriteEmoji = GsonUtils.fromJson(
+			GsonUtils.toJsonTree(emoji["favorite"]),
 			object: TypeToken<StoreMediaFavorites>(){}.type
 		);
 		if(favoriteEmoji != null){
@@ -76,8 +76,8 @@ class SettingsBackup: Plugin(){
 				fFavoriteEmoji.get(storeEmoji) as StoreMediaFavorites
 			);
 		};
-		val frequentEmoji = GsonUtils.gson.fromJson(
-			GsonUtils.gson.toJsonTree(emoji["frequent"]),
+		val frequentEmoji = GsonUtils.fromJson(
+			GsonUtils.toJsonTree(emoji["frequent"]),
 			object: TypeToken<Persister<MediaFrecencyTracker>>(){}.type
 		);
 		if(frequentEmoji != null){
