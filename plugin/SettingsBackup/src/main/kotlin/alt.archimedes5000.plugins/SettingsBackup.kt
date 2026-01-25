@@ -10,7 +10,7 @@ import org.json.*
 import com.aliucord.Utils
 import com.aliucord.patcher.*
 
-import com.google.gson.GsonBuilder
+import com.aliucord.utils.GsonUtils
 import com.google.gson.reflect.TypeToken
 
 import android.content.SharedPreferences
@@ -26,7 +26,7 @@ import com.discord.stores.StoreNux
 class SettingsBackup: Plugin(){
 	@SuppressLint("SetTextI18n")
 	val settings2 = SettingsUtilsJSON("Discord");
-	val gson = GsonBuilder.create();
+	val gson = GsonUtils.gson;
 
 	val cUnsafe = Class.forName("sun.misc.Unsafe");
 	val unsafe = cUnsafe
