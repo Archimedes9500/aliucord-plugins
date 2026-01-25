@@ -16,6 +16,7 @@ import com.discord.stores.StoreStream
 import com.discord.stores.StoreAuthentication
 import com.discord.stores.StoreEmoji
 import com.discord.stores.StoreMediaFavorites
+import com.discord.utilities.persister.Persister
 import com.discord.stores.StoreNux
 
 @AliucordPlugin(requiresRestart = true)
@@ -64,23 +65,27 @@ class SettingsBackup: Plugin(){
 			settings2.setObject("auth", currentAuth);
 		};
 
+		data class EmojiBackup(
+			var favorite: StoreMediaFavorites? = null,
+			var frequent: Persister<MediaFrecencyTracker>? = null
+		);
 		val storeEmoji = StoreStream.getEmojis();
-		var emoji = settings2.getObject("emoji", mutableMapOf<String, Any>());
-		val favoriteEmoji = emoji["favorite"];
+		var emoji = settings2.getObject("emoji", EmojiBackup());
+		val favoriteEmoji = emoji.favorite;
 		if(favoriteEmoji != null){
 			fFavoriteEmoji.set(storeEmoji, favoriteEmoji);
 		}else{
-			emoji["favorite"] = cUnsafe
+			emoji.favorite = cUnsafe
 				.getDeclaredMethod("getObject", Any::class.java, Long::class.javaPrimitiveType)
 				.invoke(unsafe, storeEmoji, oFavoriteEmoji)
 				as StoreMediaFavorites
 			;
 		};
-		val frequentEmoji = emoji["frequent"];
+		val frequentEmoji = emoji.frequent;
 		if(frequentEmoji != null){
 			fFrequentEmoji.set(storeEmoji, frequentEmoji);
 		}else{
-			emoji["frequent"] = fFrequentEmoji.get(storeEmoji);
+			emoji.frequent = fFrequentEmoji.get(storeEmoji) as Persister<MediaFrecencyTracker>;
 		};
 		settings2.setObject("emoji", emoji);
 
