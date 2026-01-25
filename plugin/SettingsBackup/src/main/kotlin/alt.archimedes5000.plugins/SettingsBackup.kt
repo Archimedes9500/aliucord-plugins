@@ -50,13 +50,13 @@ class SettingsBackup: Plugin(){
 		if(favoriteEmoji != null){
 			fFavoriteEmoji.set(storeEmoji, favoriteEmoji);
 		}else{
-			emoji.put("favorite", fFavoriteEmoji.get(storeEmoji));
+			emoji["favorite"] = fFavoriteEmoji.get(storeEmoji);
 		};
 		val frequentEmoji = emoji["frequent"];
 		if(frequentEmoji != null){
 			fFavoriteEmoji.set(storeEmoji, frequentEmoji);
 		}else{
-			emoji.put("frequent", fFrequentEmoji.get(storeEmoji));
+			emoji["frequent"] = fFrequentEmoji.get(storeEmoji);
 		};
 		settings2.setObject("emoji", emoji);
 
