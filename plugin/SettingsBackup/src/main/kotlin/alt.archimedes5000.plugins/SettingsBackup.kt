@@ -10,6 +10,7 @@ import org.json.*
 import com.aliucord.Utils
 import com.aliucord.patcher.*
 
+import com.google.gson.Gson
 import com.aliucord.utils.GsonUtils
 import com.google.gson.reflect.TypeToken
 
