@@ -78,7 +78,7 @@ class SettingsBackup: Plugin(){
 		};
 		val frequentEmoji = emoji["frequent"];
 		if(frequentEmoji != null){
-			fFavoriteEmoji.set(storeEmoji, frequentEmoji);
+			fFrequentEmoji.set(storeEmoji, frequentEmoji);
 		}else{
 			emoji["frequent"] = fFrequentEmoji.get(storeEmoji);
 		};
