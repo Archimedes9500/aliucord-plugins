@@ -9,7 +9,9 @@ import org.json.*
 
 import com.aliucord.Utils
 import com.aliucord.patcher.*
-import java.lang.reflect.*
+
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 
 import android.content.SharedPreferences
 import com.discord.stores.StoreStream
@@ -24,6 +26,7 @@ import com.discord.stores.StoreNux
 class SettingsBackup: Plugin(){
 	@SuppressLint("SetTextI18n")
 	val settings2 = SettingsUtilsJSON("Discord");
+	val gson = GsonBuilder.create();
 
 	val cUnsafe = Class.forName("sun.misc.Unsafe");
 	val unsafe = cUnsafe
@@ -35,13 +38,6 @@ class SettingsBackup: Plugin(){
 		.getDeclaredField("mediaFavoritesStore")
 		.apply{isAccessible = true}
 	;
-/*
-	val oFavoriteEmoji: Long = unsafe::class.java
-		.getDeclaredMethod("objectFieldOffset", Field::class.java)
-		.invoke(unsafe, fFavoriteEmoji as Field)
-		as Long
-	;
-*/
 	val fFrequentEmoji = StoreEmoji::class.java
 		.getDeclaredField("frecencyCache")
 		.apply{isAccessible = true}
@@ -69,29 +65,22 @@ class SettingsBackup: Plugin(){
 		};
 
 		val storeEmoji = StoreStream.getEmojis();
-/*
-		data class EmojiBackup(
-			var favorite: StoreMediaFavorites? = null,
-			var frequent: Persister<MediaFrecencyTracker>? = null
+		var emoji = settings2.getObject("emoji", mutableMapOf<String, Any>());
+		val favoriteEmoji = gson.fromJson(
+			gson.toJsonTree(emoji["favorite"]),
+			object: TypeToken<StoreMediaFavorites>(){}.type
 		);
-*/
-		var emoji = settings2.getObject("emoji", /*EmojiBackup()*/mutableMapOf<String, Any>());
-		val favoriteEmoji = emoji["favorite"];
 		if(favoriteEmoji != null){
 			fFavoriteEmoji.set(storeEmoji, favoriteEmoji);
 		}else{
 			emoji["favorite"] = StoreMediaFavorites.`access$getFavorites$p`(
 				fFavoriteEmoji.get(storeEmoji) as StoreMediaFavorites
 			);
-/*
-			emoji["favorite"] = cUnsafe
-				.getDeclaredMethod("getObject", Any::class.java, Long::class.javaPrimitiveType)
-				.invoke(unsafe, storeEmoji, oFavoriteEmoji)
-				as StoreMediaFavorites
-			;
-*/
 		};
-		val frequentEmoji = emoji["frequent"];
+		val frequentEmoji = gson.fromJson(
+			gson.toJsonTree(emoji["frequent"]),
+			object: TypeToken<Persister<MediaFrecencyTracker>>(){}.type
+		);
 		if(frequentEmoji != null){
 			fFrequentEmoji.set(storeEmoji, frequentEmoji as Persister<MediaFrecencyTracker>);
 		}else{
