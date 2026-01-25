@@ -23,7 +23,7 @@ class SettingsBackup: Plugin(){
 
 		val storeAuth = StoreStream.getAuthentication();
 		val editor: SharedPreferences.Editor = storeAuth.prefs.edit();
-		val auth = settings2.getObject<Map<String, Any?>>("auth", mapOf());
+		val auth = settings2.getObject<MutableMap<String, Any?>>("auth", mutableMapOf());
 		if(!auth.isEmpty()){
 			for((key, value) in auth){
 				when(value){
