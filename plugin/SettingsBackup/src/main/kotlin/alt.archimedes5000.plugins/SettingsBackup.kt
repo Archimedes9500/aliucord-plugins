@@ -24,7 +24,7 @@ class SettingsBackup: Plugin(){
 		val stores = mapOf(
 			"auth" to StoreStream::getAuthentication,
 			"emojis" to StoreStream::getEmojis,
-			"stickers" to StoreStream::getStickers,
+			//"stickers" to StoreStream::getStickers,//insane
 			"nux" to StoreStream::getNux
 		);
 		for((storeKey, store) in stores){
