@@ -44,7 +44,7 @@ class SettingsBackup: Plugin(){
 		val fFavoriteEmoji = storeEmoji::class.java.getDeclaredField("storeMediaFavorites");
 		val fFrequentEmoji = storeEmoji::class.java.getDeclaredField("frecencyCache");
 
-		var emoji = settings.getObject<Map<String, Any>>("emoji", mapOf());
+		var emoji: Map<String, Any> = settings.getObject("emoji", mapOf());
 
 		val favoriteEmoji = emoji["favorite"];
 		if(favoriteEmoji != null){
