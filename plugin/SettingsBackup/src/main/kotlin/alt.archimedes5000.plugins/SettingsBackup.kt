@@ -34,7 +34,7 @@ class SettingsBackup: Plugin(){
 	;
 	val oFavoriteEmoji: Long = unsafe
 		.getDeclaredMethod("objectFieldOffset", Field::class.java)
-		.invoke(unsafe, fFavoriteEmoji)
+		.invoke(unsafe, fFavoriteEmoji as Field)
 		as Long
 	;
 	val fFrequentEmoji = StoreEmoji::class.java
@@ -70,7 +70,7 @@ class SettingsBackup: Plugin(){
 			fFavoriteEmoji.set(storeEmoji, favoriteEmoji);
 		}else{
 			emoji["favorite"] = cUnsafe
-				.getDeclatedMethod("getObject", Any::class.java, Long::class.javaPrimitiveType)
+				.getDeclaredMethod("getObject", Any::class.java, Long::class.javaPrimitiveType)
 				.invoke(unsafe, storeEmoji, oFavoriteEmoji)
 			;
 		};
