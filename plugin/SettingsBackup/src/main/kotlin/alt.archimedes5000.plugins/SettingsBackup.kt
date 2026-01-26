@@ -18,6 +18,7 @@ import com.discord.stores.StoreStream
 import com.discord.stores.StoreAuthentication
 import com.discord.stores.StoreEmoji
 import com.discord.stores.StoreMediaFavorites
+import com.discord.stores.StoreMediaFavorites.Favorite
 import com.discord.stores.StoreMediaFavorites.Favorite.*
 import com.discord.utilities.persister.Persister
 import com.discord.utilities.media.MediaFrecencyTracker
@@ -75,7 +76,7 @@ class SettingsBackup: Plugin(){
 				val rawId = it.getString("emojiUniqueId");
 				val id = rawId.toLongOrNull();
 				if(id != null){
-					FavCustomEmoji(id);
+					FavCustomEmoji(rawId);
 				}else{
 					FavUnicodeEmoji(rawId);
 				};
