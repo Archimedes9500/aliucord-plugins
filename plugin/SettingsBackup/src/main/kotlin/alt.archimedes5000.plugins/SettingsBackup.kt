@@ -65,8 +65,26 @@ class SettingsBackup: Plugin(){
 			settings2.setObject("auth", currentAuth);
 		};
 
+		class EmojiBackup(
+			val favorite: Set<JSONObject>? = null,
+			val frequent: Persister<MediaFrecencyTracker>? = null
+		);
 		val storeEmoji = StoreStream.getEmojis();
-		var emoji = settings2.getObject("emoji", mutableMapOf<String, Any>());
+		var emoji = settings2.getObject("emoji", EmojiBackup());
+		val favoriteEmoji: Set<out Favorite>? = emoji.favorite
+			?.mapNotNull{
+				val id = it.optString("emojiUniqueId");
+				if(id == null || id == "") return@mapNotNull null;
+				logger.debug("creating emoji with id: "+id::class);
+				if(id.toLongOrNull() != null){
+					FavCustomEmoji(id);
+				}else{
+					FavUnicodeEmoji(id);
+				};
+			}
+			?.toSet()
+		;
+/*
 		val favoriteEmoji: Set<out Favorite>? =
 			GsonUtils.fromJson<Set<JSONObject>>(
 				GsonUtils.toJson(emoji["favorite"]),
@@ -84,6 +102,7 @@ class SettingsBackup: Plugin(){
 			}
 			?.toSet()
 		;
+*/
 		logger.debug("favoriteEmoji: "+favoriteEmoji?.joinToString(", ")?: "null");
 		val storeFavorites = fFavoriteEmoji.get(storeEmoji) as StoreMediaFavorites;
 		val currentFavorites = StoreMediaFavorites.`access$getFavorites$p`(storeFavorites) as Set<Favorite>;
@@ -100,6 +119,7 @@ class SettingsBackup: Plugin(){
 		}else{
 			emoji["favorite"] = currentFavorites;
 		};
+/*
 		val frequentEmoji: Persister<MediaFrecencyTracker>? = GsonUtils.fromJson(
 			GsonUtils.toJson(emoji["frequent"]),
 			object: TypeToken<Persister<MediaFrecencyTracker>>(){}.type
@@ -120,6 +140,7 @@ class SettingsBackup: Plugin(){
 			val currentAuth = storeAuth.prefs.all;
 			settings2.setObject("auth", currentAuth);
 		});
+*/
 	};
 	override fun stop(pluginContext: Context) = patcher.unpatchAll();
 };
