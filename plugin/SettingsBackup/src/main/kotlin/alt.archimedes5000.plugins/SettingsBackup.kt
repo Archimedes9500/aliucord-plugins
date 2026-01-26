@@ -72,9 +72,9 @@ class SettingsBackup: Plugin(){
 				GsonUtils.toJson(emoji["favorite"]),
 				object: TypeToken<Set<JSONObject>>(){}.type
 			)
-			?.map{
-				val id = it.optString("emojiUniqueId");
-				if(id?.toLongOrNull() != null){
+			?.mapNotNull{
+				val id = it.optString("emojiUniqueId")?: return@mapNotNull null;
+				if(id.toLongOrNull() != null){
 					FavCustomEmoji(id);
 				}else{
 					FavUnicodeEmoji(id);
