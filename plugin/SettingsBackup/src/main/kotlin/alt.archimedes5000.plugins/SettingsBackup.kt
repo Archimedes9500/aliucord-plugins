@@ -71,7 +71,7 @@ class SettingsBackup: Plugin(){
 			object: TypeToken<Set<Favorite>>(){}.type
 		);
 		val storeFavorites = fFavoriteEmoji.get(storeEmoji) as StoreMediaFavorites;
-		val currentFavorites = StoreMediaFavorites.`access$getFavorites$p`(storeFavorites);
+		val currentFavorites: Set<Favorite> = StoreMediaFavorites.`access$getFavorites$p`(storeFavorites);
 		if(favoriteEmoji != null){
 			for(favorite in currentFavorites){
 				storeFavorites.removeFavorite(favorite);
