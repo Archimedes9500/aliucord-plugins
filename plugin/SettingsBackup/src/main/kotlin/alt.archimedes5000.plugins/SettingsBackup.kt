@@ -82,7 +82,7 @@ class SettingsBackup: Plugin(){
 			}
 			?.toSet();
 		;
-		logger.debug(favoriteEmoji?.joinToString(", ")?: "");
+		logger.debug("favorites: "+favoriteEmoji?.joinToString(", ")?: "");
 		val storeFavorites = fFavoriteEmoji.get(storeEmoji) as StoreMediaFavorites;
 		val currentFavorites = StoreMediaFavorites.`access$getFavorites$p`(storeFavorites) as Set<Favorite>;
 		if(favoriteEmoji != null){
@@ -90,7 +90,7 @@ class SettingsBackup: Plugin(){
 				storeFavorites.removeFavorite(favorite);
 			};
 			for(favorite in favoriteEmoji){
-				logger.debug(favorite.toString());
+				logger.debug("favorite: "+favorite.toString());
 				storeFavorites.addFavorite(favorite);
 			};
 		}else{
