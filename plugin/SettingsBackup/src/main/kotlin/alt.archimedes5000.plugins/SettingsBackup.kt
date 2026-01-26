@@ -82,7 +82,7 @@ class SettingsBackup: Plugin(){
 			}
 			?.toSet();
 		;
-		logger.debug(favoriteEmoji.joinToString(", "));
+		logger.debug(favoriteEmoji?.joinToString(", "));
 		val storeFavorites = fFavoriteEmoji.get(storeEmoji) as StoreMediaFavorites;
 		val currentFavorites = StoreMediaFavorites.`access$getFavorites$p`(storeFavorites) as Set<Favorite>;
 		if(favoriteEmoji != null){
