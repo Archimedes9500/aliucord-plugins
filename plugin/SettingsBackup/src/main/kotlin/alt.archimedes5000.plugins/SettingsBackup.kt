@@ -80,7 +80,7 @@ class SettingsBackup: Plugin(){
 					FavUnicodeEmoji(id);
 				};
 			}
-			?toSet();
+			?.toSet();
 		;
 		val storeFavorites = fFavoriteEmoji.get(storeEmoji) as StoreMediaFavorites;
 		val currentFavorites = StoreMediaFavorites.`access$getFavorites$p`(storeFavorites) as Set<Favorite>;
