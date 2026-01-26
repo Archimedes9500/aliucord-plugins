@@ -65,7 +65,7 @@ class SettingsBackup: Plugin(){
 
 		val storeEmoji = StoreStream.getEmojis();
 		var emoji = settings2.getObject("emoji", mutableMapOf<String, Any>());
-		val favoriteEmoji: Set<StoreMediaFavorites.Favorite> = GsonUtils.fromJsonArray(
+		val favoriteEmoji: Set<StoreMediaFavorites.Favorite> = GsonUtils.fromJson(
 			GsonUtils.toJson(emoji["favorite"]),
 			object: TypeToken<Set<StoreMediaFavorites.Favorite>>(){}.type
 		);
