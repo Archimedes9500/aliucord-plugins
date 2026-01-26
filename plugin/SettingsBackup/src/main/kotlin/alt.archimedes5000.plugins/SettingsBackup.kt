@@ -90,10 +90,11 @@ class SettingsBackup: Plugin(){
 		logger.debug("currentFavorites: "+currentFavorites.joinToString(", "));
 		if(favoriteEmoji != null){
 			for(favorite in currentFavorites){
+				logger.debug("removing favorite: "+favorite.toString());
 				storeFavorites.removeFavorite(favorite);
 			};
 			for(favorite in favoriteEmoji){
-				logger.debug("favorite: "+favorite.toString());
+				logger.debug("adding favorite: "+favorite.toString());
 				storeFavorites.addFavorite(favorite);
 			};
 		}else{
