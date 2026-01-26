@@ -85,7 +85,7 @@ class SettingsBackup: Plugin(){
 		logger.debug("favoriteEmoji: "+favoriteEmoji?.joinToString(", ")?: "");
 		val storeFavorites = fFavoriteEmoji.get(storeEmoji) as StoreMediaFavorites;
 		val currentFavorites = StoreMediaFavorites.`access$getFavorites$p`(storeFavorites) as Set<Favorite>;
-		logger.debug("currentFavorites: "+favoriteEmoji?.joinToString(", ")?: "");
+		logger.debug("currentFavorites: "+currentFavorites.joinToString(", ")?: "");
 		if(favoriteEmoji != null){
 			for(favorite in currentFavorites){
 				storeFavorites.removeFavorite(favorite);
