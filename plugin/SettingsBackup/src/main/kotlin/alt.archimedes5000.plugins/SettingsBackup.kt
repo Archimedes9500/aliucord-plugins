@@ -139,7 +139,7 @@ class SettingsBackup: Plugin(){
 			emoji["frequent"] = fFrequentEmoji.get(storeEmoji) as Persister<MediaFrecencyTracker>;
 		};
 */
-		settings2.setObject("emoji", emoji);
+		settings2.setObject("emoji", emoji!!);
 /*
 
 		patcher.patch(editor::class.java.getDeclaredMethod("apply"), PreHook{frame ->
