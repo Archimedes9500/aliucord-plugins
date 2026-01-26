@@ -74,8 +74,8 @@ class SettingsBackup: Plugin(){
 			)
 			?.mapNotNull{
 				val id = it.optString("emojiUniqueId");
-				if(id == null || id == "") null;
-				logger.debug("creating emoji with id: "+id);
+				if(id == null || id == "") return@mapNotNull null;
+				logger.debug("creating emoji with id: "+id::class);
 				if(id.toLongOrNull() != null){
 					FavCustomEmoji(id);
 				}else{
@@ -84,7 +84,7 @@ class SettingsBackup: Plugin(){
 			}
 			?.toSet()
 		;
-		logger.debug("favoriteEmoji: "+favoriteEmoji?.joinToString(", ")?: "");
+		logger.debug("favoriteEmoji: "+favoriteEmoji?.joinToString(", ")?: "null");
 		val storeFavorites = fFavoriteEmoji.get(storeEmoji) as StoreMediaFavorites;
 		val currentFavorites = StoreMediaFavorites.`access$getFavorites$p`(storeFavorites) as Set<Favorite>;
 		logger.debug("currentFavorites: "+currentFavorites.joinToString(", "));
