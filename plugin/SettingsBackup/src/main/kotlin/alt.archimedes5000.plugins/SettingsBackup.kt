@@ -18,7 +18,7 @@ import com.discord.stores.StoreStream
 import com.discord.stores.StoreAuthentication
 import com.discord.stores.StoreEmoji
 import com.discord.stores.StoreMediaFavorites
-import com.discord.stores.StoreMediaFavorites.Favorite
+import com.discord.stores.StoreMediaFavorites.Favorite.*
 import com.discord.utilities.persister.Persister
 import com.discord.utilities.media.MediaFrecencyTracker
 import com.discord.stores.StoreNux
@@ -66,10 +66,21 @@ class SettingsBackup: Plugin(){
 
 		val storeEmoji = StoreStream.getEmojis();
 		var emoji = settings2.getObject("emoji", mutableMapOf<String, Any>());
-		val favoriteEmoji: Set<Favorite>? = GsonUtils.fromJson(
-			GsonUtils.toJson(emoji["favorite"]),
-			object: TypeToken<Set<Favorite>>(){}.type
-		);
+		val favoriteEmoji: Set<out Favorite>? =
+			GsonUtils.fromJson(
+				GsonUtils.toJson(emoji["favorite"]),
+				object: TypeToken<Set<JSONObject>>(){}.type
+			)
+			?.map{
+				val rawId = it.getString("emojiUniqueId");
+				val id = rawId.toLongOrNull();
+				if(id != null){
+					FavCustomEmoji(id);
+				}else{
+					FavUnicodeEmoji(rawId);
+				};
+			}
+		;
 		val storeFavorites = fFavoriteEmoji.get(storeEmoji) as StoreMediaFavorites;
 		val currentFavorites = StoreMediaFavorites.`access$getFavorites$p`(storeFavorites) as Set<Favorite>;
 		if(favoriteEmoji != null){
