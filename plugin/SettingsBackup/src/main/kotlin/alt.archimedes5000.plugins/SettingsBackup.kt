@@ -70,7 +70,7 @@ class SettingsBackup: Plugin(){
 			GsonUtils.toJson(emoji["favorite"]),
 			object: TypeToken<Set<Favorite>>(){}.type
 		);
-		vak storeFavorites = fFavoriteEmoji.get(storeEmoji) as StoreMediaFavorites;
+		val storeFavorites = fFavoriteEmoji.get(storeEmoji) as StoreMediaFavorites;
 		val currentFavorites = StoreMediaFavorites.`access$getFavorites$p`(storeFavorites);
 		if(favoriteEmoji != null){
 			for(favorite in currentFavorites){
