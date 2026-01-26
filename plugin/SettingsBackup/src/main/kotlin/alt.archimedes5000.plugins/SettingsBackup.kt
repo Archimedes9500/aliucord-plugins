@@ -126,7 +126,7 @@ class SettingsBackup: Plugin(){
 				storeFavorites.addFavorite(favorite);
 			};
 		}else{
-			emoji.rawFavorite = currentFavorites;
+			emoji.favorite = currentFavorites;
 		};
 /*
 		val frequentEmoji: Persister<MediaFrecencyTracker>? = GsonUtils.fromJson(
