@@ -73,7 +73,8 @@ class SettingsBackup: Plugin(){
 				object: TypeToken<Set<JSONObject>>(){}.type
 			)
 			?.mapNotNull{
-				val id = it.optString("emojiUniqueId")?: return@mapNotNull null;
+				val id = it.optString("emojiUniqueId")
+				if(id == null || id == "") null;
 				if(id.toLongOrNull() != null){
 					FavCustomEmoji(id);
 				}else{
@@ -84,11 +85,7 @@ class SettingsBackup: Plugin(){
 		;
 		logger.debug("favoriteEmoji: "+favoriteEmoji?.joinToString(", ")?: "");
 		val storeFavorites = fFavoriteEmoji.get(storeEmoji) as StoreMediaFavorites;
-		val currentFavorites: Set<Favorite> =
-			(StoreMediaFavorites.`access$getFavorites$p`(storeFavorites) as Set<Favorite>)
-			.filter{it.getEmojiUniqueId != ""}
-			.toSet<Favorite>()
-		;
+		val currentFavorites = StoreMediaFavorites.`access$getFavorites$p`(storeFavorites) as Set<Favorite>;
 		logger.debug("currentFavorites: "+currentFavorites.joinToString(", ")?: "");
 		if(favoriteEmoji != null){
 			for(favorite in currentFavorites){
