@@ -73,8 +73,8 @@ class SettingsBackup: Plugin(){
 				object: TypeToken<Set<JSONObject>>(){}.type
 			)
 			?.map{
-				val id = it.getString("emojiUniqueId");
-				if(id.toLongOrNull() != null){
+				val id = it.optString("emojiUniqueId");
+				if(id?.toLongOrNull() != null){
 					FavCustomEmoji(id);
 				}else{
 					FavUnicodeEmoji(id);
