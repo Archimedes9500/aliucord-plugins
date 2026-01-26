@@ -39,6 +39,19 @@ class SettingsBackup: Plugin(){
 		.getDeclaredField("mediaFavoritesStore")
 		.apply{isAccessible = true}
 	;
+	fun parseFavorites(set: Set<JSONObject>?): Set<out Favorite>?{
+		if(set == null) return null;
+		return set.mapNotNull{
+			val id = it.optString("emojiUniqueId");
+			if(id == null || id == "") return@mapNotNull null;
+			logger.debug("creating emoji with id: "+id::class);
+			if(id.toLongOrNull() != null){
+				FavCustomEmoji(id);
+			}else{
+				FavUnicodeEmoji(id);
+			};
+		}.toSet();
+	};
 	val fFrequentEmoji = StoreEmoji::class.java
 		.getDeclaredField("frecencyCache")
 		.apply{isAccessible = true}
@@ -66,24 +79,20 @@ class SettingsBackup: Plugin(){
 		};
 
 		class EmojiBackup(
-			val favorite: Set<JSONObject>? = null,
-			val frequent: Persister<MediaFrecencyTracker>? = null
-		);
+			rawFavorite: Set<JSONObject>? = null,
+			var frequent: Persister<MediaFrecencyTracker>? = null
+		){
+			var rawFavorite: Set<JSONObject>? = rawFavorite
+				set(value){
+					this.favorite = parseFavorites(value);
+					field = value;
+				}
+			;
+			var favorite: Set<out Favorite>? = parseFavorites(rawFavorite);
+		};
 		val storeEmoji = StoreStream.getEmojis();
 		var emoji = settings2.getObject("emoji", EmojiBackup());
-		val favoriteEmoji: Set<out Favorite>? = emoji.favorite
-			?.mapNotNull{
-				val id = it.optString("emojiUniqueId");
-				if(id == null || id == "") return@mapNotNull null;
-				logger.debug("creating emoji with id: "+id::class);
-				if(id.toLongOrNull() != null){
-					FavCustomEmoji(id);
-				}else{
-					FavUnicodeEmoji(id);
-				};
-			}
-			?.toSet()
-		;
+		val favoriteEmoji: Set<out Favorite>? = emoji.favorite;
 /*
 		val favoriteEmoji: Set<out Favorite>? =
 			GsonUtils.fromJson<Set<JSONObject>>(
@@ -117,7 +126,7 @@ class SettingsBackup: Plugin(){
 				storeFavorites.addFavorite(favorite);
 			};
 		}else{
-			emoji.favorite = currentFavorites;
+			emoji.rawFavorite = currentFavorites;
 		};
 /*
 		val frequentEmoji: Persister<MediaFrecencyTracker>? = GsonUtils.fromJson(
