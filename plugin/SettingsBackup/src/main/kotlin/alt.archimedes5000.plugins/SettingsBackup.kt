@@ -70,12 +70,17 @@ class SettingsBackup: Plugin(){
 			GsonUtils.toJson(emoji["favorite"]),
 			object: TypeToken<Set<Favorite>>(){}.type
 		);
+		vak storeFavorites = fFavoriteEmoji.get(storeEmoji) as StoreMediaFavorites;
+		val currentFavorites = StoreMediaFavorites.`access$getFavorites$p`(storeFavorites);
 		if(favoriteEmoji != null){
-			fFavoriteEmoji.set(storeEmoji, favoriteEmoji);
+			for(favorite in currentFavorites){
+				storeFavorites.removeFavorite(favorite);
+			};
+			for(favorite in favoriteEmoji){
+				storeFavorites.addFavorite(favorite);
+			};
 		}else{
-			emoji["favorite"] = StoreMediaFavorites.`access$getFavorites$p`(
-				fFavoriteEmoji.get(storeEmoji) as StoreMediaFavorites
-			);
+			emoji["favorite"] = currentFavorites;
 		};
 		val frequentEmoji: Persister<MediaFrecencyTracker>? = GsonUtils.fromJson(
 			GsonUtils.toJson(emoji["frequent"]),
