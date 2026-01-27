@@ -29,14 +29,20 @@ class SettingsBackup: Plugin(){
 	@SuppressLint("SetTextI18n")
 	val settings2 = SettingsUtilsJSON("Discord");
 
-	val cUnsafe = Class.forName("sun.misc.Unsafe");
-	val unsafe = cUnsafe
-		.getDeclaredField("theUnsafe")
-		.apply{isAccessible = true}
-		.get(null)
-	;
-	val fFavoriteEmoji = StoreEmoji::class.java
+	val fStoreFavorites = StoreEmoji::class.java
 		.getDeclaredField("mediaFavoritesStore")
+		.apply{isAccessible = true}
+	;
+	val fObservationDeck = StoreMediaFavorites::class.java
+		.getDeclaredField("observationDeck")
+		.apply{isAccessible = true}
+	;
+	val fDispatcher = StoreMediaFavorites::class.java
+		.getDeclaredField("dispatcher")
+		.apply{isAccessible = true}
+	;
+	val fFavorites = StoreMediaFavorites::class.java
+		.getDeclaredField("persister")
 		.apply{isAccessible = true}
 	;
 	fun parseFavorites(set: Set<JSONObject>?): Set<out Favorite>?{
@@ -78,70 +84,36 @@ class SettingsBackup: Plugin(){
 			settings2.setObject("auth", currentAuth);
 		};
 
-		class EmojiBackup(
-			rawFavorite: Set<JSONObject>? = null,
-			var frequent: Persister<MediaFrecencyTracker>? = null
-		){
-			var rawFavorite: Set<JSONObject>? = rawFavorite
-				set(value){
-					this.favorite = parseFavorites(value);
-					field = value;
-				}
-			;
-			var favorite: Set<out Favorite>? = parseFavorites(rawFavorite);
-		};
 		val storeEmoji = StoreStream.getEmojis();
-		var emoji = settings2.getObject("emoji", EmojiBackup());
-		val favoriteEmoji: Set<out Favorite>? = emoji.favorite;
 /*
-		val favoriteEmoji: Set<out Favorite>? =
-			GsonUtils.fromJson<Set<JSONObject>>(
-				GsonUtils.toJson(emoji["favorite"]),
-				object: TypeToken<Set<JSONObject>>(){}.type
-			)
-			?.mapNotNull{
-				val id = it.optString("emojiUniqueId");
-				if(id == null || id == "") return@mapNotNull null;
-				logger.debug("creating emoji with id: "+id::class);
-				if(id.toLongOrNull() != null){
-					FavCustomEmoji(id);
-				}else{
-					FavUnicodeEmoji(id);
-				};
-			}
-			?.toSet()
-		;
-*/
-		logger.debug("favoriteEmoji: "+favoriteEmoji?.joinToString(", ")?: "null");
-		val storeFavorites = fFavoriteEmoji.get(storeEmoji) as StoreMediaFavorites;
+		val rawFavorites = settings2.getObject("""emoji$favorite""", Set<JSONObject>());
+		val favorites: Set<out Favorite>? = parseFavorites(rawFavorites);
+		logger.debug("favorites: "+favorites?.joinToString(", ")?: "null");
+
+		val storeFavorites = fStoreFavorites.get(storeEmoji) as StoreMediaFavorites;
 		val currentFavorites = StoreMediaFavorites.`access$getFavorites$p`(storeFavorites) as Set<Favorite>;
 		logger.debug("currentFavorites: "+currentFavorites.joinToString(", "));
-		if(favoriteEmoji != null){
+		if(favorites != null){
 			for(favorite in currentFavorites){
 				logger.debug("removing favorite: "+favorite.toString());
 				storeFavorites.removeFavorite(favorite);
 			};
-			for(favorite in favoriteEmoji){
+			for(favorite in favorites){
 				logger.debug("adding favorite: "+favorite.toString());
 				storeFavorites.addFavorite(favorite);
 			};
 		}else{
 			emoji.favorite = currentFavorites;
 		};
-/*
-		val frequentEmoji: Persister<MediaFrecencyTracker>? = GsonUtils.fromJson(
-			GsonUtils.toJson(emoji["frequent"]),
-			object: TypeToken<Persister<MediaFrecencyTracker>>(){}.type
-		);
-		if(frequentEmoji != null){
+		settings2.setObject("""emoji$favorites""", favorites);
+*/
+		val frequentEmoji = settings2.getObject("""emoji$favorite""", Persister<MediaFrecencyTracker>());
+		if(!frequentEmoji.get().isEmpty()){
 			fFrequentEmoji.set(storeEmoji, frequentEmoji as Persister<MediaFrecencyTracker>);
 		}else{
-			emoji["frequent"] = fFrequentEmoji.get(storeEmoji) as Persister<MediaFrecencyTracker>;
+			settings2.setObject("""emoji$frequent""", fFrequentEmoji.get(storeEmoji) as Persister<MediaFrecencyTracker>);
 		};
-*/
-		settings2.setObject("emoji", emoji!!);
 /*
-
 		patcher.patch(editor::class.java.getDeclaredMethod("apply"), PreHook{frame ->
 			val currentAuth = storeAuth.prefs.all;
 			settings2.setObject("auth", currentAuth);
