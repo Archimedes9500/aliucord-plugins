@@ -120,7 +120,7 @@ class SettingsBackup: Plugin(){
 		val frequentEmoji: Persister<MediaFrecencyTracker>? = optNotRetarded("emoji\$frequent");
 		if(frequentEmoji != null){
 			Persister.`access$persist`(frequentEmoji);
-			Persister.`access$persist`(fFrequentEmoji.get(storeEmoji));
+			Persister.`access$persist`(fFrequentEmoji.get(storeEmoji) as Persister<MediaFrecencyTracker>);
 			fFrequentEmoji.set(storeEmoji, frequentEmoji);
 		}else{
 			settings2.setObject("emoji\$frequent", fFrequentEmoji.get(storeEmoji) as Persister<MediaFrecencyTracker>);
