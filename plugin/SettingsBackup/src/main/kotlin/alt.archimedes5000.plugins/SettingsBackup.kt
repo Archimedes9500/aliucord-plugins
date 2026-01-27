@@ -6,6 +6,7 @@ import android.content.Context
 import com.aliucord.Utils.showToast
 import com.aliucord.SettingsUtilsJSON
 import org.json.*
+import java.lang.reflect.*
 
 import com.aliucord.Utils
 import com.aliucord.patcher.*
@@ -28,6 +29,14 @@ import com.discord.stores.StoreNux
 class SettingsBackup: Plugin(){
 	@SuppressLint("SetTextI18n")
 	val settings2 = SettingsUtilsJSON("Discord");
+
+	inline fun <reified T>optNotRetarded(key: String): T?{
+		if(settings2.has(key)){
+			return GsonUtils.fromJson(settings2.getString(key), T::class.java as Type) as T?;
+		}else{
+			return null;
+		};
+	);
 
 	val fStoreFavorites = StoreEmoji::class.java
 		.getDeclaredField("mediaFavoritesStore")
@@ -107,11 +116,11 @@ class SettingsBackup: Plugin(){
 		};
 		settings2.setObject("""emoji$favorites""", favorites);
 */
-		val frequentEmoji = settings2.getObject("""emoji$favorite""", Persister<MediaFrecencyTracker>());
-		if(!frequentEmoji.get().isEmpty()){
-			fFrequentEmoji.set(storeEmoji, frequentEmoji as Persister<MediaFrecencyTracker>);
+		val frequentEmoji: Persister<MediaFrecencyTracker>? = optNotRetarded("emoji\$frequent");
+		if(frequentEmoji != null){
+			fFrequentEmoji.set(storeEmoji, frequentEmoji);
 		}else{
-			settings2.setObject("""emoji$frequent""", fFrequentEmoji.get(storeEmoji) as Persister<MediaFrecencyTracker>);
+			settings2.setObject("emoji\$frequent", fFrequentEmoji.get(storeEmoji) as Persister<MediaFrecencyTracker>);
 		};
 /*
 		patcher.patch(editor::class.java.getDeclaredMethod("apply"), PreHook{frame ->
