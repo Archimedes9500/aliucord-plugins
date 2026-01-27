@@ -31,12 +31,13 @@ class SettingsBackup: Plugin(){
 	val settings2 = SettingsUtilsJSON("Discord");
 
 	inline fun <reified T>optNotRetarded(key: String): T?{
-		if(settings2.has(key)){
-			return GsonUtils.fromJson(settings2.getString(key), T::class.java as Type) as T?;
+		val string = settings2.getString(key, null);
+		if(string != null){
+			return GsonUtils.fromJson(string, T::class.java as Type) as T?;
 		}else{
 			return null;
 		};
-	);
+	};
 
 	val fStoreFavorites = StoreEmoji::class.java
 		.getDeclaredField("mediaFavoritesStore")
