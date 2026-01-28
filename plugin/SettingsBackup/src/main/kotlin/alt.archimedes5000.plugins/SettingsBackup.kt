@@ -105,7 +105,7 @@ class SettingsBackup: Plugin(){
 
 		val storeEmoji = StoreStream.getEmojis();
 		val frequents = fFrequents.get(storeEmoji) as Persister<MediaFrecencyTracker>;
-		val prefs = Persister.`access$getPreferences$cp`().mapNotNull{it.get()};
+		val prefs: List<Persister<*>> = Persister.`access$getPreferences$cp`().mapNotNull{it.get()};
 		settings2.setObject("prefs", prefs);
 /*
 		val rawFavorites = settings2.getObject("""emoji$favorite""", Set<JSONObject>());
