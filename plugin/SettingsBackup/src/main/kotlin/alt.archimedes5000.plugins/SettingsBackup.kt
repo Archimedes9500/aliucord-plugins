@@ -91,9 +91,9 @@ class SettingsBackup: Plugin(){
 					//conversions
 					is Double -> {
 						when(types.optString(key)){
-							"kotlin.Int" -> editor.putInt(key, value.toInt());
-							"kotlin.Long" -> editor.putLong(key, value.toLong());
-							"kotlin.Float" -> editor.putFloat(key, value.toLong());
+							"Int" -> editor.putInt(key, value.toInt());
+							"Long" -> editor.putLong(key, value.toLong());
+							"Float" -> editor.putFloat(key, value.toLong());
 						};
 					};
 					is ArrayList<*> -> if(value.all{it is String}) editor.putStringSet(key, value.toSet() as Set<String>);
