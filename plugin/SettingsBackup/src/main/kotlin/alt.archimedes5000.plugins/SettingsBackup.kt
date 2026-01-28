@@ -118,6 +118,7 @@ class SettingsBackup: Plugin(){
 		};
 		settings2.setObject("""emoji$favorites""", favorites);
 */
+/*
 		val frequentEmoji: MediaFrecencyTracker? = optNotRetarded("emoji\$frequent");
 		if(frequentEmoji != null){
 			Persister.`access$persist`(frequentEmoji);
@@ -126,7 +127,7 @@ class SettingsBackup: Plugin(){
 		}else{
 			settings2.setObject("emoji\$frequent", fFrequentEmoji.get(storeEmoji) as Persister<MediaFrecencyTracker>);
 		};
-
+*/
 		patcher.patch(editor::class.java.getDeclaredMethod("apply"), PreHook{frame ->
 			val currentAuth = storeAuth.prefs.all;
 			settings2.setObject("auth", currentAuth);
