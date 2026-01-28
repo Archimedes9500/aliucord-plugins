@@ -60,7 +60,7 @@ class SettingsBackup: Plugin(){
 
 		//import from backup
 		val auth = settings2.getObject("auth", mutableMapOf<String, Any>());
-		val exposePrivate = settings.getBoolean("expose_private_settings", false);
+		val exposePrivate = settings.getBool("expose_private_settings", false);
 		if(!auth.isEmpty()){
 			for((key, value) in auth){
 				if(!exposePrivate && key in privateKeys) continue;
@@ -82,7 +82,7 @@ class SettingsBackup: Plugin(){
 				success = editor.commit();
 			};
 		}else{
-			val writeBackup = settings.getBoolean("write_backup", true);
+			val writeBackup = settings.getBool("write_backup", true);
 			//export current settings to backup
 			if(writeBackup){
 				val currentAuth = storeAuth.prefs.all;
@@ -92,14 +92,14 @@ class SettingsBackup: Plugin(){
 
 		//export current settings to backup as they change
 		patcher.patch(editor::class.java.getDeclaredMethod("apply"), PreHook{frame ->
-			val writeBackup = settings.getBoolean("write_backup", true);
+			val writeBackup = settings.getBool("write_backup", true);
 			if(writeBackup){
 				val currentAuth = storeAuth.prefs.all;
 				settings2.setObject("auth", currentAuth);
 			};
 		});
 		patcher.patch(editor::class.java.getDeclaredMethod("commit"), PreHook{frame ->
-			val writeBackup = settings.getBoolean("write_backup", true);
+			val writeBackup = settings.getBool("write_backup", true);
 			if(writeBackup){
 				val currentAuth = storeAuth.prefs.all;
 				settings2.setObject("auth", currentAuth);
@@ -145,11 +145,11 @@ class SettingsBackup: Plugin(){
 		val persisters: Map<String, Persister<*>>? =
 			(optNotRetarded("persisters") as? List<Persister<*>>)
 			?.mapNotNull{it.key to it}
-			?toMap()
+			?.toMap()
 		;
 		if(persisters != null && !persisters.isEmpty()){
 			patcher.patch(Persister::class.java.getDeclaredMethod("get"), PreHook{frame ->
-				val original = frame.thisObject as Persister;
+				val original = frame.thisObject as Persister<*>;
 				val replacement = persisters[original.key];
 				if(replacement != null){
 					frame.result = fPersisterValue.get(replacement);
@@ -157,20 +157,20 @@ class SettingsBackup: Plugin(){
 			});
 		}else{
 			//export current settings to backup
-			val currentPersisters: ArrayList<Persister<*>> = Persister.
-				`access$getPreferences$cp`()
+			val currentPersisters = Persister.`access$getPreferences$cp`()
 				.filter{it.key !in storeKeys}
+				as ArrayList<Persister<*>>
 			;
 			settings2.setObject("persisters", currentPersisters);
 		};
 
 		//export current settings to backup as they change
 		patcher.patch(Persister::class.java.getDeclaredMethod("set", Any::class.java, Boolean::class.java), PreHook{frame ->
-			val _this = frame.thisObject as Persister;
+			val _this = frame.thisObject as Persister<*>;
 			if(_this.key in storeKeys){
-				val currentPersisters: ArrayList<Persister<*>> = Persister.
-					`access$getPreferences$cp`()
+				val currentPersisters = Persister.`access$getPreferences$cp`()
 					.filter{it.key !in storeKeys}
+					as ArrayList<Persister<*>>
 				;
 				settings2.setObject("persisters", currentPersisters);
 			};
