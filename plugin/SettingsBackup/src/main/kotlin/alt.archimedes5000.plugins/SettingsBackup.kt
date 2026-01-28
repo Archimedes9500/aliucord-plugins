@@ -42,6 +42,29 @@ class SettingsBackup: Plugin(){
 
 	override fun start(pluginContext: Context){
 
+		//track number types
+		patcher.patch(editor::class.java.getDeclaredMethod("putInt", String::class.java, Int::class.java), PreHook{frame ->
+			val key = frame.args[0] as String;
+			val type = frame.args[1]::class;
+			val types = backup.getJSONObject("types", JSONObject());
+			types.setString(key, type.toString());
+			backup.setJSONObject("types", types);
+		});
+		patcher.patch(editor::class.java.getDeclaredMethod("putLong", String::class.java, Long::class.java), PreHook{frame ->
+			val key = frame.args[0] as String;
+			val type = frame.args[1]::class;
+			val types = backup.getJSONObject("types", JSONObject());
+			types.setString(key, type.toString());
+			backup.setJSONObject("types", types);
+		});
+		patcher.patch(editor::class.java.getDeclaredMethod("putFloat", String::class.java, Float::class.java), PreHook{frame ->
+			val key = frame.args[0] as String;
+			val type = frame.args[1]::class;
+			val types = backup.getJSONObject("types", JSONObject());
+			types.setString(key, type.toString());
+			backup.setJSONObject("types", types);
+		});
+
 		//auth settings
 		val privateKeys = arrayOf(
 			"LOG_CACHE_KEY_USER_LOGIN",
@@ -56,6 +79,7 @@ class SettingsBackup: Plugin(){
 
 		//import from backup
 		val auth = backup.getObject("auth", mutableMapOf<String, Any>());
+		val types = backup.getJSONObject("types", JSONObject());
 		val exposePrivate = settings.getBool("expose_private_settings", false);
 		if(!auth.isEmpty()){
 			for((key, value) in auth){
@@ -68,8 +92,14 @@ class SettingsBackup: Plugin(){
 					is Long -> editor.putLong(key, value);
 					is Set<*> -> if(value.all{it is String}) editor.putStringSet(key, value as Set<String>);
 					//conversions
-					//is Double -> editor.putLong(key, value.toLong());
-					//is ArrayList<*> -> if(value.all{it is String}) editor.putStringSet(key, value.toSet() as Set<String>);
+					is Double -> {
+						when(types.optString(key)){
+							"kotlin.Int" -> editor.putInt(key, value.toInt());
+							"kotlin.Long" -> editor.putLong(key, value.toLong());
+							"kotlin.Float" -> editor.putFloat(key, value.toLong());
+						};
+					};
+					is ArrayList<*> -> if(value.all{it is String}) editor.putStringSet(key, value.toSet() as Set<String>);
 					else -> logger.debug("rejected key: $key\nof class: ${value::class}");
 				};
 			};
