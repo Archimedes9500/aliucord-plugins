@@ -42,29 +42,6 @@ class SettingsBackup: Plugin(){
 
 	override fun start(pluginContext: Context){
 
-		//track number types
-		patcher.patch(editor::class.java.getDeclaredMethod("putInt", String::class.java, Int::class.java), PreHook{frame ->
-			val key = frame.args[0] as String;
-			val type = frame.args[1]::class;
-			val types = backup.getJSONObject("types", JSONObject());
-			types.setString(key, type.toString());
-			backup.setJSONObject("types", types);
-		});
-		patcher.patch(editor::class.java.getDeclaredMethod("putLong", String::class.java, Long::class.java), PreHook{frame ->
-			val key = frame.args[0] as String;
-			val type = frame.args[1]::class;
-			val types = backup.getJSONObject("types", JSONObject());
-			types.setString(key, type.toString());
-			backup.setJSONObject("types", types);
-		});
-		patcher.patch(editor::class.java.getDeclaredMethod("putFloat", String::class.java, Float::class.java), PreHook{frame ->
-			val key = frame.args[0] as String;
-			val type = frame.args[1]::class;
-			val types = backup.getJSONObject("types", JSONObject());
-			types.setString(key, type.toString());
-			backup.setJSONObject("types", types);
-		});
-
 		//auth settings
 		val privateKeys = arrayOf(
 			"LOG_CACHE_KEY_USER_LOGIN",
@@ -76,6 +53,26 @@ class SettingsBackup: Plugin(){
 
 		val storeAuth = StoreStream.getAuthentication();
 		val editor: SharedPreferences.Editor = storeAuth.prefs.edit();
+
+		//track number types
+		patcher.patch(editor::class.java.getDeclaredMethod("putInt", String::class.java, Int::class.java), PreHook{frame ->
+			val key = frame.args[0] as String;
+			val types = backup.getJSONObject("types", JSONObject());
+			types.setString(key, "Int");
+			backup.setJSONObject("types", types);
+		});
+		patcher.patch(editor::class.java.getDeclaredMethod("putLong", String::class.java, Long::class.java), PreHook{frame ->
+			val key = frame.args[0] as String;
+			val types = backup.getJSONObject("types", JSONObject());
+			types.setString(key, "Long");
+			backup.setJSONObject("types", types);
+		});
+		patcher.patch(editor::class.java.getDeclaredMethod("putFloat", String::class.java, Float::class.java), PreHook{frame ->
+			val key = frame.args[0] as String;
+			val types = backup.getJSONObject("types", JSONObject());
+			types.setString(key, "Float");
+			backup.setJSONObject("types", types);
+		});
 
 		//import from backup
 		val auth = backup.getObject("auth", mutableMapOf<String, Any>());
