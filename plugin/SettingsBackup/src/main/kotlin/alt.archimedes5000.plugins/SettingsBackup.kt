@@ -90,6 +90,10 @@ class SettingsBackup: Plugin(){
 					is Set<*> -> if(value.all{it is String}) editor.putStringSet(key, value as Set<String>);
 				};
 			};
+			var success = false;
+			while(!success){
+				success = editor.commit();
+			};
 		}else{
 			val currentAuth = storeAuth.prefs.all;
 			settings2.setObject("auth", currentAuth);
