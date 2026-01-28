@@ -144,13 +144,13 @@ class SettingsBackup: Plugin(){
 		//import from backup
 		val persisters: Map<String, Persister<*>>? =
 			(optNotRetarded("persisters") as? List<Persister<*>>)
-			?.mapNotNull{it.key to it}
+			?.mapNotNull{it.getKey() to it}
 			?.toMap()
 		;
 		if(persisters != null && !persisters.isEmpty()){
 			patcher.patch(Persister::class.java.getDeclaredMethod("get"), PreHook{frame ->
 				val original = frame.thisObject as Persister<*>;
-				val replacement = persisters[original.key];
+				val replacement = persisters[original.getKey()];
 				if(replacement != null){
 					frame.result = fPersisterValue.get(replacement);
 				};
@@ -158,7 +158,7 @@ class SettingsBackup: Plugin(){
 		}else{
 			//export current settings to backup
 			val currentPersisters = Persister.`access$getPreferences$cp`()
-				.filter{it.key !in storeKeys}
+				.filter{it.getKey() !in storeKeys}
 				as ArrayList<Persister<*>>
 			;
 			settings2.setObject("persisters", currentPersisters);
@@ -167,9 +167,9 @@ class SettingsBackup: Plugin(){
 		//export current settings to backup as they change
 		patcher.patch(Persister::class.java.getDeclaredMethod("set", Any::class.java, Boolean::class.java), PreHook{frame ->
 			val _this = frame.thisObject as Persister<*>;
-			if(_this.key in storeKeys){
+			if(_this.getKey() in storeKeys){
 				val currentPersisters = Persister.`access$getPreferences$cp`()
-					.filter{it.key !in storeKeys}
+					.filter{it.getKey() !in storeKeys}
 					as ArrayList<Persister<*>>
 				;
 				settings2.setObject("persisters", currentPersisters);
