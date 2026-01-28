@@ -13,17 +13,13 @@ import com.aliucord.utils.ReflectUtils
 import com.aliucord.patcher.*
 
 import com.aliucord.utils.GsonUtils
-import com.google.gson.reflect.TypeToken
 
 import android.content.SharedPreferences
 import com.discord.stores.StoreStream
 import com.discord.stores.StoreAuthentication
-import com.discord.stores.StoreEmoji
-import com.discord.stores.StoreMediaFavorites
-import com.discord.stores.StoreMediaFavorites.Favorite
-import com.discord.stores.StoreMediaFavorites.Favorite.*
 import com.discord.utilities.persister.Persister
-import com.discord.utilities.media.MediaFrecencyTracker
+import java.lang.ref.WeakReference
+
 import com.discord.stores.StoreNux
 
 @AliucordPlugin(requiresRestart = true)
@@ -158,7 +154,8 @@ class SettingsBackup: Plugin(){
 		}else{
 			//export current settings to backup
 			val currentPersisters = Persister.`access$getPreferences$cp`()
-				.filter{(it as Persister<*>).getKey() !in storeKeys}
+				.mapNotNull{(it as WeakReference<Persister<*>>).get()}
+				.filter{it.getKey() !in storeKeys}
 				as ArrayList<Persister<*>>
 			;
 			backup.setObject("persisters", currentPersisters);
@@ -169,7 +166,8 @@ class SettingsBackup: Plugin(){
 			val _this = frame.thisObject as Persister<*>;
 			if(_this.getKey() in storeKeys){
 				val currentPersisters = Persister.`access$getPreferences$cp`()
-					.filter{(it as Persister<*>).getKey() !in storeKeys}
+					.mapNotNull{(it as WeakReference<Persister<*>>).get()}
+					.filter{it.getKey() !in storeKeys}
 					as ArrayList<Persister<*>>
 				;
 				backup.setObject("persisters", currentPersisters);
