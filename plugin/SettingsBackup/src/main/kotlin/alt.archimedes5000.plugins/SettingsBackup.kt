@@ -9,6 +9,7 @@ import org.json.*
 import java.lang.reflect.*
 
 import com.aliucord.Utils
+import com.aliucord.utils.ReflectUtils
 import com.aliucord.patcher.*
 
 import com.aliucord.utils.GsonUtils
@@ -117,7 +118,7 @@ class SettingsBackup: Plugin(){
 		};
 		settings2.setObject("""emoji$favorites""", favorites);
 */
-		val frequentEmoji: Persister<MediaFrecencyTracker>? = optNotRetarded("emoji\$frequent");
+		val frequentEmoji: MediaFrecencyTracker? = optNotRetarded("emoji\$frequent");
 		if(frequentEmoji != null){
 			Persister.`access$persist`(frequentEmoji);
 			Persister.`access$persist`(fFrequentEmoji.get(storeEmoji) as Persister<MediaFrecencyTracker>);
@@ -125,7 +126,7 @@ class SettingsBackup: Plugin(){
 		}else{
 			settings2.setObject("emoji\$frequent", fFrequentEmoji.get(storeEmoji) as Persister<MediaFrecencyTracker>);
 		};
-/*
+
 		patcher.patch(editor::class.java.getDeclaredMethod("apply"), PreHook{frame ->
 			val currentAuth = storeAuth.prefs.all;
 			settings2.setObject("auth", currentAuth);
@@ -135,7 +136,7 @@ class SettingsBackup: Plugin(){
 			val currentAuth = storeAuth.prefs.all;
 			settings2.setObject("auth", currentAuth);
 		});
-*/
+
 	};
 	override fun stop(pluginContext: Context) = patcher.unpatchAll();
 };
