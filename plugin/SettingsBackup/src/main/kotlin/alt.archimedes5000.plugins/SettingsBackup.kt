@@ -29,8 +29,8 @@ import com.discord.stores.StoreNux
 @AliucordPlugin(requiresRestart = true)
 class SettingsBackup: Plugin(){
 	@SuppressLint("SetTextI18n")
-	val settings2 = SettingsUtilsJSON("Discord");
 
+	val settings2 = SettingsUtilsJSON("Discord");
 	inline fun <reified T>optNotRetarded(key: String): T?{
 		val string = settings2.getString(key, null);
 		if(string != null){
@@ -39,48 +39,31 @@ class SettingsBackup: Plugin(){
 			return null;
 		};
 	};
-
-	val fStoreFavorites = StoreEmoji::class.java
-		.getDeclaredField("mediaFavoritesStore")
-		.apply{isAccessible = true}
-	;
-	val fObservationDeck = StoreMediaFavorites::class.java
-		.getDeclaredField("observationDeck")
-		.apply{isAccessible = true}
-	;
-	val fDispatcher = StoreMediaFavorites::class.java
-		.getDeclaredField("dispatcher")
-		.apply{isAccessible = true}
-	;
-	val fFavorites = StoreMediaFavorites::class.java
-		.getDeclaredField("persister")
-		.apply{isAccessible = true}
-	;
-	fun parseFavorites(set: Set<JSONObject>?): Set<out Favorite>?{
-		if(set == null) return null;
-		return set.mapNotNull{
-			val id = it.optString("emojiUniqueId");
-			if(id == null || id == "") return@mapNotNull null;
-			logger.debug("creating emoji with id: "+id::class);
-			if(id.toLongOrNull() != null){
-				FavCustomEmoji(id);
-			}else{
-				FavUnicodeEmoji(id);
-			};
-		}.toSet();
-	};
-	val fFrequents = StoreEmoji::class.java
-		.getDeclaredField("frecencyCache")
+	val fPersisterValue = Persister::class.java
+		.getDeclaredField("value")
 		.apply{isAccessible = true}
 	;
 
 	override fun start(pluginContext: Context){
 
+		//auth settings
+		val privateKeys = arrayOf(
+			"LOG_CACHE_KEY_USER_LOGIN",
+			"STORE_AUTHED_TOKEN",
+			"STORE_AUTH_STATE",
+			"LOG_CACHE_KEY_USER_ID",
+			"LOG_CACHE_KEY_USER_NAME"
+		);
+
 		val storeAuth = StoreStream.getAuthentication();
 		val editor: SharedPreferences.Editor = storeAuth.prefs.edit();
+
+		//import from backup
 		val auth = settings2.getObject("auth", mutableMapOf<String, Any>());
+		val exposePrivate = settings.getBoolean("expose_private_settings", false);
 		if(!auth.isEmpty()){
 			for((key, value) in auth){
+				if(!exposePrivate && key in privateKeys) continue;
 				when(value){
 					is String -> editor.putString(key, value);
 					is Int -> editor.putInt(key, value);
@@ -99,54 +82,98 @@ class SettingsBackup: Plugin(){
 				success = editor.commit();
 			};
 		}else{
-			val currentAuth = storeAuth.prefs.all;
-			settings2.setObject("auth", currentAuth);
+			val writeBackup = settings.getBoolean("write_backup", true);
+			//export current settings to backup
+			if(writeBackup){
+				val currentAuth = storeAuth.prefs.all;
+				settings2.setObject("auth", currentAuth);
+			};
 		};
 
-		val storeEmoji = StoreStream.getEmojis();
-		val frequents = fFrequents.get(storeEmoji) as Persister<MediaFrecencyTracker>;
-		val prefs: List<Persister<*>> = Persister.`access$getPreferences$cp`().mapNotNull{it.get()};
-		settings2.setObject("prefs", prefs);
-/*
-		val rawFavorites = settings2.getObject("""emoji$favorite""", Set<JSONObject>());
-		val favorites: Set<out Favorite>? = parseFavorites(rawFavorites);
-		logger.debug("favorites: "+favorites?.joinToString(", ")?: "null");
-
-		val storeFavorites = fStoreFavorites.get(storeEmoji) as StoreMediaFavorites;
-		val currentFavorites = StoreMediaFavorites.`access$getFavorites$p`(storeFavorites) as Set<Favorite>;
-		logger.debug("currentFavorites: "+currentFavorites.joinToString(", "));
-		if(favorites != null){
-			for(favorite in currentFavorites){
-				logger.debug("removing favorite: "+favorite.toString());
-				storeFavorites.removeFavorite(favorite);
-			};
-			for(favorite in favorites){
-				logger.debug("adding favorite: "+favorite.toString());
-				storeFavorites.addFavorite(favorite);
-			};
-		}else{
-			emoji.favorite = currentFavorites;
-		};
-		settings2.setObject("""emoji$favorites""", favorites);
-*/
-/*
-		val frequentEmoji: MediaFrecencyTracker? = optNotRetarded("emoji\$frequent");
-		if(frequentEmoji != null){
-			Persister.`access$persist`(frequentEmoji);
-			Persister.`access$persist`(fFrequentEmoji.get(storeEmoji) as Persister<MediaFrecencyTracker>);
-			fFrequentEmoji.set(storeEmoji, frequentEmoji);
-		}else{
-			settings2.setObject("emoji\$frequent", fFrequentEmoji.get(storeEmoji) as Persister<MediaFrecencyTracker>);
-		};
-*/
+		//export current settings to backup as they change
 		patcher.patch(editor::class.java.getDeclaredMethod("apply"), PreHook{frame ->
-			val currentAuth = storeAuth.prefs.all;
-			settings2.setObject("auth", currentAuth);
+			val writeBackup = settings.getBoolean("write_backup", true);
+			if(writeBackup){
+				val currentAuth = storeAuth.prefs.all;
+				settings2.setObject("auth", currentAuth);
+			};
+		});
+		patcher.patch(editor::class.java.getDeclaredMethod("commit"), PreHook{frame ->
+			val writeBackup = settings.getBoolean("write_backup", true);
+			if(writeBackup){
+				val currentAuth = storeAuth.prefs.all;
+				settings2.setObject("auth", currentAuth);
+			};
 		});
 
-		patcher.patch(editor::class.java.getDeclaredMethod("commit"), PreHook{frame ->
-			val currentAuth = storeAuth.prefs.all;
-			settings2.setObject("auth", currentAuth);
+		//other stores and settings
+		val storeKeys = arrayOf(
+			"NOTIFICATION_CLIENT_SETTINGS_V3",
+			"STORE_SHOW_HIDE_MUTED_CHANNELS_V2",
+			"CACHE_KEY_SELECTED_CHANNEL_IDS",
+			"STORE_NOTIFICATIONS_SETTINGS_V2",
+			"USER_EXPERIMENTS_CACHE_KEY",
+			"GUILD_EXPERIMENTS_CACHE_KEY ",
+			"EXPERIMENT_OVERRIDES_CACHE_KEY",
+			"CACHE_KEY_ACCESSIBILITY_REDUCED_MOTION_ENABLED",
+			"RESTRICTED_GUILD_IDS",//no idea what this is
+			"STORE_SETTINGS_FOLDERS_V1",
+			"STORE_SETTINGS_ALLOW_ANIMATED_EMOJIS ",
+			"CACHE_KEY_STICKER_ANIMATION_SETTINGS_V1",
+			"STORE_SETTINGS_ALLOW_GAME_STATUS",
+			"CACHE_KEY_STICKER_SUGGESTIONS",
+			"STORE_SETTINGS_ALLOW_ACCESSIBILITY_DETECTION ",
+			"STORE_SETTINGS_AUTO_PLAY_GIFS ",
+			"SEARCH_HISTORY_V2",
+			"PREFERRED_VIDEO_INPUT_DEVICE_GUID",
+			"CACHE_KEY_NATIVE_ENGINE_EVER_INITIALIZED",//no idea what's this either
+			"NOTICES_SHOWN_V2",
+			"CACHE_KEY_OPEN_FOLDERS",
+			"STORE_FAVORITES",
+			"EMOJI_HISTORY_V4",
+			"STICKER_HISTORY_V1",
+			"CACHE_KEY_SELECTED_EXPRESSION_TRAY_TAB",
+			"CACHE_KEY_APPLICATION_COMMANDS",
+			"CACHE_KEY_PHONE_COUNTRY_CODE_V2",
+			"CONTACT_SYNC_DISMISS_STATE",
+			"hub_verification_clicked_key",
+			"guild_scheduled_events_header_dismissed",
+			"hub_name_prompt"
+		);
+
+		//import from backup
+		val persisters: Map<String, Persister<*>>? =
+			(optNotRetarded("persisters") as? List<Persister<*>>)
+			?.mapNotNull{it.key to it}
+			?toMap()
+		;
+		if(persisters != null && !persisters.isEmpty()){
+			patcher.patch(Persister::class.java.getDeclaredMethod("get"), PreHook{frame ->
+				val original = frame.thisObject as Persister;
+				val replacement = persisters[original.key];
+				if(replacement != null){
+					frame.result = fPersisterValue.get(replacement);
+				};
+			});
+		}else{
+			//export current settings to backup
+			val currentPersisters: ArrayList<Persister<*>> = Persister.
+				`access$getPreferences$cp`()
+				.filter{it.key !in storeKeys}
+			;
+			settings2.setObject("persisters", currentPersisters);
+		};
+
+		//export current settings to backup as they change
+		patcher.patch(Persister::class.java.getDeclaredMethod("set", Any::class.java, Boolean::class.java), PreHook{frame ->
+			val _this = frame.thisObject as Persister;
+			if(_this.key in storeKeys){
+				val currentPersisters: ArrayList<Persister<*>> = Persister.
+					`access$getPreferences$cp`()
+					.filter{it.key !in storeKeys}
+				;
+				settings2.setObject("persisters", currentPersisters);
+			};
 		});
 
 	};
