@@ -57,26 +57,26 @@ class SettingsBackup: Plugin(){
 		//track number types
 		patcher.patch(editor::class.java.getDeclaredMethod("putInt", String::class.java, Int::class.java), PreHook{frame ->
 			val key = frame.args[0] as String;
-			val types = backup.getJSONObject("types", JSONObject());
-			types.setString(key, "Int");
+			val types = backup.getJSONObject("types", JSONObject())!!;
+			types.putString(key, "Int");
 			backup.setJSONObject("types", types);
 		});
 		patcher.patch(editor::class.java.getDeclaredMethod("putLong", String::class.java, Long::class.java), PreHook{frame ->
 			val key = frame.args[0] as String;
-			val types = backup.getJSONObject("types", JSONObject());
-			types.setString(key, "Long");
+			val types = backup.getJSONObject("types", JSONObject())!!;
+			types.putString(key, "Long");
 			backup.setJSONObject("types", types);
 		});
 		patcher.patch(editor::class.java.getDeclaredMethod("putFloat", String::class.java, Float::class.java), PreHook{frame ->
 			val key = frame.args[0] as String;
-			val types = backup.getJSONObject("types", JSONObject());
-			types.setString(key, "Float");
+			val types = backup.getJSONObject("types", JSONObject())!!;
+			types.putString(key, "Float");
 			backup.setJSONObject("types", types);
 		});
 
 		//import from backup
 		val auth = backup.getObject("auth", mutableMapOf<String, Any>());
-		val types = backup.getJSONObject("types", JSONObject());
+		val types = backup.getJSONObject("types", JSONObject())!!;
 		val exposePrivate = settings.getBool("expose_private_settings", false);
 		if(!auth.isEmpty()){
 			for((key, value) in auth){
@@ -93,7 +93,7 @@ class SettingsBackup: Plugin(){
 						when(types.optString(key)){
 							"Int" -> editor.putInt(key, value.toInt());
 							"Long" -> editor.putLong(key, value.toLong());
-							"Float" -> editor.putFloat(key, value.toLong());
+							"Float" -> editor.putFloat(key, value.toFloat());
 						};
 					};
 					is ArrayList<*> -> if(value.all{it is String}) editor.putStringSet(key, value.toSet() as Set<String>);
