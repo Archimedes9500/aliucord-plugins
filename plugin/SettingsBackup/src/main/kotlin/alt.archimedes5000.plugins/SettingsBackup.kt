@@ -88,6 +88,7 @@ class SettingsBackup: Plugin(){
 					is Float -> editor.putFloat(key, value);
 					is Long -> editor.putLong(key, value);
 					is Set<*> -> if(value.all{it is String}) editor.putStringSet(key, value as Set<String>);
+					else -> logger.log("rejected key: $key\nof class: ${value::class}");
 				};
 			};
 			var success = false;
