@@ -69,7 +69,7 @@ class SettingsBackup: Plugin(){
 			};
 		}.toSet();
 	};
-	val fFrequentEmoji = StoreEmoji::class.java
+	val fFrequents = StoreEmoji::class.java
 		.getDeclaredField("frecencyCache")
 		.apply{isAccessible = true}
 	;
@@ -100,6 +100,9 @@ class SettingsBackup: Plugin(){
 		};
 
 		val storeEmoji = StoreStream.getEmojis();
+		val frequents = fFrequents.get(storeEmoji) as Persister<MediaFrecencyTracker>;
+		val prefs = Persister.`access$getPreferences$cp`();
+		settings2.setObject("prefs", prefs);
 /*
 		val rawFavorites = settings2.getObject("""emoji$favorite""", Set<JSONObject>());
 		val favorites: Set<out Favorite>? = parseFavorites(rawFavorites);
