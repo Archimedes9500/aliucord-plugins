@@ -58,19 +58,19 @@ class SettingsBackup: Plugin(){
 		patcher.patch(editor::class.java.getDeclaredMethod("putInt", String::class.java, Int::class.java), PreHook{frame ->
 			val key = frame.args[0] as String;
 			val types = backup.getJSONObject("types", JSONObject())!!;
-			types.putString(key, "Int");
+			types.put(key, "Int");
 			backup.setJSONObject("types", types);
 		});
 		patcher.patch(editor::class.java.getDeclaredMethod("putLong", String::class.java, Long::class.java), PreHook{frame ->
 			val key = frame.args[0] as String;
 			val types = backup.getJSONObject("types", JSONObject())!!;
-			types.putString(key, "Long");
+			types.put(key, "Long");
 			backup.setJSONObject("types", types);
 		});
 		patcher.patch(editor::class.java.getDeclaredMethod("putFloat", String::class.java, Float::class.java), PreHook{frame ->
 			val key = frame.args[0] as String;
 			val types = backup.getJSONObject("types", JSONObject())!!;
-			types.putString(key, "Float");
+			types.put(key, "Float");
 			backup.setJSONObject("types", types);
 		});
 
