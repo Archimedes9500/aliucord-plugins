@@ -30,9 +30,9 @@ import com.discord.stores.StoreNux
 class SettingsBackup: Plugin(){
 	@SuppressLint("SetTextI18n")
 
-	val settings2 = SettingsUtilsJSON("Discord");
+	val backup = SettingsUtilsJSON("Discord");
 	inline fun <reified T>optNotRetarded(key: String): T?{
-		val string = settings2.getString(key, null);
+		val string = backup.getString(key, null);
 		if(string != null){
 			return GsonUtils.fromJson(string, T::class.java as Type) as T?;
 		}else{
@@ -59,7 +59,7 @@ class SettingsBackup: Plugin(){
 		val editor: SharedPreferences.Editor = storeAuth.prefs.edit();
 
 		//import from backup
-		val auth = settings2.getObject("auth", mutableMapOf<String, Any>());
+		val auth = backup.getObject("auth", mutableMapOf<String, Any>());
 		val exposePrivate = settings.getBool("expose_private_settings", false);
 		if(!auth.isEmpty()){
 			for((key, value) in auth){
@@ -86,7 +86,7 @@ class SettingsBackup: Plugin(){
 			//export current settings to backup
 			if(writeBackup){
 				val currentAuth = storeAuth.prefs.all;
-				settings2.setObject("auth", currentAuth);
+				backup.setObject("auth", currentAuth);
 			};
 		};
 
@@ -95,14 +95,14 @@ class SettingsBackup: Plugin(){
 			val writeBackup = settings.getBool("write_backup", true);
 			if(writeBackup){
 				val currentAuth = storeAuth.prefs.all;
-				settings2.setObject("auth", currentAuth);
+				backup.setObject("auth", currentAuth);
 			};
 		});
 		patcher.patch(editor::class.java.getDeclaredMethod("commit"), PreHook{frame ->
 			val writeBackup = settings.getBool("write_backup", true);
 			if(writeBackup){
 				val currentAuth = storeAuth.prefs.all;
-				settings2.setObject("auth", currentAuth);
+				backup.setObject("auth", currentAuth);
 			};
 		});
 
@@ -158,10 +158,10 @@ class SettingsBackup: Plugin(){
 		}else{
 			//export current settings to backup
 			val currentPersisters = Persister.`access$getPreferences$cp`()
-				.filter{it.getKey() !in storeKeys}
+				.filter{(it as Persister).getKey() !in storeKeys}
 				as ArrayList<Persister<*>>
 			;
-			settings2.setObject("persisters", currentPersisters);
+			backup.setObject("persisters", currentPersisters);
 		};
 
 		//export current settings to backup as they change
@@ -169,10 +169,10 @@ class SettingsBackup: Plugin(){
 			val _this = frame.thisObject as Persister<*>;
 			if(_this.getKey() in storeKeys){
 				val currentPersisters = Persister.`access$getPreferences$cp`()
-					.filter{it.getKey() !in storeKeys}
+					.filter{(it as Persister).getKey() !in storeKeys}
 					as ArrayList<Persister<*>>
 				;
-				settings2.setObject("persisters", currentPersisters);
+				backup.setObject("persisters", currentPersisters);
 			};
 		});
 
