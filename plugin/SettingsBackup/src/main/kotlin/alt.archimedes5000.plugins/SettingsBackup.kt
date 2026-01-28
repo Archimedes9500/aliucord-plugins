@@ -90,7 +90,7 @@ class SettingsBackup: Plugin(){
 					is Set<*> -> if(value.all{it is String}) editor.putStringSet(key, value as Set<String>);
 					//conversions
 					is Double -> editor.putLong(key, value.toLong());
-					is ArrayList -> if(value.all{it is String}) editor.putStringSet(key, value.toSet() as Set<String>);
+					is ArrayList<*> -> if(value.all{it is String}) editor.putStringSet(key, value.toSet() as Set<String>);
 					else -> logger.debug("rejected key: $key\nof class: ${value::class}");
 				};
 			};
