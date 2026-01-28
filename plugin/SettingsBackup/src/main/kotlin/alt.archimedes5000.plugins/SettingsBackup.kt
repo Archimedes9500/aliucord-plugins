@@ -158,7 +158,7 @@ class SettingsBackup: Plugin(){
 		}else{
 			//export current settings to backup
 			val currentPersisters = Persister.`access$getPreferences$cp`()
-				.filter{(it as Persister).getKey() !in storeKeys}
+				.filter{(it as Persister<*>).getKey() !in storeKeys}
 				as ArrayList<Persister<*>>
 			;
 			backup.setObject("persisters", currentPersisters);
@@ -169,7 +169,7 @@ class SettingsBackup: Plugin(){
 			val _this = frame.thisObject as Persister<*>;
 			if(_this.getKey() in storeKeys){
 				val currentPersisters = Persister.`access$getPreferences$cp`()
-					.filter{(it as Persister).getKey() !in storeKeys}
+					.filter{(it as Persister<*>).getKey() !in storeKeys}
 					as ArrayList<Persister<*>>
 				;
 				backup.setObject("persisters", currentPersisters);
