@@ -29,14 +29,14 @@ class SettingsBackup: Plugin(){
 
 	val backup = SettingsUtilsJSON("Discord");
 	
-	fun optPersisters(): Map<String, String>?{
+	fun optPersisters(): MutableMap<String, String>?{
 		val obj = backup.getJSONObject("persisters", null);
 		if(obj != null){
 			return obj.keys()
 				.asSequence()
 				.toList()
 				.map{it to obj.getString(it)}
-				.toMap<String, String>()
+				.toMutableMap<String, String>()
 			;
 		}else{
 			return null;
@@ -186,7 +186,7 @@ class SettingsBackup: Plugin(){
 		);
 
 		//import from backup
-		val backupPersisters: Map<String, String>? = optPersisters();
+		val backupPersisters: MutableMap<String, String>? = optPersisters();
 		if(backupPersisters != null && !backupPersisters.isEmpty()){
 			patcher.patch(Persister::class.java.getDeclaredMethod("get"), PreHook{frame ->
 				val original = frame.thisObject as Persister<*>;
@@ -216,19 +216,14 @@ class SettingsBackup: Plugin(){
 		//export current settings to backup as they change
 		patcher.patch(Persister::class.java.getDeclaredMethod("set", Any::class.java, Boolean::class.java), PreHook{frame ->
 			val _this = frame.thisObject as Persister<*>;
-			if(_this.getKey() in arrayOf("STORE_FAVORITES", "CACHE_KEY_STICKER_SUGGESTIONS", "STORE_SETTINGS_FOLDERS_V1", "EMOJI_HISTORY_V4")){
+			val key = _this.getKey();
+			val valueString = GsonUtils.toJson(frame.args[0]);
+			if(key in storeKeys && backupPersisters != null){
 				logger.debug(
-					"setting persister: ${_this.getKey()}\n	to value: ${GsonUtils.toJson(frame.args[0])}"
+					"setting persister: ${_this.getKey()}\n	to value: $valueString"
 				);
-			};
-			if(_this.getKey() in storeKeys){
-				val currentPersisters = Persister.`access$getPreferences$cp`()//List<WeakReference<Persister<*>>>
-					.mapNotNull{(it as WeakReference<Persister<*>>).get()}
-					.filter{it.getKey() in storeKeys}
-					.map{serializePersister(it) as Pair<String, Any>}
-					.toMap() as Map<String, *>
-				;
-				backup.setObject("persisters", currentPersisters);
+				backupPersisters[key] = valueString;
+				backup.setObject("persisters", backupPersisters);
 			};
 		});
 
