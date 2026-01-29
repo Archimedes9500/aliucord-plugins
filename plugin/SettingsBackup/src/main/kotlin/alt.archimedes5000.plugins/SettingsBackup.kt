@@ -210,8 +210,8 @@ class SettingsBackup: Plugin(){
 					"asked for persister: ${original.getKey()}\n	attempting to replace value: $currentValue\n	with value: ${value?.toString()?: "null"}"
 				);
 */
-				if(valueString != null){
-					frame.result = deserializePersisterValue(valueString, original);
+				if(value != null){
+					frame.result = deserializePersisterValue(value.toString(), original);
 				};
 			});
 		}else{
@@ -235,7 +235,7 @@ class SettingsBackup: Plugin(){
 				logger.debug(
 					"setting persister: ${_this.getKey()}\n	to value: $valueString"
 				);
-				backupPersisters[key] = json(valueString);
+				backupPersisters[key] = json(valueString)!!;
 				backup.setObject("persisters", backupPersisters);
 			};
 		});
