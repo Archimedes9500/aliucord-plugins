@@ -193,7 +193,7 @@ class SettingsBackup: Plugin(){
 				val valueString = backupPersisters[original.getKey()];
 				val currentValue = "{"+fPersisterValue.get(original).toString()+"}";
 				logger.debug(
-					"asked for persister: ${original.getKey()}\n	replacing value: ${JSONObject($currentValue)}\n	with value: ${valueString?: "null"}"
+					"asked for persister: ${original.getKey()}\n	replacing value: ${JSONObject(currentValue)}\n	with value: ${valueString?: "null"}"
 				);
 				if(valueString != null){
 					frame.result = deserializePersisterValue(valueString, original);
