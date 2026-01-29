@@ -47,8 +47,8 @@ class SettingsBackup: Plugin(){
 			return obj.keys()
 				.asSequence()
 				.toList()
-				.map{it to json(obj.getString())}
-				.toMap<String, String>()
+				.map{it to json(obj.getString(it))}
+				.toMap<String, Any>()
 				.toMutableMap<String, Any>()
 			;
 		}else{
