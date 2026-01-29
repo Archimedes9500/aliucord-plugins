@@ -201,6 +201,7 @@ class SettingsBackup: Plugin(){
 				.mapNotNull{(it as WeakReference<Persister<*>>).get()}
 				.filter{it.getKey() in storeKeys}
 				.map{serializePersister(it)}
+				.toMap()
 				as Map<String, *>
 			;
 			backup.setObject("persisters", currentPersisters);
@@ -214,6 +215,7 @@ class SettingsBackup: Plugin(){
 					.mapNotNull{(it as WeakReference<Persister<*>>).get()}
 					.filter{it.getKey() in storeKeys}
 					.map{serializePersister(it)}
+					.toMap()
 					as Map<String, *>
 				;
 				backup.setObject("persisters", currentPersisters);
