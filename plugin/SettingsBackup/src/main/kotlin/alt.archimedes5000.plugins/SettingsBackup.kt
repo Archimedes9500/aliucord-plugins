@@ -192,15 +192,18 @@ class SettingsBackup: Plugin(){
 				val original = frame.thisObject as Persister<*>;
 				val valueString = backupPersisters[original.getKey()];
 				val currentValue = GsonUtils.toJson(fPersisterValue.get(original));
+/*
 				logger.debug(
 					"asked for persister: ${original.getKey()}\n	attempting to replace value: $currentValue\n	with value: ${valueString?: "null"}"
 				);
+*/
 				if(valueString != null){
 					frame.result = deserializePersisterValue(valueString, original);
 				};
 			});
 		}else{
 			//export current settings to backup
+			logger.debug("exporting all settings");
 			val currentPersisters = Persister.`access$getPreferences$cp`()//List<WeakReference<Persister<*>>>
 				.mapNotNull{(it as WeakReference<Persister<*>>).get()}
 				.filter{it.getKey() in storeKeys}
@@ -215,7 +218,7 @@ class SettingsBackup: Plugin(){
 			val _this = frame.thisObject as Persister<*>;
 			if(_this.getKey() in arrayOf("STORE_FAVORITES", "CACHE_KEY_STICKER_SUGGESTIONS", "STORE_SETTINGS_FOLDERS_V1", "EMOJI_HISTORY_V4")){
 				logger.debug(
-					"setting persister: ${_this.getKey()}\n	to value: ${frame.args[0]}"
+					"setting persister: ${_this.getKey()}\n	to value: ${GsonUtils.toJson(frame.args[0])}"
 				);
 			};
 			if(_this.getKey() in storeKeys){
