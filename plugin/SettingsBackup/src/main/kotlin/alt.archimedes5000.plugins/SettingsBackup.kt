@@ -49,7 +49,6 @@ class SettingsBackup: Plugin(){
 		return Pair(p.getKey(), fPersisterValue.get(p) as T);
 	};
 	fun <T>deserializePersisterValue(valueString: String, persister: Persister<T>): T{
-		val key = persister.getKey();
 		val currentValue = fPersisterValue.get(persister);
 		val type = currentValue::class.java as Type
 		val value = GsonUtils.fromJson(valueString, type) as T;
@@ -186,16 +185,16 @@ class SettingsBackup: Plugin(){
 		);
 
 		//import from backup
-		val persisters: Map<String, String>? = optPersisters()
+		val backupPersisters: Map<String, String>? = optPersisters()
 			?.mapNotNull{it.getString("key") to it.getString("value")}
 			?.toMap()
 		;
-		if(persisters != null && !persisters.isEmpty()){
+		if(backupPersisters != null && !backupPersisters.isEmpty()){
 			patcher.patch(Persister::class.java.getDeclaredMethod("get"), PreHook{frame ->
 				val original = frame.thisObject as Persister<*>;
-				val replacement = persisters[original.getKey()];
-				if(replacement != null){
-					frame.result = deserializePersisterValue(replacement, original);
+				val valueString = backupPersisters[original.getKey()];
+				if(valueString != null){
+					frame.result = deserializePersisterValue(valueString, original);
 				};
 			});
 		}else{
