@@ -197,6 +197,12 @@ class SettingsBackup: Plugin(){
 			});
 		}else{
 			//export current settings to backup
+			val l0: List<WeakReference<Persister<*>>> = Persister.`access$getPreferences$cp`();
+			val l1: List<Persister<*>> = l0.mapNotNull{(it as WeakReference<Persister<*>>).get()};
+			val l2: List<Persister<*>> = l1.filter{it.getKey() in storeKeys};
+			val l3: List<Pair<String, *>> = l2.map{serializePersister(it) as Pair<String, *>};
+			val l4: Map<String, *> = l3.toMap() as Map<String, *>;
+
 			val currentPersisters = Persister.`access$getPreferences$cp`()//List<WeakReference<Persister<*>>>
 				.mapNotNull{(it as WeakReference<Persister<*>>).get()}
 				.filter{it.getKey() in storeKeys}
