@@ -191,9 +191,9 @@ class SettingsBackup: Plugin(){
 			patcher.patch(Persister::class.java.getDeclaredMethod("get"), PreHook{frame ->
 				val original = frame.thisObject as Persister<*>;
 				val valueString = backupPersisters[original.getKey()];
-				val currentValue = "{"+fPersisterValue.get(original).toString()+"}";
+				val currentValue = "["+fPersisterValue.get(original).toString()+"]";
 				logger.debug(
-					"asked for persister: ${original.getKey()}\n	replacing value: ${JSONObject(currentValue)}\n	with value: ${valueString?: "null"}"
+					"asked for persister: ${original.getKey()}\n	replacing value: ${JSONArray(currentValue)}\n	with value: ${valueString?: "null"}"
 				);
 				if(valueString != null){
 					frame.result = deserializePersisterValue(valueString, original);
