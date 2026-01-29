@@ -29,12 +29,12 @@ class SettingsBackup: Plugin(){
 
 	val backup = SettingsUtilsJSON("Discord");
 
-	fun json(string: String): Any?{
+	fun json(string: String): Any{
 		if(string == "") return string;
 		return when(string[0]){
 			'{' -> JSONObject(string);
 			'[' -> JSONArray(string);
-			'"' -> string.drop(1).dropLast(1);
+			//'"' -> string.drop(1).dropLast(1);
 			't' -> true;
 			'f' -> false;
 			'n' -> JSONObject.NULL;
@@ -48,7 +48,7 @@ class SettingsBackup: Plugin(){
 			return obj.keys()
 				.asSequence()
 				.toList()
-				.map{Pair(it, json(obj.getString(it))?: "")}
+				.map{it to json(obj.getString(it))}
 				.toMap<String, Any>()
 				.toMutableMap<String, Any>()
 			;
@@ -236,7 +236,7 @@ class SettingsBackup: Plugin(){
 				logger.debug(
 					"setting persister: ${_this.getKey()}\n	to value: $valueString"
 				);
-				backupPersisters[key] = json(valueString)!!;
+				backupPersisters[key] = json(valueString);
 				backup.setObject("persisters", backupPersisters);
 			};
 		});
