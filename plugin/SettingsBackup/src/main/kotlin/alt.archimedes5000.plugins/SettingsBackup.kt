@@ -13,6 +13,7 @@ import com.aliucord.utils.ReflectUtils
 import com.aliucord.patcher.*
 
 import com.aliucord.utils.GsonUtils
+import com.google.gson.reflect.TypeToken
 
 import android.content.SharedPreferences
 import com.discord.stores.StoreStream
@@ -30,7 +31,7 @@ class SettingsBackup: Plugin(){
 	inline fun <reified T>optNotRetarded(key: String): T?{
 		val string = backup.getString(key, null);
 		if(string != null){
-			return GsonUtils.fromJson(string, T::class.java as Type) as T?;
+			return GsonUtils.fromJson(string, object: TypeToken<T>(){}.type) as T?;
 		}else{
 			return null;
 		};
