@@ -35,7 +35,7 @@ class SettingsBackup: Plugin(){
 	);
 	fun optPersisters(): ArrayList<PersisterPartial<*>>?{
 		val output = ArrayList<PersisterPartial<*>>();
-		val array = backup.getJSONArray(key, null);
+		val array = backup.getJSONArray("persisters", null);
 		if(array != null){
 			for(i in 0 until array.length()){
 				output.add(
@@ -51,7 +51,7 @@ class SettingsBackup: Plugin(){
 		val typeString = obj.getString("type");
 		val key = obj.getString("key");
 
-		val type: Class<T> = Class.forName(type) as Class<T>;
+		val type: Class<T> = Class.forName(typeString) as Class<T>;
 		val valueString = obj.getString("value");
 
 		val value = GsonUtils.fromJson(valueString, type as Type) as T;
@@ -61,12 +61,26 @@ class SettingsBackup: Plugin(){
 		.getDeclaredField("value")
 		.apply{isAccessible = true}
 	;
-	inline fun <reified T>persisterPartial(p: Persister<T>): PersisterPartial<T>{
+	inline fun <reified T>persisterPartial(p: Persister<T>): PersisterPartial<T>{ 
 		return PersisterPartial<T>(
 			T::class.java,
 			p.getKey(),
 			fPersisterValue.get(p) as T
 		);
+	};
+	fun findPersister(list: List<Persister<*>>, key: String): Persister<*>?{
+		var output: Persister<*>? = null;
+		for(persister in list){
+			if(key == persister.getKey()){
+				output = persister;
+			};
+		};
+		return output;
+	};
+	fun <T>writeToPersister(value: Any, persister: Persister<T>){
+		if(value is T){
+			fPersisterValue.set(persister, value);
+		};
 	};
 
 	override fun start(pluginContext: Context){
