@@ -57,9 +57,9 @@ class SettingsBackup: Plugin(){
 		.apply{isAccessible = true}
 	;
 	inline class PersisterPartial<reified T>(
-		val type = String,
-		val key = String,
-		val value = T
+		val type: String,
+		val key: String,
+		val value: T
 	);
 	inline fun <reified T>persisterPartial(p: Persister<T>): PersisterPartial<T>{
 		return PersisterPartial<T>(
