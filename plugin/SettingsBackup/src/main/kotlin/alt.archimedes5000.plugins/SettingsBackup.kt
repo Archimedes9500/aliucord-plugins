@@ -192,6 +192,9 @@ class SettingsBackup: Plugin(){
 				val original = frame.thisObject as Persister<*>;
 				val valueString = backupPersisters[original.getKey()];
 				if(valueString != null){
+					logger.debug(
+						"asked for persister: ${original.getKey()}\n	replaced value: ${fPersisterValue.get(original)}\n	with value: $valueString"
+					);
 					frame.result = deserializePersisterValue(valueString, original);
 				};
 			});
