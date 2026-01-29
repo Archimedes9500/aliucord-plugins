@@ -80,7 +80,6 @@ class SettingsBackup: Plugin(){
 		val exposePrivate = settings.getBool("expose_private_settings", false);
 		if(!auth.isEmpty()){
 			for((key, value) in auth){
-				if(!exposePrivate && key in privateKeys) continue;
 				when(value){
 					is String -> editor.putString(key, value);
 					is Int -> editor.putInt(key, value);
@@ -108,7 +107,11 @@ class SettingsBackup: Plugin(){
 			val writeBackup = settings.getBool("write_backup", true);
 			//export current settings to backup
 			if(writeBackup){
-				val currentAuth = storeAuth.prefs.all;
+				val currentAuth = storeAuth.prefs.all.toMutableMap();
+				if(!exposePrivate){
+					for(key in privateKeys){
+						currentAuth.remove(key);
+					};
 				backup.setObject("auth", currentAuth);
 			};
 		};
@@ -182,7 +185,7 @@ class SettingsBackup: Plugin(){
 			//export current settings to backup
 			val currentPersisters = Persister.`access$getPreferences$cp`()
 				.mapNotNull{(it as WeakReference<Persister<*>>).get()}
-				.filter{it.getKey() !in storeKeys}
+				.filter{it.getKey() in storeKeys}
 				as ArrayList<Persister<*>>
 			;
 			backup.setObject("persisters", currentPersisters);
@@ -194,7 +197,7 @@ class SettingsBackup: Plugin(){
 			if(_this.getKey() in storeKeys){
 				val currentPersisters = Persister.`access$getPreferences$cp`()
 					.mapNotNull{(it as WeakReference<Persister<*>>).get()}
-					.filter{it.getKey() !in storeKeys}
+					.filter{it.getKey() in storeKeys}
 					as ArrayList<Persister<*>>
 				;
 				backup.setObject("persisters", currentPersisters);
