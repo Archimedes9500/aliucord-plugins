@@ -29,15 +29,15 @@ class SettingsBackup: Plugin(){
 
 	val backup = SettingsUtilsJSON("Discord");
 	
-	fun optPersisters(): ArrayList<JSONObject>?{
-		val output = ArrayList<JSONObject>();
-		val arrayString = backup.getString("persisters", null);
-		val array = GsonUtils.fromJson(arrayString, JSONArray::class.java as Type) as JSONArray;
-		if(array != null){
-			for(i in 0 until array.length()){
-				output.add(array.getJSONObject(i));
-			};
-			return output;
+	fun optPersisters(): Map<String, String>?{
+		val obj = backup.getJSONObject("persisters", null);
+		if(obj != null){
+			return obj.keys()
+				.asSequence()
+				.toList()
+				.map{it to obj.getString(it)}
+				.toMap<String, String>()
+			;
 		}else{
 			return null;
 		};
@@ -186,10 +186,7 @@ class SettingsBackup: Plugin(){
 		);
 
 		//import from backup
-		val backupPersisters: Map<String, String>? = optPersisters()
-			?.mapNotNull{it.getString("key") to it.getString("value")}
-			?.toMap()
-		;
+		val backupPersisters: Map<String, String>? = optPersisters();
 		if(backupPersisters != null && !backupPersisters.isEmpty()){
 			patcher.patch(Persister::class.java.getDeclaredMethod("get"), PreHook{frame ->
 				val original = frame.thisObject as Persister<*>;
