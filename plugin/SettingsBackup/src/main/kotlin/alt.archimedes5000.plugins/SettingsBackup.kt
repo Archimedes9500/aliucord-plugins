@@ -31,7 +31,8 @@ class SettingsBackup: Plugin(){
 	
 	fun optPersisters(): ArrayList<JSONObject>?{
 		val output = ArrayList<JSONObject>();
-		val array = backup.getJSONArray("persisters", null);
+		val arrayString = backup.getString("persisters", null);
+		val array = GsonUtils.fromJson(arrayString, JSONArray::class.java as Type) as JSONArray;
 		if(array != null){
 			for(i in 0 until array.length()){
 				output.add(array.getJSONObject(i));
