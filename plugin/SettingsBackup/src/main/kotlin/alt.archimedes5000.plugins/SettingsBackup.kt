@@ -36,6 +36,7 @@ class SettingsBackup: Plugin(){
 				.asSequence()
 				.toList()
 				.map{it to obj.getString(it)}
+				.toMap<String, String>()
 				.toMutableMap<String, String>()
 			;
 		}else{
