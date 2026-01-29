@@ -29,7 +29,7 @@ class SettingsBackup: Plugin(){
 
 	val backup = SettingsUtilsJSON("Discord");
 	class PersisterPartial<T>(
-		val type: String,
+		val type: Class<T>,
 		val key: String,
 		val value: T
 	);
@@ -48,13 +48,13 @@ class SettingsBackup: Plugin(){
 		};
 	};
 	inline fun <reified T>deserializePersister(obj: JSONObject): PersisterPartial<T>{
-		val type = obj.getString("type");
+		val typeString = obj.getString("type");
 		val key = obj.getString("key");
 
-		val valueClass: Class<T> = Class.forName(type) as Class<T>;
+		val type: Class<T> = Class.forName(type) as Class<T>;
 		val valueString = obj.getString("value");
 
-		val value = GsonUtils.fromJson(valueString, valueClass as Type) as T;
+		val value = GsonUtils.fromJson(valueString, type as Type) as T;
 		return PersisterPartial<T>(type, key, value);
 	};
 	val fPersisterValue = Persister::class.java
@@ -63,7 +63,7 @@ class SettingsBackup: Plugin(){
 	;
 	inline fun <reified T>persisterPartial(p: Persister<T>): PersisterPartial<T>{
 		return PersisterPartial<T>(
-			T::class.java.toString(),
+			T::class.java,
 			p.getKey(),
 			fPersisterValue.get(p) as T
 		);
