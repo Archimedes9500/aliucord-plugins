@@ -47,7 +47,7 @@ class SettingsBackup: Plugin(){
 			return null;
 		};
 	};
-	fun <T>deserializePersister(obj: JSONObject): PersisterPartial<T>{
+	inline fun <reified T>deserializePersister(obj: JSONObject): PersisterPartial<T>{
 		val type = obj.getString("type");
 		val key = obj.getString("key");
 
