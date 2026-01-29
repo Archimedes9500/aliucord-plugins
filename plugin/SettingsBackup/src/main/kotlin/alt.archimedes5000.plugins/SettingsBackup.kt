@@ -169,7 +169,7 @@ class SettingsBackup: Plugin(){
 
 		//import from backup
 		val persisters: Map<String, Persister<*>>? =
-			(optNotRetarded("persisters") as? List<Persister<*>>)
+			optNotRetarded<List<Persister<*>>>("persisters")
 			?.mapNotNull{it.getKey() to it}
 			?.toMap()
 		;
