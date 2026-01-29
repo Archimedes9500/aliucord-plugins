@@ -213,6 +213,9 @@ class SettingsBackup: Plugin(){
 		//export current settings to backup as they change
 		patcher.patch(Persister::class.java.getDeclaredMethod("set", Any::class.java, Boolean::class.java), PreHook{frame ->
 			val _this = frame.thisObject as Persister<*>;
+			logger.debug(
+				"setting persister: ${_this.getKey()}\n	to value: ${frame.args[0]}"
+			);
 			if(_this.getKey() in storeKeys){
 				val currentPersisters = Persister.`access$getPreferences$cp`()//List<WeakReference<Persister<*>>>
 					.mapNotNull{(it as WeakReference<Persister<*>>).get()}
