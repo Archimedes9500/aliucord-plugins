@@ -28,6 +28,11 @@ class SettingsBackup: Plugin(){
 	@SuppressLint("SetTextI18n")
 
 	val backup = SettingsUtilsJSON("Discord");
+	class PersisterPartial<T>(
+		val type: String,
+		val key: String,
+		val value: T
+	);
 	fun optPersisters(): ArrayList<PersisterPartial<*>>?{
 		val output = ArrayList<PersisterPartial<*>>();
 		val array = backup.getJSONArray(key, null);
@@ -56,18 +61,13 @@ class SettingsBackup: Plugin(){
 		.getDeclaredField("value")
 		.apply{isAccessible = true}
 	;
-	inline class PersisterPartial<reified T>(
-		val type: String,
-		val key: String,
-		val value: T
-	);
 	inline fun <reified T>persisterPartial(p: Persister<T>): PersisterPartial<T>{
 		return PersisterPartial<T>(
 			T::class.java.toString(),
 			p.getKey(),
 			fPersisterValue.get(p) as T
 		);
-	);
+	};
 
 	override fun start(pluginContext: Context){
 
