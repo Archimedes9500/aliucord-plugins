@@ -30,7 +30,7 @@ class SettingsBackup: Plugin(){
 	val backup = SettingsUtilsJSON("Discord");
 
 	fun json(string: String): Any?{
-		if(string == "") return null;
+		if(string == "") return string;
 		return when(string[0]){
 			'{' -> JSONObject(string);
 			'[' -> JSONArray(string);
@@ -38,7 +38,8 @@ class SettingsBackup: Plugin(){
 			't' -> true;
 			'f' -> false;
 			'n' -> JSONObject.NULL;
-			else -> string.toDouble();
+			in '0'..'9' -> string.toDouble();
+			else -> string
 		};
 	};
 	fun optPersisters(): MutableMap<String, Any>?{
