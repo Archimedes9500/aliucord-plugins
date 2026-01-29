@@ -112,6 +112,7 @@ class SettingsBackup: Plugin(){
 					for(key in privateKeys){
 						currentAuth.remove(key);
 					};
+				};
 				backup.setObject("auth", currentAuth);
 			};
 		};
