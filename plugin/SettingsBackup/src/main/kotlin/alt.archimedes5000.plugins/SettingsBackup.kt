@@ -28,18 +28,46 @@ class SettingsBackup: Plugin(){
 	@SuppressLint("SetTextI18n")
 
 	val backup = SettingsUtilsJSON("Discord");
-	inline fun <reified T>optNotRetarded(key: String): T?{
-		val string = backup.getString(key, null);
-		if(string != null){
-			return GsonUtils.fromJson(string, object: TypeToken<T>(){}.type) as T?;
+	fun optPersisters(): ArrayList<PersisterPartial<*>>?{
+		val output = ArrayList<PersisterPartial<*>>();
+		val array = backup.getJSONArray(key, null);
+		if(array != null){
+			for(i in 0 until array.length()){
+				output.add(
+					deserializePersister(array.getJSONObject(i))
+				);
+			};
+			return output;
 		}else{
 			return null;
 		};
+	};
+	fun <T>deserializePersister(obj: JSONObject): PersisterPartial<T>{
+		val type = obj.getString("type");
+		val key = obj.getString("key");
+
+		val valueClass: Class<T> = Class.forName(type) as Class<T>;
+		val valueString = obj.getString("value");
+
+		val value = GsonUtils.fromJson(valueString, valueClass as Type) as T;
+		return PersisterPartial<T>(type, key, value);
 	};
 	val fPersisterValue = Persister::class.java
 		.getDeclaredField("value")
 		.apply{isAccessible = true}
 	;
+	inline class PersisterPartial<reified T>(
+		val type = String,
+		val key = String,
+		val value = T
+	);
+	inline fun <reified T>persisterPartial(p: Persister<T>): PersisterPartial<T>{
+		return PersisterPartial<T>(
+			T::class.java.toString(),
+			p.getKey(),
+			fPersisterValue.get(p) as T
+		);
+	);
 
 	override fun start(pluginContext: Context){
 
@@ -170,9 +198,8 @@ class SettingsBackup: Plugin(){
 		);
 
 		//import from backup
-		val persisters: Map<String, Persister<*>>? =
-			optNotRetarded<List<Persister<*>>>("persisters")
-			?.mapNotNull{it.getKey() to it}
+		val persisters: Map<String, PersisterPartial<*>>? = optPersisters()
+			?.mapNotNull{it.key to it}
 			?.toMap()
 		;
 		if(persisters != null && !persisters.isEmpty()){
@@ -188,7 +215,8 @@ class SettingsBackup: Plugin(){
 			val currentPersisters = Persister.`access$getPreferences$cp`()
 				.mapNotNull{(it as WeakReference<Persister<*>>).get()}
 				.filter{it.getKey() in storeKeys}
-				as ArrayList<Persister<*>>
+				.map{persisterPartial(it)}
+				as ArrayList<PersisterPartial<*>>
 			;
 			backup.setObject("persisters", currentPersisters);
 		};
@@ -200,7 +228,8 @@ class SettingsBackup: Plugin(){
 				val currentPersisters = Persister.`access$getPreferences$cp`()
 					.mapNotNull{(it as WeakReference<Persister<*>>).get()}
 					.filter{it.getKey() in storeKeys}
-					as ArrayList<Persister<*>>
+					.map{persisterPartial(it)}
+					as ArrayList<PersisterPartial<*>>
 				;
 				backup.setObject("persisters", currentPersisters);
 			};
