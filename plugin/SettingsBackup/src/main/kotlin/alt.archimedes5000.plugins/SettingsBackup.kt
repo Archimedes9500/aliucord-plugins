@@ -201,8 +201,8 @@ class SettingsBackup: Plugin(){
 			val l1: List<Persister<*>> = l0.mapNotNull{(it as WeakReference<Persister<*>>).get()};
 			val l2: List<Persister<*>> = l1.filter{it.getKey() in storeKeys};
 			val l3: List<Pair<String, *>> = l2.map{serializePersister(it) as Pair<String, *>};
-			val l4: Map<String, *> = l3.toMap() as Map<String, *>;
-
+			val l4: Map<String, *> = (l3 as Iterable<Pair<String, *>>).toMap() as Map<String, *>;
+/*
 			val currentPersisters = Persister.`access$getPreferences$cp`()//List<WeakReference<Persister<*>>>
 				.mapNotNull{(it as WeakReference<Persister<*>>).get()}
 				.filter{it.getKey() in storeKeys}
@@ -210,12 +210,14 @@ class SettingsBackup: Plugin(){
 				.toMap() as Map<String, *>
 			;
 			backup.setObject("persisters", currentPersisters);
+*/
 		};
 
 		//export current settings to backup as they change
 		patcher.patch(Persister::class.java.getDeclaredMethod("set", Any::class.java, Boolean::class.java), PreHook{frame ->
 			val _this = frame.thisObject as Persister<*>;
 			if(_this.getKey() in storeKeys){
+/*
 				val currentPersisters = Persister.`access$getPreferences$cp`()//List<WeakReference<Persister<*>>>
 					.mapNotNull{(it as WeakReference<Persister<*>>).get()}
 					.filter{it.getKey() in storeKeys}
@@ -223,6 +225,7 @@ class SettingsBackup: Plugin(){
 					.toMap() as Map<String, *>
 				;
 				backup.setObject("persisters", currentPersisters);
+*/
 			};
 		});
 
