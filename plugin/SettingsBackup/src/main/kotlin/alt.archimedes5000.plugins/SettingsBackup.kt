@@ -213,7 +213,7 @@ class SettingsBackup: Plugin(){
 		//export current settings to backup as they change
 		patcher.patch(Persister::class.java.getDeclaredMethod("set", Any::class.java, Boolean::class.java), PreHook{frame ->
 			val _this = frame.thisObject as Persister<*>;
-			if(_this.getKey() in arrayOf("STORE_FAVORITES", "CACHE_KEY_STICKER_SUGGESTIONS", "STORE_SETTINGS_FOLDERS_V1", "EMOJI_HISTORY_V4"){
+			if(_this.getKey() in arrayOf("STORE_FAVORITES", "CACHE_KEY_STICKER_SUGGESTIONS", "STORE_SETTINGS_FOLDERS_V1", "EMOJI_HISTORY_V4")){
 				logger.debug(
 					"setting persister: ${_this.getKey()}\n	to value: ${frame.args[0]}"
 				);
