@@ -1,34 +1,25 @@
 package alt.archimedes5000.plugins
 import com.aliucord.annotations.AliucordPlugin
-import android.annotation.SuppressLint
 import com.aliucord.entities.Plugin
-import android.content.Context
-import com.aliucord.Utils.showToast
+import android.annotation.SuppressLint
 import com.aliucord.SettingsUtilsJSON
 import org.json.*
+import com.aliucord.utils.GsonUtils
 import java.lang.reflect.*
 
-import com.aliucord.Utils
-import com.aliucord.utils.ReflectUtils
+import android.content.Context
+import com.discord.stores.StoreStream
+import android.content.SharedPreferences
 import com.aliucord.patcher.*
 
-import com.aliucord.utils.GsonUtils
-import com.google.gson.reflect.TypeToken
-
-import android.content.SharedPreferences
-import com.discord.stores.StoreStream
-import com.discord.stores.StoreAuthentication
 import com.discord.utilities.persister.Persister
 import java.lang.ref.WeakReference
-
-import com.discord.stores.StoreNux
 
 @AliucordPlugin(requiresRestart = true)
 class SettingsBackup: Plugin(){
 	@SuppressLint("SetTextI18n")
 
 	val backup = SettingsUtilsJSON("Discord");
-
 	fun json(string: String): Any{
 		if(string == "") return string;
 		return when(string[0]){
@@ -42,6 +33,55 @@ class SettingsBackup: Plugin(){
 			else -> string
 		};
 	};
+
+	val privateKeys = arrayOf(
+		"LOG_CACHE_KEY_USER_LOGIN",
+		"STORE_AUTHED_TOKEN",
+		"STORE_AUTH_STATE",
+		"LOG_CACHE_KEY_USER_ID",
+		"LOG_CACHE_KEY_USER_NAME"
+	);
+	fun handlePrivate(prefs: Map<String, *>, exposePrivate: Boolean): Map<String, *>{
+		if(exposePrivate){
+			return prefs;
+		}else{
+			return prefs.filterKeys{it in privateKeys};
+		};
+	};
+
+	val storeKeys = arrayOf(
+		"NOTIFICATION_CLIENT_SETTINGS_V3",
+		"STORE_SHOW_HIDE_MUTED_CHANNELS_V2",
+		"CACHE_KEY_SELECTED_CHANNEL_IDS",
+		"STORE_NOTIFICATIONS_SETTINGS_V2",
+		"USER_EXPERIMENTS_CACHE_KEY",
+		"GUILD_EXPERIMENTS_CACHE_KEY ",
+		"EXPERIMENT_OVERRIDES_CACHE_KEY",
+		"CACHE_KEY_ACCESSIBILITY_REDUCED_MOTION_ENABLED",
+		"RESTRICTED_GUILD_IDS",//no idea what this is
+		"STORE_SETTINGS_FOLDERS_V1",
+		"STORE_SETTINGS_ALLOW_ANIMATED_EMOJIS ",
+		"CACHE_KEY_STICKER_ANIMATION_SETTINGS_V1",
+		"STORE_SETTINGS_ALLOW_GAME_STATUS",
+		"CACHE_KEY_STICKER_SUGGESTIONS",
+		"STORE_SETTINGS_ALLOW_ACCESSIBILITY_DETECTION ",
+		"STORE_SETTINGS_AUTO_PLAY_GIFS ",
+		"SEARCH_HISTORY_V2",
+		"PREFERRED_VIDEO_INPUT_DEVICE_GUID",
+		"CACHE_KEY_NATIVE_ENGINE_EVER_INITIALIZED",//no idea what's this either
+		"NOTICES_SHOWN_V2",
+		"CACHE_KEY_OPEN_FOLDERS",
+		//"STORE_FAVORITES",
+		//"EMOJI_HISTORY_V4",
+		//"STICKER_HISTORY_V1",
+		"CACHE_KEY_SELECTED_EXPRESSION_TRAY_TAB",
+		"CACHE_KEY_APPLICATION_COMMANDS",
+		"CACHE_KEY_PHONE_COUNTRY_CODE_V2",
+		"CONTACT_SYNC_DISMISS_STATE",
+		"hub_verification_clicked_key",
+		"guild_scheduled_events_header_dismissed",
+		"hub_name_prompt"
+	);
 	fun optPersisters(): MutableMap<String, Any>?{
 		val obj = backup.getJSONObject("persisters", null);
 		if(obj != null){
@@ -67,47 +107,32 @@ class SettingsBackup: Plugin(){
 		val currentValue = fPersisterValue.get(persister);
 		val type = currentValue::class.java as Type
 		val value = GsonUtils.fromJson(valueString, type) as T;
-		
 		return value;
 	};
 
 	override fun start(pluginContext: Context){
 
 		//auth settings
-		val privateKeys = arrayOf(
-			"LOG_CACHE_KEY_USER_LOGIN",
-			"STORE_AUTHED_TOKEN",
-			"STORE_AUTH_STATE",
-			"LOG_CACHE_KEY_USER_ID",
-			"LOG_CACHE_KEY_USER_NAME"
-		);
-
 		val storeAuth = StoreStream.getAuthentication();
 		val editor: SharedPreferences.Editor = storeAuth.prefs.edit();
 
 		//track number types
-		patcher.patch(editor::class.java.getDeclaredMethod("putInt", String::class.java, Int::class.java), PreHook{frame ->
-			val key = frame.args[0] as String;
-			val types = backup.getJSONObject("types", JSONObject())!!;
-			types.put(key, "Int");
+		var types = backup.getJSONObject("types", null);
+		if(types == null){
+			types = JSONObject();
+			val currentAuth = storeAuth.prefs.all;
+			for((key, value) in currentAuth){
+				when(value){
+					is Int -> types.put(key, "Int");
+					is Long -> types.put(key, "Long");
+					is Float -> types.put(key, "Float");
+				};
+			};
 			backup.setJSONObject("types", types);
-		});
-		patcher.patch(editor::class.java.getDeclaredMethod("putLong", String::class.java, Long::class.java), PreHook{frame ->
-			val key = frame.args[0] as String;
-			val types = backup.getJSONObject("types", JSONObject())!!;
-			types.put(key, "Long");
-			backup.setJSONObject("types", types);
-		});
-		patcher.patch(editor::class.java.getDeclaredMethod("putFloat", String::class.java, Float::class.java), PreHook{frame ->
-			val key = frame.args[0] as String;
-			val types = backup.getJSONObject("types", JSONObject())!!;
-			types.put(key, "Float");
-			backup.setJSONObject("types", types);
-		});
+		};
 
 		//import from backup
 		val auth = backup.getObject("auth", mutableMapOf<String, Any>());
-		val types = backup.getJSONObject("types", JSONObject())!!;
 		val exposePrivate = settings.getBool("expose_private_settings", false);
 		if(!auth.isEmpty()){
 			for((key, value) in auth){
@@ -127,7 +152,7 @@ class SettingsBackup: Plugin(){
 						};
 					};
 					is ArrayList<*> -> if(value.all{it is String}) editor.putStringSet(key, value.toSet() as Set<String>);
-					else -> logger.debug("rejected key: $key\nof class: ${value::class}");
+					else -> logger.error(Error("rejected key: $key\nof class: ${value::class}"));
 				};
 			};
 			var success = false;
@@ -138,12 +163,7 @@ class SettingsBackup: Plugin(){
 			val writeBackup = settings.getBool("write_backup", true);
 			//export current settings to backup
 			if(writeBackup){
-				val currentAuth = storeAuth.prefs.all.toMutableMap();
-				if(!exposePrivate){
-					for(key in privateKeys){
-						currentAuth.remove(key);
-					};
-				};
+				val currentAuth = handlePrivate(storeAuth.prefs.all, exposePrivate);
 				backup.setObject("auth", currentAuth);
 			};
 		};
@@ -152,52 +172,19 @@ class SettingsBackup: Plugin(){
 		patcher.patch(editor::class.java.getDeclaredMethod("apply"), PreHook{frame ->
 			val writeBackup = settings.getBool("write_backup", true);
 			if(writeBackup){
-				val currentAuth = storeAuth.prefs.all;
+				val currentAuth = handlePrivate(storeAuth.prefs.all, exposePrivate);
 				backup.setObject("auth", currentAuth);
 			};
 		});
 		patcher.patch(editor::class.java.getDeclaredMethod("commit"), PreHook{frame ->
 			val writeBackup = settings.getBool("write_backup", true);
 			if(writeBackup){
-				val currentAuth = storeAuth.prefs.all;
+				val currentAuth = handlePrivate(storeAuth.prefs.all, exposePrivate);
 				backup.setObject("auth", currentAuth);
 			};
 		});
 
 		//other stores and settings
-		val storeKeys = arrayOf(
-			"NOTIFICATION_CLIENT_SETTINGS_V3",
-			"STORE_SHOW_HIDE_MUTED_CHANNELS_V2",
-			"CACHE_KEY_SELECTED_CHANNEL_IDS",
-			"STORE_NOTIFICATIONS_SETTINGS_V2",
-			"USER_EXPERIMENTS_CACHE_KEY",
-			"GUILD_EXPERIMENTS_CACHE_KEY ",
-			"EXPERIMENT_OVERRIDES_CACHE_KEY",
-			"CACHE_KEY_ACCESSIBILITY_REDUCED_MOTION_ENABLED",
-			"RESTRICTED_GUILD_IDS",//no idea what this is
-			"STORE_SETTINGS_FOLDERS_V1",
-			"STORE_SETTINGS_ALLOW_ANIMATED_EMOJIS ",
-			"CACHE_KEY_STICKER_ANIMATION_SETTINGS_V1",
-			"STORE_SETTINGS_ALLOW_GAME_STATUS",
-			"CACHE_KEY_STICKER_SUGGESTIONS",
-			"STORE_SETTINGS_ALLOW_ACCESSIBILITY_DETECTION ",
-			"STORE_SETTINGS_AUTO_PLAY_GIFS ",
-			"SEARCH_HISTORY_V2",
-			"PREFERRED_VIDEO_INPUT_DEVICE_GUID",
-			"CACHE_KEY_NATIVE_ENGINE_EVER_INITIALIZED",//no idea what's this either
-			"NOTICES_SHOWN_V2",
-			"CACHE_KEY_OPEN_FOLDERS",
-			//"STORE_FAVORITES",
-			//"EMOJI_HISTORY_V4",
-			//"STICKER_HISTORY_V1",
-			"CACHE_KEY_SELECTED_EXPRESSION_TRAY_TAB",
-			"CACHE_KEY_APPLICATION_COMMANDS",
-			"CACHE_KEY_PHONE_COUNTRY_CODE_V2",
-			"CONTACT_SYNC_DISMISS_STATE",
-			"hub_verification_clicked_key",
-			"guild_scheduled_events_header_dismissed",
-			"hub_name_prompt"
-		);
 
 		//import from backup
 		val backupPersisters: MutableMap<String, Any>? = optPersisters();
@@ -206,18 +193,12 @@ class SettingsBackup: Plugin(){
 				val original = frame.thisObject as Persister<*>;
 				val value = backupPersisters[original.getKey()];
 				val currentValue = GsonUtils.toJson(fPersisterValue.get(original));
-/*
-				logger.debug(
-					"asked for persister: ${original.getKey()}\n	attempting to replace value: $currentValue\n	with value: ${value?.toString()?: "null"}"
-				);
-*/
 				if(value != null){
 					frame.result = deserializePersisterValue(value.toString(), original);
 				};
 			});
 		}else{
 			//export current settings to backup
-			logger.debug("exporting all settings");
 			val currentPersisters = Persister.`access$getPreferences$cp`()//List<WeakReference<Persister<*>>>
 				.mapNotNull{(it as WeakReference<Persister<*>>).get()}
 				.filter{it.getKey() in storeKeys}
@@ -233,14 +214,13 @@ class SettingsBackup: Plugin(){
 			val key = _this.getKey();
 			val valueString = GsonUtils.toJson(frame.args[0]);
 			if(key in storeKeys && backupPersisters != null){
-				logger.debug(
-					"setting persister: ${_this.getKey()}\n	to value: $valueString"
-				);
 				backupPersisters[key] = json(valueString);
 				backup.setObject("persisters", backupPersisters);
 			};
 		});
 
 	};
+
 	override fun stop(pluginContext: Context) = patcher.unpatchAll();
+
 };
