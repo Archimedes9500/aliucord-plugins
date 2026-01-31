@@ -2,8 +2,9 @@ package alt.archimedes5000.plugins
 import com.aliucord.annotations.AliucordPlugin
 import android.annotation.SuppressLint
 import com.aliucord.entities.Plugin
+
 import com.aliucord.entities.Plugin.SettingsTab
-import com.aliucord.entities.Plugin.SettingsTab.SettingsPage
+import com.aliucord.fragments.SettingsPage
 import com.aliucord.widgets.BottomSheet
 import android.view.View
 import android.os.Bundle
@@ -11,6 +12,7 @@ import com.discord.views.CheckedSetting
 import com.aliucord.Utils
 import com.aliucord.utils.ViewUtils.addTo
 import com.discord.app.AppFragment
+
 import com.aliucord.SettingsUtilsJSON
 import org.json.*
 import com.aliucord.utils.GsonUtils
@@ -24,24 +26,12 @@ import com.aliucord.patcher.*
 import com.discord.utilities.persister.Persister
 import java.lang.ref.WeakReference
 
-class EmptyPage(val obj: SettingsPage): SettingsPage by obj;
-interface SettingsBottomSheet{
-	fun onViewCreated(view: View, bundle: Bundle?);
-};
-class EmptyBottomSheet(val obj: SettingsBottomSheet): SettingsBottomSheet by obj;
-
-fun createSettings(tab: SettingsPage): SettingsTab{
+fun createSettings(tab: BottomSheet): SettingsTab{
 	return SettingsTab(
-		EmptyPage(object : SettingsPage{
-			override fun onViewBound(view: View){};
-		})::class.java as Class<out AppFragment>
-	).withArgs(tab);
-};
-fun createSettings(tab: SettingsBottomSheet): SettingsTab{
-	return SettingsTab(
-		EmptyBottomSheet(object : SettingsBottomSheet{
-			override fun onViewCreated(view: View, bundle: Bundle?){};
-		})::class.java as Class<*>, SettingsTab.Type.BOTTOM_SHEET
+		BottomSheetDelegate(
+			object : SettingsBottomSheet{})::class.java as Class<*>
+		),
+		SettingsTab.Type.BOTTOM_SHEET
 	).withArgs(tab);
 };
 
@@ -57,7 +47,8 @@ fun JSONArray.toList(): List<Any>{
 class SettingsBackup: Plugin(){
 
 	init{
-		settingsTab = createSettings(object : SettingsBottomSheet{
+		settingsTab = createSettings(object : BottomSheet(){
+/*
 			override fun onViewCreated(view: View, bundle: Bundle?){
 				super.onViewCreated(view, bundle);
 				val settingsContext = requireContext();
@@ -84,6 +75,7 @@ class SettingsBackup: Plugin(){
 					};
 				};
 			};
+*/
 		});
 	};
 
