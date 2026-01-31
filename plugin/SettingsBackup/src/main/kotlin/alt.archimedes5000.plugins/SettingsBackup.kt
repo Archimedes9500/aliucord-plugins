@@ -2,6 +2,12 @@ package alt.archimedes5000.plugins
 import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
 import android.annotation.SuppressLint
+import com.aliucord.widgets.BottomSheet
+import android.view.View
+import android.os.Bundle
+import com.discord.views.CheckedSetting
+import com.aliucord.Utils
+import com.aliicord.utils.ViewUtils.addTo
 import com.aliucord.SettingsUtilsJSON
 import org.json.*
 import com.aliucord.utils.GsonUtils
@@ -19,12 +25,45 @@ import java.lang.ref.WeakReference
 class SettingsBackup: Plugin(){
 	@SuppressLint("SetTextI18n")
 
+	init{
+		settingsTab = SettingsTab(object: BottomSheet{
+			override fun onViewCreated(view: View, bundle: Bundle){
+				super.onViewCreated(view, bundle);
+				val settingsContext = requireContext();
+				Utils.createCheckedSetting(
+					settingsContext,
+					CheckedSetting.ViewType.SWITCH,
+					"Export private settings",
+					"Includes discord token, username, e-mail etc.",
+				).addTo(this){
+					isChecked = settings.getBool("expose_private_settings", false);
+					setOnCheckedListener{state ->
+						settings.setBool("expose_private_settings", state);
+					};
+				};
+				Utils.createCheckedSetting(
+					settingsContext,
+					CheckedSetting.ViewType.SWITCH,
+					"Update backup",
+					"Whether to continously update the backup with new changes",
+				).addTo(this){
+					isChecked = settings.getBool("write_backup", true);
+					setOnCheckedListener{state ->
+						settings.setBool("write_backup", state);
+					};
+				};
+			};
+		}::class.java)
+			.withArgs(settings)
+		;
+	};
+
 	val backup = SettingsUtilsJSON("Discord");
 	fun json(string: String): Any{
 		if(string == "") return string;
 		return when(string[0]){
-			'{' -> JSONObject(string);
-			'[' -> JSONArray(string);
+			'{' -> JSONObject(string).toMap();
+			'[' -> JSONArray(string).toList();
 			//'"' -> string.drop(1).dropLast(1);
 			't' -> true;
 			'f' -> false;
@@ -45,7 +84,7 @@ class SettingsBackup: Plugin(){
 		if(exposePrivate){
 			return prefs;
 		}else{
-			return prefs.filterKeys{it in privateKeys};
+			return prefs.filterKeys{it !in privateKeys};
 		};
 	};
 
@@ -192,7 +231,6 @@ class SettingsBackup: Plugin(){
 			patcher.patch(Persister::class.java.getDeclaredMethod("get"), PreHook{frame ->
 				val original = frame.thisObject as Persister<*>;
 				val value = backupPersisters[original.getKey()];
-				val currentValue = GsonUtils.toJson(fPersisterValue.get(original));
 				if(value != null){
 					frame.result = deserializePersisterValue(value.toString(), original);
 				};
