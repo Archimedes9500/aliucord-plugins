@@ -29,6 +29,9 @@ fun JSONObject.toMap(): Map<String, Any>{
 		.associateWith{this.get(it)}
 	;
 };
+fun JSONArray.toList(): List<Any>{
+	return this.iterator().asSequence().toList();
+};
 
 @AliucordPlugin(requiresRestart = true)
 @SuppressLint("SetTextI18n")
