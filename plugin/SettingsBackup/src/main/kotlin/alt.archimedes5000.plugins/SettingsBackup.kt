@@ -1,13 +1,14 @@
 package alt.archimedes5000.plugins
 import com.aliucord.annotations.AliucordPlugin
-import com.aliucord.entities.Plugin
 import android.annotation.SuppressLint
+import com.aliucord.entities.Plugin
+import com.aliucord.api.SettingsAPI
 import com.aliucord.widgets.BottomSheet
 import android.view.View
 import android.os.Bundle
 import com.discord.views.CheckedSetting
 import com.aliucord.Utils
-import com.aliicord.utils.ViewUtils.addTo
+import com.aliucord.utils.ViewUtils.addTo
 import com.aliucord.SettingsUtilsJSON
 import org.json.*
 import com.aliucord.utils.GsonUtils
@@ -21,13 +22,15 @@ import com.aliucord.patcher.*
 import com.discord.utilities.persister.Persister
 import java.lang.ref.WeakReference
 
+class SettingsBottom(val settings: SettingsAPI): BottomSheet(){};
+
 @AliucordPlugin(requiresRestart = true)
+@SuppressLint("SetTextI18n")
 class SettingsBackup: Plugin(){
-	@SuppressLint("SetTextI18n")
 
 	init{
-		settingsTab = SettingsTab(object(): BottomSheet{
-			override fun onViewCreated(view: View, bundle: Bundle){
+		settingsTab = SettingsTab(object: BottomSheet(){
+			override fun onViewCreated(view: View, bundle: Bundle?){
 				super.onViewCreated(view, bundle);
 				val settingsContext = requireContext();
 				Utils.createCheckedSetting(
@@ -37,7 +40,7 @@ class SettingsBackup: Plugin(){
 					"Includes discord token, username, e-mail etc.",
 				).addTo(this){
 					isChecked = settings.getBool("expose_private_settings", false);
-					setOnCheckedListener{state ->
+					setOnCheckedListener{state: Boolean ->
 						settings.setBool("expose_private_settings", state);
 					};
 				};
@@ -53,9 +56,7 @@ class SettingsBackup: Plugin(){
 					};
 				};
 			};
-		}::class.java)
-			.withArgs(settings)
-		;
+		}::class.java);
 	};
 
 	val backup = SettingsUtilsJSON("Discord");
