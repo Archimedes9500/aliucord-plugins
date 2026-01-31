@@ -3,6 +3,7 @@ import com.aliucord.annotations.AliucordPlugin
 import android.annotation.SuppressLint
 import com.aliucord.entities.Plugin
 import com.aliucord.entities.Plugin.SettingsTab
+import com.aliucord.entities.Plugin.SettingsPage
 import com.aliucord.widgets.BottomSheet
 import android.view.View
 import android.os.Bundle
@@ -25,14 +26,14 @@ import java.lang.ref.WeakReference
 
 class BetterSettingsTab(val type: String): SettingsTab(
 	if(type == "Page"){
-		super(GenericPage(AppFragment())::class.java as Class<out AppFragment>);
+		GenericPage(SettingsPage())::class.java as Class<out AppFragment>;
 	}else if(type == "BottomSheet"){
-		super(GenericBottomSheet(BottomSheet())::class.java as Class<*>, Type.BOTTOM_SHEET);
+		GenericBottomSheet(BottomSheet())::class.java as Class<*>, Type.BOTTOM_SHEET;
 	}else{
 		IllegalArgumentException("Unknown type: $type, must be Page or BottomSheet");
-	};
+	}
 ){};
-class GenericPage(val obj: AppFragment): AppFragment() by obj{};
+class GenericPage(val obj: SettingsPage): SettingsPage() by obj{};
 class GenericBottomSheet(val obj: BottomSheet): BottomSheet() by obj{};
 
 fun JSONObject.toMap(): Map<String, Any>{
