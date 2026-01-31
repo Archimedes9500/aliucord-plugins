@@ -34,7 +34,7 @@ fun createSettings(tab: SettingsPage): SettingsTab{
 	return SettingsTab(
 		EmptyPage(object : SettingsPage{
 			override fun onViewBound(view: View){
-				super.onViewBound(view: View);
+				super.onViewBound(view);
 			};
 		})::class.java as Class<out AppFragment>
 	).withArgs(tab);
@@ -42,8 +42,8 @@ fun createSettings(tab: SettingsPage): SettingsTab{
 fun createSettings(tab: SettingsBottomSheet): SettingsTab{
 	return SettingsTab(
 		EmptyBottomSheet(object : SettingsBottomSheet{
-			override fun onViewCreated(view: View, Bundle?){
-				super.onViewCreated(view: View, Bundle?);
+			override fun onViewCreated(view: View, bundle: Bundle?){
+				super.onViewCreated(bubdle);
 			};
 		})::class.java as Class<*>, SettingsTab.Type.BOTTOM_SHEET
 	).withArgs(tab);
