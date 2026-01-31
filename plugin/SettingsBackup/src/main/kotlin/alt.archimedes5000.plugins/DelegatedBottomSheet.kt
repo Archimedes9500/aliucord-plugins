@@ -18,14 +18,16 @@ val fId = BottomSheet::class.java.getDeclaredField("id").apply{isAccessible = tr
 open class DelegatedBottomSheet(val obj: BottomSheet): AppBottomSheet(){
 	companion object{
 		@JvmStatic
-		var id: Int
-			get(): Int{
-				return fId.get(null) as Int;
-			}
-			set(value: Int){
-				fId.set(null, value);
-			}
-		;
+		private var id: Int = 0;
+		private fun getId(): Int{
+			val value = fId.get(null) as Int;
+			this.id = value;
+			return value;
+		};
+		private fun setId(value: Int){
+			fId.set(null, value);
+			this.id = value;
+		};
 	};
 
 	override fun getContentViewResId(): Int{
