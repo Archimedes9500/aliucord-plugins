@@ -26,7 +26,7 @@ class BetterSettingsTab(tab: FuckSettingsTab): SettingsTab(tab::class.java as Cl
 
 class FuckSettingsTab(): AppFragment() by obj{
 	lateinit var obj: AppFragment;
-	create(obj: AppFragment){
+	fun create(obj: AppFragment){
 		this.obj = obj;
 		return this;
 	};
