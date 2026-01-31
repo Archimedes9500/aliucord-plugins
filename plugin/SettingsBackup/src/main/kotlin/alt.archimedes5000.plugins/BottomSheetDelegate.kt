@@ -16,40 +16,40 @@ import com.aliucord.widgets.BottomSheet
 open class BottomSheetDelegate(val obj: BottomSheet): BottomSheet(){
 	companion object{
 		@JvmStatic
-		private var id = BottomSheet::class.java.getDeclaredField("id").get(obj);
+		override private var id = BottomSheet::class.java.getDeclaredField("id").get(this.obj);
 	};
 
-	val linearLayout = obj.getLinearLayout();
+	override val linearLayout = this.obj.getLinearLayout();
 
-	fun getContentViewResId(): Int{
-		return obj.getContentViewResId();
+	override fun getContentViewResId(): Int{
+		return this.obj.getContentViewResId();
 	};
 
-	fun onViewCreated(view: View, bundle: Bundle?){
-		obj.onViewCreated(view, bundle);
+	override fun onViewCreated(view: View, bundle: Bundle?){
+		this.obj.onViewCreated(view, bundle);
 	};
 
-	fun getLinearLayout(): LinearLayout{
-		return obj.getLinearLayout();
+	override fun getLinearLayout(): LinearLayout{
+		return this.obj.getLinearLayout();
 	};
 
 	/** Sets the padding of the LinearLayout associated with this BottomSheet */
-	fun setPadding(p: Int){
-		obj.getLinearLayout().setPadding(p, p, p, p);
+	override fun setPadding(p: Int){
+		this.obj.getLinearLayout().setPadding(p, p, p, p);
 	};
 
 	/** Removes all views of the LinearLayout associated with this BottomSheet */
-	fun clear(){
-		obj.getLinearLayout().removeAllViews();
+	override fun clear(){
+		this.obj.getLinearLayout().removeAllViews();
 	};
 
 	/** Adds a view to the LinearLayout associated with this BottomSheet */
-	fun addView(view: View){
-		obj.getLinearLayout().addView(view);
+	override fun addView(view: View){
+		this.obj.getLinearLayout().addView(view);
 	};
 
 	/** Removes a view from the LinearLayout associated with this BottomSheet */
-	fun removeView(view: View) {
-		obj.getLinearLayout().removeView(view);
+	override fun removeView(view: View) {
+		this.obj.getLinearLayout().removeView(view);
 	};
 };
