@@ -2,6 +2,7 @@ package alt.archimedes5000.plugins
 import com.aliucord.annotations.AliucordPlugin
 import android.annotation.SuppressLint
 import com.aliucord.entities.Plugin
+import com.aliucord.entities.Plugin.SettingsTab
 import com.aliucord.widgets.BottomSheet
 import android.view.View
 import android.os.Bundle
