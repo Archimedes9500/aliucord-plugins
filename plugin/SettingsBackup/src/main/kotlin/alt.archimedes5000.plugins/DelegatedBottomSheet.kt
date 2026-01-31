@@ -19,7 +19,7 @@ open class DelegatedBottomSheet(val obj: BottomSheet): AppBottomSheet(){
 	companion object{
 		@JvmStatic
 		private var id: Int
-			override get(): Int{
+			get(): Int{
 				return fId.get(null) as Int;
 			}
 			set(value: Int){
