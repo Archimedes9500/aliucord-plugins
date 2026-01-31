@@ -1,17 +1,16 @@
 package alt.archimedes5000.plugins
+
 import com.aliucord.annotations.AliucordPlugin
 import android.annotation.SuppressLint
 import com.aliucord.entities.Plugin
 
-import com.aliucord.entities.Plugin.SettingsTab
-import com.aliucord.fragments.SettingsPage
+import alt.archimedes5000.plugins.utils.createSettings
 import com.aliucord.widgets.BottomSheet
 import android.view.View
 import android.os.Bundle
 import com.discord.views.CheckedSetting
 import com.aliucord.Utils
 import com.aliucord.utils.ViewUtils.addTo
-import com.discord.app.AppFragment
 
 import com.aliucord.SettingsUtilsJSON
 import org.json.*
@@ -25,15 +24,6 @@ import com.aliucord.patcher.*
 
 import com.discord.utilities.persister.Persister
 import java.lang.ref.WeakReference
-
-fun createSettings(tab: BottomSheet): SettingsTab{
-	return SettingsTab(
-		BottomSheetDelegate(
-			object : BottomSheet(){})::class.java as Class<*>
-		),
-		SettingsTab.Type.BOTTOM_SHEET
-	).withArgs(tab);
-};
 
 fun JSONObject.toMap(): Map<String, Any>{
 	return this.keys().asSequence().associateWith{this.get(it)};
