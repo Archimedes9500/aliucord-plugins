@@ -37,7 +37,7 @@ fun JSONArray.toList(): List<Any>{
 class SettingsBackup: Plugin(){
 
 	init{
-		settingsTab = createSettings(object : BottomSheet{
+		settingsTab = createSettings(object : BottomSheet(){
 			override fun onViewCreated(view: View, bundle: Bundle?){
 				super.onViewCreated(view, bundle);
 				val settingsContext = requireContext();
