@@ -12,6 +12,8 @@ import com.discord.widgets.channels.WidgetChannelSelector
 import com.aliucord.widgets.BottomSheet
 
 val fId = BottomSheet::class.java.getDeclaredField("id").apply{isAccessible = true};
+val fView = BottomSheet::class.java.getDeclaredField("view").apply{isAccessible = true};
+val fLayout = BottomSheet::class.java.getDeclaredField("layout").apply{isAccessible = true};
 
 /** Delegate to BottomSheet using a wrapped singleton */
 @Suppress("unused")
@@ -32,6 +34,32 @@ open class DelegatedBottomSheet(val obj: BottomSheet): AppBottomSheet(){
 			fId.set(null, value);
 			this.id = value;
 		};
+	};
+
+	@get:JvmName("doNotGetViewWithThis")
+	private var view: NestedScrollView? = null;
+
+	private fun getView(): NestedScrollView?{
+		val value = fView.get(obj) as? NestedScrollView;
+		this.view = value;
+		return value;
+	};
+	private fun setView(value: NestedScrollView){
+		fView.set(obj, value);
+		this.view = value;
+	};
+
+	@get:JvmName("doNotGetLayoutWithThis")
+	private var layout: LinearLayout? = null;
+
+	private fun getLayout(): LinearLayout?{
+		val value = fLayout.get(obj) as? LinearLayout;
+		this.layout = value;
+		return value;
+	};
+	private fun setLayout(value: LinearLayout){
+		fLayout.set(obj, value);
+		this.layout = value;
 	};
 
 	override fun getContentViewResId(): Int{
