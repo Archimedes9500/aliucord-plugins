@@ -34,7 +34,6 @@ open class DelegatedBottomSheet(val obj: BottomSheet): AppBottomSheet(){
 		this.view = value;
 	};
 
-	@get:JvmName("doNotGetLayoutWithThis")
 	private var layout: LinearLayout? = fLayout.get(obj) as? LinearLayout;
 	private fun setLayout(value: LinearLayout){
 		fLayout.set(obj, value);
