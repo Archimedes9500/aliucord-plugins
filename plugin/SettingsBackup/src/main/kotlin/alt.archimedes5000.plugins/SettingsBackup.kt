@@ -41,17 +41,20 @@ class SettingsBackup: Plugin(){
 			override fun onViewCreated(view: View, bundle: Bundle?){
 				super.onViewCreated(view, bundle);
 				val settingsContext = requireContext();
-				Utils.createCheckedSetting(
+				addView(Utils.createCheckedSetting(
+				//Utils.createCheckedSetting(
 					settingsContext,
 					CheckedSetting.ViewType.SWITCH,
 					"Backup private settings",
 					"Includes discord token, username, e-mail etc.",
-				).addTo(linearLayout){
+				).apply{
+				//).addTo(linearLayout){
 					isChecked = settings.getBool("expose_private_settings", false);
 					setOnCheckedListener{state: Boolean ->
 						settings.setBool("expose_private_settings", state);
 					};
-				};
+				});
+				//};
 				Utils.createCheckedSetting(
 					settingsContext,
 					CheckedSetting.ViewType.SWITCH,
