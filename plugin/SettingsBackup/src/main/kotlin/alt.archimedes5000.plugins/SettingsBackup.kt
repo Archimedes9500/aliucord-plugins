@@ -22,13 +22,17 @@ import com.aliucord.patcher.*
 import com.discord.utilities.persister.Persister
 import java.lang.ref.WeakReference
 
-class BetterSettingsTab(tab: FuckSettingsTab): SettingsTab(tab::class.java as Class<out AppFragment>){};
-
-class FuckSettingsTab(val obj: AppFragment): AppFragment() by obj{
-	constructor (): AppFragment(){
-		this.obj = AppFragment();
+class BetterSettingsTab(val type: String): SettingsTab(
+	if(type == "Page"){
+		super(GenericPage(AppFragment())::class.java as Class<out AppFragment>);
+	}else if(type == "BottomSheet"){
+		super(GenericBottomSheet(BottomSheet())::class.java as Class<*>, Type.BOTTOM_SHEET);
+	}else{
+		IllegalArgumentException("Unknown type: $type, must be Page or BottomSheet");
 	};
-};
+){};
+class GenericPage(val obj: AppFragment): AppFragment() by obj{};
+class GenericBottomSheet(val obj: BottomSheet): BottomSheet() by obj{};
 
 fun JSONObject.toMap(): Map<String, Any>{
 	return this.keys().asSequence().associateWith{this.get(it)};
@@ -42,9 +46,7 @@ fun JSONArray.toList(): List<Any>{
 class SettingsBackup: Plugin(){
 
 	init{
-		settingsTab = SettingsTab(
-			FuckSettingsTab()::class.java as Class<out AppFragment>
-		).withArgs(object : BottomSheet(){
+		settingsTab = BetterSettingsTab("BottomSheet").withArgs(object : BottomSheet(){
 			override fun onViewCreated(view: View, bundle: Bundle?){
 				super.onViewCreated(view, bundle);
 				val settingsContext = requireContext();
