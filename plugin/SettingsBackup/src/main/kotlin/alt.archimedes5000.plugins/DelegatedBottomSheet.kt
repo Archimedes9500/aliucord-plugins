@@ -11,7 +11,7 @@ import com.discord.widgets.channels.WidgetChannelSelector
 
 import com.aliucord.widgets.BottomSheet
 
-val fId = BottomSheet::class.java.getDeclaredField("id").apply{isAccessible = true};;
+val fId = BottomSheet::class.java.getDeclaredField("id").apply{isAccessible = true};
 
 /** Delegate to BottomSheet using a wrapped singleton */
 @Suppress("unused")
