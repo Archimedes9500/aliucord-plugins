@@ -18,12 +18,12 @@ val fId = BottomSheet::class.java.getDeclaredField("id");
 open class DelegatedBottomSheet(val obj: BottomSheet): AppBottomSheet(){
 	companion object{
 		@JvmStatic
-		private var id: Int = 0
+		private var id: Int
 			get(): Int{
-				return fId.get(this.obj);
+				return fId.get(null) as Int;
 			}
 			set(value: Int){
-				fId.set(this.obj, value);
+				fId.set(null, value);
 			}
 		;
 	};
