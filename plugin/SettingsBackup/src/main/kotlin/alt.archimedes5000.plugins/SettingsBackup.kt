@@ -29,7 +29,7 @@ fun JSONObject.toMap(): Map<String, Any>{
 	return this.keys().asSequence().associateWith{this.get(it)};
 };
 fun JSONArray.toList(): List<Any>{
-	return (0 until this.length()).map{this.get(it)} as List<Any>;
+	return List(this.length()){this.get(it)};
 };
 
 @AliucordPlugin(requiresRestart = true)
