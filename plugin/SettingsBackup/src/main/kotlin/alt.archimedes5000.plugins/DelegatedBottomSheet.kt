@@ -19,8 +19,12 @@ open class DelegatedBottomSheet(val obj: BottomSheet): AppBottomSheet(){
 	companion object{
 		@JvmStatic
 		private var id: Int = 0
-			get(): fId.get(this.obj)
-			set(value: Int): fId.set(this.obj, value)
+			get(): Int{
+				return fId.get(this.obj);
+			}
+			set(value: Int){
+				fId.set(this.obj, value);
+			}
 		;
 	};
 
