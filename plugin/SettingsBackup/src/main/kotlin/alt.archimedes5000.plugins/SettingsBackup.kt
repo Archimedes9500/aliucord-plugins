@@ -30,14 +30,22 @@ interface SettingsBottomSheet{
 };
 class EmptyBottomSheet(val obj: SettingsBottomSheet): SettingsBottomSheet by obj;
 
-fun createSettings(val tab: SettingsPage): SettingsTab{
+fun createSettings(tab: SettingsPage): SettingsTab{
 	return SettingsTab(
-		EmptyPage(object : SettingsPage{})::class.java as Class<out AppFragment>
+		EmptyPage(object : SettingsPage{
+			override fun onViewBound(view: View){
+				super.onViewBound(view: View);
+			};
+		})::class.java as Class<out AppFragment>
 	).withArgs(tab);
 };
-fun createSettings(val tab: SettingsBottomSheet): SettingsTab{
+fun createSettings(tab: SettingsBottomSheet): SettingsTab{
 	return SettingsTab(
-		EmptyBottomSheet(object : SettingsBottomSheet{})::class.java as Class<*>, SettingsTab.Type.BOTTOM_SHEET
+		EmptyBottomSheet(object : SettingsBottomSheet{
+			override fun onViewCreated(view: View, Bundle?){
+				super.onViewCreated(view: View, Bundle?);
+			};
+		})::class.java as Class<*>, SettingsTab.Type.BOTTOM_SHEET
 	).withArgs(tab);
 };
 
