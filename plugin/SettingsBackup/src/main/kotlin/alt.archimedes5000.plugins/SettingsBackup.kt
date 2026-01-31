@@ -38,7 +38,7 @@ fun JSONArray.toList(): List<Any>{
 class SettingsBackup: Plugin(){
 
 	init{
-		settingsTab = SettingsTab(object: BottomSheet(){
+		settingsTab = SettingsTab(object : BottomSheet(){
 			override fun onViewCreated(view: View, bundle: Bundle?){
 				super.onViewCreated(view, bundle);
 				val settingsContext = requireContext();
@@ -65,7 +65,7 @@ class SettingsBackup: Plugin(){
 					};
 				};
 			};
-		}::class.java);
+		}::class.java as Class<out AppFragment>);
 	};
 
 	val backup = SettingsUtilsJSON("Discord");
@@ -133,7 +133,7 @@ class SettingsBackup: Plugin(){
 	);
 	fun optPersisters(): MutableMap<String, Any>?{
 		val obj = backup.getJSONObject("persisters", null);
-		return obj?.toMap();
+		return obj?.toMap()?.toMutableMap();
 	};
 	val fPersisterValue = Persister::class.java
 		.getDeclaredField("value")
