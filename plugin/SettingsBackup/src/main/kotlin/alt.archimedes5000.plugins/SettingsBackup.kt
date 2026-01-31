@@ -26,14 +26,14 @@ class SettingsBackup: Plugin(){
 	@SuppressLint("SetTextI18n")
 
 	init{
-		settingsTab = SettingsTab(object: BottomSheet{
+		settingsTab = SettingsTab(object(): BottomSheet{
 			override fun onViewCreated(view: View, bundle: Bundle){
 				super.onViewCreated(view, bundle);
 				val settingsContext = requireContext();
 				Utils.createCheckedSetting(
 					settingsContext,
 					CheckedSetting.ViewType.SWITCH,
-					"Export private settings",
+					"Backup private settings",
 					"Includes discord token, username, e-mail etc.",
 				).addTo(this){
 					isChecked = settings.getBool("expose_private_settings", false);
