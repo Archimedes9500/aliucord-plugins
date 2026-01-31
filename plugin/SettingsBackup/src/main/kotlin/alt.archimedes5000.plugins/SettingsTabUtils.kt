@@ -6,7 +6,13 @@ import java.lang.reflect.*
 
 fun createSettings(tab: BottomSheet): SettingsTab{
 	return SettingsTab(
-		DelegatedBottomSheet(object : BottomSheet(){})::class.java as Class<*>,
+		DelegatedBottomSheet(
+			object : BottomSheet(){
+				override fun onViewCreated(view: View, bundle: Bundle?){
+					super.onViewCreated(view, bundle);
+				};
+			}
+		)::class.java as Class<*>,
 		SettingsTab.Type.BOTTOM_SHEET
 	).withArgs(tab);
 };
