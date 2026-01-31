@@ -35,7 +35,7 @@ class createSettings(val tab: SettingsPage): SettingsTab{
 class createSettings(val tab: BottomSheet): SettingsTab{
 	return SettingsTab(
 		EmptyBottomSheet(BottomSheet())::class.java as Class<*>, SettingsTab.Type.BOTTOM_SHEET
-	)withArgs(tab);
+	).withArgs(tab);
 };
 
 fun JSONObject.toMap(): Map<String, Any>{
@@ -50,7 +50,7 @@ fun JSONArray.toList(): List<Any>{
 class SettingsBackup: Plugin(){
 
 	init{
-		settingsTab = createSetting("BottomSheet").withArgs(object : BottomSheet(){
+		settingsTab = createSettings(object : BottomSheet(){
 			override fun onViewCreated(view: View, bundle: Bundle?){
 				super.onViewCreated(view, bundle);
 				val settingsContext = requireContext();
