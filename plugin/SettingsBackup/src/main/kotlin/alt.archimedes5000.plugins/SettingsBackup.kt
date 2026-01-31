@@ -25,12 +25,10 @@ import java.lang.ref.WeakReference
 class SettingsBottom(val settings: SettingsAPI): BottomSheet(){};
 
 fun JSONObject.toMap(): Map<String, Any>{
-	return this.keys().asSequence()
-		.associateWith{this.get(it)}
-	;
+	return this.keys().asSequence().associateWith{this.get(it)};
 };
 fun JSONArray.toList(): List<Any>{
-	return this.iterator().asSequence().toList();
+	return (0 until this.length()).map{this.get(it)} as List<Any>;
 };
 
 @AliucordPlugin(requiresRestart = true)
