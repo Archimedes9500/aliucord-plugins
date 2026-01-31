@@ -36,14 +36,8 @@ open class DelegatedBottomSheet(val obj: BottomSheet): AppBottomSheet(){
 		};
 	};
 
-	@get:JvmName("doNotGetViewWithThis")
-	private var view: NestedScrollView? = null;
+	private var view: NestedScrollView? = fView.get(obj) as? NestedScrollView;
 
-	override private fun getView(): NestedScrollView?{
-		val value = fView.get(obj) as? NestedScrollView;
-		this.view = value;
-		return value;
-	};
 	private fun setView(value: NestedScrollView){
 		fView.set(obj, value);
 		this.view = value;
