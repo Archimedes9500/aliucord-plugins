@@ -9,6 +9,7 @@ import android.os.Bundle
 import com.discord.views.CheckedSetting
 import com.aliucord.Utils
 import com.aliucord.utils.ViewUtils.addTo
+import com.discord.app.AppFragment
 import com.aliucord.SettingsUtilsJSON
 import org.json.*
 import com.aliucord.utils.GsonUtils
