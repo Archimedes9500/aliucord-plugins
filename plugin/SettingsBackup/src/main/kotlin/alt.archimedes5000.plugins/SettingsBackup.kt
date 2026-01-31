@@ -55,17 +55,20 @@ class SettingsBackup: Plugin(){
 					};
 				});
 				//};
-				Utils.createCheckedSetting(
+				addView(Utils.createCheckedSetting(
+				//Utils.createCheckedSetting(
 					settingsContext,
 					CheckedSetting.ViewType.SWITCH,
 					"Update backup",
 					"Whether to continously update the backup with new changes",
-				).addTo(linearLayout){
+				).apply{
+				//).addTo(linearLayout){
 					isChecked = settings.getBool("write_backup", true);
 					setOnCheckedListener{state ->
 						settings.setBool("write_backup", state);
 					};
-				};
+				});
+				//};
 			};
 		});
 	};
