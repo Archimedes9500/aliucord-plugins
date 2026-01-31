@@ -2,7 +2,6 @@ package alt.archimedes5000.plugins
 import com.aliucord.annotations.AliucordPlugin
 import android.annotation.SuppressLint
 import com.aliucord.entities.Plugin
-import com.aliucord.api.SettingsAPI
 import com.aliucord.widgets.BottomSheet
 import android.view.View
 import android.os.Bundle
@@ -22,8 +21,6 @@ import com.aliucord.patcher.*
 
 import com.discord.utilities.persister.Persister
 import java.lang.ref.WeakReference
-
-class SettingsBottom(val settings: SettingsAPI): BottomSheet(){};
 
 fun JSONObject.toMap(): Map<String, Any>{
 	return this.keys().asSequence().associateWith{this.get(it)};
