@@ -43,7 +43,7 @@ fun createSettings(tab: SettingsBottomSheet): SettingsTab{
 	return SettingsTab(
 		EmptyBottomSheet(object : SettingsBottomSheet{
 			override fun onViewCreated(view: View, bundle: Bundle?){
-				super.onViewCreated(bubdle);
+				super.onViewCreated(bundle);
 			};
 		})::class.java as Class<*>, SettingsTab.Type.BOTTOM_SHEET
 	).withArgs(tab);
