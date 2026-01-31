@@ -3,7 +3,7 @@ import com.aliucord.annotations.AliucordPlugin
 import android.annotation.SuppressLint
 import com.aliucord.entities.Plugin
 import com.aliucord.entities.Plugin.SettingsTab
-import com.aliucord.entities.Plugin.SettingsPage
+import com.aliucord.entities.Plugin.SettingsTab.SettingsPage
 import com.aliucord.widgets.BottomSheet
 import android.view.View
 import android.os.Bundle
@@ -24,17 +24,17 @@ import com.aliucord.patcher.*
 import com.discord.utilities.persister.Persister
 import java.lang.ref.WeakReference
 
-class BetterSettingsTab(val type: String): SettingsTab(
-	if(type == "Page"){
-		GenericPage(SettingsPage())::class.java as Class<out AppFragment>;
-	}else if(type == "BottomSheet"){
-		GenericBottomSheet(BottomSheet())::class.java as Class<*>, Type.BOTTOM_SHEET;
-	}else{
-		IllegalArgumentException("Unknown type: $type, must be Page or BottomSheet");
-	}
-){};
-class GenericPage(val obj: SettingsPage): SettingsPage() by obj{};
+class GenericPage(val obj: SettingsPage): SettingsPage by obj{};
 class GenericBottomSheet(val obj: BottomSheet): BottomSheet() by obj{};
+class fuckSettingsTab(val settingsType: String): SettingsTab{
+	if(settingsType == "Page"){
+		return SettingsTab(GenericPage(object : SettingsPage{})::class.java as Class<out AppFragment>);
+	}else if(settingsType == "BottomSheet"){
+		return SettingsTab(GenericBottomSheet(BottomSheet())::class.java as Class<*>, SettingsTab.Type.BOTTOM_SHEET);
+	}else{
+		throw IllegalArgumentException("Unknown type: $type, must be Page or BottomSheet");
+	};
+};
 
 fun JSONObject.toMap(): Map<String, Any>{
 	return this.keys().asSequence().associateWith{this.get(it)};
