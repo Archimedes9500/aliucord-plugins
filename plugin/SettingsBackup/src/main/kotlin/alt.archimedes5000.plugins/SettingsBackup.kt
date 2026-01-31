@@ -25,16 +25,19 @@ import com.discord.utilities.persister.Persister
 import java.lang.ref.WeakReference
 
 class EmptyPage(val obj: SettingsPage): SettingsPage by obj;
-class EmptyBottomSheet(val obj: BottomSheet): BottomSheet() by obj;
+interface SettingsBottomSheet{
+	fun onViewCreated(view: View, bundle: Bundle?);
+};
+class EmptyBottomSheet(val obj: SettingsBottomSheet): SettingsBottomSheet by obj;
 
 fun createSettings(val tab: SettingsPage): SettingsTab{
 	return SettingsTab(
 		EmptyPage(object : SettingsPage{})::class.java as Class<out AppFragment>
 	).withArgs(tab);
 };
-fun createSettings(val tab: BottomSheet): SettingsTab{
+fun createSettings(val tab: SettingsBottomSheet): SettingsTab{
 	return SettingsTab(
-		EmptyBottomSheet(BottomSheet())::class.java as Class<*>, SettingsTab.Type.BOTTOM_SHEET
+		EmptyBottomSheet(object : SettingsBottomSheet{})::class.java as Class<*>, SettingsTab.Type.BOTTOM_SHEET
 	).withArgs(tab);
 };
 
