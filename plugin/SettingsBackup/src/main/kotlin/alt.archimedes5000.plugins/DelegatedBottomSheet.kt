@@ -19,7 +19,7 @@ open class DelegatedBottomSheet(val obj: BottomSheet): AppBottomSheet(){
 	companion object{
 		@JvmStatic
 		private var id: Int
-			get(): Int{
+			override get(): Int{
 				return fId.get(null) as Int;
 			}
 			set(value: Int){
@@ -27,8 +27,6 @@ open class DelegatedBottomSheet(val obj: BottomSheet): AppBottomSheet(){
 			}
 		;
 	};
-
-	val linearLayout = this.obj.getLinearLayout();
 
 	override fun getContentViewResId(): Int{
 		return this.obj.getContentViewResId();
@@ -38,9 +36,7 @@ open class DelegatedBottomSheet(val obj: BottomSheet): AppBottomSheet(){
 		this.obj.onViewCreated(view, bundle);
 	};
 
-	fun getLinearLayout(): LinearLayout{
-		return this.obj.getLinearLayout();
-	};
+	val linearLayout = this.obj.linearLayout;
 
 	/** Sets the padding of the LinearLayout associated with this BottomSheet */
 	fun setPadding(p: Int){
