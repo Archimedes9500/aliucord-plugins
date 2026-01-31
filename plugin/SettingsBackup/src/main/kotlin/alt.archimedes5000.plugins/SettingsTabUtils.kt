@@ -5,9 +5,7 @@ import com.aliucord.entities.Plugin.SettingsTab
 
 fun createSettings(tab: BottomSheet): SettingsTab{
 	return SettingsTab(
-		BottomSheetDelegate(
-			object : BottomSheet(){})::class.java as Class<*>
-		),
+		DelegatedBottomSheet(object : BottomSheet(){})::class.java as Class<*>,
 		SettingsTab.Type.BOTTOM_SHEET
 	).withArgs(tab);
 };

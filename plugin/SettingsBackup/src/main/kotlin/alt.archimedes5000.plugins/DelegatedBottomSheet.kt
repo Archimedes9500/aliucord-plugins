@@ -11,15 +11,20 @@ import com.discord.widgets.channels.WidgetChannelSelector
 
 import com.aliucord.widgets.BottomSheet
 
+val fId = BottomSheet::class.java.getDeclaredField("id");
+
 /** Delegate to BottomSheet using a wrapped singleton */
 @Suppress("unused")
-open class BottomSheetDelegate(val obj: BottomSheet): BottomSheet(){
+open class DelegatedBottomSheet(val obj: BottomSheet): AppBottomSheet(){
 	companion object{
 		@JvmStatic
-		override private var id = BottomSheet::class.java.getDeclaredField("id").get(this.obj);
+		private var id: Int = 0
+			get(): fId.get(this.obj)
+			set(value: Int): fId.set(this.obj, value)
+		;
 	};
 
-	override val linearLayout = this.obj.getLinearLayout();
+	val linearLayout = this.obj.getLinearLayout();
 
 	override fun getContentViewResId(): Int{
 		return this.obj.getContentViewResId();
@@ -29,27 +34,27 @@ open class BottomSheetDelegate(val obj: BottomSheet): BottomSheet(){
 		this.obj.onViewCreated(view, bundle);
 	};
 
-	override fun getLinearLayout(): LinearLayout{
+	fun getLinearLayout(): LinearLayout{
 		return this.obj.getLinearLayout();
 	};
 
 	/** Sets the padding of the LinearLayout associated with this BottomSheet */
-	override fun setPadding(p: Int){
+	fun setPadding(p: Int){
 		this.obj.getLinearLayout().setPadding(p, p, p, p);
 	};
 
 	/** Removes all views of the LinearLayout associated with this BottomSheet */
-	override fun clear(){
+	fun clear(){
 		this.obj.getLinearLayout().removeAllViews();
 	};
 
 	/** Adds a view to the LinearLayout associated with this BottomSheet */
-	override fun addView(view: View){
+	fun addView(view: View){
 		this.obj.getLinearLayout().addView(view);
 	};
 
 	/** Removes a view from the LinearLayout associated with this BottomSheet */
-	override fun removeView(view: View) {
+	fun removeView(view: View) {
 		this.obj.getLinearLayout().removeView(view);
 	};
 };
