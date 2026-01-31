@@ -24,16 +24,18 @@ import com.aliucord.patcher.*
 import com.discord.utilities.persister.Persister
 import java.lang.ref.WeakReference
 
-class GenericPage(val obj: SettingsPage): SettingsPage by obj{};
-class GenericBottomSheet(val obj: BottomSheet): BottomSheet() by obj{};
-class fuckSettingsTab(val settingsType: String): SettingsTab{
-	if(settingsType == "Page"){
-		return SettingsTab(GenericPage(object : SettingsPage{})::class.java as Class<out AppFragment>);
-	}else if(settingsType == "BottomSheet"){
-		return SettingsTab(GenericBottomSheet(BottomSheet())::class.java as Class<*>, SettingsTab.Type.BOTTOM_SHEET);
-	}else{
-		throw IllegalArgumentException("Unknown type: $type, must be Page or BottomSheet");
-	};
+class EmptyPage(val obj: SettingsPage): SettingsPage by obj;
+class EmptyBottomSheet(val obj: BottomSheet): BottomSheet() by obj;
+
+class createSettings(val tab: SettingsPage): SettingsTab{
+	return SettingsTab(
+		EmptyPage(object : SettingsPage{})::class.java as Class<out AppFragment>
+	).withArgs(tab);
+};
+class createSettings(val tab: BottomSheet): SettingsTab{
+	return SettingsTab(
+		EmptyBottomSheet(BottomSheet())::class.java as Class<*>, SettingsTab.Type.BOTTOM_SHEET
+	)withArgs(tab);
 };
 
 fun JSONObject.toMap(): Map<String, Any>{
@@ -48,7 +50,7 @@ fun JSONArray.toList(): List<Any>{
 class SettingsBackup: Plugin(){
 
 	init{
-		settingsTab = fuckSettingsTab("BottomSheet").withArgs(object : BottomSheet(){
+		settingsTab = createSetting("BottomSheet").withArgs(object : BottomSheet(){
 			override fun onViewCreated(view: View, bundle: Bundle?){
 				super.onViewCreated(view, bundle);
 				val settingsContext = requireContext();
