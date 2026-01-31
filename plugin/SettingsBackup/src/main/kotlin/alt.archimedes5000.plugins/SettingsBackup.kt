@@ -24,6 +24,12 @@ import java.lang.ref.WeakReference
 
 class SettingsBottom(val settings: SettingsAPI): BottomSheet(){};
 
+fun JSONObject.toMap(): Map<String, Any>{
+	return this.keys().asSequence()
+		.associateWith{this.get(it)}
+	;
+};
+
 @AliucordPlugin(requiresRestart = true)
 @SuppressLint("SetTextI18n")
 class SettingsBackup: Plugin(){
@@ -38,7 +44,7 @@ class SettingsBackup: Plugin(){
 					CheckedSetting.ViewType.SWITCH,
 					"Backup private settings",
 					"Includes discord token, username, e-mail etc.",
-				).addTo(this){
+				).addTo(linearLayout){
 					isChecked = settings.getBool("expose_private_settings", false);
 					setOnCheckedListener{state: Boolean ->
 						settings.setBool("expose_private_settings", state);
@@ -49,7 +55,7 @@ class SettingsBackup: Plugin(){
 					CheckedSetting.ViewType.SWITCH,
 					"Update backup",
 					"Whether to continously update the backup with new changes",
-				).addTo(this){
+				).addTo(linearLayout){
 					isChecked = settings.getBool("write_backup", true);
 					setOnCheckedListener{state ->
 						settings.setBool("write_backup", state);
@@ -124,17 +130,7 @@ class SettingsBackup: Plugin(){
 	);
 	fun optPersisters(): MutableMap<String, Any>?{
 		val obj = backup.getJSONObject("persisters", null);
-		if(obj != null){
-			return obj.keys()
-				.asSequence()
-				.toList()
-				.map{it to json(obj.getString(it))}
-				.toMap<String, Any>()
-				.toMutableMap<String, Any>()
-			;
-		}else{
-			return null;
-		};
+		return obj?.toMap();
 	};
 	val fPersisterValue = Persister::class.java
 		.getDeclaredField("value")
