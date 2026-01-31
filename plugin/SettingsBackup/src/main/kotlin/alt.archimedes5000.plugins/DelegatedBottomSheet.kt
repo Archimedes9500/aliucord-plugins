@@ -20,15 +20,7 @@ val fLayout = BottomSheet::class.java.getDeclaredField("layout").apply{isAccessi
 open class DelegatedBottomSheet(val obj: BottomSheet): AppBottomSheet(){
 	companion object{
 		@JvmStatic
-		@get:JvmName("doNotGetIdWithThis")
-		private var id: Int = 0;
-
-		@JvmStatic
-		private fun getId(): Int{
-			val value = fId.get(null) as Int;
-			this.id = value;
-			return value;
-		};
+		private var id: Int = fId.get(null) as Int;
 		@JvmStatic
 		private fun setId(value: Int){
 			fId.set(null, value);
@@ -37,20 +29,13 @@ open class DelegatedBottomSheet(val obj: BottomSheet): AppBottomSheet(){
 	};
 
 	private var view: NestedScrollView? = fView.get(obj) as? NestedScrollView;
-
 	private fun setView(value: NestedScrollView){
 		fView.set(obj, value);
 		this.view = value;
 	};
 
 	@get:JvmName("doNotGetLayoutWithThis")
-	private var layout: LinearLayout? = null;
-
-	private fun getLayout(): LinearLayout?{
-		val value = fLayout.get(obj) as? LinearLayout;
-		this.layout = value;
-		return value;
-	};
+	private var layout: LinearLayout? = fLayout.get(obj) as? LinearLayout;
 	private fun setLayout(value: LinearLayout){
 		fLayout.set(obj, value);
 		this.layout = value;
