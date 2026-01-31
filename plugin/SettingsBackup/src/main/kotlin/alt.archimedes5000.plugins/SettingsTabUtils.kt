@@ -2,6 +2,8 @@ package alt.archimedes5000.plugins.utils
 
 import com.aliucord.widgets.BottomSheet
 import com.aliucord.entities.Plugin.SettingsTab
+import android.view.View
+import android.os.Bundle
 import java.lang.reflect.*
 
 fun createSettings(tab: BottomSheet): SettingsTab{
