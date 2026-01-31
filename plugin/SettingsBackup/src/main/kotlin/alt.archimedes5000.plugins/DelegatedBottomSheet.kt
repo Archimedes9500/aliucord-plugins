@@ -11,14 +11,14 @@ import com.discord.widgets.channels.WidgetChannelSelector
 
 import com.aliucord.widgets.BottomSheet
 
-val fId = BottomSheet::class.java.getDeclaredField("id").apply{isAccessible = true};;
+val fId = BottomSheet::class.java.getDeclaredField("id").apply{isAccessible = true};
 
 /** Delegate to BottomSheet using a wrapped singleton */
 @Suppress("unused")
 open class DelegatedBottomSheet(val obj: BottomSheet): AppBottomSheet(){
 	companion object{
 		@JvmStatic
-		override var id: Int
+		var id: Int
 			get(): Int{
 				return fId.get(null) as Int;
 			}
