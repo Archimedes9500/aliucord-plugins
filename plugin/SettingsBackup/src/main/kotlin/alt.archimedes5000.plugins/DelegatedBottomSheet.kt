@@ -48,7 +48,7 @@ open class DelegatedBottomSheet(val obj: BottomSheet): AppBottomSheet(){
 		this.obj.onViewCreated(view, bundle);
 	};
 
-	val linearLayout = this.obj.getLinearLayout();
+	//val linearLayout = this.obj.getLinearLayout();
 
 	/** Sets the padding of the LinearLayout associated with this BottomSheet */
 	fun setPadding(p: Int){
