@@ -33,18 +33,14 @@ class EmptyBottomSheet(val obj: SettingsBottomSheet): SettingsBottomSheet by obj
 fun createSettings(tab: SettingsPage): SettingsTab{
 	return SettingsTab(
 		EmptyPage(object : SettingsPage{
-			override fun onViewBound(view: View){
-				super.onViewBound(view);
-			};
+			override fun onViewBound(view: View){};
 		})::class.java as Class<out AppFragment>
 	).withArgs(tab);
 };
 fun createSettings(tab: SettingsBottomSheet): SettingsTab{
 	return SettingsTab(
 		EmptyBottomSheet(object : SettingsBottomSheet{
-			override fun onViewCreated(view: View, bundle: Bundle?){
-				super.onViewCreated(bundle);
-			};
+			override fun onViewCreated(view: View, bundle: Bundle?){};
 		})::class.java as Class<*>, SettingsTab.Type.BOTTOM_SHEET
 	).withArgs(tab);
 };
@@ -61,7 +57,7 @@ fun JSONArray.toList(): List<Any>{
 class SettingsBackup: Plugin(){
 
 	init{
-		settingsTab = createSettings(object : BottomSheet(){
+		settingsTab = createSettings(object : SettingsBottomSheet{
 			override fun onViewCreated(view: View, bundle: Bundle?){
 				super.onViewCreated(view, bundle);
 				val settingsContext = requireContext();
