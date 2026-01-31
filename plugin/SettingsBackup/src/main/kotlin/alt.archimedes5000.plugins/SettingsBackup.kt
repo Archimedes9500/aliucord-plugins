@@ -29,7 +29,7 @@ import java.lang.ref.WeakReference
 fun createSettings(tab: BottomSheet): SettingsTab{
 	return SettingsTab(
 		BottomSheetDelegate(
-			object : SettingsBottomSheet{})::class.java as Class<*>
+			object : BottomSheet(){})::class.java as Class<*>
 		),
 		SettingsTab.Type.BOTTOM_SHEET
 	).withArgs(tab);
