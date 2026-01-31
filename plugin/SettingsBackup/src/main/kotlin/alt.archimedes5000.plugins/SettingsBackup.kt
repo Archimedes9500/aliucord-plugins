@@ -22,13 +22,11 @@ import com.aliucord.patcher.*
 import com.discord.utilities.persister.Persister
 import java.lang.ref.WeakReference
 
-class BetterSettingsTab(tab: FuckSettingsTab): SettingsTab(tab::class.java as Class<AppFragment>){};
+class BetterSettingsTab(tab: FuckSettingsTab): SettingsTab(tab::class.java as Class<out AppFragment>){};
 
-class FuckSettingsTab(): AppFragment() by obj{
-	lateinit var obj: AppFragment;
-	fun create(obj: AppFragment){
-		this.obj = obj;
-		return this;
+class FuckSettingsTab(val obj: AppFragment): AppFragment() by obj{
+	constructor (): AppFragment(){
+		this.obj = AppFragment();
 	};
 };
 
@@ -44,7 +42,9 @@ fun JSONArray.toList(): List<Any>{
 class SettingsBackup: Plugin(){
 
 	init{
-		settingsTab = SettingsTab(FuckSettingsTab().create(object : BottomSheet(){
+		settingsTab = SettingsTab(
+			FuckSettingsTab()::class.java as Class<out AppFragment>
+		).withArgs(object : BottomSheet(){
 			override fun onViewCreated(view: View, bundle: Bundle?){
 				super.onViewCreated(view, bundle);
 				val settingsContext = requireContext();
@@ -71,7 +71,7 @@ class SettingsBackup: Plugin(){
 					};
 				};
 			};
-		})::class.java as Class<out AppFragment>);
+		});
 	};
 
 	val backup = SettingsUtilsJSON("Discord");
