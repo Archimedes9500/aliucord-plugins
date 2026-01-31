@@ -18,7 +18,7 @@ val fId = BottomSheet::class.java.getDeclaredField("id").apply{isAccessible = tr
 open class DelegatedBottomSheet(val obj: BottomSheet): AppBottomSheet(){
 	companion object{
 		@JvmStatic
-		override var id: Int
+		var id: Int
 			get(): Int{
 				return fId.get(null) as Int;
 			}
