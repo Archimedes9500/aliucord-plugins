@@ -27,12 +27,12 @@ import java.lang.ref.WeakReference
 class EmptyPage(val obj: SettingsPage): SettingsPage by obj;
 class EmptyBottomSheet(val obj: BottomSheet): BottomSheet() by obj;
 
-class createSettings(val tab: SettingsPage): SettingsTab{
+fun createSettings(val tab: SettingsPage): SettingsTab{
 	return SettingsTab(
 		EmptyPage(object : SettingsPage{})::class.java as Class<out AppFragment>
 	).withArgs(tab);
 };
-class createSettings(val tab: BottomSheet): SettingsTab{
+fun createSettings(val tab: BottomSheet): SettingsTab{
 	return SettingsTab(
 		EmptyBottomSheet(BottomSheet())::class.java as Class<*>, SettingsTab.Type.BOTTOM_SHEET
 	).withArgs(tab);
