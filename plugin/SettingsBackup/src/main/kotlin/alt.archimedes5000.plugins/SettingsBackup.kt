@@ -35,8 +35,8 @@ fun JSONArray.toList(): List<Any>{
 @AliucordPlugin(requiresRestart = true)
 @SuppressLint("SetTextI18n")
 class SettingsBackup: Plugin(){
-
 	init{
+		logger.debug(alt.archimedes5000.plugins.utils.DelegatedBottomSheet::class.java.getDeclaredConstructors().joinToString("\n"));
 		settingsTab = createSettings(object : BottomSheet(){
 			override fun onViewCreated(view: View, bundle: Bundle?){
 				super.onViewCreated(view, bundle);
