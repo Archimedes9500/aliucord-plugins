@@ -154,7 +154,12 @@ class SettingsBackup: Plugin(){
 	};
 
 	override fun start(pluginContext: Context){
-		logger.debug("balls"+alt.archimedes5000.plugins.utils.DelegatedBottomSheet::class.java.getDeclaredConstructors().joinToString("\n"));
+		val constructors = try{
+			alt.archimedes5000.plugins.utils.DelegatedBottomSheet::class.java.getDeclaredConstructors();
+		}catch(e: Error){
+			null;
+		};
+		logger.debug("balls:\n"+constructors?.joinToString("\n"));
 		
 		//auth settings
 		val storeAuth = StoreStream.getAuthentication();
