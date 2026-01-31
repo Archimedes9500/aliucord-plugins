@@ -35,7 +35,7 @@ class createSettings(val tab: SettingsPage): SettingsTab{
 class createSettings(val tab: BottomSheet): SettingsTab{
 	return SettingsTab(
 		EmptyBottomSheet(BottomSheet())::class.java as Class<*>, SettingsTab.Type.BOTTOM_SHEET
-	)withArgs(tab);
+	).withArgs(tab);
 };
 
 fun JSONObject.toMap(): Map<String, Any>{
