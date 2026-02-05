@@ -12,7 +12,7 @@ import com.aliucord.entities.Plugin;
 import android.content.Context;
 
 @AliucordPlugin
-public class ReflectUtilsTest extends Plugin{
+public class ReflectUtilsTest extends Plugin throws Throwable{
 
     public ReflectUtilsTest(){};
 
