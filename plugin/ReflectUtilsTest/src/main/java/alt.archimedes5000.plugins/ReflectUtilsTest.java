@@ -1,4 +1,4 @@
-package alt.archumedes5000.plugins;
+package alt.archimedes5000.plugins;
 
 import java.util.Random;
 import java.lang.reflect.*;
@@ -10,6 +10,14 @@ import com.aliucord.*;
 import com.aliucord.annotations.AliucordPlugin;
 import com.aliucord.entities.Plugin;
 import android.content.Context;
+
+public class Test{
+    private static int test(int number){
+        int result = random.nextInt();
+        result = result/number;
+        return result;
+    };
+};
 
 @AliucordPlugin
 public class ReflectUtilsTest extends Plugin{
@@ -33,17 +41,11 @@ public class ReflectUtilsTest extends Plugin{
         return m;
     }
 
-    public static Class<?> clazz = ReflectUtilsTest.class;
+    public static Class<?> clazz = Test.class;
     public static String methodName = "test";
     public static Class<?>[] argTypes = {int.class};
     public static int number = 2;
     public static Object[] args = {number};
-
-    private static int test(int number){
-        int result = random.nextInt();
-        result = result/number;
-        return result;
-    };
 
     public static int iterations = 1_000_000;
 
