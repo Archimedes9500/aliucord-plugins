@@ -29,9 +29,9 @@ public class ReflectUtilsTest extends Plugin{
         return m;
     }
 
-    public static Class<ReflectUtilsTest> clazz = this.getClass();
+    public static Class<?> clazz = ReflectUtilsTest.class;
     public static String methodName = "test";
-    public static Class<?>[] argTypes = {int.getClass()};
+    public static Class<?>[] argTypes = {int.class};
     public static int number = 2;
     public static Object[] args = {number};
 
