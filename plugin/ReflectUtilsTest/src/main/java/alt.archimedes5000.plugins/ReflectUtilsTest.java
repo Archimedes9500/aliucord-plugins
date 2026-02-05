@@ -1,6 +1,5 @@
 package alt.archimedes5000.plugins;
 
-import java.util.Random;
 import java.lang.reflect.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,16 +9,6 @@ import com.aliucord.*;
 import com.aliucord.annotations.AliucordPlugin;
 import com.aliucord.entities.Plugin;
 import android.content.Context;
-
-class Test{
-    public static Random random = new Random();
-
-    private static int test(int number){
-        int result = random.nextInt();
-        result = result/number;
-        return result;
-    };
-};
 
 @AliucordPlugin
 public class ReflectUtilsTest extends Plugin{
