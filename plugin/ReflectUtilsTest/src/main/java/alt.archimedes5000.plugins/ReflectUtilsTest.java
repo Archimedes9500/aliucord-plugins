@@ -2,6 +2,8 @@ package alt.archumedes5000.plugins;
 
 import java.util.Random;
 import java.lang.reflect.*;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.aliucord.utils.ReflectUtils;
 
 import com.aliucord.*;
