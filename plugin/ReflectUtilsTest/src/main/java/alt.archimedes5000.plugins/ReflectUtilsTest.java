@@ -32,8 +32,8 @@ public class ReflectUtilsTest extends Plugin{
 
     public static Class<?> clazz = Test.class;
     public static String methodName = "test";
-    public static Class<?>[] argTypes = {int.class};
-    public static int number = 2;
+    public static Class<?>[] argTypes = {Integer.class};
+    public static Integer number = 2;
     public static Object[] args = {number};
 
     public static int iterations = 1_000_000;
