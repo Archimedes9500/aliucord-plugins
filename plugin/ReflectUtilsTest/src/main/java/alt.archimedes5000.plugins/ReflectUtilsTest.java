@@ -89,44 +89,68 @@ public class ReflectUtilsTest extends Plugin{
         newReflectUtils();
 
         //test 1
+        logger.debug("===== ===== TEST 1 ===== =====");
         time = System.nanoTime();
         noReflection();
-        logger.debug("1 noReflection 1 000 000: "+(System.nanoTime()-time));
+        logger.debug("noReflection 1 000 000: "+(System.nanoTime()-time));
         time = System.nanoTime();
         noCache();
-        logger.debug("1 noCache 1 000 000: "+(System.nanoTime()-time));
+        logger.debug("noCache 1 000 000: "+(System.nanoTime()-time));
         time = System.nanoTime();
         withCache();
-        logger.debug("1 withCache 1 000 000: "+(System.nanoTime()-time));
+        logger.debug("withCache 1 000 000: "+(System.nanoTime()-time));
         time = System.nanoTime();
         oldReflectUtils();
-        logger.debug("1 oldReflectUtils 1 000 000: "+(System.nanoTime()-time));
+        logger.debug("oldReflectUtils 1 000 000: "+(System.nanoTime()-time));
         time = System.nanoTime();
         oldReflectUtilsWithCache();
-        logger.debug("1 oldReflectUtilsWithCache 1 000 000: "+(System.nanoTime()-time));
+        logger.debug("oldReflectUtilsWithCache 1 000 000: "+(System.nanoTime()-time));
         time = System.nanoTime();
         newReflectUtils();
-        logger.debug("1 newReflectUtils 1 000 000: "+(System.nanoTime()-time));
+        logger.debug("newReflectUtils 1 000 000: "+(System.nanoTime()-time));
 
         //test 2
+        logger.debug("===== ===== TEST 2 ===== =====");
         time = System.nanoTime();
         noReflection();
-        logger.debug("2 noReflection 1 000 000: "+(System.nanoTime()-time));
+        logger.debug("noReflection 1 000 000: "+(System.nanoTime()-time));
         time = System.nanoTime();
         noCache();
-        logger.debug("2 noCache 1 000 000: "+(System.nanoTime()-time));
+        logger.debug("noCache 1 000 000: "+(System.nanoTime()-time));
         time = System.nanoTime();
         withCache();
-        logger.debug("2 withCache 1 000 000: "+(System.nanoTime()-time));
+        logger.debug("withCache 1 000 000: "+(System.nanoTime()-time));
         time = System.nanoTime();
         oldReflectUtils();
-        logger.debug("2 oldReflectUtils 1 000 000: "+(System.nanoTime()-time));
+        logger.debug("oldReflectUtils 1 000 000: "+(System.nanoTime()-time));
         time = System.nanoTime();
         oldReflectUtilsWithCache();
-        logger.debug("2 oldReflectUtilsWithCache 1 000 000: "+(System.nanoTime()-time));
+        logger.debug("oldReflectUtilsWithCache 1 000 000: "+(System.nanoTime()-time));
         time = System.nanoTime();
         newReflectUtils();
-        logger.debug("2 newReflectUtils 1 000 000: "+(System.nanoTime()-time));
+        logger.debug("newReflectUtils 1 000 000: "+(System.nanoTime()-time));
+
+        //test 3
+        logger.debug("===== ===== TEST 3 ===== =====");
+        time = System.nanoTime();
+        noReflection();
+        logger.debug("noReflection 1 000 000: "+(System.nanoTime()-time));
+        time = System.nanoTime();
+        noCache();
+        logger.debug("noCache 1 000 000: "+(System.nanoTime()-time));
+        time = System.nanoTime();
+        withCache();
+        logger.debug("withCache 1 000 000: "+(System.nanoTime()-time));
+        time = System.nanoTime();
+        oldReflectUtils();
+        logger.debug("oldReflectUtils 1 000 000: "+(System.nanoTime()-time));
+        time = System.nanoTime();
+        oldReflectUtilsWithCache();
+        logger.debug("oldReflectUtilsWithCache 1 000 000: "+(System.nanoTime()-time));
+        time = System.nanoTime();
+        newReflectUtils();
+        logger.debug("newReflectUtils 1 000 000: "+(System.nanoTime()-time));
+
     };
 
     @Override
