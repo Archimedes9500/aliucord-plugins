@@ -1,7 +1,7 @@
 package alt.archumedes5000.plugins;
 
 import java.util.Random;
-inport java.lang.reflect.*;
+import java.lang.reflect.*;
 import com.aliucord.utils.ReflectUtils;
 
 import com.aliucord.*;
