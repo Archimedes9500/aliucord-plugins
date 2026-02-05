@@ -7,9 +7,17 @@ import android.widget.LinearLayout
 import androidx.core.widget.NestedScrollView
 
 import com.discord.app.AppBottomSheet
-import com.discord.widgets.channels.WidgetChannelSelector
 
 import com.aliucord.widgets.BottomSheet
+import com.aliucord.entities.Plugin.SettingsTab
+import java.lang.reflect.*
+
+fun createSettings(tab: BottomSheet): SettingsTab{
+	return SettingsTab(
+		DelegatedBottomSheet::class.java as Class<*>,
+		SettingsTab.Type.BOTTOM_SHEET
+	).withArgs(tab);
+};
 
 val fId = BottomSheet::class.java.getDeclaredField("id").apply{isAccessible = true};
 val fView = BottomSheet::class.java.getDeclaredField("view").apply{isAccessible = true};
