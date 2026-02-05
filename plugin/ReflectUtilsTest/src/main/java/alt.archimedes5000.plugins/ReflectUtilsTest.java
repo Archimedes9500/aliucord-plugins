@@ -12,6 +12,8 @@ import com.aliucord.entities.Plugin;
 import android.content.Context;
 
 class Test{
+    public static Random random = new Random();
+
     private static int test(int number){
         int result = random.nextInt();
         result = result/number;
@@ -23,8 +25,6 @@ class Test{
 public class ReflectUtilsTest extends Plugin{
 
     public ReflectUtilsTest(){};
-
-    public static Random random = new Random();
 
     @NonNull
     public Method oldGetMethodByArgs(@NonNull Class<?> clazz, @NonNull String methodName, Object... args) throws NoSuchMethodException {
@@ -51,7 +51,7 @@ public class ReflectUtilsTest extends Plugin{
 
     public void noReflection() throws Throwable{
         for(int i = 0; i < iterations; i++){
-            int result = test(number);
+            int result = Test.test(number);
         };
     };
     public void noCache() throws Throwable{
