@@ -7,6 +7,7 @@ import com.aliucord.*;
 import com.aliucord.annotations.AliucordPlugin;
 import com.aliucord.entities.Plugin;
 
+@AliucordPlugin
 public class ReflectUtilsTest extends Plugin{
 
     public ReflectUtilsTest(){};
