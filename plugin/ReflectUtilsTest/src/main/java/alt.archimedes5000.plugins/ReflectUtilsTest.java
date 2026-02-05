@@ -11,7 +11,7 @@ import com.aliucord.annotations.AliucordPlugin;
 import com.aliucord.entities.Plugin;
 import android.content.Context;
 
-public class Test{
+class Test{
     private static int test(int number){
         int result = random.nextInt();
         result = result/number;
