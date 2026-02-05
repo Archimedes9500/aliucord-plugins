@@ -9,13 +9,14 @@ import com.aliucord.utils.ReflectUtils;
 import com.aliucord.*;
 import com.aliucord.annotations.AliucordPlugin;
 import com.aliucord.entities.Plugin;
+import android.content.Context;
 
 @AliucordPlugin
 public class ReflectUtilsTest extends Plugin{
 
     public ReflectUtilsTest(){};
 
-    public Random random = new Random();
+    public static Random random = new Random();
 
     @NonNull
     public Method oldGetMethodByArgs(@NonNull Class<?> clazz, @NonNull String methodName, Object... args) throws NoSuchMethodException {
