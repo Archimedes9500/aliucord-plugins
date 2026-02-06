@@ -246,7 +246,7 @@ class SettingsBackup: Plugin(){
 		//other stores and settings
 
 		//import from backup
-		val backupPersisters: MutableMap<String, Any>? = optPersisters();
+		var backupPersisters: MutableMap<String, Any>? = optPersisters();
 		if(backupPersisters != null && !backupPersisters.isEmpty()){
 			patcher.patch(Persister::class.java.getDeclaredMethod("get"), PreHook{frame ->
 				val original = frame.thisObject as Persister<*>;
@@ -265,6 +265,17 @@ class SettingsBackup: Plugin(){
 				.toMap() as Map<String, *>
 			;
 			backup.setObject("persisters", currentPersisters);
+            //import from backup now
+            backupPersisters: MutableMap<String, Any>? = optPersisters();
+			patcher.patch(Persister::class.java.getDeclaredMethod("get"), PreHook{frame ->
+				val original = frame.thisObject as Persister<*>;
+				val value = backupPersisters[original.getKey()];
+                val valueString = GsonUtils.toJson(value);
+				if(value != null){
+					frame.result = deserializePersisterValue(valueString, original);
+				};
+			});
+		}else{
 		};
 		//export current settings to backup as they change
 		patcher.patch(Persister::class.java.getDeclaredMethod("set", Any::class.java, Boolean::class.java), PreHook{frame ->
