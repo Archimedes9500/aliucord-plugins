@@ -251,8 +251,9 @@ class SettingsBackup: Plugin(){
 			patcher.patch(Persister::class.java.getDeclaredMethod("get"), PreHook{frame ->
 				val original = frame.thisObject as Persister<*>;
 				val value = backupPersisters[original.getKey()];
+                val valueString = GsonUtils.toJson(value);
 				if(value != null){
-					frame.result = deserializePersisterValue(value.toString(), original);
+					frame.result = deserializePersisterValue(valueString, original);
 				};
 			});
 		}else{
