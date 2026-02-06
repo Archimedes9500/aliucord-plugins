@@ -26,10 +26,24 @@ import com.discord.utilities.persister.Persister
 import java.lang.ref.WeakReference
 
 fun JSONObject.toMap(): Map<String, Any>{
-	return this.keys().asSequence().associateWith{this.get(it)};
+	return this.keys().asSequence().associateWith{
+        val v = this.get(it);
+        when(v){
+            is JSONObject -> (v as JSONObject).toMap();
+            is JSONArray -> (v as JSONArray).toList();
+            else -> v;
+        };
+    };
 };
 fun JSONArray.toList(): List<Any>{
-	return List(this.length()){this.get(it)};
+	return List(this.length()){
+        val v = this.get(it);
+        when(v){
+            is JSONObject -> (v as JSONObject).toMap();
+            is JSONArray -> (v as JSONArray).toList();
+            else -> v;
+        };
+    };
 };
 
 @AliucordPlugin(requiresRestart = true)
@@ -232,7 +246,6 @@ class SettingsBackup: Plugin(){
 		//import from backup
 		val backupPersisters: MutableMap<String, Any>? = optPersisters();
 		if(backupPersisters != null && !backupPersisters.isEmpty()){
-/*
 			patcher.patch(Persister::class.java.getDeclaredMethod("get"), PreHook{frame ->
 				val original = frame.thisObject as Persister<*>;
 				val value = backupPersisters[original.getKey()];
@@ -240,7 +253,6 @@ class SettingsBackup: Plugin(){
 					frame.result = deserializePersisterValue(value.toString(), original);
 				};
 			});
-*/
 		}else{
 			//export current settings to backup
 			val currentPersisters = Persister.`access$getPreferences$cp`()//List<WeakReference<Persister<*>>>
@@ -251,7 +263,6 @@ class SettingsBackup: Plugin(){
 			;
 			backup.setObject("persisters", currentPersisters);
 		};
-/*
 		//export current settings to backup as they change
 		patcher.patch(Persister::class.java.getDeclaredMethod("set", Any::class.java, Boolean::class.java), PreHook{frame ->
 			val _this = frame.thisObject as Persister<*>;
@@ -262,7 +273,6 @@ class SettingsBackup: Plugin(){
 				backup.setObject("persisters", backupPersisters);
 			};
 		});
-*/
 
 	};
 
