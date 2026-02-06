@@ -161,10 +161,10 @@ class SettingsBackup: Plugin(){
 	fun <T>serializePersister(p: Persister<T>): Pair<String, T>{ 
 		return Pair(p.getKey(), fPersisterValue.get(p) as T);
 	};
-	fun <T>deserializePersisterValue(valueString: String, persister: Persister<T>): T{
+	inline fun <reified T>deserializePersisterValue(valueString: String, persister: Persister<T>): T{
 		val currentValue = fPersisterValue.get(persister) as T;
-        logger.debug("current:\n$currentValue\n\nbackup:\n$valueString");
-		val type = object : TypeToken<T>(){}.type
+        logger.debug("${persister.getKey()}\n\ncurrent:\n$currentValue\n\nbackup:\n$valueString");
+		val type = TypeToken.get(T.class);
 		val value = GsonUtils.fromJson<T>(valueString, type);
 		return value;
 	};
@@ -266,7 +266,7 @@ class SettingsBackup: Plugin(){
 			;
 			backup.setObject("persisters", currentPersisters);
             //import from backup now
-            backupPersisters = optPersisters();
+            backupPersisters = optPersisters()!!;
 			patcher.patch(Persister::class.java.getDeclaredMethod("get"), PreHook{frame ->
 				val original = frame.thisObject as Persister<*>;
 				val value = backupPersisters[original.getKey()];
@@ -275,7 +275,6 @@ class SettingsBackup: Plugin(){
 					frame.result = deserializePersisterValue(valueString, original);
 				};
 			});
-		}else{
 		};
 		//export current settings to backup as they change
 		patcher.patch(Persister::class.java.getDeclaredMethod("set", Any::class.java, Boolean::class.java), PreHook{frame ->
