@@ -266,7 +266,7 @@ class SettingsBackup: Plugin(){
 			;
 			backup.setObject("persisters", currentPersisters);
             //import from backup now
-            backupPersisters: MutableMap<String, Any>? = optPersisters();
+            backupPersisters = optPersisters();
 			patcher.patch(Persister::class.java.getDeclaredMethod("get"), PreHook{frame ->
 				val original = frame.thisObject as Persister<*>;
 				val value = backupPersisters[original.getKey()];
