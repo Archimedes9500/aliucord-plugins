@@ -76,8 +76,8 @@ class SettingsBackup: Plugin(){
 	fun json(string: String): Any{
 		if(string == "") return string;
 		return when(string[0]){
-			'{' -> JSONObject(string);
-			'[' -> JSONArray(string);
+			'{' -> JSONObject(string).toMap();
+			'[' -> JSONArray(string).toList();
 			//'"' -> string.drop(1).dropLast(1);
 			't' -> true;
 			'f' -> false;
@@ -135,12 +135,10 @@ class SettingsBackup: Plugin(){
 		"guild_scheduled_events_header_dismissed",
 		"hub_name_prompt"
 	);
-/*
 	fun optPersisters(): MutableMap<String, Any>?{
 		val obj = backup.getJSONObject("persisters", null);
 		return obj?.toMap()?.toMutableMap();
 	};
-*/
 	val fPersisterValue = Persister::class.java
 		.getDeclaredField("value")
 		.apply{isAccessible = true}
@@ -232,11 +230,11 @@ class SettingsBackup: Plugin(){
 		//other stores and settings
 
 		//import from backup
-		val backupPersisters: JSONObject()? = backup.getJSONObject("persisters", null);
+		val backupPersisters: MutableMap<String, Any>? = optPersisters();
 		if(backupPersisters != null && !backupPersisters.isEmpty()){
 			patcher.patch(Persister::class.java.getDeclaredMethod("get"), PreHook{frame ->
 				val original = frame.thisObject as Persister<*>;
-				val value = backupPersisters.opt(original.getKey());
+				val value = backupPersisters[original.getKey()];
 				if(value != null){
 					frame.result = deserializePersisterValue(value.toString(), original);
 				};
@@ -258,8 +256,8 @@ class SettingsBackup: Plugin(){
 			val key = _this.getKey();
 			val valueString = GsonUtils.toJson(frame.args[0]);
 			if(key in storeKeys && backupPersisters != null){
-				backupPersisters.set(key) = json(valueString);
-				backup.setJSONObject("persisters", backupPersisters);
+				backupPersisters[key] = json(valueString);
+				backup.setObject("persisters", backupPersisters);
 			};
 		});
 
