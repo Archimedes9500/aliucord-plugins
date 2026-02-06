@@ -28,23 +28,23 @@ import java.lang.ref.WeakReference
 
 fun JSONObject.toMap(): Map<String, Any>{
 	return this.keys().asSequence().associateWith{
-        val v = this.get(it);
-        when(v){
-            is JSONObject -> (v as JSONObject).toMap();
-            is JSONArray -> (v as JSONArray).toList();
-            else -> v;
-        };
-    };
+		val v = this.get(it);
+		when(v){
+			is JSONObject -> (v as JSONObject).toMap();
+			is JSONArray -> (v as JSONArray).toList();
+			else -> v;
+		};
+	};
 };
 fun JSONArray.toList(): List<Any>{
 	return List(this.length()){
-        val v = this.get(it);
-        when(v){
-            is JSONObject -> (v as JSONObject).toMap();
-            is JSONArray -> (v as JSONArray).toList();
-            else -> v;
-        };
-    };
+		val v = this.get(it);
+		when(v){
+			is JSONObject -> (v as JSONObject).toMap();
+			is JSONArray -> (v as JSONArray).toList();
+			else -> v;
+		};
+	};
 };
 
 @AliucordPlugin(requiresRestart = true)
@@ -161,10 +161,10 @@ class SettingsBackup: Plugin(){
 	fun <T>serializePersister(p: Persister<T>): Pair<String, T>{ 
 		return Pair(p.getKey(), fPersisterValue.get(p) as T);
 	};
-	inline fun <reified T>deserializePersisterValue(valueString: String, persister: Persister<T>): T{
+	fun <T>deserializePersisterValue(valueString: String, persister: Persister<T>): T{
 		val currentValue = fPersisterValue.get(persister) as T;
-        logger.debug("${persister.getKey()}\n\ncurrent:\n$currentValue\n\nbackup:\n$valueString");
-		val type = TypeToken.get(T::class.java);
+		logger.debug("${persister.getKey()}\n\ncurrent:\n$currentValue\n\nbackup:\n$valueString");
+		val type = object : TypeToken<T>(){}.type;
 		val value = GsonUtils.fromJson<T>(valueString, type);
 		return value;
 	};
@@ -251,7 +251,7 @@ class SettingsBackup: Plugin(){
 			patcher.patch(Persister::class.java.getDeclaredMethod("get"), PreHook{frame ->
 				val original = frame.thisObject as Persister<*>;
 				val value = backupPersisters[original.getKey()];
-                val valueString = GsonUtils.toJson(value);
+				val valueString = GsonUtils.toJson(value);
 				if(value != null){
 					frame.result = deserializePersisterValue(valueString, original);
 				};
@@ -265,12 +265,12 @@ class SettingsBackup: Plugin(){
 				.toMap() as Map<String, *>
 			;
 			backup.setObject("persisters", currentPersisters);
-            //import from backup now
-            backupPersisters = optPersisters()!!;
+			//import from backup now
+			backupPersisters = optPersisters()!!;
 			patcher.patch(Persister::class.java.getDeclaredMethod("get"), PreHook{frame ->
 				val original = frame.thisObject as Persister<*>;
 				val value = backupPersisters[original.getKey()];
-                val valueString = GsonUtils.toJson(value);
+				val valueString = GsonUtils.toJson(value);
 				if(value != null){
 					frame.result = deserializePersisterValue(valueString, original);
 				};
