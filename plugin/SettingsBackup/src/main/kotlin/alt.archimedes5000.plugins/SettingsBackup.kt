@@ -15,7 +15,7 @@ import com.aliucord.utils.ViewUtils.addTo
 import com.aliucord.SettingsUtilsJSON
 import org.json.*
 import com.aliucord.utils.GsonUtils
-import com.google.gson.TypeToken
+import com.google.gson.reflect.TypeToken
 import java.lang.reflect.*
 
 import android.content.Context
