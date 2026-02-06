@@ -15,6 +15,7 @@ import com.aliucord.utils.ViewUtils.addTo
 import com.aliucord.SettingsUtilsJSON
 import org.json.*
 import com.aliucord.utils.GsonUtils
+import com.google.gson.TypeToken
 import java.lang.reflect.*
 
 import android.content.Context
@@ -162,7 +163,7 @@ class SettingsBackup: Plugin(){
 	};
 	fun <T>deserializePersisterValue(valueString: String, persister: Persister<T>): T{
 		val currentValue = fPersisterValue.get(persister);
-		val type = object : TypeToken<T>() {}.type
+		val type = object : TypeToken<T>(){}.type
 		val value = GsonUtils.fromJson(valueString, type) as T;
 		return value;
 	};
