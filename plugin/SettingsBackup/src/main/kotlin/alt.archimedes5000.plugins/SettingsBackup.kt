@@ -281,6 +281,7 @@ class SettingsBackup: Plugin(){
 			val _this = frame.thisObject as Persister<*>;
 			val key = _this.getKey();
 			val valueString = GsonUtils.toJson(frame.args[0]);
+			logger.debug("$key\n\nsetting to:\n${frame.args[0]!!::class.java}\n$valueString");
 			if(key in storeKeys && backupPersisters != null){
 				backupPersisters[key] = json(valueString);
 				backup.setObject("persisters", backupPersisters);
