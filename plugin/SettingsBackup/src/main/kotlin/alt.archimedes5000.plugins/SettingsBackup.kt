@@ -164,9 +164,8 @@ class SettingsBackup: Plugin(){
 	fun <T>deserializePersisterValue(valueString: String, persister: Persister<T>): T{
 		val currentValue = fPersisterValue.get(persister) as T;
 		val type = TypeToken.get(currentValue!!::class.java).type;
-		logger.debug("${persister.getKey()}\n\ncurrent:\n${currentValue!!::class.java}\n${GsonUtils.toJson(currentValue)}\n\nbackup:\n$type\n$valueString");
 		val value = GsonUtils.fromJson<T>(valueString, type);
-		logger.debug("Deserialized value: ${GsonUtils.toJson(value)}");
+		logger.debug("${persister.getKey()}\n\ncurrent:\n${currentValue!!::class.java}\n${GsonUtils.toJson(currentValue)}\n\nbackup:\n${value!!::class.java}\n${GsonUtils.toJson(value)}");
 		return value;
 	};
 
