@@ -157,6 +157,7 @@ class JSOP(
 			val rawArg = obj.optJSONObject(key);
 			if(rawArg == null){
 				errors.add(INVALID_VALUE(obj.opt(key), "is not an Object"));
+				return null;
 			};
 			val arg = parseArg(rawArg)?: return null;
 			types.add(arg.first);
