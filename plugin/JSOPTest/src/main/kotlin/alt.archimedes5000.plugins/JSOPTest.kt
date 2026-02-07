@@ -25,6 +25,7 @@ import de.robv.android.xposed.XC_MethodHook
 import android.graphics.drawable.ColorDrawable
 
 @AliucordPlugin(requiresRestart = true)
+@Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
 class JSOPTest: Plugin(){
 	@SuppressLint("SetTextI18n")
 	val settings2 = SettingsUtilsJSON("JSOPTest");
@@ -52,6 +53,7 @@ class JSOPTest: Plugin(){
 			object: XC_MethodHook(10000){
 				override fun afterHookedMethod(param: XC_MethodHook.MethodHookParam){
 					val root: View = ((param.args[0] as RecyclerView.ViewHolder).itemView).findViewById("widget_chat_list_adapter_item_text_root");
+					@Suppress("SENSELESS_COMPARISON")
 					if(root == null) return;
 					//logger.debug("===================================");
 					//logger.debug("hooked: "+root.toString());
