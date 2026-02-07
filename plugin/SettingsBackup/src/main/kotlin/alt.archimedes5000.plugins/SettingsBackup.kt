@@ -256,8 +256,10 @@ class SettingsBackup: Plugin(){
 				val original = frame.thisObject as Persister<*>;
 				val value = backupPersisters[original.getKey()];
 				val valueString = GsonUtils.toJson(value);
+				val result = deserializePersisterValue(valueString, original);
 				if(value != null){
-					frame.result = deserializePersisterValue(valueString, original);
+					logger.debug("CLASS:\n${result!!::class}");
+					frame.result = result;
 				};
 			});
 		}else{
@@ -276,8 +278,8 @@ class SettingsBackup: Plugin(){
 				val value = backupPersisters[original.getKey()];
 				val valueString = GsonUtils.toJson(value);
 				val result = deserializePersisterValue(valueString, original);
-				logger.debug("CLASS:\n${result!!::class}");
 				if(value != null){
+					logger.debug("CLASS:\n${result!!::class}");
 					frame.result = result;
 				};
 			});
