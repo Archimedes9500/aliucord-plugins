@@ -271,8 +271,10 @@ class SettingsBackup: Plugin(){
 				val original = frame.thisObject as Persister<*>;
 				val value = backupPersisters[original.getKey()];
 				val valueString = GsonUtils.toJson(value);
+				val result = deserializePersisterValue(valueString, original);
+				logger.debug("CLASS:\n${result!!::class}");
 				if(value != null){
-					frame.result = deserializePersisterValue(valueString, original);
+					frame.result = result;
 				};
 			});
 		};
