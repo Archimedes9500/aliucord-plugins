@@ -122,12 +122,12 @@ class SettingsBackup: Plugin(){
 		"STORE_SHOW_HIDE_MUTED_CHANNELS_V2",
 		"CACHE_KEY_SELECTED_CHANNEL_IDS",
 		"STORE_NOTIFICATIONS_SETTINGS_V2",
-		"USER_EXPERIMENTS_CACHE_KEY",
-		"GUILD_EXPERIMENTS_CACHE_KEY ",
-		"EXPERIMENT_OVERRIDES_CACHE_KEY",
+		//"USER_EXPERIMENTS_CACHE_KEY",
+		//"GUILD_EXPERIMENTS_CACHE_KEY ",
+		//"EXPERIMENT_OVERRIDES_CACHE_KEY",
 		"CACHE_KEY_ACCESSIBILITY_REDUCED_MOTION_ENABLED",
 		"RESTRICTED_GUILD_IDS",//no idea what this is
-		"STORE_SETTINGS_FOLDERS_V1",
+		//"STORE_SETTINGS_FOLDERS_V1",
 		"STORE_SETTINGS_ALLOW_ANIMATED_EMOJIS ",
 		"CACHE_KEY_STICKER_ANIMATION_SETTINGS_V1",
 		"STORE_SETTINGS_ALLOW_GAME_STATUS",
@@ -258,7 +258,7 @@ class SettingsBackup: Plugin(){
 				val valueString = GsonUtils.toJson(value);
 				val result = deserializePersisterValue(valueString, original);
 				if(value != null){
-					logger.debug("CLASS:\n${result!!::class}");
+					//logger.debug("CLASS:\n${result!!::class}");
 					frame.result = result;
 				};
 			});
