@@ -163,7 +163,7 @@ class SettingsBackup: Plugin(){
 	};
 	fun <T>deserializePersisterValue(valueString: String, persister: Persister<T>): T{
 		val currentValue = fPersisterValue.get(persister) as T;
-		val type = object : TypeToken.get(currentValue!!::class.java).type;
+		val type = TypeToken.get(currentValue!!::class.java).type;
 		val value = GsonUtils.fromJson<T>(valueString, type);
 		logger.debug("${persister.getKey()}\n\ncurrent:\n${currentValue!!::class.java}\n${GsonUtils.toJson(currentValue)}\n\nbackup:\n${value!!::class.java}\n${GsonUtils.toJson(value)}");
 		return value;
@@ -251,10 +251,10 @@ class SettingsBackup: Plugin(){
 			patcher.patch(Persister::class.java.getDeclaredMethod("get"), PreHook{frame ->
 				val original = frame.thisObject as Persister<*>;
 				val value = backupPersisters.opt(original.getKey());
-				val valueString = value.toString();
-				val result = deserializePersisterValue(valueString, original);
-				logger.debug("CLASS:\n${result!!::class}");
 				if(value != null){
+					val valueString = value.toString();
+					val result = deserializePersisterValue(valueString, original);
+					logger.debug("CLASS:\n${result!!::class}");
 					frame.result = result;
 				};
 			});
@@ -272,10 +272,10 @@ class SettingsBackup: Plugin(){
 			patcher.patch(Persister::class.java.getDeclaredMethod("get"), PreHook{frame ->
 				val original = frame.thisObject as Persister<*>;
 				val value = backupPersisters.opt(original.getKey());
-				val valueString = value.toString();
-				val result = deserializePersisterValue(valueString, original);
-				logger.debug("CLASS:\n${result!!::class}");
 				if(value != null){
+					val valueString = value.toString();
+					val result = deserializePersisterValue(valueString, original);
+					logger.debug("CLASS:\n${result!!::class}");
 					frame.result = result;
 				};
 			});
