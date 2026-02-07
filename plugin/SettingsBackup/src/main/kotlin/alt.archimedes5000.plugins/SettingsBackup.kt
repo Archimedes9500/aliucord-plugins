@@ -286,7 +286,7 @@ class SettingsBackup: Plugin(){
 			val key = _this.getKey();
 			val valueString = GsonUtils.toJson(frame.args[0]);
 			if(key in storeKeys && backupPersisters != null){
-				backupPersisters.set(key, json(valueString));
+				backupPersisters.put(key, json(valueString));
 				backup.setJSONObject("persisters", backupPersisters);
 			};
 		});
