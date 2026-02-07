@@ -91,8 +91,8 @@ class SettingsBackup: Plugin(){
 	fun json(string: String): Any{
 		if(string == "") return string;
 		return when(string[0]){
-			'{' -> JSONObject(string).toMap();
-			'[' -> JSONArray(string).toList();
+			'{' -> JSONObject(string);
+			'[' -> JSONArray(string);
 			//'"' -> string.drop(1).dropLast(1);
 			't' -> true;
 			'f' -> false;
@@ -134,7 +134,7 @@ class SettingsBackup: Plugin(){
 		"CACHE_KEY_STICKER_SUGGESTIONS",
 		"STORE_SETTINGS_ALLOW_ACCESSIBILITY_DETECTION ",
 		"STORE_SETTINGS_AUTO_PLAY_GIFS ",
-		//"SEARCH_HISTORY_V2",//broken for some reason
+		"SEARCH_HISTORY_V2",
 		"PREFERRED_VIDEO_INPUT_DEVICE_GUID",
 		"CACHE_KEY_NATIVE_ENGINE_EVER_INITIALIZED",//no idea what's this either
 		"NOTICES_SHOWN_V2",
@@ -162,15 +162,11 @@ class SettingsBackup: Plugin(){
 		return Pair(p.getKey(), fPersisterValue.get(p) as T);
 	};
 	fun <T>deserializePersisterValue(valueString: String, persister: Persister<T>): T{
-		val current = fPersisterValue.get(persister) as T;
-		val type = if(current != null){
-			TypeToken.get(curren::class.java).type;
-		}else{
-			object : TypeToken<T>(){}.type;
-		};
+		val currentValue = fPersisterValue.get(persister) as T;
+		val type = TypeToken.get(currentValue!!::class.java).type;
 		val value = GsonUtils.fromJson<T>(valueString, type);
-		//logger.debug("${persister.getKey()}\n\ncurrent:\n${current?::class.java}\n${GsonUtils.toJson(current)}\n\nbackup:\n${value?::class.java}\n${GsonUtils.toJson(value)}");
-		return value as T;
+		logger.debug("${persister.getKey()}\n\ncurrent:\n${currentValue!!::class.java}\n${GsonUtils.toJson(currentValue)}\n\nbackup:\n${value!!::class.java}\n${GsonUtils.toJson(value)}");
+		return value;
 	};
 
 	override fun start(pluginContext: Context){
@@ -250,34 +246,36 @@ class SettingsBackup: Plugin(){
 		//other stores and settings
 
 		//import from backup
-		var backupPersisters: MutableMap<String, Any>? = optPersisters();
-		if(backupPersisters != null && !backupPersisters.isEmpty()){
+		var backupPersisters = backup.getJSONObject("persisters", null);
+		if(backupPersisters != null && backupPersisters.length() != 0){
 			patcher.patch(Persister::class.java.getDeclaredMethod("get"), PreHook{frame ->
 				val original = frame.thisObject as Persister<*>;
-				val value = backupPersisters[original.getKey()];
-				val valueString = GsonUtils.toJson(value);
+				val value = backupPersisters.opt(original.getKey());
 				if(value != null){
-					frame.result = deserializePersisterValue(valueString, original);
+					val valueString = value.toString();
+					val result = deserializePersisterValue(valueString, original);
+					logger.debug("CLASS:\n${result!!::class}");
+					frame.result = result;
 				};
 			});
 		}else{
 			//export current settings to backup
-			val currentPersisters = Persister.`access$getPreferences$cp`()//List<WeakReference<Persister<*>>>
+			val currentPersisters = JSONObject(Persister.`access$getPreferences$cp`()//List<WeakReference<Persister<*>>>
 				.mapNotNull{(it as WeakReference<Persister<*>>).get()}
 				.filter{it.getKey() in storeKeys}
 				.map{serializePersister(it) as Pair<String, Any>}
 				.toMap() as Map<String, *>
-			;
-			backup.setObject("persisters", currentPersisters);
+			);
+			backup.setJSONObject("persisters", currentPersisters);
 			//import from backup now
-			backupPersisters = optPersisters()!!;
+			backupPersisters = backup.getJSONObject("persisters", null)!!;
 			patcher.patch(Persister::class.java.getDeclaredMethod("get"), PreHook{frame ->
 				val original = frame.thisObject as Persister<*>;
-				val value = backupPersisters[original.getKey()];
-				val valueString = GsonUtils.toJson(value);
-				val result = deserializePersisterValue(valueString, original);
-				logger.debug("CLASS:\n${result!!::class}");
+				val value = backupPersisters.opt(original.getKey());
 				if(value != null){
+					val valueString = value.toString();
+					val result = deserializePersisterValue(valueString, original);
+					logger.debug("CLASS:\n${result!!::class}");
 					frame.result = result;
 				};
 			});
@@ -288,8 +286,8 @@ class SettingsBackup: Plugin(){
 			val key = _this.getKey();
 			val valueString = GsonUtils.toJson(frame.args[0]);
 			if(key in storeKeys && backupPersisters != null){
-				backupPersisters[key] = json(valueString);
-				backup.setObject("persisters", backupPersisters);
+				backupPersisters.put(key, json(valueString));
+				backup.setJSONObject("persisters", backupPersisters);
 			};
 		});
 
