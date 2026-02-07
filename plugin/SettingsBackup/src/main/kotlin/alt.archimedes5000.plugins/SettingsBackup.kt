@@ -164,7 +164,7 @@ class SettingsBackup: Plugin(){
 	fun <T>deserializePersisterValue(valueString: String, persister: Persister<T>): T{
 		val current = fPersisterValue.get(persister) as T;
 		val type = if(current != null){
-			TypeToken.get(curren::class.java).type;
+			TypeToken.get(current::class.java).type;
 		}else{
 			object : TypeToken<T>(){}.type;
 		};
