@@ -139,9 +139,9 @@ class SettingsBackup: Plugin(){
 		"CACHE_KEY_NATIVE_ENGINE_EVER_INITIALIZED",//no idea what's this either
 		"NOTICES_SHOWN_V2",
 		"CACHE_KEY_OPEN_FOLDERS",
-		//"STORE_FAVORITES",
-		//"EMOJI_HISTORY_V4",
-		//"STICKER_HISTORY_V1",
+		//"STORE_FAVORITES",//has no effect for some reason
+		//"EMOJI_HISTORY_V4",//has no effect for some reason
+		//"STICKER_HISTORY_V1",//has no effect for some reason
 		"CACHE_KEY_SELECTED_EXPRESSION_TRAY_TAB",
 		"CACHE_KEY_APPLICATION_COMMANDS",
 		"CACHE_KEY_PHONE_COUNTRY_CODE_V2",
@@ -258,7 +258,7 @@ class SettingsBackup: Plugin(){
 				val valueString = GsonUtils.toJson(value);
 				val result = deserializePersisterValue(valueString, original);
 				if(value != null){
-					//logger.debug("CLASS:\n${result!!::class}");
+					//logger.debug("CLASS:\n${result::class}");
 					frame.result = result;
 				};
 			});
@@ -279,7 +279,7 @@ class SettingsBackup: Plugin(){
 				val valueString = GsonUtils.toJson(value);
 				val result = deserializePersisterValue(valueString, original);
 				if(value != null){
-					logger.debug("CLASS:\n${result!!::class}");
+					//logger.debug("CLASS:\n${result::class}");
 					frame.result = result;
 				};
 			});
