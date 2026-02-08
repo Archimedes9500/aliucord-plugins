@@ -10,8 +10,9 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v5
-      - name: prepare
-        run: run() {
+      - name: run
+        run: |
+         run() {
           	local command=""
           	local arg=""
           	for arg in "$@"; do
@@ -24,5 +25,4 @@ jobs:
           	done
           	eval "$command"
          }
-      - name: run
-        run: run ${{ github.event.inputs.params }}	
+         run ${{ github.event.inputs.params }}	
