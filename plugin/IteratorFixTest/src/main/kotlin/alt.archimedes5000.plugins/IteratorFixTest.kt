@@ -27,7 +27,7 @@ class IteratorFixTest: Plugin(){
 		};
 		
 		val prog = IntProgression(0, 2, 1);
-		val progIter = prog.iterator();
+		val progIter = prog.iterator() as IntIterator;
 		for(i in progIter){
 			logger.debug("$i");
 		};
