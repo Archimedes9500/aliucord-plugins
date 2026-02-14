@@ -5,25 +5,24 @@ import android.annotation.SuppressLint
 import com.aliucord.entities.Plugin
 import android.content.Context
 
-//fun d0.d0.b.
+//import d0.t.c0 as IntIterator
+//import d0.d0.b as IntProgressionIterator
 
 @AliucordPlugin(requiresRestart = true)
 @SuppressLint("SetTextI18n")
 class IteratorFixTest: Plugin(){
 
 	override fun start(pluginContext: Context){
-		val data = arrayOf(0, 1, 2);
-		val iter = object : IntIterator(){
-			var idx = 0;
-			override fun nextInt(): Int{
-				if (!hasNext()) throw NoSuchElementException();
-				return data[idx++];
-			};
-			override fun hasNext(): Boolean = idx<data.size;
+		val prog = IntProgression(0, 2, 1);
+
+		val iter = prog.iterator();
+		for(i in iter){
+			logger.debug("$i");
 		};
 
-		for(e in iter){
-			logger.debug("$e");
+		val altIter = d0.d0.b(0, 2, 1) as d0.t.c0;
+		for(i in altIter){
+			logger.debug("$i");
 		};
 	};
 
