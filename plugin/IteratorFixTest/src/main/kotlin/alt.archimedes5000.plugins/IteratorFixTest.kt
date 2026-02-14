@@ -6,11 +6,11 @@ import com.aliucord.entities.Plugin
 
 //fun d0.d0.b.
 
-
 @AliucordPlugin(requiresRestart = true)
 @SuppressLint("SetTextI18n")
 class IteratorFixTest: Plugin(){
-	init{
+
+	override fun start(pluginContext: Context){
 		val data = arrayOf(0, 1, 2);
 		val iter = object : IntIterator(){
 			var idx = 0;
