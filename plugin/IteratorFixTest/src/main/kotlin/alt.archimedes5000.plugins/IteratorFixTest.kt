@@ -20,6 +20,10 @@ class IteratorFixTest: Plugin(){
 			};
 			override fun hasNext(): Boolean = idx<data.size;
 		};
+
+		for(e in iter){
+			logger.debug("$e");
+		};
 	};
 
 	override fun stop(pluginContext: Context) = patcher.unpatchAll();
