@@ -3,6 +3,7 @@ package alt.archimedes5000.plugins
 import com.aliucord.annotations.AliucordPlugin
 import android.annotation.SuppressLint
 import com.aliucord.entities.Plugin
+import android.content.Context
 
 //fun d0.d0.b.
 
