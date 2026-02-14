@@ -5,8 +5,8 @@ import android.annotation.SuppressLint
 import com.aliucord.entities.Plugin
 import android.content.Context
 
-import d0.t.c0 as IntIterator
-import d0.d0.b as IntProgressionIterator
+typealias d0.t.c0  =  IntIterator
+typealias d0.d0.b = IntProgressionIterator
 
 @AliucordPlugin(requiresRestart = true)
 @SuppressLint("SetTextI18n")
