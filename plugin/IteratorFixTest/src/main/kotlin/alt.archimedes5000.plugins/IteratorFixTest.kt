@@ -16,7 +16,7 @@ class IteratorFixTest: Plugin(){
 
 		val autorange = 0..2;
 		val autorangeIter = autorange.iterator();
-		for(i in autorangeIter){
+		for(i in 0..2){
 			logger.debug("$i");
 		};
 
