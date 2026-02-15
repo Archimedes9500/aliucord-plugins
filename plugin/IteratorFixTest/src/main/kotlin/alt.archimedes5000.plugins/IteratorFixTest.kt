@@ -46,7 +46,7 @@ class IteratorFixTest: Plugin(){
 
 	override fun start(pluginContext: Context){
 
-		patcher.instead<aaa>("iterator"){
+		patcher.instead<IntProgression>("iterator"){
 			(frame, first: Int, last: Int, step: Int) ->
 			frame.result = cIntProgressionIterator.newInstance(first, last, step);
 		};
