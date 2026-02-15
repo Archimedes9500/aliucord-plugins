@@ -7,8 +7,8 @@ import android.content.Context
 
 import d0.t.c0
 import d0.d0.b
-typealias c0 = IntIterator
-internal typealias b = IntProgressionIterator
+internal typealias c0 = IntIterator
+//internal typealias b = IntProgressionIterator
 
 @AliucordPlugin(requiresRestart = true)
 @SuppressLint("SetTextI18n")
