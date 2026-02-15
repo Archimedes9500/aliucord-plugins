@@ -10,6 +10,9 @@ import com.aliucord.patcher.instead
 //import d0.t.c0 as IntIterator
 //import d0.d0.b as IntProgressionIterator
 
+typealias IntIterator = d0.t.c0;
+typealias IntProgressionIterator = d0.d0.b;
+
 @AliucordPlugin(requiresRestart = true)
 @SuppressLint("SetTextI18n")
 class IteratorFixTest: Plugin(){
@@ -24,11 +27,11 @@ class IteratorFixTest: Plugin(){
 	;
 
 	override fun start(pluginContext: Context){
-
+/*
 		patcher.instead<IntProgression>("iterator"){frame ->
 			return@instead cIntProgressionIterator.newInstance(first, last, step);
 		};
-
+*/
 		val prog = IntProgression(0, 2, 1);
 		val progIter = prog.iterator() as IntIterator;
 		for(i in progIter){
