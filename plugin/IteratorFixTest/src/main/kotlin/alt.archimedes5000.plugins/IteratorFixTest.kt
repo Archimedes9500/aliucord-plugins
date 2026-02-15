@@ -5,7 +5,7 @@ import android.annotation.SuppressLint
 import com.aliucord.entities.Plugin
 import android.content.Context
 
-import.com.aliucord.patcher.instead
+import com.aliucord.patcher.instead
 
 //import d0.t.c0 as IntIterator
 //import d0.d0.b as IntProgressionIterator
