@@ -52,10 +52,6 @@ class IteratorFixTest: Plugin(){
 	override fun start(pluginContext: Context){
 
 		patcher.instead<IntProgression>("iterator"){frame ->
-			val _this = frame.thisObject as IntProgression;
-			val first = _this.first as Int;
-			val last = _this.last as Int;
-			val step = _this.step as Int;
 			frame.result = cIntProgressionIterator.newInstance(first, last, step);
 		};
 
