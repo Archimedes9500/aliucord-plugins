@@ -5,10 +5,32 @@ import android.annotation.SuppressLint
 import com.aliucord.entities.Plugin
 import android.content.Context
 
-import d0.t.c0
-import d0.d0.b
-internal typealias c0 = IntIterator
-//internal typealias b = IntProgressionIterator
+//import d0.t.c0 as IntIterator
+//import d0.d0.b as IntProgressionIterator
+
+fun IntProgression.iterator(): IntIterator{
+	val first = this.first;
+	val last = this.last;
+	val step = this.step;
+	return object : IntIterator(){
+		private val finalElement: Int = last;
+		private var hasNext: Boolean = if(step>0) first<=last else first>=last;
+		private var next: Int = if(hasNext) first else finalElement;
+		
+		override fun hasNext(): Boolean = hasNext;
+		
+		override fun nextInt(): Int{
+			val value = next;
+			if(value == finalElement){
+				if(!hasNext) throw NoSuchElementException();
+				hasNext = false;
+			}else{
+				next += step;
+			};
+			return value;
+		};
+	};
+};
 
 @AliucordPlugin(requiresRestart = true)
 @SuppressLint("SetTextI18n")
