@@ -5,9 +5,12 @@ import android.annotation.SuppressLint
 import com.aliucord.entities.Plugin
 import android.content.Context
 
+import.com.aliucord.patcher.instead;
+
 //import d0.t.c0 as IntIterator
 //import d0.d0.b as IntProgressionIterator
 
+/*
 fun IntProgression.iterator(): IntIterator{
 	val first = this.first;
 	val last = this.last;
@@ -31,12 +34,22 @@ fun IntProgression.iterator(): IntIterator{
 		};
 	};
 };
+*/
 
 @AliucordPlugin(requiresRestart = true)
 @SuppressLint("SetTextI18n")
 class IteratorFixTest: Plugin(){
 
+	val cIntProgressionIterator = IntProgressionIterator
+		.getDeclaredConstructor(Int::class.java, Int::class.java, Int::class.java)
+	;
+
 	override fun start(pluginContext: Context){
+
+		patcher.instead<aaa>("iterator"){
+			(frame, first: Int, last: Int, step: Int) ->
+			frame.result = cIntProgressionIterator.newInstance(first, last, step);
+		};
 
 		val prog = IntProgression(0, 2, 1);
 		val progIter = prog.iterator() as IntIterator;
