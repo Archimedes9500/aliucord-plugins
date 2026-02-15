@@ -5,7 +5,7 @@ import android.annotation.SuppressLint
 import com.aliucord.entities.Plugin
 import android.content.Context
 
-import.com.aliucord.patcher.instead;
+import.com.aliucord.patcher.instead
 
 //import d0.t.c0 as IntIterator
 //import d0.d0.b as IntProgressionIterator
@@ -40,8 +40,13 @@ fun IntProgression.iterator(): IntIterator{
 @SuppressLint("SetTextI18n")
 class IteratorFixTest: Plugin(){
 
-	val cIntProgressionIterator = IntProgressionIterator
-		.getDeclaredConstructor(Int::class.java, Int::class.java, Int::class.java)
+	val cIntProgressionIterator = Class.forName("kotlin.ranges.IntProgressionIterator")
+		.getDeclaredConstructor(
+			Int::class.java,
+			Int::class.java,
+			Int::class.java
+		)
+		.apply{isAccessible = true}
 	;
 
 	override fun start(pluginContext: Context){
