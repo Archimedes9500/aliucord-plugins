@@ -19,6 +19,9 @@ class IteratorFixTest: Plugin(){
 		};
 
 		logger.debug("".trimIndent());
+		for (i in 0..10){
+			logger.debug("$i");
+		};
 	};
 	override fun stop(pluginContext: Context) = patcher.unpatchAll();
 };
