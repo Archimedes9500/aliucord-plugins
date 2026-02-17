@@ -1,7 +1,5 @@
-package alt.archimedes9500.plugins;
-
-@file:Suppress("DEPRECATION")
-@file:Suppress("EXTENSION_SHADOWED_BY_MEMBER")
+@file:Suppress("DEPRECATION", "EXTENSION_SHADOWED_BY_MEMBER")
+package alt.archimedes9500.plugins
 
 fun java.lang.Byte.compareTo(other: Byte): Int{
 	return (this as Byte).compareTo(other);
