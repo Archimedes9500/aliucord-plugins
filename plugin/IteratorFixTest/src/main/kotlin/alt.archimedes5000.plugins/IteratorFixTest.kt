@@ -5,8 +5,8 @@ import android.annotation.SuppressLint
 import com.aliucord.entities.Plugin
 import android.content.Context
 
-typealias IntIterator = d0.t.c0;
-typealias IntProgressionIterator = d0.d0.b;
+//typealias IntIterator = d0.t.c0;
+//typealias IntProgressionIterator = d0.d0.b;
 
 @AliucordPlugin(requiresRestart = true)
 @SuppressLint("SetTextI18n")
@@ -19,21 +19,13 @@ class IteratorFixTest: Plugin(){
 			logger.debug("$i");
 		};
 
-		logger.debug("".trimIndent());
+		//logger.debug("".trimIndent());
 
 		for(i in 0..2){
 			logger.debug("$i");
 		};
 
 		for(i in 0L..2L){
-			logger.debug("$i");
-		};
-
-		for(i in 0f..2f){
-			logger.debug("$i");
-		};
-
-		for(i in 0.0..2.0){
 			logger.debug("$i");
 		};
 	};
