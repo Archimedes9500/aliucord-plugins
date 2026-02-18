@@ -12,6 +12,7 @@ typealias IntProgressionIterator = d0.d0.b;
 @SuppressLint("SetTextI18n")
 class IteratorFixTest: Plugin(){
 	override fun start(pluginContext: Context){
+
 		val prog = IntProgression(0, 2, 1);
 		val progIter = prog.iterator() as IntIterator;
 		for(i in progIter){
@@ -19,7 +20,12 @@ class IteratorFixTest: Plugin(){
 		};
 
 		logger.debug("".trimIndent());
-		for (i in 0..10){
+
+		for(i in 0..2){
+			logger.debug("$i");
+		};
+
+		for(i in 0L..2L)
 			logger.debug("$i");
 		};
 	};
