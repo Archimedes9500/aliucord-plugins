@@ -25,7 +25,7 @@ class IteratorFixTest: Plugin(){
 			logger.debug("$i");
 		};
 
-		for(i in 0L..2L)
+		for(i in 0L..2L){
 			logger.debug("$i");
 		};
 	};
