@@ -28,6 +28,14 @@ class IteratorFixTest: Plugin(){
 		for(i in 0L..2L){
 			logger.debug("$i");
 		};
+
+		for(i in 0f..2f){
+			logger.debug("$i");
+		};
+
+		for(i in 0.0..2.0){
+			logger.debug("$i");
+		};
 	};
 	override fun stop(pluginContext: Context) = patcher.unpatchAll();
 };
