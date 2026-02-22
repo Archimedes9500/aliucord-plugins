@@ -31,7 +31,7 @@ class FuckAnimations: Plugin(){
 		};
 */
 		patcher.after<StoreAccessibility>(
-			"access$getReducedMotionEnabled$p"
+			'access$getReducedMotionEnabled$p',
 			StoreAccessibility::class.java
 		){frame ->
 			frame.result = false;
