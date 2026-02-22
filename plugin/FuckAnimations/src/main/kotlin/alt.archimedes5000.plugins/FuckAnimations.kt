@@ -16,22 +16,18 @@ typealias IntProgressionIterator = d0.d0.b;
 @AliucordPlugin(requiresRestart = true)
 @SuppressLint("SetTextI18n")
 class FuckAnimations: Plugin(){
-	override fun start(pluginContext: Context){
 	val fReducedMotionEnabled = StoreAccessibility::class.java
 		.getDeclaredField("reducedMotionEnabled")
 		.apply{isAccessible = true}
 	;
-/*
-		patcher.instead<InlineMediaView>("shouldAutoPlay"){frame ->
-			return@instead true;
-		};
-*/
-		patcher.after<StoreStream>("getAccessibility"){frame ->
+	override fun start(pluginContext: Context){
+		//Force enable reduced motion
+		patcher.after<StoreStream.Companion>("getAccessibility"){frame ->
 			val store = frame.result as StoreAccessibility;
 			fReducedMotionEnabled.set(store, false);
 			frame.result = store;
 		};
-
+		//Ignore reduced motion for those cases
 		patcher.before<StoreUserSettings>(
 			"observeIsAnimatedEmojisEnabled",
 			Boolean::class.java
