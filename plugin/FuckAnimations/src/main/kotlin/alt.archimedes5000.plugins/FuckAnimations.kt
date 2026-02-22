@@ -21,7 +21,6 @@ class FuckAnimations: Plugin(){
 		.apply{isAccessible = true}
 	;
 
-
 	override fun start(pluginContext: Context){
 		//Force enable reduced motion
 /*
