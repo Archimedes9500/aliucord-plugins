@@ -16,20 +16,27 @@ typealias IntProgressionIterator = d0.d0.b;
 @AliucordPlugin(requiresRestart = true)
 @SuppressLint("SetTextI18n")
 class FuckAnimations: Plugin(){
+/*
 	val fReducedMotionEnabled = StoreAccessibility::class.java
 		.getDeclaredField("reducedMotionEnabled")
 		.apply{isAccessible = true}
 	;
+*/
+	lateinit var originalState: Boolean;
 
 	override fun start(pluginContext: Context){
+		originalState = settings.getBool(
+			"originalState",
+			StoreStream.getAccessibility().getReducedMotionEnabled()
+		);
 		//Force enable reduced motion
+		store.setReducedMotionEnabled(true);
 /*
 		patcher.after<StoreStream.Companion>("getAccessibility"){frame ->
 			val store = frame.result as StoreAccessibility;
 			fReducedMotionEnabled.set(store, true);
 			frame.result = store;
 		};
-*/
 		patcher.after<StoreAccessibility>(
 			'access$getReducedMotionEnabled$p',
 			StoreAccessibility::class.java
@@ -43,6 +50,7 @@ class FuckAnimations: Plugin(){
 			logger.debug(frame.result.toString());
 			frame.result = false;
 		};
+*/
 		//Ignore reduced motion for those cases
 		patcher.before<StoreUserSettings>(
 			"observeIsAnimatedEmojisEnabled",
@@ -64,6 +72,9 @@ class FuckAnimations: Plugin(){
 		};
 	};
 	override fun stop(pluginContext: Context){
+		StoreStream.getAccessibility().setReducedMotionEnabled(
+			settings.getBool("originalState", originalState?: false)
+		);
 		patcher.unpatchAll();
 	};
 };
