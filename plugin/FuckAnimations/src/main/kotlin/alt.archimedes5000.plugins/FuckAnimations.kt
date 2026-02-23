@@ -36,6 +36,11 @@ class FuckAnimations: Plugin(){
 		){frame ->
 			frame.result = true;
 		};
+		patcher.after<StoreAccessibility>(
+			"getReducedMotionEnabled"
+		){frame ->
+			frame.result = true;
+		};
 		//Ignore reduced motion for those cases
 		patcher.before<StoreUserSettings>(
 			"observeIsAnimatedEmojisEnabled",
