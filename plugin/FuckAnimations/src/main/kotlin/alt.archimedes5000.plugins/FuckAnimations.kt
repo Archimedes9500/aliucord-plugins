@@ -9,6 +9,7 @@ import com.aliucord.patcher.*
 import com.discord.stores.StoreStream
 import com.discord.stores.StoreAccessibility
 import com.discord.stores.StoreUserSettings
+import rx.Observable
 import com.discord.widgets.chat.input.emoji.EmojiPickerViewModel
 
 typealias IntIterator = d0.t.c0;
@@ -18,6 +19,10 @@ typealias IntProgressionIterator = d0.d0.b;
 @SuppressLint("SetTextI18n")
 class FuckAnimations: Plugin(){
 	var originalState: Boolean? = null;
+	var isAnimatedEmojisEnabled: Boolean? = null;
+	StoreStream.getUserSettings().observeIsAnimatedEmojisEnabled(false).subscribe{v ->
+		isAnimatedEmojisEnabled = v;
+	};
 
 	override fun start(pluginContext: Context){
 		val store = StoreStream.Companion!!.getAccessibility();
@@ -55,7 +60,7 @@ class FuckAnimations: Plugin(){
 			Long::class.java,
 			java.util.Set::class.java
 		){frame ->
-			frame.args[4] = true;
+			frame.args[4] = isAnimatedEmojisEnabled;
 		};
 	};
 	override fun stop(pluginContext: Context){
