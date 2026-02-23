@@ -20,9 +20,18 @@ typealias IntProgressionIterator = d0.d0.b;
 class FuckAnimations: Plugin(){
 	var originalState: Boolean? = null;
 	var isAnimatedEmojisEnabled: Boolean? = null;
-	val o = StoreStream.getUserSettings().observeIsAnimatedEmojisEnabled(false).subscribe{v ->
-		isAnimatedEmojisEnabled = v;
-	};
+	val x = ObservableExtensionsKt.appSubscribe(
+		StoreStream.getUserSettings().observeIsAnimatedEmojisEnabled(false),
+		null,//errorClass
+		pluginContext,
+		{},//subscribed
+		{},//error
+		{},//completed
+		{},//terminated
+		{v ->
+			isAnimatedEmojisEnabled = v;
+		}
+	);
 
 	override fun start(pluginContext: Context){
 		val store = StoreStream.Companion!!.getAccessibility();
