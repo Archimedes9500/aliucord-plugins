@@ -25,7 +25,7 @@ class FuckAnimations: Plugin(){
 	var originalState: Boolean? = null;
 
 	override fun start(pluginContext: Context){
-		val store = StoreStream.Companion.getAccessibility();
+		val store = StoreStream.Companion!!.getAccessibility();
 		originalState = settings.getBool(
 			"originalState",
 			store.getReducedMotionEnabled()
@@ -73,7 +73,7 @@ class FuckAnimations: Plugin(){
 		};
 	};
 	override fun stop(pluginContext: Context){
-		StoreStream.Companion.getAccessibility().setReducedMotionEnabled(
+		StoreStream.Companion!!.getAccessibility().setReducedMotionEnabled(
 			settings.getBool("originalState", originalState?: false)
 		);
 		patcher.unpatchAll();
