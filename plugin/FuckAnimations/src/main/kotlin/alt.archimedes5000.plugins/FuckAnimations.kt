@@ -9,7 +9,7 @@ import com.aliucord.patcher.*
 import com.discord.stores.StoreStream
 import com.discord.stores.StoreAccessibility
 import com.discord.stores.StoreUserSettings
-import rx.Observable
+import com.discord.utilities.rx.ObservableExtensionsKt
 import com.discord.widgets.chat.input.emoji.EmojiPickerViewModel
 
 typealias IntIterator = d0.t.c0;
@@ -22,7 +22,7 @@ class FuckAnimations: Plugin(){
 	var isAnimatedEmojisEnabled: Boolean? = null;
 	val x = ObservableExtensionsKt.appSubscribe(
 		StoreStream.getUserSettings().observeIsAnimatedEmojisEnabled(false),
-		null,//errorClass
+		Int::class.java,//errorClass
 		pluginContext,
 		{},//subscribed
 		{},//error
