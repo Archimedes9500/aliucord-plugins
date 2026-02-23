@@ -34,12 +34,14 @@ class FuckAnimations: Plugin(){
 			"access\$getReducedMotionEnabled\$p",
 			StoreAccessibility::class.java
 		){frame ->
-			frame.result = false;
+			logger.debug("access$"+frame.result);
+			frame.result = true;
 		};
 		patcher.after<StoreAccessibility>(
 			"getReducedMotionEnabled"
 		){frame ->
-			frame.result = false;
+			logger.debug(frame.result);
+			frame.result = true;
 		};
 		//Ignore reduced motion for those cases
 		patcher.before<StoreUserSettings>(
