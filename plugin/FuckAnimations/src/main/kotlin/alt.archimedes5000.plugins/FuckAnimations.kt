@@ -23,7 +23,7 @@ class FuckAnimations: Plugin(){
 
 	override fun start(pluginContext: Context){
 		ObservableExtensionsKt.appSubscribe(
-			Main::class.java,//errorClass
+			com.aliucord.Main::class.java,//errorClass
 			pluginContext,
 			{s: rx.Subscription -> },//subscribed
 			{e: Throwable -> },//error
