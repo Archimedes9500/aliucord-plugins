@@ -14,7 +14,7 @@ import com.discord.widgets.chat.input.emoji.EmojiPickerViewModel
 typealias IntIterator = d0.t.c0;
 typealias IntProgressionIterator = d0.d0.b;
 
-@AliucordPlugin(requiresRestart = true)
+@AliucordPlugin(requiresRestart = false)
 @SuppressLint("SetTextI18n")
 class FuckAnimations: Plugin(){
 	var originalState: Boolean? = null;
