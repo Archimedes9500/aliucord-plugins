@@ -23,14 +23,13 @@ class FuckAnimations: Plugin(){
 
 	override fun start(pluginContext: Context){
 		ObservableExtensionsKt.appSubscribe(
-			StoreStream.getUserSettings().observeIsAnimatedEmojisEnabled(false),
-			Int::class.java,//errorClass
+			Main::class.java,//errorClass
 			pluginContext,
-			{},//subscribed
-			{},//error
+			{s: rx.Subscription -> },//subscribed
+			{e: Throwable -> },//error
 			{},//completed
 			{},//terminated
-			{v ->
+			{v: T ->
 				isAnimatedEmojisEnabled = v;
 			}
 		);
