@@ -8,6 +8,7 @@ import com.aliucord.patcher.*
 
 import com.discord.stores.StoreStream
 import com.discord.stores.StoreAccessibility
+com.discord.stores.StoreUserSettings
 import com.discord.widgets.chat.input.emoji.EmojiPickerViewModel
 
 typealias IntIterator = d0.t.c0;
@@ -53,7 +54,7 @@ class FuckAnimations: Plugin(){
 			Boolean::class.java,
 			Long::class.java,
 			java.util.Set::class.java
-		){
+		){frame ->
 			frame.args[4] = true;
 		};
 	};
