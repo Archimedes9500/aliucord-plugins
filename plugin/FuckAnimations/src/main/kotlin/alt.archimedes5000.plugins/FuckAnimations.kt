@@ -23,19 +23,19 @@ class FuckAnimations: Plugin(){
 
 	override fun start(pluginContext: Context){
 		//Force enable reduced motion
-/*
 		patcher.after<StoreStream.Companion>("getAccessibility"){frame ->
 			val store = frame.result as StoreAccessibility;
-			fReducedMotionEnabled.set(store, false);
+			fReducedMotionEnabled.set(store, true);
 			frame.result = store;
 		};
-*/
+/*
 		patcher.after<StoreAccessibility>(
 			"access\$getReducedMotionEnabled\$p",
 			StoreAccessibility::class.java
 		){frame ->
-			frame.result = false;
+			frame.result = true;
 		};
+*/
 		//Ignore reduced motion for those cases
 		patcher.before<StoreUserSettings>(
 			"observeIsAnimatedEmojisEnabled",
