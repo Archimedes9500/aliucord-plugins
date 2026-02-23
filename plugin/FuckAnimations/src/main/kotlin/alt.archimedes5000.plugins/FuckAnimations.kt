@@ -27,7 +27,7 @@ class FuckAnimations: Plugin(){
 	override fun start(pluginContext: Context){
 		originalState = settings.getBool(
 			"originalState",
-			StoreStream.getAccessibility().getReducedMotionEnabled()
+			StoreStream.`getAccessibility$app_productionGoogleRelease`().getReducedMotionEnabled()
 		);
 		//Force enable reduced motion
 		store.setReducedMotionEnabled(true);
@@ -72,7 +72,7 @@ class FuckAnimations: Plugin(){
 		};
 	};
 	override fun stop(pluginContext: Context){
-		StoreStream.getAccessibility().setReducedMotionEnabled(
+		StoreStream.`getAccessibility$app_productionGoogleRelease`().setReducedMotionEnabled(
 			settings.getBool("originalState", originalState?: false)
 		);
 		patcher.unpatchAll();
