@@ -20,7 +20,7 @@ typealias IntProgressionIterator = d0.d0.b;
 class FuckAnimations: Plugin(){
 	var originalState: Boolean? = null;
 	var isAnimatedEmojisEnabled: Boolean? = null;
-	StoreStream.getUserSettings().observeIsAnimatedEmojisEnabled(false).subscribe{v ->
+	val o = StoreStream.getUserSettings().observeIsAnimatedEmojisEnabled(false).subscribe{v ->
 		isAnimatedEmojisEnabled = v;
 	};
 
