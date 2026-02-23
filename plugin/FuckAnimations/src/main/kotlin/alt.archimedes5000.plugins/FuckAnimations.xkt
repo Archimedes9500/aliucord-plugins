@@ -22,12 +22,12 @@ class FuckAnimations: Plugin(){
 		.apply{isAccessible = true}
 	;
 */
-	lateinit var originalState: Boolean;
+	var originalState: Boolean? = null;
 
 	override fun start(pluginContext: Context){
 		originalState = settings.getBool(
 			"originalState",
-			StoreStream.`getAccessibility$app_productionGoogleRelease`().getReducedMotionEnabled()
+			StoreStream.Companion.getAccessibility().getReducedMotionEnabled()
 		);
 		//Force enable reduced motion
 		store.setReducedMotionEnabled(true);
@@ -72,7 +72,7 @@ class FuckAnimations: Plugin(){
 		};
 	};
 	override fun stop(pluginContext: Context){
-		StoreStream.`getAccessibility$app_productionGoogleRelease`().setReducedMotionEnabled(
+		StoreStream.Companion.getAccessibility().setReducedMotionEnabled(
 			settings.getBool("originalState", originalState?: false)
 		);
 		patcher.unpatchAll();
