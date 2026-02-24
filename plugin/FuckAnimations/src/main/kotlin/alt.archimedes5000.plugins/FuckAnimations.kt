@@ -15,11 +15,6 @@ import com.discord.widgets.chat.input.emoji.EmojiPickerViewModel
 typealias IntIterator = d0.t.c0;
 typealias IntProgressionIterator = d0.d0.b;
 
-fun com.aliucord.api.SettingsAPI.optBool(key: String): Boolean?{
-	if(!this.exists(key)) return null;
-	return this.getBool(key, /*bullshit ->*/false);
-};
-
 @AliucordPlugin(requiresRestart = false)
 @SuppressLint("SetTextI18n")
 class FuckAnimations: Plugin(){
@@ -36,7 +31,10 @@ class FuckAnimations: Plugin(){
 		;
 
 		val store = StoreStream.Companion!!.getAccessibility();
-		originalState = store.isReducedMotionEnabled().also{settings.setBool("originalState", it)};
+		originalState = store.isReducedMotionEnabled().also{
+			logger.debug("originalState: $it");
+			settings.setBool("originalState", it);
+		};
 		store.setReducedMotionEnabled(true);
 		//Ignore reduced motion for those cases
 		patcher.before<StoreUserSettings>(
@@ -63,7 +61,7 @@ class FuckAnimations: Plugin(){
 			com.discord.stores.StoreEmoji.EmojiContext::class.java,
 			java.util.LinkedHashMap::class.java,
 			String::class.java,
-			Boolean::class.java,
+			Boolean::class.java,//allowEmojisToAnimate
 			Long::class.java,
 			java.util.Set::class.java
 		){frame ->
