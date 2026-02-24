@@ -39,7 +39,7 @@ subprojects {
 
 	configure<AliucordExtension> {
 		author("Archimedes5000", 0L)
-		github("https://github.com/Archimedes9500/aliucord-plugins/")
+		github("https://github.com/Archimedes9500/aliucord-plugins")
 	}
 
 	configure<KtlintExtension> {

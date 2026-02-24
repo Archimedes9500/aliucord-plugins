@@ -6,12 +6,11 @@ import com.aliucord.entities.Plugin
 import android.content.Context
 import com.aliucord.patcher.*
 
+import com.discord.stores.StoreUserSettings
+import com.discord.utilities.persister.Persister
 import com.discord.stores.StoreStream
 import com.discord.stores.StoreAccessibility
-import com.discord.stores.StoreUserSettings
-import com.discord.utilities.rx.ObservableExtensionsKt
 import com.discord.widgets.chat.input.emoji.EmojiPickerViewModel
-import com.discord.utilities.persister.Persister
 
 typealias IntIterator = d0.t.c0;
 typealias IntProgressionIterator = d0.d0.b;
@@ -30,19 +29,6 @@ class FuckAnimations: Plugin(){
 			.getDeclaredField("allowAnimatedEmojisPublisher")
 			.apply{isAccessible = true}
 		;
-/*
-		ObservableExtensionsKt.appSubscribe(
-			com.aliucord.Main::class.java,//errorClass
-			pluginContext,
-			{s: rx.Subscription -> },//subscribed
-			{e: Throwable -> },//error
-			{},//completed
-			{},//terminated
-			{v: T ->
-				isAnimatedEmojisEnabled = v;
-			}
-		);
-*/
 
 		val store = StoreStream.Companion!!.getAccessibility();
 		originalState = settings.getBool(
