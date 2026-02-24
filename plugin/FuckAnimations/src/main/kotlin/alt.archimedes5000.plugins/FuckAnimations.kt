@@ -11,6 +11,7 @@ import com.discord.stores.StoreAccessibility
 import com.discord.stores.StoreUserSettings
 import com.discord.utilities.rx.ObservableExtensionsKt
 import com.discord.widgets.chat.input.emoji.EmojiPickerViewModel
+import com.discord.utilities.persister.Persister
 
 typealias IntIterator = d0.t.c0;
 typealias IntProgressionIterator = d0.d0.b;
@@ -19,9 +20,17 @@ typealias IntProgressionIterator = d0.d0.b;
 @SuppressLint("SetTextI18n")
 class FuckAnimations: Plugin(){
 	var originalState: Boolean? = null;
-	var isAnimatedEmojisEnabled: Boolean? = null;
 
 	override fun start(pluginContext: Context){
+		val fPersisterValue = Persister::class.java
+			.getDeclaredField("value")
+			.apply{isAccessible = true}
+		;
+		val fpAnimatedEmojis = StoreUserSettings::class.java
+			.getDeclaredField("allowAnimatedEmojisPublisher")
+			.apply{isAccessible = true}
+		;
+/*
 		ObservableExtensionsKt.appSubscribe(
 			com.aliucord.Main::class.java,//errorClass
 			pluginContext,
@@ -33,6 +42,7 @@ class FuckAnimations: Plugin(){
 				isAnimatedEmojisEnabled = v;
 			}
 		);
+*/
 
 		val store = StoreStream.Companion!!.getAccessibility();
 		originalState = settings.getBool(
@@ -69,7 +79,9 @@ class FuckAnimations: Plugin(){
 			Long::class.java,
 			java.util.Set::class.java
 		){frame ->
-			frame.args[4] = isAnimatedEmojisEnabled;
+			frame.args[4] = fPersisterValue.get(
+				fpAnimatedEmojis.get(StoreStream.getUserSettings())
+			);
 		};
 	};
 	override fun stop(pluginContext: Context){
