@@ -33,7 +33,7 @@ class FuckAnimations: Plugin(){
 		val store = StoreStream.Companion!!.getAccessibility();
 		originalState = settings.getBool("originalState", store.isReducedMotionEnabled());
 		if(!settings.exists("originalState")){
-			settings.setBool("originalState", originalState);
+			settings.setBool("originalState", originalState?: false);
 		};
 		store.setReducedMotionEnabled(true);
 		//Ignore reduced motion for those cases
