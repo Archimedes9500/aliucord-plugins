@@ -53,6 +53,7 @@ subprojects {
 		compilerOptions {
 			jvmTarget = JvmTarget.JVM_21
 			optIn.add("kotlin.RequiresOptIn")
+			optIn.add("kotlin.ExperimentalStdlibApi")
 		}
 	}
 
