@@ -1,6 +1,8 @@
 package alt.archimedes5000.plugins
 
-import com.github.gfx.util.WeakItentityHashMap
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
+import com.github.gfx.util.WeakIdentityHashMap
 
 class ExtField<V>(): ReadWriteProperty<Any, V> {
 	private val fields = WeakIdentityHashMap<Any, V>()
