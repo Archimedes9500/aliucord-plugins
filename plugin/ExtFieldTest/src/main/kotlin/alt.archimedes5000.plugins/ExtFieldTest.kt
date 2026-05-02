@@ -11,8 +11,9 @@ typealias IntProgressionIterator = d0.d0.b;
 @AliucordPlugin(requiresRestart = true)
 @SuppressLint("SetTextI18n")
 class ExtFieldTest: Plugin(){
+
+	val String.balls: String by ExtField();
 	override fun start(pluginContext: Context){
-		val String.balls: String by ExtField();
 		val test = "test";
 		test.balls = "balls";
 		logger.debug(test.balls);
