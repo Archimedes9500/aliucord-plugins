@@ -12,7 +12,7 @@ typealias IntProgressionIterator = d0.d0.b;
 @SuppressLint("SetTextI18n")
 class ExtFieldTest: Plugin(){
 
-	val String.balls: String by ExtField();
+	var String.balls: String by ExtField();
 	override fun start(pluginContext: Context){
 		val test = "test";
 		test.balls = "balls";
