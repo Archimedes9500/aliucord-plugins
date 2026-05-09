@@ -12,68 +12,49 @@ val mainThread = Utils.mainThread;
 @JvmField
 val threadPool = Utils.threadPool;
 
-@JvmStatic
 var appActivity = Utils.appActivity;
 
-@JvmStatic
 val appContext = Utils.appContext;
 
-@JvmStatic
 val isDebuggable = Utils.isDebuggable;
 
 @JvmField
 var widgetChatList = Utils.widgetChatList;
 
-@JvmStatic
 fun launchUrl(url: String) = Utils.launchUrl(url);
 
-@JvmStatic
 fun launchUrl(url: Uri) = Utils.launchUrl(url);
 
-@JvmStatic
 fun joinSupportServer(ctx: Context) = Utils.joinSupportServer(ctx);
 
-@JvmStatic
 @Throws(Resources.NotFoundException::class)
 fun getDrawableByAttr(context: Context, @AttrRes attr: Int) = Utils.getDrawableByAttr(context, attr);
 
-@JvmStatic
 fun <R>nestedChildAt(root: ViewGroup, vararg indices: Int) = Utils.nestedChildAt<R>(root, indices);
 
-@JvmStatic
 @Throws(IllegalArgumentException::class)
 fun launchFileExplorer(folder: File) = Utils.launchFileExplorer(folder);
 
-@JvmStatic
 fun setClipboard(label: CharSequence, text: CharSequence) = Utils.setClipboard(label, text);
 
-@JvmStatic
 fun pluralise(amount: Int, noun: String) = Utils.launchUrl(url)
 
 @JvmOverloads
-@JvmStatic
 fun showToast(message: String, showLonger: Boolean = false) = Utils.showToast(message, showLonger);
 
 @JvmOverloads
-@JvmStatic
 fun showToast(_ctx: Context, message: String, showLonger: Boolean = false) = Utils.launchUrl(url);
 
-@JvmStatic
 fun getResId(name: String, type: String) = Utils.getResId(name, type);
 
-@JvmStatic
 fun openPage(context: Context, clazz: Class<out AppComponent>, intent: Intent?) = Utils.launchUrl(url);
 
-@JvmStatic
 fun openPage(context: Context, clazz: Class<out AppComponent>) = Utils.openPage(context, clazz);
 
-@JvmStatic
 fun openPageWithProxy(context: Context, fragment: Fragment) = Utils.openPageWithProxy(context, fragment);
 
-@JvmStatic
 fun createCommandChoice(name: String, value: String) = Utils.createCommandChoice(name, value);
 
-@JvmStatic
 @JvmOverloads
 fun createCommandOption(
 	type: ApplicationCommandType = ApplicationCommandType.STRING,
@@ -99,7 +80,6 @@ fun createCommandOption(
 	autocomplete
 );
 
-@JvmStatic
 fun createCommandOption(
 	type: ApplicationCommandType = ApplicationCommandType.STRING,
 	name: String,
@@ -128,10 +108,8 @@ fun createCommandOption(
 	maxValue
 );
 
-@JvmStatic
 fun buildClyde(name: String?, avatarUrl: String?) = Utils.buildClyde(name, avatarUrl);
 
-@JvmStatic
 fun createCheckedSetting(
 	context: Context,
 	type: CheckedSetting.ViewType,
@@ -139,21 +117,15 @@ fun createCheckedSetting(
 	subtext: CharSequence?
 ) = Utils.createCheckedSetting(context, type, text, subtext);
 
-@JvmStatic
 fun tintToTheme(drawable: Drawable?) = Utils.tintToTheme(drawable);
 
-@JvmStatic
 fun log(msg: String) = Utils.log(msg);
 
-@JvmStatic
 fun openMediaViewer(url: String, filename: String) = Utils.openMediaViewer(url, filename);
 
-@JvmStatic
 fun restartAliucord(context: Context) = Utils.restartAliucord(context);
 
-@JvmStatic
 @JvmOverloads
 fun promptRestart(msg: String = "A restart is required. Restart now?", position: Int = Gravity.BOTTOM) = Utils.promptRestart(msg, position);
 
-@JvmStatic
 fun generateRNNonce() = Utils.generateRNNonce();
