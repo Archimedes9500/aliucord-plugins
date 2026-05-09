@@ -1,46 +1,28 @@
 package alt.archimedes5000.plugins.utils
 
-import com.alicord.Utils
+import com.aliucord.Utils
 
 typealias IntIterator = d0.t.c0;
 typealias IntProgressionIterator = d0.d0.b;
 
 //The stupid fucking com.aliucord.Utils being an object for some insane reason
 @JvmField
-val mainThread: Handler
-	get() = Utils.mainThread
-	set(v){Utils.mainThread = v}
-;
+val mainThread = Utils.mainThread;
 
 @JvmField
-val threadPool: ExecutorService
-	get() = Utils.threadPool
-	set(v){Utils.threadPool = v}
-;
+val threadPool = Utils.threadPool;
 
 @JvmStatic
-var appActivity: AppActivity
-	get() = Utils.appActivity
-	set(v){Utils.appActivity = v}
-;
+var appActivity = Utils.appActivity;
 
 @JvmStatic
-val appContext: Context
-	get() = Utils.appContext
-	set(v){Utils.appContext = v}
-;
+val appContext = Utils.appContext;
 
 @JvmStatic
-val isDebuggable
-	get() = Utils.mainThread
-	set(v){Utils.mainThread = v}
-;
+val isDebuggable = Utils.isDebuggable;
 
 @JvmField
-var widgetChatList: WidgetChatList?
-	get() = Utils.widgetChatList
-	set(v){Utils.widgetChatList = v}
-;
+var widgetChatList = Utils.widgetChatList;
 
 @JvmStatic
 fun launchUrl(url: String) = Utils.launchUrl(url);
@@ -155,7 +137,7 @@ fun createCheckedSetting(
 	type: CheckedSetting.ViewType,
 	text: CharSequence?,
 	subtext: CharSequence?
-) = Utils.launchUrl(url);
+) = Utils.createCheckedSetting(context, type, text, subtext);
 
 @JvmStatic
 fun tintToTheme(drawable: Drawable?) = Utils.tintToTheme(drawable);
@@ -171,10 +153,7 @@ fun restartAliucord(context: Context) = Utils.restartAliucord(context);
 
 @JvmStatic
 @JvmOverloads
-fun promptRestart(
-	msg: String = "A restart is required. Restart now?",
-	position: Int = Gravity.BOTTOM,
-) = Utils.launchUrl(url);
+fun promptRestart(msg: String = "A restart is required. Restart now?", position: Int = Gravity.BOTTOM) = Utils.promptRestart(msg, position);
 
 @JvmStatic
 fun generateRNNonce() = Utils.generateRNNonce();
