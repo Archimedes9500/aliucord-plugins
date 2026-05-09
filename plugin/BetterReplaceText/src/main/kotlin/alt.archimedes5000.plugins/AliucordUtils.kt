@@ -12,7 +12,8 @@ import com.discord.app.AppComponent
 import android.content.Intent
 import androidx.fragment.app.Fragment
 import com.discord.api.commands.ApplicationCommandType
-import com.discord.api.commands.CommandChoice//import com.discord.models.commands.ApplicationCommandOption
+import com.discord.api.commands.CommandChoice
+import com.discord.models.commands.ApplicationCommandOption
 import com.discord.views.CheckedSetting
 import android.graphics.drawable.Drawable
 import android.view.Gravity
