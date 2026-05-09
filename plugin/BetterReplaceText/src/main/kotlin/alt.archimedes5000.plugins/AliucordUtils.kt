@@ -12,7 +12,7 @@ import com.discord.app.AppComponent
 import android.content.Intent
 import androidx.fragment.app.Fragment
 import com.discord.api.commands.ApplicationCommandType
-import com.discord.api.commands.CommandChoice
+import com.discord.api.commands.CommandChoice//import com.discord.models.commands.ApplicationCommandOption
 import com.discord.views.CheckedSetting
 import android.graphics.drawable.Drawable
 import android.view.Gravity
@@ -49,7 +49,7 @@ fun launchFileExplorer(folder: File) = Utils.launchFileExplorer(folder);
 
 fun setClipboard(label: CharSequence, text: CharSequence) = Utils.setClipboard(label, text);
 
-fun pluralise(amount: Int, noun: String) = Utils.launchUrl(url)
+fun pluralise(amount: Int, noun: String) = Utils.pluralise(amount, noun);
 
 @JvmOverloads
 fun showToast(message: String, showLonger: Boolean = false) = Utils.showToast(message, showLonger);
