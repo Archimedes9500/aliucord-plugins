@@ -3,12 +3,10 @@ package alt.archimedes5000.plugins
 import alt.archimedes5000.plugins.utils.*
 import com.aliucord.utils.*
 import com.aliucord.annotations.AliucordPlugin
-//import android.annotation.SuppressLint
 import com.aliucord.entities.Plugin
 import android.content.Context
 
 @AliucordPlugin(requiresRestart = true)
-//@SuppressLint("SetTextI18n")
 class BetterReplaceText: Plugin(){
 
 	override fun start(pluginContext: Context){
