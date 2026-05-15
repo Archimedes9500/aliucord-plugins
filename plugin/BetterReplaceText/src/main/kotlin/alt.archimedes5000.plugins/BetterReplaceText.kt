@@ -6,12 +6,25 @@ import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
 import android.content.Context
 
+import com.aliucord.api.NotificationsAPI
+import com.aliucord.updater.NotificationData
+
 @AliucordPlugin(requiresRestart = true)
 class BetterReplaceText: Plugin(){
 
 	override fun start(pluginContext: Context){
 		logger.debug("".trimIndent());
 		logger.debug(appContext.toString());
+		
+		var notification = NotificationData()
+			.setTitle("Updater")
+			.setBody()
+			.setAutoDismissPeriodSecs(30)
+			.setOnClick{
+				openPage(it.getContext(), UpdaterScreen.class);
+			}
+		;
+		NotificationsAPI.display(notification);
 	};
 	override fun stop(pluginContext: Context){
 		patcher.unpatchAll();
