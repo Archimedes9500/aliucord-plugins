@@ -6,9 +6,9 @@ import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
 import android.content.Context
 
-import com.aliucord.api.NotificationsAPI
 import com.aliucord.entities.NotificationData
 import com.aliucord.screens.UpdaterScreen
+import com.aliucord.api.NotificationsAPI
 
 @AliucordPlugin(requiresRestart = true)
 class BetterReplaceText: Plugin(){
