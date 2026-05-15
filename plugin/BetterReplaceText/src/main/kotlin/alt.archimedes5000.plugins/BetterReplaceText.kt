@@ -7,7 +7,7 @@ import com.aliucord.entities.Plugin
 import android.content.Context
 
 import com.aliucord.api.NotificationsAPI
-import com.aliucord.updater.NotificationData
+import com.aliucord.entities.NotificationData
 
 @AliucordPlugin(requiresRestart = true)
 class BetterReplaceText: Plugin(){
@@ -20,8 +20,8 @@ class BetterReplaceText: Plugin(){
 			.setTitle("Updater")
 			.setBody()
 			.setAutoDismissPeriodSecs(30)
-			.setOnClick{
-				openPage(it.getContext(), UpdaterScreen.class);
+			.setOnClick{view ->
+				openPage(view.getContext(), UpdaterScreen::class.java);
 			}
 		;
 		NotificationsAPI.display(notification);
