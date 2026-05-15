@@ -8,7 +8,6 @@ import android.content.Context
 
 import com.aliucord.entities.NotificationData
 import com.aliucord.api.NotificationsAPI
-import java.lang.Class
 
 @AliucordPlugin(requiresRestart = true)
 class BetterReplaceText: Plugin(){
@@ -21,6 +20,7 @@ class BetterReplaceText: Plugin(){
 			.setTitle("Updater")
 			.setBody("M".repeat(500))
 			.setAutoDismissPeriodSecs(30)
+			.setOnClick{}
 		;
 		NotificationsAPI.display(notification);
 	};
