@@ -1,4 +1,5 @@
 [versions]
+# aliucord = "5f1cbe6"
 aliucord = "0027da7"
 aliucord-gradle = "2.2.0"
 android = "8.13.1"
