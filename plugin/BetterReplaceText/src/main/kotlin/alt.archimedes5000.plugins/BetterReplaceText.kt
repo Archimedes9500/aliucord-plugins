@@ -20,7 +20,9 @@ class BetterReplaceText: Plugin(){
 			.setTitle("Updater")
 			.setBody("M".repeat(500))
 			.setAutoDismissPeriodSecs(30)
-			.setOnClick{}
+			.setOnClick{view ->
+				//nop
+			}
 		;
 		NotificationsAPI.display(notification);
 	};
