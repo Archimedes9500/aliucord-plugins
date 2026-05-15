@@ -8,6 +8,7 @@ import android.content.Context
 
 import com.aliucord.api.NotificationsAPI
 import com.aliucord.entities.NotificationData
+import com.aliucord.screens.UpdaterScreen
 
 @AliucordPlugin(requiresRestart = true)
 class BetterReplaceText: Plugin(){
@@ -18,7 +19,7 @@ class BetterReplaceText: Plugin(){
 		
 		var notification = NotificationData()
 			.setTitle("Updater")
-			.setBody()
+			.setBody("M".repeat(500))
 			.setAutoDismissPeriodSecs(30)
 			.setOnClick{view ->
 				openPage(view.getContext(), UpdaterScreen::class.java);
