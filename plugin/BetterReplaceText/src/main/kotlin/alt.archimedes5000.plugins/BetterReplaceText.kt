@@ -18,7 +18,11 @@ class BetterReplaceText: Plugin(){
 		
 		var notification = NotificationData()
 			.setTitle("Updater")
-			.setBody("M".repeat(500))
+			.setBody(
+                com.aliucord.utils.MDUtils.render(
+                    "Updates for 3 plugins: **Frecents** (1.2.0), **ReviewDB** (1.2.0), **Scout** (1.4.3)."
+                )
+            )
 			.setAutoDismissPeriodSecs(30)
 			.setOnClick{view ->
 				//nop
