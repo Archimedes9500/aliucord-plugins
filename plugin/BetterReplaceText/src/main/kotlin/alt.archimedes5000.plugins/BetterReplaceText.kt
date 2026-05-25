@@ -6,31 +6,76 @@ import com.aliucord.annotations.AliucordPlugin
 import com.aliucord.entities.Plugin
 import android.content.Context
 
-import com.aliucord.entities.NotificationData
-import com.aliucord.api.NotificationsAPI
+import com.discord.stores.StoreMessages;
+import com.discord.stores.StoreMessagesLoader.ChannelChunk;
 
 @AliucordPlugin(requiresRestart = true)
 class BetterReplaceText: Plugin(){
 
+	val range1 = 0x00000..0x01900;
+	val PUA = 0x0E000..0x0F8FF;
+
+	val range2 = 0x00001..0x2FFFC;
+	val SPUAA = 0xF0000..0xFFFFD;
+	val SPUAB = 0x10000..0x10FFFD;
+
+	val Message.content: String by FinalFieldAccessor();
+
 	override fun start(pluginContext: Context){
-		logger.debug("".trimIndent());
-		logger.debug(appContext.toString());
-		
-		var notification = NotificationData()
-			.setTitle("Updater")
-			.setBody(
-                com.aliucord.utils.MDUtils.render(
-                    "Updates for 3 plugins: **Frecents** (1.2.0), **ReviewDB** (1.2.0), **Scout** (1.4.3)."
-                )
-            )
-			.setAutoDismissPeriodSecs(30)
-			.setOnClick{view ->
-				//nop
-			}
-		;
-		NotificationsAPI.display(notification);
+		patcher.before<StoreMessages>(
+			"handleMessagesLoaded",
+			ChannelChunk::class.java
+		){(frame, chunk) ->
+			for(m in chunk.messages){
+				val output = StringBuilder(2000);
+				val s = m.content;
+				s.codePoints().forEachOrdered{
+					output.appendCodePoint(
+						when(it){
+							in PUA -> {
+								range1.first+(it-PUA.first);
+							};
+							in SPUAA -> {
+								range2.first+(it-SPUAA.first);
+							};
+							in SPUAB -> {
+								range2.first+(it-SPUAB.first);
+							};
+							else -> it;
+						}
+					);
+				};
+				m.content = output.toString();
+			};
+		};
 	};
 	override fun stop(pluginContext: Context){
 		patcher.unpatchAll();
 	};
 };
+
+class UString(val value: String){
+	constructor(chars: List<String>):
+		this(chars.joinToString(""))
+	;
+
+	val chars = value.codePoints()
+		.mapToObj{String(Character.toChars(it))}
+		.toArray{Array(it, {""})}
+	;
+	operator fun get(i: Int) = chars[i];
+	val indices = chars.indices;
+	val lastIndex = chars.lastIndex;
+	val length = chars.size;
+	val iterator = chars::iterator;
+	val all = chars::all;
+
+	fun substring(start: Int, end: Int = length): UString{
+		return UString(chars.slice(start..end));
+	};
+	fun substring(range: IntRange): UString{
+		return UString(chars.slice(range));
+	};
+};
+fun Any.toUString() = UString(this.toString());
+fun String.toUString() = UString(this);
