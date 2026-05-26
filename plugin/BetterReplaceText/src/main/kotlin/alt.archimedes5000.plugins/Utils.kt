@@ -1,9 +1,10 @@
-package alt.archimedes5000.plugins.utils
+package alt.archimedes5000.plugins.utils;
 
-import java.lang.reflect.*
-import kotlin.properties.ReadWriteProperty
-import kotlin.reflect.KProperty
-import com.github.gfx.util.WeakIdentityHashMap
+import com.aliucord.utils.*;
+import java.lang.reflect.*;
+import kotlin.properties.ReadWriteProperty;
+import kotlin.reflect.KProperty;
+import com.github.gfx.util.WeakIdentityHashMap;
 
 typealias IntIterator = d0.t.c0;
 typealias IntProgressionIterator = d0.d0.b;
@@ -12,7 +13,7 @@ class FakeField<V>(): ReadWriteProperty<Any, V> {
 	private val fields = WeakIdentityHashMap<Any, V>();
 
 	@Suppress("UNCHECKED_CAST")
-	override operator fun getValue(thisRef: Any, property: KProperty<*>){
+	override operator fun getValue(thisRef: Any, property: KProperty<*>): V{
 		return fields[thisRef] as V;
 	};
 	override operator fun setValue(thisRef: Any, property: KProperty<*>, value: V){
@@ -20,7 +21,7 @@ class FakeField<V>(): ReadWriteProperty<Any, V> {
 	};
 };
 
-val Field.accessFlags: Int by try{
+var Field.accessFlags: Int by try{
 	FieldAccessor();
 }catch(e: ReflectiveOperationException){
 	try{
@@ -46,7 +47,7 @@ class FinalFieldAccessor<T>(val fieldName: String? = null): ReadWriteProperty<An
 	};
 
 	@Suppress("UNCHECKED_CAST")
-	override fun getValue(thisRef: Any, property: KProperty<*>){
+	override fun getValue(thisRef: Any, property: KProperty<*>): T{
 		return field(thisRef, property)[thisRef] as T;
 	};
 	override fun setValue(thisRef: Any, property: KProperty<*>, value: T){
