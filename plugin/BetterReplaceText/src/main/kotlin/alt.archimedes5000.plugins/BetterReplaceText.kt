@@ -22,6 +22,7 @@ class BetterReplaceText: Plugin(){
 	val SPUAB = 0x10000..0x10FFFD;
 
 	var Message.content: String by accessFinalField<String>();
+	var Message.id: Int by accessField();
 
 	override fun start(pluginContext: Context){
 		patcher.before<StoreMessages>(
