@@ -29,7 +29,7 @@ val Field.accessFlags: Int by try{
 	   logger.error(e);
 	};
 };
-class FinalFieldAccessor<T>(val fieldName: String?): ReadWriteProperty<Any, T>{
+class FinalFieldAccessor<T>(val fieldName: String? = null): ReadWriteProperty<Any, T>{
 	val fields = mutableListOf<Field>();
 
 	fun field(thisRef: Any, property: KProperty<*>): Field {

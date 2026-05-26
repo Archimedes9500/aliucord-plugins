@@ -1,13 +1,15 @@
 package alt.archimedes5000.plugins
 
-import alt.archimedes5000.plugins.utils.*
-import com.aliucord.utils.*
-import com.aliucord.annotations.AliucordPlugin
-import com.aliucord.entities.Plugin
-import android.content.Context
+import alt.archimedes5000.plugins.utils.*;
+import com.aliucord.utils.*;
+import com.aliucord.annotations.AliucordPlugin;
+import com.aliucord.entities.Plugin;
+import android.content.Context;
+import com.aliucord.patcher.*;
 
 import com.discord.stores.StoreMessages;
 import com.discord.stores.StoreMessagesLoader.ChannelChunk;
+import com.discord.api.message.Message;
 
 @AliucordPlugin(requiresRestart = true)
 class BetterReplaceText: Plugin(){
@@ -53,7 +55,7 @@ class BetterReplaceText: Plugin(){
 		patcher.unpatchAll();
 	};
 };
-
+/*
 class UString(val value: String){
 	constructor(chars: List<String>):
 		this(chars.joinToString(""))
@@ -79,3 +81,4 @@ class UString(val value: String){
 };
 fun Any.toUString() = UString(this.toString());
 fun String.toUString() = UString(this);
+*/
