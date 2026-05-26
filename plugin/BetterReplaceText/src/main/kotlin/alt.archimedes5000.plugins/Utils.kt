@@ -22,15 +22,15 @@ class FakeField<V>(): ReadWriteProperty<Any, V> {
 };
 
 var Field.accessFlags: Int by try{
-	FieldAccessor();
+	FieldAccessor<Int>("accessFlags");
 }catch(e: ReflectiveOperationException){
 	try{
-		FieldAccessor("modifiers");
+		FieldAccessor<Int>("modifiers");
 	}catch(e: ReflectiveOperationException){
 	   //logger.error(e);
 	};
 };
-class FinalFieldAccessor<T>(val fieldName: String? = null): ReadWriteProperty<Any, T>{
+class FinalFieldAccessor<T>(val fieldName: String?): ReadWriteProperty<Any, T>{
 	val fields = mutableListOf<Field>();
 
 	fun field(thisRef: Any, property: KProperty<*>): Field {
@@ -54,3 +54,5 @@ class FinalFieldAccessor<T>(val fieldName: String? = null): ReadWriteProperty<An
 		field(thisRef, property).set(thisRef, value);
 	};
 };
+
+fun <T> accessFinalField(fieldName: String? = null) = FinalFieldAccessor<T>(fieldName); 
