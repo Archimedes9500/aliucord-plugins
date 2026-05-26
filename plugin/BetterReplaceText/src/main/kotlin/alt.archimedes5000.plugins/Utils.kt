@@ -26,7 +26,7 @@ val Field.accessFlags: Int by try{
 	try{
 		FieldAccessor("modifiers");
 	}catch(e: ReflectiveOperationException){
-	   logger.error(e);
+	   //logger.error(e);
 	};
 };
 class FinalFieldAccessor<T>(val fieldName: String? = null): ReadWriteProperty<Any, T>{

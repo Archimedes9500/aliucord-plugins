@@ -21,13 +21,14 @@ class BetterReplaceText: Plugin(){
 	val SPUAA = 0xF0000..0xFFFFD;
 	val SPUAB = 0x10000..0x10FFFD;
 
-	val Message.content: String by FinalFieldAccessor();
+	var Message.content: String by FinalFieldAccessor();
 
 	override fun start(pluginContext: Context){
 		patcher.before<StoreMessages>(
 			"handleMessagesLoaded",
 			ChannelChunk::class.java
-		){(frame, chunk) ->
+		){frame ->
+			val chunk = frame.args[0] as ChannelChunk;
 			for(m in chunk.messages){
 				val output = StringBuilder(2000);
 				val s = m.content;
