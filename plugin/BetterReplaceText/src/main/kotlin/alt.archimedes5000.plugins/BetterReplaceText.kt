@@ -11,6 +11,8 @@ import com.discord.stores.StoreMessages;
 import com.discord.stores.StoreMessagesLoader.ChannelChunk;
 import com.discord.models.message.Message;
 
+var Message.contentField: String by accessFinalField();
+
 @AliucordPlugin(requiresRestart = true)
 class BetterReplaceText: Plugin(){
 
@@ -20,8 +22,6 @@ class BetterReplaceText: Plugin(){
 	val range2 = 0x00001..0x2FFFC;
 	val SPUAA = 0xF0000..0xFFFFD;
 	val SPUAB = 0x10000..0x10FFFD;
-
-	var Message.contentField: String by accessFinalField();
 
 	override fun start(pluginContext: Context){
 		patcher.before<StoreMessages>(
