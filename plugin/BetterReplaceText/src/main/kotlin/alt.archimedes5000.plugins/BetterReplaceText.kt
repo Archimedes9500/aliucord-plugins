@@ -15,7 +15,7 @@ import com.discord.models.message.Message;
 class BetterReplaceText: Plugin(){
 
 	val range1 = 0x00000..0x01900;
-	val PUA = 0x0E000..0x0F8FF;
+	inline val PUA: IntRange = 0x0E000..0x0F8FF;
 
 	val range2 = 0x00001..0x2FFFC;
 	val SPUAA = 0xF0000..0xFFFFD;
@@ -48,7 +48,7 @@ class BetterReplaceText: Plugin(){
 					};
 */
 					val result = when{
-						PUA.contains(it) -> {
+						it in PUA -> {
 							it;
 						};
 						it in 0..100 -> {
