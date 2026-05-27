@@ -32,8 +32,7 @@ class BetterReplaceText: Plugin(){
 			for(m in chunk.messages){
 				val output = StringBuilder(2000);
 				val s = m.contentField;
-				s.codePoints().forEachOrdered{
-					val c = it;
+				s.codePoints().forEachOrdered{c ->
 					output.appendCodePoint(
 						when(c){
 							in PUA -> {
