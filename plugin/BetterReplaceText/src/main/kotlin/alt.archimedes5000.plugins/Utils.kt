@@ -11,7 +11,7 @@ typealias ClosedRange<T> = d0.d0.a<T>;
 typealias IntProgressionIterator = d0.d0.b;
 
 inline val IntProgression.step: Int
-	@JvmName("getStep")get() = this.step;
+	@JvmName("getStep")get() = this.m;
 
 class FakeField<V>(): ReadWriteProperty<Any, V> {
 	private val fields = WeakIdentityHashMap<Any, V>();
