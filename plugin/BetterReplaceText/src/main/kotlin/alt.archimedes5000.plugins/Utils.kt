@@ -21,11 +21,11 @@ class FakeField<V>(): ReadWriteProperty<Any, V> {
 	};
 };
 
-fun resolveFlagsField(): FieldAccessor<Int>{
+fun resolveFlagsField(): FinalFieldAccessor<Int>{
 	return try{
-		FieldAccessor<Int>("accessFlags");
+		FinalFieldAccessor<Int>("accessFlags");
 	}catch(_: ReflectiveOperationException){
-		FieldAccessor<Int>("modifiers");
+		FinalFieldAccessor<Int>("modifiers");
 	};
 };
 //has to be wrapped in a function or kotlin 1.5 will shit itself lmao
