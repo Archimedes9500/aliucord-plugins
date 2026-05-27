@@ -48,7 +48,7 @@ class BetterReplaceText: Plugin(){
 						}
 					);
 				};
-				m.contentField = output.toString();
+				//m.contentField = output.toString();
 			};
 		};
 	};
