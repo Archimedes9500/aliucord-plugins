@@ -48,7 +48,7 @@ class BetterReplaceText: Plugin(){
 					};
 */
 					val result = when(it){
-						in PUA -> {
+						in 0x0E000..0x0F8FF -> {
 							it;
 						};
 						in 0..100 -> {
