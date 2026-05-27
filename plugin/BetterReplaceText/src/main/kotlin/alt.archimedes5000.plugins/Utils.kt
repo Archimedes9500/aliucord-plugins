@@ -21,11 +21,15 @@ class FakeField<V>(): ReadWriteProperty<Any, V> {
 	};
 };
 
-var Field.accessFlags: Int by try{
-	FieldAccessor<Int>("accessFlags");
-}catch(e: ReflectiveOperationException){
-	FieldAccessor<Int>("modifiers");
+fun resolveFlagsField(): FieldAccessor<Int>{
+	return try{
+		FieldAccessor<Int>("accessFlags");
+	}catch(_: ReflectiveOperationException){
+		FieldAccessor<Int>("modifiers");
+	};
 };
+
+val Field.accessFlags: Int by resolveFlagsField();
 class FinalFieldAccessor<T>(val fieldName: String?): ReadWriteProperty<Any, T>{
 	val fields = mutableListOf<Field>();
 
