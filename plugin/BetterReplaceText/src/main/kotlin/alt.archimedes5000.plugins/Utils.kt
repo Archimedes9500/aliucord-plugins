@@ -7,7 +7,7 @@ import kotlin.reflect.KProperty;
 import com.github.gfx.util.WeakIdentityHashMap;
 
 typealias IntIterator = d0.t.c0;
-typealias ClosedRange = d0.d0.a;
+typealias ClosedRange<T> = d0.d0.a where T: Comparable<in T>
 typealias IntProgressionIterator = d0.d0.b;
 
 class FakeField<V>(): ReadWriteProperty<Any, V> {
