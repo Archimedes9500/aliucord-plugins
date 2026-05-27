@@ -47,14 +47,14 @@ class BetterReplaceText: Plugin(){
 						else -> it;
 					};
 */
-					val result = when(it){
+					val result = when{
 						PUA.contains(it) -> {
 							it;
 						};
-						in 0..100 -> {
+						it in 0..100 -> {
 							it;
 						};
-						in 100..200 -> {
+						it in 100..200 -> {
 							it;
 						};
 						else -> it;
