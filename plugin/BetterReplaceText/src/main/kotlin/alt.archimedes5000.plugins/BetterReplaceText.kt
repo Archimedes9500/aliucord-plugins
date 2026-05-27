@@ -24,13 +24,11 @@ class BetterReplaceText: Plugin(){
 	var Message.contentField: String by accessFinalField();
 
 	override fun start(pluginContext: Context){
-
-		val PUA = 0x0E000..0x0F8FF;
-
 		patcher.before<StoreMessages>(
 			"handleMessagesLoaded",
 			ChannelChunk::class.java
 		){frame ->
+			val PUA = 0x0E000..0x0F8FF;
 			val chunk = frame.args[0] as ChannelChunk;
 			for(m in chunk.messages){
 				val output = StringBuilder(2000);
