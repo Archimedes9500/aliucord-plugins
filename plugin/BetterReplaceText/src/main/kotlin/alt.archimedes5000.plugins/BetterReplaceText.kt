@@ -9,7 +9,7 @@ import com.aliucord.patcher.*;
 
 import com.discord.stores.StoreMessages;
 import com.discord.stores.StoreMessagesLoader.ChannelChunk;
-import com.discord.api.message.Message;
+import com.discord.models.message.Message;
 
 @AliucordPlugin(requiresRestart = true)
 class BetterReplaceText: Plugin(){
@@ -21,7 +21,7 @@ class BetterReplaceText: Plugin(){
 	val SPUAA = 0xF0000..0xFFFFD;
 	val SPUAB = 0x10000..0x10FFFD;
 
-	var Message.contentField: String by accessFinalField();
+	var Message.content: String by accessFinalField();
 
 	override fun start(pluginContext: Context){
 		patcher.before<StoreMessages>(
@@ -48,7 +48,7 @@ class BetterReplaceText: Plugin(){
 						}
 					);
 				};
-				m.contentField = output.toString();
+				m.content = output.toString();
 			};
 		};
 	};
