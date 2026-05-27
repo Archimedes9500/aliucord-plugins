@@ -32,8 +32,8 @@ class BetterReplaceText: Plugin(){
 			for(m in chunk.messages){
 				val output = StringBuilder(2000);
 				val s = m.contentField;
-/*
 				s.codePoints().forEachOrdered{
+/*
 					output.appendCodePoint(
 						when(it){
 							in PUA -> {
@@ -48,8 +48,9 @@ class BetterReplaceText: Plugin(){
 							else -> it;
 						}
 					);
-				};
 */
+				};
+
 				m.contentField = output.toString();
 			};
 		};
