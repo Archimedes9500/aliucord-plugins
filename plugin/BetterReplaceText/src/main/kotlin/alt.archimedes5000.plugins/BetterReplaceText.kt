@@ -47,6 +47,10 @@ class BetterReplaceText: Plugin(){
 						else -> it;
 					};
 */
+					val result = when(it){
+						it -> {it};
+						else -> it;
+					};
 					output.appendCodePoint(
 						0//result
 					);
