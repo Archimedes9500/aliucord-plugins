@@ -28,7 +28,7 @@ fun resolveFlagsField(): FieldAccessor<Int>{
 		FieldAccessor<Int>("modifiers");
 	};
 };
-
+//has to be wrapped in a function or kotlin 1.5 will shit itself lmao
 var Field.accessFlags: Int by resolveFlagsField();
 class FinalFieldAccessor<T>(val fieldName: String?): ReadWriteProperty<Any, T>{
 	val fields = mutableListOf<Field>();
@@ -56,4 +56,3 @@ class FinalFieldAccessor<T>(val fieldName: String?): ReadWriteProperty<Any, T>{
 };
 
 fun <T> accessFinalField(fieldName: String? = null) = FinalFieldAccessor<T>(fieldName);
- 
