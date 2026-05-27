@@ -15,7 +15,7 @@ import com.discord.models.message.Message;
 class BetterReplaceText: Plugin(){
 
 	val range1 = 0x00000..0x01900;
-	val PUA = IntRange(0x0E000, 0x0F8FF);
+	val PUA = 0x0E000..0x0F8FF;
 
 	val range2 = 0x00001..0x2FFFC;
 	val SPUAA = 0xF0000..0xFFFFD;
@@ -33,34 +33,19 @@ class BetterReplaceText: Plugin(){
 				val output = StringBuilder(2000);
 				val s = m.contentField;
 				s.codePoints().forEachOrdered{
-/*
-					val result = when(it){
-						in PUA -> {
-							range1.first+(it-PUA.first);
-						};
-						in SPUAA -> {
-							range2.first+(it-SPUAA.first);
-						};
-						in SPUAB -> {
-							range2.first+(it-SPUAB.first);
-						};
-						else -> it;
-					};
-*/
-					val result = when{
-						it in PUA -> {
-							it;
-						};
-						it in 0..100 -> {
-							it;
-						};
-						it in 100..200 -> {
-							it;
-						};
-						else -> it;
-					};
 					output.appendCodePoint(
-						0//result
+						when{
+							PUA.contains(it) -> {
+								range1.first+(it-PUA.first);
+							};
+							SPUAA.contains(it) -> {
+								range2.first+(it-SPUAA.first);
+							};
+							SPUAB.contains(it) -> {
+								range2.first+(it-SPUAB.first);
+							};
+							else -> it;
+						}
 					);
 				};
 				m.contentField = output.toString();
