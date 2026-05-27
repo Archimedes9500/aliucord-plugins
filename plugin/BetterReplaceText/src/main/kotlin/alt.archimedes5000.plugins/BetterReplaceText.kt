@@ -46,7 +46,7 @@ class BetterReplaceText: Plugin(){
 						else -> c;
 					};
 					output.appendCodePoint(
-						result
+						0//result
 					);
 				};
 				m.contentField = output.toString();
