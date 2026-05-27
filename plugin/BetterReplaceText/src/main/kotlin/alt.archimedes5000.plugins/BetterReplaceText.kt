@@ -33,8 +33,8 @@ class BetterReplaceText: Plugin(){
 				val output = StringBuilder(2000);
 				val s = m.contentField;
 				s.codePoints().forEachOrdered{
+					output.appendCodePoint(0
 /*
-					output.appendCodePoint(
 						when(it){
 							in PUA -> {
 								range1.first+(it-PUA.first);
@@ -47,8 +47,8 @@ class BetterReplaceText: Plugin(){
 							};
 							else -> it;
 						}
-					);
 */
+					);
 				};
 
 				m.contentField = output.toString();
