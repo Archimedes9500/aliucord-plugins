@@ -16,11 +16,11 @@ class BetterReplaceText: Plugin(){
 
 	val range1 = 0x00000..0x01900;
 	val PUA = 0x0E000..0x0F8FF;
-
+/*
 	val range2 = 0x00001..0x2FFFC;
 	val SPUAA = 0xF0000..0xFFFFD;
 	val SPUAB = 0x10000..0x10FFFD;
-
+*/
 	var Message.contentField: String by accessFinalField();
 
 	override fun start(pluginContext: Context){
@@ -35,15 +35,7 @@ class BetterReplaceText: Plugin(){
 				s.codePoints().forEachOrdered{
 					output.appendCodePoint(
 						when{
-							PUA.contains(it) -> {
-								range1.first+(it-PUA.first);
-							};
-							SPUAA.contains(it) -> {
-								range2.first+(it-SPUAA.first);
-							};
-							SPUAB.contains(it) -> {
-								range2.first+(it-SPUAB.first);
-							};
+							PUA.contains(it) -> range1.first+(it-PUA.first);
 							else -> it;
 						}
 					);
