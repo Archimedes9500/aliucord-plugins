@@ -30,7 +30,7 @@ class BetterReplaceText: Plugin(){
 		){frame ->
 			val chunk = frame.args[0] as ChannelChunk;
 			for(m in chunk.messages){
-				//val output = StringBuilder(2000);
+				val output = StringBuilder(2000);
 				val s = m.contentField;
 /*
 				s.codePoints().forEachOrdered{
@@ -50,7 +50,7 @@ class BetterReplaceText: Plugin(){
 					);
 				};
 */
-				//m.contentField = output.toString();
+				m.contentField = output.toString();
 			};
 		};
 	};
