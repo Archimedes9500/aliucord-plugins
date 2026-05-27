@@ -31,7 +31,7 @@ class BetterReplaceText: Plugin(){
 			val chunk = frame.args[0] as ChannelChunk;
 			for(m in chunk.messages){
 				val output = StringBuilder(2000);
-				val s = m.content;
+				val s = m.contentField;
 				s.codePoints().forEachOrdered{
 					output.appendCodePoint(
 						when(it){
