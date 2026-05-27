@@ -43,10 +43,10 @@ class FinalFieldAccessor<T>(val fieldName: String?): ReadWriteProperty<Any, T>{
 	};
 
 	@Suppress("UNCHECKED_CAST")
-	override fun getValue(thisRef: Any, property: KProperty<*>): T{
+	override operator fun getValue(thisRef: Any, property: KProperty<*>): T{
 		return field(thisRef, property)[thisRef] as T;
 	};
-	override fun setValue(thisRef: Any, property: KProperty<*>, value: T){
+	override operator fun setValue(thisRef: Any, property: KProperty<*>, value: T){
 		field(thisRef, property).set(thisRef, value);
 	};
 };
