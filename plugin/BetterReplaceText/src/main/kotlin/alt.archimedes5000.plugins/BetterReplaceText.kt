@@ -11,17 +11,17 @@ import com.discord.stores.StoreMessages;
 import com.discord.stores.StoreMessagesLoader.ChannelChunk;
 import com.discord.models.message.Message;
 
-var Message.contentField: String by accessFinalField();
-
 @AliucordPlugin(requiresRestart = true)
 class BetterReplaceText: Plugin(){
-
+/*
 	val range1 = 0x00000..0x01900;
 	val PUA = 0x0E000..0x0F8FF;
 
 	val range2 = 0x00001..0x2FFFC;
 	val SPUAA = 0xF0000..0xFFFFD;
 	val SPUAB = 0x10000..0x10FFFD;
+*/
+	var Message.contentField: String by accessFinalField();
 
 	override fun start(pluginContext: Context){
 		patcher.before<StoreMessages>(
@@ -30,8 +30,9 @@ class BetterReplaceText: Plugin(){
 		){frame ->
 			val chunk = frame.args[0] as ChannelChunk;
 			for(m in chunk.messages){
-				val output = StringBuilder(2000);
+				//val output = StringBuilder(2000);
 				val s = m.contentField;
+/*
 				s.codePoints().forEachOrdered{
 					output.appendCodePoint(
 						when(it){
@@ -48,6 +49,7 @@ class BetterReplaceText: Plugin(){
 						}
 					);
 				};
+*/
 				m.contentField = output.toString();
 			};
 		};
