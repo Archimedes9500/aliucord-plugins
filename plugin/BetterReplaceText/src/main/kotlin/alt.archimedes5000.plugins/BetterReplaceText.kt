@@ -48,7 +48,15 @@ class BetterReplaceText: Plugin(){
 					};
 */
 					val result = when(it){
-						it -> {it};
+						it -> {
+							it;
+						};
+						in 0..100 -> {
+							it;
+						};
+						in 100..200 -> {
+							it;
+						};
 						else -> it;
 					};
 					output.appendCodePoint(
