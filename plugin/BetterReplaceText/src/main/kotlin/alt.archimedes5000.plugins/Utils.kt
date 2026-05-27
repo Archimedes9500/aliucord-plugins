@@ -29,7 +29,7 @@ fun resolveFlagsField(): FieldAccessor<Int>{
 	};
 };
 
-val Field.accessFlags: Int by resolveFlagsField();
+var Field.accessFlags: Int by resolveFlagsField();
 class FinalFieldAccessor<T>(val fieldName: String?): ReadWriteProperty<Any, T>{
 	val fields = mutableListOf<Field>();
 
