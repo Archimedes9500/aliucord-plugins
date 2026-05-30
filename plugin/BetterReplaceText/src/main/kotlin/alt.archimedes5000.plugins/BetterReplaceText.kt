@@ -7,16 +7,17 @@ import com.aliucord.entities.Plugin;
 import android.content.Context;
 import com.aliucord.patcher.*;
 
+import com.discord.api.message.Message;
 import com.discord.stores.StoreMessages;
 import com.discord.stores.StoreMessagesLoader.ChannelChunk;
 import com.discord.models.message.Message;
-
-
-var Message.contentField: String by accessFinalField();
+import com.discord.widgets.chat.input.ChatInputViewModel;
+import com.discord.widgets.chat.MessageManager;
+import com.discord.widgets.chat.MessageContent;
+import kotlin.jvm.functions.Function1;
 
 @AliucordPlugin(requiresRestart = true)
 class BetterReplaceText: Plugin(){
-
 	val range1 = 0x000000..0x0018FF;
 	val PUA = 0x00E000..0x00F8FF;
 
@@ -26,9 +27,10 @@ class BetterReplaceText: Plugin(){
 	val range3 = 0x020000..0x02FFFF;
 	val SPUAB = 0x100000..0x10FFFF;
 
-	fun decode(m: Message){
+	var Message.contentField: String by accessFinalField();
+
+	fun decode(s: String): String{
 		val output = StringBuilder(2000);
-		val s = m.contentField;
 		s.codePoints().forEachOrdered{
 			output.appendCodePoint(
 				when{
@@ -39,11 +41,10 @@ class BetterReplaceText: Plugin(){
 				}
 			);
 		};
-		m.contentField = output.toString();
+		return output.toString();
 	};
-	fun encode(m: Message){
+	fun encode(s: String): String{
 		val output = StringBuilder(2000);
-		val s = m.contentField;
 		s.codePoints().forEachOrdered{
 			output.appendCodePoint(
 				when{
@@ -54,7 +55,7 @@ class BetterReplaceText: Plugin(){
 				}
 			);
 		};
-		m.contentField = output.toString();
+		return output.toString();
 	};
 
 	override fun start(pluginContext: Context){
@@ -64,8 +65,20 @@ class BetterReplaceText: Plugin(){
 		){frame ->
 			val chunk = frame.args[0] as ChannelChunk;
 			for(m in chunk.messages){
-				decode(m);
+				m.contentField = decode(m.contentFiled);
 			};
+		};
+		patcher.before<ChatInputViewModel>(
+			"sendMessage",
+			Context::class.java,
+			MessageManager::class.java,
+			MessageContent::class.java,
+			List::class.java,
+			Boolean::class.javaPrimitiveType,
+			Function1::class.java
+		){frame ->
+			val (text: String, users: List<*>) = frame.args[2] as MessageContent;
+			frame.args[2] = MessageContent(encode(text), users);
 		};
 	};
 	override fun stop(pluginContext: Context){
