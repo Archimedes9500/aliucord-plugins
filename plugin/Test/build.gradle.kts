@@ -33,7 +33,7 @@ tempMap.entries.forEach{(name, _) ->
 };
 plugins.apply("scala");
 tempMap.entries.forEach{(name, backup) ->
-	configurations.getByName(name).extendsFrom(backup);
+	configurations.getByName(name).extendsFrom(backup!!);
 };
 
 dependencies{
