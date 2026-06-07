@@ -21,6 +21,14 @@ val tempMap = mutableMapOf<String, Configuration?>(
 	//"compileClasspath" to null,
 	//"runtimeClasspath" to null,
 	//"compileOnlyApi" to null,
+	"testImplementation" to null,
+	"testApi" to null,
+	"testCompileOnly" to null,
+	"testRuntimeOnly" to null,
+	"testAnnotationProcessor" to null,
+	//"testCompileClasspath" to null,
+	//"testRuntimeClasspath" to null,
+	//"testCompileOnlyApi" to null,
 );
 tempMap.entries.forEach{(name, _) ->
 	val backup = configurations.create("_$name");
