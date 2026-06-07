@@ -13,7 +13,7 @@ aliucord{
 plugins{
   scala
 };
-val impl = configurations.findByName("implementation");
+val impl = configurations.findByName("compileOnly");
 dependencies{
 	add(impl.name, "org.scala-lang:scala-library:2.13.12");
 };
