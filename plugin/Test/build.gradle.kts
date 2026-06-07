@@ -14,7 +14,7 @@ aliucord{
 
 val tempMap = mutableMapOf<String, Configuration?>(
 	"implementation" to null,
-	"api" to null,
+	//"api" to null,
 	"compileOnly" to null,
 	"runtimeOnly" to null,
 	"annotationProcessor" to null,
