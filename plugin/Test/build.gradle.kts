@@ -11,8 +11,8 @@ aliucord{
 	);
 };
 
-val temp = configurations.create("temp")!!;
-val impl = configurations.findByName("implementation");
+val temp = configurations.create("temp");
+val impl = configurations.getByName("implementation");
 impl.dependencies?.forEach{d ->
 	temp.dependencies.add(d);
 };
