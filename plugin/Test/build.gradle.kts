@@ -10,12 +10,12 @@ aliucord{
 	);
 };
 
-plugins {
+plugins{
   scala
 };
-
-dependencies {
-	implementation("org.scala-lang:scala-library:2.13.12");
+val impl = configurations.findByName("implementation");
+dependencies{
+	add(impl.name, "org.scala-lang:scala-library:2.13.12");
 };
 
 tasks.withType<ScalaCompile>().configureEach{
