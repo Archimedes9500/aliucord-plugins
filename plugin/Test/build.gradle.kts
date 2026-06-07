@@ -11,17 +11,16 @@ aliucord{
 };
 
 val temp = configurations.create("temp");
-val implementation = configurations.findByName("implementation");
-implementation.dependencies?.forEach{d ->
+val impl = configurations.findByName("implementation");
+impl.dependencies?.forEach{d ->
 	temp.dependencies.add(d);
 };
-configurations.remove(implementation);
+configurations.remove(impl);
+plugins.apply("scala");
 configurations.getByName("implementation").extendsFrom(temp);
 
-plugins.apply("scala");
-
 dependencies{
-	imolementation("org.scala-lang:scala-library:2.13.12");
+	implementation("org.scala-lang:scala-library:2.13.12");
 };
 
 tasks.withType<ScalaCompile>().configureEach{
