@@ -11,7 +11,7 @@ aliucord{
 };
 
 plugins{
-  scala
+  id("scala");
 };
 val impl = configurations.findByName("compileOnly");
 dependencies{
