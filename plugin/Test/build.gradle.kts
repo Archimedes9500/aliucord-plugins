@@ -1,4 +1,5 @@
-import org.gradle.api.tasks.scala.ScalaCompile
+import org.gradle.api.tasks.scala.ScalaCompile;
+import com.aliucord.gradle.task.CompileDexTask;
 
 version = "0.0";
 description = "test";
@@ -10,7 +11,7 @@ aliucord{
 	);
 };
 
-val temp = configurations.create("temp");
+val temp = configurations.create("temp")!!;
 val impl = configurations.findByName("implementation");
 impl.dependencies?.forEach{d ->
 	temp.dependencies.add(d);
