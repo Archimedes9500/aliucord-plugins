@@ -18,7 +18,7 @@ val tempMap = mutableMapOf<String, Configuration?>(
 	"compileOnly" to null,
 	"runtimeOnly" to null,
 	"annotationProcessor" to null,
-	"compileClasspath" to null,
+	//"compileClasspath" to null,
 	"runtimeClasspath" to null,
 	"compileOnlyApi" to null,
 );
