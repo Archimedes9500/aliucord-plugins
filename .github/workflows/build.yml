@@ -6,10 +6,10 @@ concurrency:
   cancel-in-progress: true
 
 on:
-  workflow_run:
-    workflows: ["clone"]
-    types:
-      - completed
+  workflow_dispatch:
+  push:
+    branches:
+      - main
 permissions:
   contents: write
 
