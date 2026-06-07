@@ -12,7 +12,7 @@ aliucord{
 	);
 };
 
-val tempMap = mapOf<String, Configuration?>(
+val tempMap = mutableMapOf<String, Configuration?>(
 	"implementation" to null,
 	"api" to null,
 	"compileOnly" to null,
