@@ -10,12 +10,18 @@ aliucord{
 	);
 };
 
-plugins{
-  id("scala");
+val temp = configurations.create("temp");
+val implementation = configurations.findByName("implementation");
+implementation.dependencies?.forEach{d ->
+	temp.dependencies.add(d);
 };
-val impl = configurations.findByName("compileOnly");
+configurations.remove(implementation);
+configurations.getByName("implementation").extendsFrom(temp);
+
+plugins.apply("scala");
+
 dependencies{
-	add(impl.name, "org.scala-lang:scala-library:2.13.12");
+	imolementation("org.scala-lang:scala-library:2.13.12");
 };
 
 tasks.withType<ScalaCompile>().configureEach{
