@@ -12,7 +12,7 @@ aliucord{
 };
 
 dependencies{
-	implementation("org.scala-lang:scala-library:2.13.12");
+	implementation("org.scala-lang:scala-library:2.12.17");
 };
 
 val scalaCompileDebug = tasks.register("scalaCompileDebug", ScalaCompile::class.java){
