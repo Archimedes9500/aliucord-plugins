@@ -12,7 +12,7 @@ aliucord{
 };
 
 dependencies{
-	implementation("org.scala-lang:scala-library:2.12.17");
+	implementation("org.scala-lang:scala-library:2.11.12");
 };
 
 val scalaCompileDebug = tasks.register("scalaCompileDebug", ScalaCompile::class.java){
@@ -34,3 +34,4 @@ val compileDex = tasks.named<CompileDexTask>("compileDex");
 compileDex.configure {
 	input.from(project.tasks.named("scalaCompileDebug"));
 };
+
