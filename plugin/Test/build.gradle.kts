@@ -32,5 +32,5 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", ScalaCompile::class.
 
 val compileDex = tasks.named<CompileDexTask>("compileDex");
 compileDex.configure {
-	input.from(project.tasks.named("scalaCompile"));
+	input.from(project.tasks.named("scalaCompileDebug"));
 };
