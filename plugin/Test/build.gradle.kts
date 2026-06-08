@@ -1,4 +1,3 @@
-import com.android.build.api.component.Component;
 import org.gradle.api.tasks.scala.ScalaCompile;
 import com.aliucord.gradle.task.CompileDexTask;
 
