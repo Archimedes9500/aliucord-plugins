@@ -7,12 +7,12 @@ import com.aliucord.entities.Plugin;
 import android.content.Context;
 import com.aliucord.patcher.*;
 
-import com.discord.api.message.Message;
 import com.discord.stores.StoreMessages;
 import com.discord.stores.StoreMessagesLoader.ChannelChunk;
 import com.discord.models.message.Message;
 import com.discord.widgets.chat.input.ChatInputViewModel;
 import com.discord.widgets.chat.MessageManager;
+import com.discord.models.user.User;
 import com.discord.widgets.chat.MessageContent;
 import kotlin.jvm.functions.Function1;
 
@@ -74,10 +74,10 @@ class BetterReplaceText: Plugin(){
 			MessageManager::class.java,
 			MessageContent::class.java,
 			List::class.java,
-			Boolean::class.javaPrimitiveType,
+			Boolean::class.java,
 			Function1::class.java
 		){frame ->
-			val (text: String, users: List<*>) = frame.args[2] as MessageContent;
+			val (text: String, users: List<*>) = (frame.args[2] as MessageContent);
 			frame.args[2] = MessageContent(encode(text), users);
 		};
 	};
