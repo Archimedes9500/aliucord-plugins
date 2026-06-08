@@ -65,7 +65,7 @@ class BetterReplaceText: Plugin(){
 		){frame ->
 			val chunk = frame.args[0] as ChannelChunk;
 			for(m in chunk.messages){
-				m.contentField = decode(m.contentFiled);
+				m.contentField = decode(m.contentField);
 			};
 		};
 		patcher.before<ChatInputViewModel>(
@@ -77,7 +77,7 @@ class BetterReplaceText: Plugin(){
 			Boolean::class.java,
 			Function1::class.java
 		){frame ->
-			val (text: String, users: List<*>) = (frame.args[2] as MessageContent);
+			val (text: String, users: List<User>) = (frame.args[2] as MessageContent);
 			frame.args[2] = MessageContent(encode(text), users);
 		};
 	};
