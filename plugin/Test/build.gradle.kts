@@ -16,7 +16,7 @@ dependencies{
 };
 
 val scalaCompileDebug = tasks.register("scalaCompileDebug", ScalaCompile::class.java){
-	source = fileTree("src/main/scala"){
+	source = fileTree("src/main/java"){
 		include("**/*.scala");
 	};
 	classpath = files(
