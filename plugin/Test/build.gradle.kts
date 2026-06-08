@@ -20,9 +20,8 @@ val scalaCompileDebug = tasks.register("scalaCompile", ScalaCompile::class.java)
 	source = fileTree("src/main/scala"){
 		include("**/*.scala");
 	};
-	classpath =
-		configurations.getByName("implementation")
-		+configurations.getByName("compileOnly")
+	classpath = configurations.getByName("implementation")
+		.plus(configurations.getByName("compileOnly"))
 	;
 	destinationDirectory.set(
 		layout.buildDirectory.dir("classes/scala/main")
