@@ -34,6 +34,7 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 		args = listOf("-version");
 	}else{
 		args = listOf(
+			"-verbose",
 			"-g:vars,lines,source",
 			"-d",
 			layout.buildDirectory.dir("classes/scala/debug").get().asFile.absolutePath
