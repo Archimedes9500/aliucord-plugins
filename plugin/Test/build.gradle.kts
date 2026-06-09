@@ -49,7 +49,7 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", ScalaCompile::class.
 			layout.buildDirectory.file("scala/incremental/debug.analysis")
 		);
 		classfileBackupDir.set(
-			layout.buildDirectory.dir("scala/classfile-backup")
+			layout.buildDirectory.file("scala/classfile-backup/debug.backup")
 		);
 	};
 	scalaCompileOptions.additionalParameters = listOf("-g:vars,lines,source");
