@@ -20,7 +20,7 @@ dependencies{
 
 val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java){
 	mainClass.set("scala.tools.nsc.Main");
-	classpath = cScalaClasspath;
+	classpath = configurations.getByName("debugCompileClasspath").plus(cScalaClasspath);
 	val srcFiles = fileTree("src/main/scala"){
 		include("**/*.scala");
 	}.files.map{it.absolutePath};
@@ -28,6 +28,8 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 		layout.buildDirectory.dir("classes/scala/debug").get().asFile.deleteRecursively();
 		layout.buildDirectory.dir("classes/scala/debug").get().asFile.mkdirs();
 	};
+	standardOutput = System.out;
+	errorOutput = System.err;
 	if(srcFiles.isEmpty()){
 		args = listOf("-version");
 	}else{
