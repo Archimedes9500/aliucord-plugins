@@ -44,11 +44,13 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", ScalaCompile::class.
 			configurations.getByName("scalaCompilerPlugins");
 		}
 	);
+	scalaCompileOptions.keepAliveMode.set(scalaCompileOptions.KeepAliveMode.DISABLED);
+	scalaCompileOptions.additionalParameters = listOf("-g:vars,lines,source");
+	
 	destinationDirectory.set(
 		layout.buildDirectory.dir("classes/scala/debug")
 	);
-	scalaCompileOptions.keepAliveMode.set(scalaCompileOptions.KeepAliveMode.DISABLED);
-	scalaCompileOptions.additionalParameters = listOf("-g:vars,lines,source");
+	outputs.dir(destinationDirectory);
 };
 
 val compileDex = tasks.named<CompileDexTask>("compileDex");
