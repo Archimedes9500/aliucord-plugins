@@ -55,7 +55,7 @@ val compileDex = tasks.named<CompileDexTask>("compileDex");
 compileDex.configure{
 	dependsOn(scalaCompileDebug);
 	input.from(
-		input.from(layout.buildDirectory.dir("classes/scala/debug")
+		layout.buildDirectory.dir("classes/scala/debug")
 		//scalaCompileDebug.map{it.outputs.files}
 	);
 };
