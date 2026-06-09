@@ -32,15 +32,11 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", ScalaCompile::class.
 	);
 	scalaClasspath = files(
 		provider{
-			configurations.getByName("scalaClasspath");
+			configurations.getByName("scalaClasspath").resolve();
 		}
 	);
 	zincClasspath = objects.fileCollection();
-	scalaCompilerPlugins = files(
-		provider{
-			configurations.getByName("scalaCompilerPlugins");
-		}
-	);
+	scalaCompilerPlugins = objects.fileCollection();
 	scalaCompileOptions.keepAliveMode.set(
 		org.gradle.language.scala.tasks.KeepAliveMode.SESSION
 	);
