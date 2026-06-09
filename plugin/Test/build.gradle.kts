@@ -44,7 +44,7 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", ScalaCompile::class.
 			configurations.getByName("scalaCompilerPlugins");
 		}
 	);
-	scalaCompileOptions.keepAliveMode.set(scalaCompileOptions.KeepAliveMode.DISABLED);
+	scalaCompileOptions.keepAliveMode.set(scalaCompileOptions.keepAliveMode.DISABLED);
 	scalaCompileOptions.additionalParameters = listOf("-g:vars,lines,source");
 	
 	destinationDirectory.set(
@@ -57,4 +57,3 @@ val compileDex = tasks.named<CompileDexTask>("compileDex");
 compileDex.configure {
 	input.from(project.tasks.named("scalaCompileDebug"));
 };
-
