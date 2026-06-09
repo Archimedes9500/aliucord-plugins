@@ -35,11 +35,7 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", ScalaCompile::class.
 			configurations.getByName("debugCompileClasspath");
 		}
 	);
-	scalaClasspath = files(
-		provider{
-			configurations.getByName("scalaClasspath").resolve();
-		}
-	);
+	scalaClasspath = configurations.getByName("scalaClasspath");
 	zincClasspath = objects.fileCollection();
 	scalaCompilerPlugins = objects.fileCollection();
 	scalaCompileOptions.keepAliveMode.set(
