@@ -1,5 +1,6 @@
 import org.gradle.api.tasks.scala.ScalaCompile;
 import com.aliucord.gradle.task.CompileDexTask;
+import org.gradle.api.file.ConfigurableFileCollection;
 
 version = "0.0";
 description = "test";
@@ -40,10 +41,10 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", ScalaCompile::class.
 		}
 	);
 	scalaCompilerPlugins.from(
-		configurations.getByName("scalaCompilerPlugins")
+		configurations.getByName("scalaCompilerPlugins") as ConfigurableFileCollection
 	);
 	scalaCompileOptions.keepAliveMode.set(
-		org.gradle.api.tasks.scala.ScalaCompileOptions.KeepAliveMode.SESSION
+		org.gradle.language.scala.tasks.KeepAliveMode.SESSION
 	);
 	scalaCompileOptions.additionalParameters = listOf("-g:vars,lines,source");
 	
