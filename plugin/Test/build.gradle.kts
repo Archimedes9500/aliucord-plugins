@@ -1,4 +1,4 @@
-import org.gradle.api.tasks.scala.ScalaCompile;
+import org.gradle.api.tasks.JavaExec;
 import com.aliucord.gradle.task.CompileDexTask;
 import org.gradle.api.file.ConfigurableFileCollection;
 
@@ -13,48 +13,35 @@ aliucord{
 };
 
 val cScalaClasspath = configurations.create("scalaClasspath");
-val cZincClasspath = null;//configurations.create("zincClasspath");
-val cScalaCompilerPlugins = null;//configurations.create("scalaCompilerPlugins");
 dependencies{
 	implementation("org.scala-lang:scala-library:2.11.12");
 	cScalaClasspath("org.scala-lang:scala-compiler:2.11.12");
-	//cZincClasspath("org.scala-sbt:zinc-compile-core_2.11:1.4.4");
 };
 
-val scalaCompileDebug = tasks.register("scalaCompileDebug", ScalaCompile::class.java){
-	source = fileTree("src/main/scala"){
+val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java){
+	mainClass.set("scala.tools.nsc.Main");
+	classpath = cScalaClasspath;
+	val srcFiles = fileTree("src/main/scala"){
 		include("**/*.scala");
-	};
-	classpath = configurations.getByName("debugCompileClasspath").plus(cScalaClasspath);
+	}.files.map{it.absolutePath};
 	doFirst{
-		println("scalaClasspath: " + cScalaClasspath.files);
+		layout.buildDirectory.dir("classes/scala/debug").get().asFile.deleteRecursively();
+		layout.buildDirectory.dir("classes/scala/debug").get().asFile.mkdirs();
 	};
-	scalaClasspath = configurations.getByName("scalaClasspath");
-	zincClasspath = objects.fileCollection();
-	scalaCompilerPlugins = objects.fileCollection();
-	scalaCompileOptions.keepAliveMode.set(
-		org.gradle.language.scala.tasks.KeepAliveMode.SESSION
-	);
-	scalaCompileOptions.incrementalOptions{
-		analysisFile.set(
-			layout.buildDirectory.file("scala/incremental/debug.analysis")
-		);
-		classfileBackupDir.set(
-			layout.buildDirectory.file("scala/classfile-backup/debug.backup")
-		);
+	if(srcFiles.isEmpty()){
+		args = listOf("-version");
+	}else{
+		args = listOf(
+			"-g:vars,lines,source",
+			"-d",
+			layout.buildDirectory.dir("classes/scala/debug").get().asFile.absolutePath
+		)+srcFiles;
 	};
-	scalaCompileOptions.additionalParameters = listOf("-g:vars,lines,source");
-	
-	destinationDirectory.set(
-		layout.buildDirectory.dir("classes/scala/debug")
-	);
-	outputs.dir(destinationDirectory);
+	outputs.dir(layout.buildDirectory.dir("classes/scala/debug"));
 };
 
 val compileDex = tasks.named<CompileDexTask>("compileDex");
 compileDex.configure{
 	dependsOn(scalaCompileDebug);
-	input.from(
-		layout.buildDirectory.dir("classes/scala/debug")//scalaCompileDebug.map{it.outputs.files}
-	);
+	input.from(layout.buildDirectory.dir("classes/scala/debug"));
 };
