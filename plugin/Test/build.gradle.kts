@@ -18,7 +18,7 @@ val cScalaCompilerPlugins = configurations.create("scalaCompilerPlugins");
 dependencies{
 	implementation("org.scala-lang:scala-library:2.11.12");
 	cScalaClasspath("org.scala-lang:scala-compiler:2.11.12");
-	cZincClasspath("com.typesafe.zinc:zinc:1.5.0");
+	cZincClasspath("org.scala-sbt:zinc-compile-core_2.11:1.4.4");
 };
 
 val scalaCompileDebug = tasks.register("scalaCompileDebug", ScalaCompile::class.java){
@@ -45,7 +45,6 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", ScalaCompile::class.
 			configurations.getByName("scalaCompilerPlugins");
 		}
 	);
-	//scalaCompilerPlugins = objects.fileCollection();
 	scalaCompileOptions.keepAliveMode.set(
 		org.gradle.language.scala.tasks.KeepAliveMode.SESSION
 	);
