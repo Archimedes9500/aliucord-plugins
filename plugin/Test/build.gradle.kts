@@ -40,8 +40,10 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", ScalaCompile::class.
 			configurations.getByName("zincClasspath");
 		}
 	);
-	scalaCompilerPlugins.from(
-		configurations.getByName("scalaCompilerPlugins") as ConfigurableFileCollection
+	scalaCompilerPlugins.setFrom(
+		files(
+			configurations.getByName("scalaCompilerPlugins")
+		)
 	);
 	scalaCompileOptions.keepAliveMode.set(
 		org.gradle.language.scala.tasks.KeepAliveMode.SESSION
