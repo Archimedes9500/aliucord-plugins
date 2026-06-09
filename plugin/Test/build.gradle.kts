@@ -44,7 +44,7 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", ScalaCompile::class.
 	scalaCompileOptions.keepAliveMode.set(
 		org.gradle.language.scala.tasks.KeepAliveMode.SESSION
 	);
-	scalaCompileOptions.incrementalOptions.isEnabled.set(false);
+	scalaCompileOptions.setForce(true);
 	scalaCompileOptions.additionalParameters = listOf("-g:vars,lines,source");
 	
 	destinationDirectory.set(
