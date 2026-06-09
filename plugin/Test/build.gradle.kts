@@ -30,6 +30,7 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", ScalaCompile::class.
 			configurations.getByName("debugCompileClasspath");
 		}
 	);
+	println("scalaClasspath: " + configurations.getByName("scalaClasspath").files);
 	scalaClasspath = configurations.getByName("scalaClasspath");
 	zincClasspath = objects.fileCollection();
 	scalaCompilerPlugins = objects.fileCollection();
