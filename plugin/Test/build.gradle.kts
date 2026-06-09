@@ -12,6 +12,11 @@ aliucord{
 	);
 };
 
+repositories{
+	mavenCentral();
+	google();
+};
+
 val cScalaClasspath = configurations.create("scalaClasspath");
 val cZincClasspath = configurations.create("zincClasspath");
 val cScalaCompilerPlugins = configurations.create("scalaCompilerPlugins");
