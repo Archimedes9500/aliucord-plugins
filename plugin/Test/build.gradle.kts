@@ -11,13 +11,13 @@ aliucord{
 	);
 };
 
-val scalaCompiler = configurations.create("scalaCompiler");
-val zinc = configurations.create("zinc");
-val scalaCompilerPlugins = configurations.create("scalaCompilerPlugins");
+val cScalaClasspath = configurations.create("scalaClasspath");
+val cZincClasspath = configurations.create("zincClasspath");
+val cScalaCompilerPlugins = configurations.create("scalaCompilerPlugins");
 dependencies{
 	implementation("org.scala-lang:scala-library:2.11.12");
-	scalaCompiler("org.scala-lang:scala-compiler:2.11.12");
-	zinc("com.typesafe.zinc:zinc:1.5.0");
+	cScalaClasspath("org.scala-lang:scala-compiler:2.11.12");
+	cZincClasspath("com.typesafe.zinc:zinc:1.5.0");
 };
 
 val scalaCompileDebug = tasks.register("scalaCompileDebug", ScalaCompile::class.java){
@@ -31,17 +31,17 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", ScalaCompile::class.
 	);
 	scalaClasspath = files(
 		provider{
-			scalaCompiler;
+			configurations.getByName("scalaClasspath");
 		}
 	);
-	zinc = files(
+	zincClasspath = files(
 		provider{
-			zinc;
+			configurations.getByName("zincClasspath");
 		}
 	);
 	scalaCompilerPlugins = files(
 		provider{
-			scalaCompilerPlugins;
+			configurations.getByName("scalaCompilerPlugins");
 		}
 	);
 	destinationDirectory.set(
