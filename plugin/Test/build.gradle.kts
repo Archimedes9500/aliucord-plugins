@@ -25,13 +25,13 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", ScalaCompile::class.
 	source = fileTree("src/main/scala"){
 		include("**/*.scala");
 	};
-	classpath = configurations.getByName("debugCompileClasspath");
+	classpath = configurations.getByName("debugCompileClasspath").plus(cScalaClasspath);
 	doFirst{
-		println("scalaClasspath: " + configurations.getByName("scalaClasspath").files);
+		println("scalaClasspath: " + cScalaClasspath.files);
 	};
 	scalaClasspath = configurations.getByName("scalaClasspath");
-	zincClasspath = objects.fileCollection();
-	scalaCompilerPlugins = objects.fileCollection();
+	zincClasspath = configurations.getByName("zincClasspath");
+	scalaCompilerPlugins = configurations.getByName("scalaCompilerPlugins");
 	scalaCompileOptions.keepAliveMode.set(
 		org.gradle.language.scala.tasks.KeepAliveMode.SESSION
 	);
@@ -54,5 +54,5 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", ScalaCompile::class.
 val compileDex = tasks.named<CompileDexTask>("compileDex");
 compileDex.configure{
 	dependsOn(scalaCompileDebug);
-	input.from(project.tasks.named("scalaCompileDebug"));
+	input.from(scalaCompileDebug.flatMap{it.outputs.files});
 };
