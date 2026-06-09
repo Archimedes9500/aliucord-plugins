@@ -12,17 +12,6 @@ aliucord{
 	);
 };
 
-java{
-	toolchain{
-		languageVersion.set(JavaLanguageVersion.of(11));
-	};
-	sourceCompatibility = JavaVersion.VERSION_11;
-	targetCompatibility = JavaVersion.VERSION_11;
-};
-kotlin{
-	jvmToolchain(11);
-};
-
 val cScalaClasspath = configurations.create("scalaClasspath");
 val cZincClasspath = configurations.create("zincClasspath");
 val cScalaCompilerPlugins = configurations.create("scalaCompilerPlugins");
@@ -33,7 +22,7 @@ dependencies{
 };
 
 val scalaCompileDebug = tasks.register("scalaCompileDebug", ScalaCompile::class.java){
-	source = fileTree("src/main/java"){
+	source = fileTree("src/main/scala"){
 		include("**/*.scala");
 	};
 	classpath = configurations.getByName("debugCompileClasspath");
@@ -63,6 +52,7 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", ScalaCompile::class.
 };
 
 val compileDex = tasks.named<CompileDexTask>("compileDex");
-compileDex.configure {
+compileDex.configure{
+	dependsOn(scalaCompileDebug);
 	input.from(project.tasks.named("scalaCompileDebug"));
 };
