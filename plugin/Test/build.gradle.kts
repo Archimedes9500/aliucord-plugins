@@ -54,5 +54,5 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", ScalaCompile::class.
 val compileDex = tasks.named<CompileDexTask>("compileDex");
 compileDex.configure{
 	dependsOn(scalaCompileDebug);
-	input.from(scalaCompileDebug.flatMap{it.outputs.files});
+	input.from(scalaCompileDebug.map{it.outputs.files});
 };
