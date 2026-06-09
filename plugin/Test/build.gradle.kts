@@ -18,7 +18,7 @@ val cScalaCompilerPlugins = null;//configurations.create("scalaCompilerPlugins")
 dependencies{
 	implementation("org.scala-lang:scala-library:2.11.12");
 	cScalaClasspath("org.scala-lang:scala-compiler:2.11.12");
-	cZincClasspath("org.scala-sbt:zinc-compile-core_2.11:1.4.4");
+	//cZincClasspath("org.scala-sbt:zinc-compile-core_2.11:1.4.4");
 };
 
 val scalaCompileDebug = tasks.register("scalaCompileDebug", ScalaCompile::class.java){
@@ -54,5 +54,8 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", ScalaCompile::class.
 val compileDex = tasks.named<CompileDexTask>("compileDex");
 compileDex.configure{
 	dependsOn(scalaCompileDebug);
-	input.from(scalaCompileDebug.map{it.outputs.files});
+	input.from(
+		input.from(layout.buildDirectory.dir("classes/scala/debug"));
+		//scalaCompileDebug.map{it.outputs.files}
+	);
 };
