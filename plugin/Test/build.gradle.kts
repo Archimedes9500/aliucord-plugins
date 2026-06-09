@@ -13,8 +13,8 @@ aliucord{
 };
 
 val cScalaClasspath = configurations.create("scalaClasspath");
-val cZincClasspath = configurations.create("zincClasspath");
-val cScalaCompilerPlugins = configurations.create("scalaCompilerPlugins");
+val cZincClasspath = null;//configurations.create("zincClasspath");
+val cScalaCompilerPlugins = null;//configurations.create("scalaCompilerPlugins");
 dependencies{
 	implementation("org.scala-lang:scala-library:2.11.12");
 	cScalaClasspath("org.scala-lang:scala-compiler:2.11.12");
@@ -30,8 +30,8 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", ScalaCompile::class.
 		println("scalaClasspath: " + cScalaClasspath.files);
 	};
 	scalaClasspath = configurations.getByName("scalaClasspath");
-	zincClasspath = configurations.getByName("zincClasspath");
-	scalaCompilerPlugins = configurations.getByName("scalaCompilerPlugins");
+	zincClasspath = objects.fileCollection();
+	scalaCompilerPlugins = objects.fileCollection();
 	scalaCompileOptions.keepAliveMode.set(
 		org.gradle.language.scala.tasks.KeepAliveMode.SESSION
 	);
