@@ -13,11 +13,14 @@ aliucord{
 };
 
 java{
-	sourceCompatibility = JavaVersion.VERSION_11;
-	targetCompatibility = JavaVersion.VERSION_11;
 	toolchain{
 		languageVersion.set(JavaLanguageVersion.of(11));
 	};
+	sourceCompatibility = JavaVersion.VERSION_11;
+	targetCompatibility = JavaVersion.VERSION_11;
+};
+kotlin{
+	jvmToolchain(11);
 };
 
 val cScalaClasspath = configurations.create("scalaClasspath");
