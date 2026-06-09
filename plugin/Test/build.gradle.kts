@@ -11,8 +11,13 @@ aliucord{
 	);
 };
 
+val scalaCompiler = configurations.create("scalaCompiler");
+val zinc = configurations.create("zinc");
+val scalaCompilerPlugins = configurations.create("scalaCompilerPlugins");
 dependencies{
 	implementation("org.scala-lang:scala-library:2.11.12");
+	scalaCompiler("org.scala-lang:scala-compiler:2.11.12");
+	zinc("com.typesafe.zinc:zinc:1.5.0");
 };
 
 val scalaCompileDebug = tasks.register("scalaCompileDebug", ScalaCompile::class.java){
@@ -24,9 +29,25 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", ScalaCompile::class.
 			configurations.getByName("debugCompileClasspath");
 		}
 	);
+	scalaClasspath = files(
+		provider{
+			scalaCompiler;
+		}
+	);
+	zinc = files(
+		provider{
+			zinc;
+		}
+	);
+	scalaCompilerPlugins = files(
+		provider{
+			scalaCompilerPlugins;
+		}
+	);
 	destinationDirectory.set(
 		layout.buildDirectory.dir("classes/scala/debug")
 	);
+	scalaCompileOptions.keepAliveMode.set(scalaCompileOptions.KeepAliveMode.DISABLED);
 	scalaCompileOptions.additionalParameters = listOf("-g:vars,lines,source");
 };
 
