@@ -12,6 +12,12 @@ aliucord{
 	);
 };
 
+java{
+	toolchain{
+		languageVersion.set(JavaLanguageVersion.of(11));
+	};
+};
+
 val cScalaClasspath = configurations.create("scalaClasspath");
 val cZincClasspath = configurations.create("zincClasspath");
 val cScalaCompilerPlugins = configurations.create("scalaCompilerPlugins");
