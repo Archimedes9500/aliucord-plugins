@@ -39,12 +39,12 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", ScalaCompile::class.
 			configurations.getByName("zincClasspath");
 		}
 	);
-	scalaCompilerPlugins.setFrom(
-		provider{
-			configurations.getByName("scalaCompilerPlugins");
-		}
+	scalaCompilerPlugins.from(
+		configurations.getByName("scalaCompilerPlugins")
 	);
-	scalaCompileOptions.keepAliveMode.set(scalaCompileOptions.keepAliveMode.SESSION);
+	scalaCompileOptions.keepAliveMode.set(
+		org.gradle.api.tasks.scala.ScalaCompileOptions.KeepAliveMode.SESSION
+	);
 	scalaCompileOptions.additionalParameters = listOf("-g:vars,lines,source");
 	
 	destinationDirectory.set(
