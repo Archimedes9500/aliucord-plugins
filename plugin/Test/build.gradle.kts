@@ -25,7 +25,7 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 		.plus(configurations.getByName("debugRuntimeClasspath"))
 		.plus(cScalaClasspath)
 	;
-	println(classpath);
+	println("CLASSPATH:\n${classpath}");
 	val srcFiles = fileTree("src/main/scala"){
 		include("**/*.scala");
 	}.files.map{it.absolutePath};
