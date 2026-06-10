@@ -22,9 +22,9 @@ dependencies{
 val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java){
 	mainClass.set("scala.tools.nsc.Main");
 	classpath = configurations.getByName("debugCompileClasspath")
-		.plus(configurations.getByName("implementation"))
 		.plus(cScalaClasspath)
 	;
+	println(classpath);
 	val srcFiles = fileTree("src/main/scala"){
 		include("**/*.scala");
 	}.files.map{it.absolutePath};
