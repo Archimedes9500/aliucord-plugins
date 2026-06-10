@@ -16,6 +16,7 @@ val cScalaClasspath = configurations.create("scalaClasspath");
 dependencies{
 	implementation("org.scala-lang:scala-library:2.11.12");
 	cScalaClasspath("org.scala-lang:scala-compiler:2.11.12");
+	cScalaClasspath("org.scala-lang:scala-library:2.11.12");
 };
 
 val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java){
