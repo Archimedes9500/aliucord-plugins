@@ -22,7 +22,7 @@ dependencies{
 val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java){
 	mainClass.set("scala.tools.nsc.Main");
 	classpath = configurations.getByName("debugCompileClasspath")
-		.plus(configurations.getByName("runtimeClasspath"))
+		.plus(configurations.getByName("debugRuntimeClasspath"))
 		.plus(cScalaClasspath)
 	;
 	println(classpath);
