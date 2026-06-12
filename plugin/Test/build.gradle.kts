@@ -51,6 +51,14 @@ val androidBootClasspathPaths = run{
 	if(androidExt != null){
 		androidExt.bootClasspath.forEach{p -> out += p.toString()};
 	};
+	if(out.isEmpty()){
+		// fallback to ANDROID_SDK_ROOT/platforms/android-36/android.jar if the Android extension isn't available yet
+		val sdkRoot = System.getenv("ANDROID_SDK_ROOT") ?: System.getenv("ANDROID_HOME");
+		if(!sdkRoot.isNullOrBlank()){
+			val fallback = File(sdkRoot, "platforms/android-36/android.jar");
+			if(fallback.exists()) out += fallback.absolutePath;
+		}
+	}
 	out.toList();
 };
 
