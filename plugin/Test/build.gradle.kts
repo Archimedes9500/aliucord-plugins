@@ -1,7 +1,7 @@
 import org.gradle.api.tasks.JavaExec;
-import com.aliucord.gradle.task.CompileDexTask;
-import org.gradle.api.file.ConfigurableFileCollection;
+import org.gradle.api.attributes.ArtifactTypeDefinition;
 import org.gradle.jvm.toolchain.JavaLanguageVersion;
+import com.aliucord.gradle.task.CompileDexTask;
 
 version = "0.0";
 description = "test";
