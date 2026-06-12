@@ -1,5 +1,5 @@
 import org.gradle.api.tasks.JavaExec;
-import org.gradle.api.DefaultTask;
+import org.gradle.api.tasks.bundling.Zip;
 import org.gradle.jvm.toolchain.JavaLanguageVersion;
 import com.aliucord.gradle.task.CompileDexTask;
 import java.io.File;
@@ -62,6 +62,17 @@ val androidBootClasspathPaths = run{
 	out.toList();
 };
 
+val preparedDir = layout.buildDirectory.dir("scala-prep").get().asFile;
+
+val scalaPrepJar = tasks.register("scalaPrepJar", Zip::class.java){
+	archiveFileName.set("scala-prep-classes.jar");
+	destinationDirectory.set(preparedDir);
+	val javaClassesDir = layout.buildDirectory.dir("classes/java/debug").get().asFile;
+	if(javaClassesDir.exists()) from(javaClassesDir);
+	val kotlinClassesDir = layout.buildDirectory.dir("tmp/kotlin-classes/debug").get().asFile;
+	if(kotlinClassesDir.exists()) from(kotlinClassesDir);
+}
+
 val prepareScalaClasspath = tasks.register("prepareScalaClasspath", org.gradle.api.DefaultTask::class.java){
 	dependsOn(rootProject.tasks.matching{it.name.startsWith("assemble", ignoreCase = true)});
 	dependsOn(tasks.matching{it.name.startsWith("assemble", ignoreCase = true)});
@@ -69,7 +80,7 @@ val prepareScalaClasspath = tasks.register("prepareScalaClasspath", org.gradle.a
 	rootProject.subprojects.forEach{sp ->
 		dependsOn(sp.tasks.matching{it.name.startsWith("compile") && (it.name.contains("Java") || it.name.contains("Kotlin") || it.name.contains("Debug"))});
 	}
-	val preparedDir = layout.buildDirectory.dir("scala-prep").get().asFile;
+	dependsOn(scalaPrepJar);
 	outputs.dir(preparedDir);
 	doLast{
 		preparedDir.deleteRecursively();
@@ -102,11 +113,14 @@ val prepareScalaClasspath = tasks.register("prepareScalaClasspath", org.gradle.a
 		};
 		val javaClassesDir = layout.buildDirectory.dir("classes/java/debug").get().asFile;
 		if(javaClassesDir.exists()){
-			extraJars += javaClassesDir;
+			// included in scalaPrepJar; also include jar path to ensure only jar appears on classpath
+			val prepJarFile = File(preparedDir, "scala-prep-classes.jar");
+			if(prepJarFile.exists()) extraJars += prepJarFile;
 		}
 		val kotlinClassesDir = layout.buildDirectory.dir("tmp/kotlin-classes/debug").get().asFile;
 		if(kotlinClassesDir.exists()){
-			extraJars += kotlinClassesDir;
+			val prepJarFile = File(preparedDir, "scala-prep-classes.jar");
+			if(prepJarFile.exists() && !extraJars.contains(prepJarFile)) extraJars += prepJarFile;
 		}
 		val buildDepDir = file("build/outputs");
 		if(buildDepDir.exists()){
@@ -140,7 +154,6 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 		include("**/*.scala");
 	}.files.map{it.absolutePath};
 	doFirst{
-		val preparedDir = layout.buildDirectory.dir("scala-prep").get().asFile;
 		val manifest = File(preparedDir, "classpath.txt");
 		if(!manifest.exists()){
 			throw GradleException("scala classpath manifest not found; prepareScalaClasspath may have failed");
@@ -150,7 +163,9 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 		val entries = if(content.isBlank()) listOf<String>() else content.split(pathSep).filter{it.isNotBlank()}.map{File(it)};
 		val extraJars = entries.toMutableList();
 		scalaResolve.files.forEach{if(!extraJars.contains(it)) extraJars += it};
-		classpath = files(extraJars);
+		// filter out directories: only allow jar files to avoid classloader parallel load of directories
+		val jarsOnly = extraJars.filter{it.isFile && it.name.endsWith(".jar")}.distinct();
+		classpath = files(jarsOnly);
 		val cpString = classpath.files.joinToString(pathSep){it.absolutePath};
 		val scalaLibJar = classpath.files.find{
 			it.name.startsWith("scala-library");

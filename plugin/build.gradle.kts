@@ -89,5 +89,7 @@ afterEvaluate {
 				if (other.tasks.findByName(name) != null) p.tasks.named(prepareTask.name).configure { dependsOn(other.tasks.named(name)) }
 			}
 		}
+		// ensure prepare task waits for the scalaPrepJar in the same project
+		if (p.tasks.findByName("scalaPrepJar") != null) p.tasks.named(prepareTask.name).configure { dependsOn(p.tasks.named("scalaPrepJar")) }
 	}
 }
