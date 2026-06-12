@@ -16,7 +16,7 @@ import com.discord.models.message.Message;
 class Test extends Plugin(){
 	val fContent = classOf[Message].getDeclaredField("content");
 	@Override def start(pluginContext: Context){
-		before[StoreMessages](patcher,
+		PatcherExtensionsKt.before[StoreMessages](patcher,
 			"handleMessagesLoaded",
 			classOf[ChannelChunk]
 		){frame =>
@@ -27,6 +27,6 @@ class Test extends Plugin(){
 		};
 	};
 	@Override def stop(pluginContext: Context){
-		unpatchAll(patcher);
+		PatcherAPI.unpatchAll(patcher);
 	};
 };

@@ -26,12 +26,23 @@ dependencies{
 	scalaResolve("org.scala-lang:scala-library:2.11.12");
 };
 
+val discordJar = configurations.getByName("debugRuntimeClasspath")
+	.incoming.artifactView{
+	    attributes.attribute(
+			ArtifactTypeDefinition.ARTIFACT_TYPE_ATTRIBUTE,
+			"jar"
+		);
+	}
+	.artifacts.files
+;
+
 val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java){
 	mainClass.set("scala.tools.nsc.Main");
 	classpath = files(
 		configurations.getByName("debugCompileClasspath"),
 		configurations.getByName("debugRuntimeClasspath"),
-		scalaResolve
+		scalaResolve,
+		discordJar
 	);
 	javaLauncher.set(
 		javaToolchains.launcherFor {
