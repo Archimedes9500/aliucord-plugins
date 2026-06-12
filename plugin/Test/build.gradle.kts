@@ -32,7 +32,7 @@ val discordJar = configurations.getByName("debugRuntimeClasspath")
 			Attribute.of("artifactType", String::class.java),
 			"jar"
 		)	
-	}.artifactFiles
+	}.artifacts.files
 ;
 
 val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java){
