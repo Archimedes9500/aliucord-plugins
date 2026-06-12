@@ -19,6 +19,11 @@ val scalaResolve = configurations.create("scalaResolve") {
 
 val cScalaClasspath = configurations.create("scalaClasspath");
 
+// resolvable configuration that will include compileOnly and other compile-time jars
+val scalaCompileResolve = configurations.create("scalaCompileResolve") {
+	isCanBeResolved = true;
+};
+
 // add compileOnly for Android and Aliucord APIs (adjust paths/versions as needed)
 dependencies{
 	implementation("org.scala-lang:scala-library:2.11.12");
@@ -37,17 +42,18 @@ dependencies{
 	// compileOnly(project(":utilsModule"))
 };
 
-// make scalaResolve see compileOnly and debugCompileClasspath so scala compiler can resolve Android/Aliucord/etc.
-configurations.getByName("scalaResolve").extendsFrom(configurations.getByName("compileOnly"))
-// debugCompileClasspath is usually not a configuration to extend from; instead include it when building classpath below.
+// make scalaCompileResolve extend from compileOnly so it's resolvable and contains those files
+scalaCompileResolve.extendsFrom(configurations.getByName("compileOnly"))
+// include debugCompileClasspath as files into scalaCompileResolve at evaluation time to avoid extending non-resolvable configuration
+// Note: debugCompileClasspath may not be available as a configuration to extend; include its files directly when setting classpath below.
 
 val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java){
 	mainClass.set("scala.tools.nsc.Main");
-	// include debugCompileClasspath, debugRuntimeClasspath, compileOnly, and scalaResolve
+	// include debugCompileClasspath, debugRuntimeClasspath, scalaCompileResolve, and scalaResolve
 	classpath = files(
 		configurations.getByName("debugCompileClasspath"),
 		configurations.getByName("debugRuntimeClasspath"),
-		configurations.getByName("compileOnly"),
+		scalaCompileResolve,
 		scalaResolve
 	);
 	javaLauncher.set(
@@ -76,8 +82,10 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 				extraJars += f;
 			}
 		};
-		// also include compileOnly files (android.jar, aliucord) so scala compiler sees them
-		configurations.getByName("compileOnly").files.forEach{ extraJars += it };
+		// include resolved scalaCompileResolve files (which brings in compileOnly jars like android.jar and aliucord-api)
+		scalaCompileResolve.files.forEach{ extraJars += it };
+		// also include scalaResolve (compiler & library) if any
+		scalaResolve.files.forEach{ extraJars += it };
 		classpath = files(classpath, extraJars);
 		val scalaLibJar = classpath.files.find{
 			it.name.startsWith("scala-library");
