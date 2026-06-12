@@ -63,16 +63,9 @@ val androidBootClasspathPaths = run{
 };
 
 val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java){
-	// Ensure project/library outputs and extracted AAR contents are produced before Scala compilation.
-	// assembleDebug is the common task that packages library outputs; add other likely compile tasks too.
-	dependsOn(
-		listOfNotNull(
-			tasks.findByName("assembleDebug"),
-			tasks.findByName("compileDebugKotlin"),
-			tasks.findByName("compileDebugJavaWithJavac"),
-			tasks.findByName("compileDebugJava")
-		)
-	);
+	// Wait for any assemble* task in root or this project to finish to avoid race conditions.
+	dependsOn(rootProject.tasks.matching{it.name.startsWith("assemble", ignoreCase = true)});
+	dependsOn(tasks.matching{it.name.startsWith("assemble", ignoreCase = true)});
 
 	mainClass.set("scala.tools.nsc.Main");
 	classpath = files();
