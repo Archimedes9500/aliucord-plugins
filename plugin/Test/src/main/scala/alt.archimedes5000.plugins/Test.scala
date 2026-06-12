@@ -22,7 +22,7 @@ implicit class MessageWrapper(val m: Message) extends AnyVal{
 };
 */
 @AliucordPlugin(requiresRestart = true)
-class Test: Plugin(){
+class Test extends Plugin(){
 	val fContent = classOf[Message].getDeclaredField("content");
 	@Override def start(pluginContext: Context){
 		before[StoreMessages](patcher,
