@@ -76,12 +76,17 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 	doFirst{
 		val extraJars = mutableListOf<File>();
 
-		listOfNotNull(
+		// Force resolution of classpath configurations to avoid race conditions where aar/jar contents
+		// aren't available yet to our extraction logic.
+		val cfgs = listOfNotNull(
 			configurations.findByName("debugCompileClasspath"),
 			configurations.findByName("debugRuntimeClasspath"),
 			configurations.findByName("compileClasspath"),
 			configurations.findByName("runtimeClasspath")
-		).forEach{cfg ->
+		);
+		cfgs.forEach{try{it.resolve()}catch(_: Exception){/* ignore resolution errors here */}};
+
+		cfgs.forEach{cfg ->
 			cfg.files.forEach{f ->
 				if(f.name.endsWith(".aar")){
 					val classesJar = zipTree(f).files.find{it.name == "classes.jar"};
@@ -90,15 +95,23 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 						out.parentFile.mkdirs();
 						classesJar.copyTo(out, overwrite = true);
 						extraJars += out;
-					}
+					};
 				}else if(f.name.endsWith(".apk")){
 					val dex2jarOut = layout.buildDirectory.file("dex2jar/${f.name}.jar").get().asFile;
 					if(dex2jarOut.exists()) extraJars += dex2jarOut;
 				}else if(f.name.endsWith(".jar")){
 					extraJars += f;
-				}
-			}
+				};
+			};
 		};
+
+		// also include any aliucord/discord/aliuhook artifacts explicitly if present in build outputs
+		val buildDepDir = file("build/outputs")
+		if(buildDepDir.exists()){
+			buildDepDir.walkTopDown().forEach{f ->
+				if(f.isFile && (f.name.endsWith(".jar") || f.name.endsWith(".classes.jar"))) extraJars += f;
+			}
+		}
 
 		androidBootClasspathPaths.forEach{p -> extraJars += File(p)};
 
