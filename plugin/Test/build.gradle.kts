@@ -28,19 +28,10 @@ dependencies{
 
 val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java){
 	mainClass.set("scala.tools.nsc.Main");
-	val transformedJars = configurations.getByName("debugRuntimeClasspath")
-		.incoming.artifactView{
-		    attributes.attribute(
-				Attribute.of("artifactType", String::class.java),
-				"jar"
-			)	
-		}.files
-	;
 	classpath = files(
 		configurations.getByName("debugCompileClasspath"),
 		configurations.getByName("debugRuntimeClasspath"),
-		scalaResolve,
-		transformedJars
+		scalaResolve
 	);
 	javaLauncher.set(
 		javaToolchains.launcherFor {
@@ -51,12 +42,28 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 		include("**/*.scala");
 	}.files.map{it.absolutePath};
 	doFirst{
+		val extraJars = mutableListOf<File>();
+		configurations.getByName("debugRuntimeClasspath").files.forEach{f ->
+			if(f.name.endsWith(".aar")){
+				val classesJar = zipTree(f).files.find{it.name == "classes.jar"};
+				if(classesJar != null){
+					val out = layout.buildDirectory.file("scala-deps/${f.name}.classes.jar").get().asFile;
+					out.parentFile.mkdirs();
+					classesJar.copyTo(out, overwrite = true);
+					extraJars += out;
+				}
+			}else if(f.name.endsWith(".apk")){
+				val dex2jarOut = layout.buildDirectory.file("dex2jar/${f.name}.jar").get().asFile;
+				if(dex2jarOut.exists()) extraJars += dex2jarOut;
+			}else if(f.name.endsWith(".jar")){
+				extraJars += f;
+			}
+		};
+		classpath = files(classpath, extraJars);
 		val scalaLibJar = classpath.files.find{
 			it.name.startsWith("scala-library");
 		}!!;
 		jvmArgs = listOf("-Xbootclasspath/a:${scalaLibJar.absolutePath}");
-		//println("RESOLVED COMPILER CLASSPATH:");
-		//classpath.files.forEach{println(it)};
 		layout.buildDirectory.dir("classes/scala/debug").get().asFile.deleteRecursively();
 		layout.buildDirectory.dir("classes/scala/debug").get().asFile.mkdirs();
 	};
