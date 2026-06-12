@@ -29,7 +29,7 @@ dependencies{
 	cScalaClasspath("org.scala-lang:scala-library:2.11.12");
 	scalaResolve("org.scala-lang:scala-compiler:2.11.12");
 	scalaResolve("org.scala-lang:scala-library:2.11.12");
-	compileOnly(files("src/plugin/libs/aliucord-api.jar"));
+	compileOnly(files("../libs/aliucord-api.jar"));
 };
 
 scalaCompileResolve.extendsFrom(configurations.getByName("compileOnly"));
