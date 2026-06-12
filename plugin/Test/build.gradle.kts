@@ -1,6 +1,7 @@
 import org.gradle.api.tasks.JavaExec;
 import com.aliucord.gradle.task.CompileDexTask;
 import org.gradle.api.file.ConfigurableFileCollection;
+import org.gradle.jvm.toolchain.JavaLanguageVersion;
 
 version = "0.0";
 description = "test";
@@ -32,12 +33,17 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 		configurations.getByName("debugRuntimeClasspath"),
 		scalaResolve
 	);
+	javaLauncher.set(
+		javaToolchains.launcherFor {
+			languageVersion.set(JavaLanguageVersion.of(8))
+		}
+	);
 	val srcFiles = fileTree("src/main/scala"){
 		include("**/*.scala");
 	}.files.map{it.absolutePath};
 	doFirst{
 		println("RESOLVED COMPILER CLASSPATH:");
-		classpath.files.forEach{println(it)};
+		classpath.files.forEach{ println(it) };
 		layout.buildDirectory.dir("classes/scala/debug").get().asFile.deleteRecursively();
 		layout.buildDirectory.dir("classes/scala/debug").get().asFile.mkdirs();
 	};
