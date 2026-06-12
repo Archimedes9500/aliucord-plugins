@@ -1,7 +1,7 @@
 import org.gradle.api.tasks.JavaExec;
 import org.gradle.jvm.toolchain.JavaLanguageVersion;
 import com.aliucord.gradle.task.CompileDexTask;
-import java.io.File;
+import java.io.File
 
 version = "0.0";
 description = "test";
@@ -31,25 +31,25 @@ dependencies{
 	scalaResolve("org.scala-lang:scala-library:2.11.12");
 };
 
-afterEvaluate {
-	// make scalaCompileResolve see Android/variant classpaths and compileOnly
-	listOfNotNull(
-		configurations.findByName("debugCompileClasspath"),
-		configurations.findByName("debugRuntimeClasspath"),
-		configurations.findByName("compileClasspath"),
-		configurations.findByName("runtimeClasspath"),
-		configurations.findByName("compileOnly")
-	).forEach { base ->
-		scalaCompileResolve.extendsFrom(base)
+afterEvaluate{
+	listOf(
+		"debugCompileClasspath",
+		"debugRuntimeClasspath",
+		"compileClasspath",
+		"runtimeClasspath",
+		"compileOnly"
+	).forEach {name ->
+		if(configurations.findByName(name) != null){
+			scalaCompileResolve.extendsFrom(configurations.getByName(name))
+		}
 	}
 }
 
 val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java){
 	mainClass.set("scala.tools.nsc.Main");
-	scalaCompileResolve.extendsFrom(configurations.findByName("compileOnly"));
 	classpath = files();
 	javaLauncher.set(
-		javaToolchains.launcherFor {
+		javaToolchains.launcherFor{
 			languageVersion.set(JavaLanguageVersion.of(8))
 		}
 	);
@@ -63,7 +63,7 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 			configurations.findByName("debugRuntimeClasspath"),
 			configurations.findByName("compileClasspath"),
 			configurations.findByName("runtimeClasspath")
-		).forEach {cfg ->
+		).forEach{cfg ->
 			cfg.files.forEach{f ->
 				if(f.name.endsWith(".aar")){
 					val classesJar = zipTree(f).files.find{it.name == "classes.jar"};
@@ -72,13 +72,13 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 						out.parentFile.mkdirs();
 						classesJar.copyTo(out, overwrite = true);
 						extraJars += out;
-					}
+					};
 				}else if(f.name.endsWith(".apk")){
 					val dex2jarOut = layout.buildDirectory.file("dex2jar/${f.name}.jar").get().asFile;
 					if(dex2jarOut.exists()) extraJars += dex2jarOut;
 				}else if(f.name.endsWith(".jar")){
 					extraJars += f;
-				}
+				};
 			}
 		};
 		scalaCompileResolve.files.forEach{extraJars += it};
@@ -86,7 +86,7 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 		classpath = files(extraJars);
 		val scalaLibJar = classpath.files.find{
 			it.name.startsWith("scala-library");
-		} ?: throw GradleException("scala-library not found on classpath");
+		}?: throw GradleException("scala-library not found on classpath");
 		jvmArgs = listOf("-Xbootclasspath/a:${scalaLibJar.absolutePath}");
 		layout.buildDirectory.dir("classes/scala/debug").get().asFile.deleteRecursively();
 		layout.buildDirectory.dir("classes/scala/debug").get().asFile.mkdirs();
