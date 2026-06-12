@@ -42,8 +42,12 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 		include("**/*.scala");
 	}.files.map{it.absolutePath};
 	doFirst{
+		val scalaLibJar = classpath.files.find{
+			it.name.startsWith("scala-library");
+		}!!;
+		jvmArgs = listOf("-Xbootclasspath/a:${scalaLibJar.absolutePath}");
 		println("RESOLVED COMPILER CLASSPATH:");
-		classpath.files.forEach{ println(it) };
+		classpath.files.forEach{println(it)};
 		layout.buildDirectory.dir("classes/scala/debug").get().asFile.deleteRecursively();
 		layout.buildDirectory.dir("classes/scala/debug").get().asFile.mkdirs();
 	};
