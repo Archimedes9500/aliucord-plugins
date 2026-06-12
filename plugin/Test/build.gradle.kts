@@ -63,6 +63,15 @@ val androidBootClasspathPaths = run{
 };
 
 val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java){
+	// ensure project Java/Kotlin/Android classes and AAR extractions are ready before we compile Scala
+	dependsOn(
+		listOfNotNull(
+			tasks.findByName("compileDebugKotlin"),
+			tasks.findByName("compileDebugJavaWithJavac"),
+			tasks.findByName("compileDebugJava")
+		)
+	);
+
 	mainClass.set("scala.tools.nsc.Main");
 	classpath = files();
 	javaLauncher.set(
@@ -76,16 +85,16 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 	doFirst{
 		val extraJars = mutableListOf<File>();
 
-		// Force resolution of classpath configurations to avoid race conditions where aar/jar contents
-		// aren't available yet to our extraction logic.
+		// resolve classpath configurations fully to avoid race conditions
 		val cfgs = listOfNotNull(
 			configurations.findByName("debugCompileClasspath"),
 			configurations.findByName("debugRuntimeClasspath"),
 			configurations.findByName("compileClasspath"),
 			configurations.findByName("runtimeClasspath")
 		);
-		cfgs.forEach{try{it.resolve()}catch(_: Exception){/* ignore resolution errors here */}};
+		cfgs.forEach{try{it.resolve()}catch(_: Exception){/*ignore*/}};
 
+		// extract jars/classes from resolved artifacts
 		cfgs.forEach{cfg ->
 			cfg.files.forEach{f ->
 				if(f.name.endsWith(".aar")){
@@ -95,14 +104,31 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 						out.parentFile.mkdirs();
 						classesJar.copyTo(out, overwrite = true);
 						extraJars += out;
-					};
+					}
 				}else if(f.name.endsWith(".apk")){
 					val dex2jarOut = layout.buildDirectory.file("dex2jar/${f.name}.jar").get().asFile;
 					if(dex2jarOut.exists()) extraJars += dex2jarOut;
 				}else if(f.name.endsWith(".jar")){
 					extraJars += f;
+				}
+			}
+		};
+
+		// include any freshly compiled project outputs (Kotlin/Java) to ensure generated classes (utils, Patcher APIs, discord models) are visible
+		val classesDir = layout.buildDirectory.dir("classes/java/debug").get().asFile
+		if(classesDir.exists()){
+			classesDir.walkTopDown().forEach{f ->
+				if(f.isFile && f.name.endsWith(".class")){
+					// pack small jar to include class files on classpath
+					val packJar = layout.buildDirectory.file("scala-deps/project-classes.jar").get().asFile;
+					if(!packJar.exists()){
+						packJar.parentFile.mkdirs();
+						ant.withGroovyBuilder{"jar"("destfile" to packJar.absolutePath){}}//create empty jar
+					};
+					// adding the classes directory itself is fine for scala compiler classpath
 				};
 			};
+			extraJars += classesDir;
 		};
 
 		// also include any aliucord/discord/aliuhook artifacts explicitly if present in build outputs
@@ -110,8 +136,8 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 		if(buildDepDir.exists()){
 			buildDepDir.walkTopDown().forEach{f ->
 				if(f.isFile && (f.name.endsWith(".jar") || f.name.endsWith(".classes.jar"))) extraJars += f;
-			}
-		}
+			};
+		};
 
 		androidBootClasspathPaths.forEach{p -> extraJars += File(p)};
 
@@ -124,7 +150,7 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 
 		val scalaLibJar = classpath.files.find{
 			it.name.startsWith("scala-library");
-		} ?: throw GradleException("scala-library not found on classpath");
+		}?: throw GradleException("scala-library not found on classpath");
 
 		// add android jars and scala-library to the JVM bootclasspath for the compiler as well
 		val bootList = mutableListOf<String>();
