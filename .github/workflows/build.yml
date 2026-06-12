@@ -39,6 +39,27 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Install Android SDK (platform 36)
+        env:
+          ANDROID_SDK_ROOT: ${{ runner.temp }}/android-sdk
+        run: |
+          set -euo pipefail
+          mkdir -p "$ANDROID_SDK_ROOT"
+          cd "$ANDROID_SDK_ROOT"
+          curl -fLo cmdline-tools.zip "https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip"
+          unzip -q cmdline-tools.zip -d cmdline-tools-tmp
+          mkdir -p cmdline-tools/latest
+          # move only the extracted folder contents into the canonical path
+          mv cmdline-tools-tmp/cmdline-tools/* cmdline-tools/latest/ || mv cmdline-tools-tmp/* cmdline-tools/latest/
+          rm -rf cmdline-tools.zip cmdline-tools-tmp
+          yes | cmdline-tools/latest/bin/sdkmanager --sdk_root="$ANDROID_SDK_ROOT" --licenses >/dev/null
+          cmdline-tools/latest/bin/sdkmanager --sdk_root="$ANDROID_SDK_ROOT" "platform-tools" "platforms;android-36" "build-tools;33.0.2"
+
+      - name: Export Android envs
+        run: |
+          echo "ANDROID_SDK_ROOT=${{ runner.temp }}/android-sdk" >> $GITHUB_ENV
+          echo "PATH=${{ runner.temp }}/android-sdk/platform-tools:${{ runner.temp }}/android-sdk/cmdline-tools/latest/bin:${PATH}" >> $GITHUB_ENV
+
       - name: Build
         run: |
           cd $GITHUB_WORKSPACE/src
