@@ -6,21 +6,12 @@ import com.aliucord.annotations.AliucordPlugin;
 import com.aliucord.entities.Plugin;
 import android.content.Context;
 import com.aliucord.patcher.PatcherExtensionsKt._;
+import com.aliucord.PatcherAPI._;
 
 import com.discord.stores.StoreMessages;
 import com.discord.stores.StoreMessagesLoader.ChannelChunk;
 import com.discord.models.message.Message;
-/*
-var delegateMessageContent: String by UtilsKt.accessFinalField("content");
-implicit class MessageWrapper(val m: Message) extends AnyVal{
-	def _content: String = {
-		delegateMessageContent.getValue(m, "content").asInstanceOf[String];
-	};
-	def _content_=(v: String): Unit = {
-		delegateMessageContent.setValue(m, "content", v);
-	};
-};
-*/
+
 @AliucordPlugin(requiresRestart = true)
 class Test extends Plugin(){
 	val fContent = classOf[Message].getDeclaredField("content");
@@ -31,7 +22,7 @@ class Test extends Plugin(){
 		){frame =>
 			val chunk = frame.args(0).asInstanceOf[ChannelChunk];
 			for(m <- chunk.messages){
-				fContent.set("balls");
+				fContent.set("balls from scala");
 			};
 		};
 	};
