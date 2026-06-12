@@ -31,7 +31,7 @@ dependencies{
 	scalaResolve("org.scala-lang:scala-library:2.11.12");
 };
 
-afterEvaluate {
+afterEvaluate{
 	listOf(
 		"debugCompileClasspath",
 		"debugRuntimeClasspath",
@@ -98,12 +98,18 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 		scalaResolve.files.forEach{extraJars += it};
 		classpath = files(extraJars);
 
-		val cpString = classpath.files.joinToString(":") {it.absolutePath};
+		val pathSep = System.getProperty("path.separator");
+		val cpString = classpath.files.joinToString(pathSep){it.absolutePath};
 
 		val scalaLibJar = classpath.files.find{
 			it.name.startsWith("scala-library");
 		} ?: throw GradleException("scala-library not found on classpath");
-		jvmArgs = listOf("-Xbootclasspath/a:${scalaLibJar.absolutePath}");
+
+		// add android jars and scala-library to the JVM bootclasspath for the compiler as well
+		val bootList = mutableListOf<String>();
+		bootList += scalaLibJar.absolutePath;
+		androidBootClasspathPaths.forEach{bootList += it};
+		jvmArgs = listOf("-Xbootclasspath/a:${bootList.joinToString(pathSep)}");
 
 		layout.buildDirectory.dir("classes/scala/debug").get().asFile.deleteRecursively();
 		layout.buildDirectory.dir("classes/scala/debug").get().asFile.mkdirs();
