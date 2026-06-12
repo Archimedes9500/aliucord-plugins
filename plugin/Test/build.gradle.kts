@@ -45,14 +45,11 @@ afterEvaluate {
 	}
 }
 
-// capture android bootclasspath paths during configuration (configuration-cache safe: a List<String>)
 val androidBootClasspathPaths = run{
 	val out = mutableListOf<String>();
 	val androidExt = extensions.findByType(com.android.build.gradle.LibraryExtension::class.java);
 	if(androidExt != null){
-		androidExt.bootClasspath.forEach{p ->
-			out += p.toString();
-		};
+		androidExt.bootClasspath.forEach{p -> out += p.toString()};
 	};
 	out.toList();
 };
@@ -95,31 +92,37 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 			}
 		};
 
-		// use captured bootclasspath paths (configuration-cache safe)
 		androidBootClasspathPaths.forEach{p -> extraJars += File(p)};
 
 		scalaCompileResolve.files.forEach{extraJars += it};
 		scalaResolve.files.forEach{extraJars += it};
 		classpath = files(extraJars);
+
+		val cpString = classpath.files.joinToString(":") {it.absolutePath};
+
 		val scalaLibJar = classpath.files.find{
 			it.name.startsWith("scala-library");
 		} ?: throw GradleException("scala-library not found on classpath");
 		jvmArgs = listOf("-Xbootclasspath/a:${scalaLibJar.absolutePath}");
+
 		layout.buildDirectory.dir("classes/scala/debug").get().asFile.deleteRecursively();
 		layout.buildDirectory.dir("classes/scala/debug").get().asFile.mkdirs();
+
+		if(srcFiles.isEmpty()){
+			args = listOf("-version");
+		}else{
+			args = listOf(
+				"-verbose",
+				"-g:vars",
+				"-d",
+				layout.buildDirectory.dir("classes/scala/debug").get().asFile.absolutePath,
+				"-classpath",
+				cpString
+			)+srcFiles;
+		}
 	};
 	standardOutput = System.out;
 	errorOutput = System.err;
-	if(srcFiles.isEmpty()){
-		args = listOf("-version");
-	}else{
-		args = listOf(
-			"-verbose",
-			"-g:vars",
-			"-d",
-			layout.buildDirectory.dir("classes/scala/debug").get().asFile.absolutePath
-		)+srcFiles;
-	};
 	outputs.dir(layout.buildDirectory.dir("classes/scala/debug"));
 };
 
