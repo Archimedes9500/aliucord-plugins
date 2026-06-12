@@ -22,9 +22,10 @@ val cScalaClasspath = configurations.create("scalaClasspath");
 val scalaCompileResolve = configurations.create("scalaCompileResolve"){
 	isCanBeResolved = true;
 };
-scalaCompileResolve.extendsFrom(
-	configurations.getByName("debugCompileClasspath")
-);
+
+// make scalaCompileResolve resolvable from the module's debugCompileClasspath so transforms (apk/aar -> jar) are used
+scalaCompileResolve.extendsFrom(configurations.getByName("debugCompileClasspath"));
+scalaCompileResolve.extendsFrom(configurations.getByName("compileOnly"));
 
 dependencies{
 	implementation("org.scala-lang:scala-library:2.11.12");
@@ -33,8 +34,6 @@ dependencies{
 	scalaResolve("org.scala-lang:scala-compiler:2.11.12");
 	scalaResolve("org.scala-lang:scala-library:2.11.12");
 };
-
-scalaCompileResolve.extendsFrom(configurations.getByName("compileOnly"));
 
 val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java){
 	mainClass.set("scala.tools.nsc.Main");
