@@ -51,7 +51,7 @@ jobs:
           mkdir -p cmdline-tools/latest
           mv cmdline-tools/cmdline-tools/* cmdline-tools/latest/ || mv cmdline-tools/* cmdline-tools/latest/
           rm -f commandlinetools.zip
-          yes | cmdline-tools/latest/bin/sdkmanager --sdk_root="$ANDROID_SDK_ROOT" --licenses >/dev/null
+          yes | cmdline-tools/latest/bin/sdkmanager --sdk_root="$ANDROID_SDK_ROOT" --licenses >/dev/null || true
           cmdline-tools/latest/bin/sdkmanager --sdk_root="$ANDROID_SDK_ROOT" "platform-tools" "platforms;android-36" "build-tools;33.0.2"
 
       - name: Export Android envs
