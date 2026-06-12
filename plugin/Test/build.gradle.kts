@@ -13,15 +13,18 @@ aliucord{
 	);
 };
 
-val scalaResolve = configurations.create("scalaResolve") {
+val scalaResolve = configurations.create("scalaResolve"){
 	isCanBeResolved = true;
 };
 
 val cScalaClasspath = configurations.create("scalaClasspath");
 
-val scalaCompileResolve = configurations.create("scalaCompileResolve") {
+val scalaCompileResolve = configurations.create("scalaCompileResolve"){
 	isCanBeResolved = true;
 };
+scalaCompileResolve.extendsFrom(
+	configurations.getByName("debugCompileClasspath")
+);
 
 dependencies{
 	implementation("org.scala-lang:scala-library:2.11.12");
@@ -29,7 +32,6 @@ dependencies{
 	cScalaClasspath("org.scala-lang:scala-library:2.11.12");
 	scalaResolve("org.scala-lang:scala-compiler:2.11.12");
 	scalaResolve("org.scala-lang:scala-library:2.11.12");
-	compileOnly(files("../libs/aliucord-api.jar"));
 };
 
 scalaCompileResolve.extendsFrom(configurations.getByName("compileOnly"));
