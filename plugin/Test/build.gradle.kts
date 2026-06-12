@@ -1,7 +1,7 @@
 import org.gradle.api.tasks.JavaExec;
 import org.gradle.jvm.toolchain.JavaLanguageVersion;
 import com.aliucord.gradle.task.CompileDexTask;
-import java.io.File
+import java.io.File;
 
 version = "0.0";
 description = "test";
@@ -38,10 +38,10 @@ afterEvaluate{
 		"compileClasspath",
 		"runtimeClasspath",
 		"compileOnly"
-	).forEach {name ->
+	).forEach{name ->
 		if(configurations.findByName(name) != null){
-			scalaCompileResolve.extendsFrom(configurations.getByName(name))
-		}
+			scalaCompileResolve.extendsFrom(configurations.getByName(name));
+		};
 	}
 }
 
@@ -50,7 +50,7 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 	classpath = files();
 	javaLauncher.set(
 		javaToolchains.launcherFor{
-			languageVersion.set(JavaLanguageVersion.of(8))
+			languageVersion.set(JavaLanguageVersion.of(8));
 		}
 	);
 	val srcFiles = fileTree("src/main/scala"){
@@ -58,12 +58,13 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 	}.files.map{it.absolutePath};
 	doFirst{
 		val extraJars = mutableListOf<File>();
+
 		listOfNotNull(
 			configurations.findByName("debugCompileClasspath"),
 			configurations.findByName("debugRuntimeClasspath"),
 			configurations.findByName("compileClasspath"),
 			configurations.findByName("runtimeClasspath")
-		).forEach{cfg ->
+		).forEach {cfg ->
 			cfg.files.forEach{f ->
 				if(f.name.endsWith(".aar")){
 					val classesJar = zipTree(f).files.find{it.name == "classes.jar"};
@@ -72,15 +73,22 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 						out.parentFile.mkdirs();
 						classesJar.copyTo(out, overwrite = true);
 						extraJars += out;
-					};
+					}
 				}else if(f.name.endsWith(".apk")){
 					val dex2jarOut = layout.buildDirectory.file("dex2jar/${f.name}.jar").get().asFile;
 					if(dex2jarOut.exists()) extraJars += dex2jarOut;
 				}else if(f.name.endsWith(".jar")){
 					extraJars += f;
 				};
-			}
+			};
 		};
+
+		// include Android bootclasspath (android.jar) so android.* types like Context are available to the scala compiler
+		val androidExt = extensions.findByType(com.android.build.gradle.LibraryExtension::class.java);
+		if(androidExt != null){
+			androidExt.bootClasspath.forEach {path -> extraJars += File(path)};
+		};
+
 		scalaCompileResolve.files.forEach{extraJars += it};
 		scalaResolve.files.forEach{extraJars += it};
 		classpath = files(extraJars);
