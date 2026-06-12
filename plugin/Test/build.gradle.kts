@@ -1,5 +1,5 @@
 import org.gradle.api.tasks.JavaExec;
-import org.gradle.api.attributes.ArtifactTypeDefinition;
+import org.gradle.api.attributes.Attribute;
 import org.gradle.jvm.toolchain.JavaLanguageVersion;
 import com.aliucord.gradle.task.CompileDexTask;
 
@@ -29,11 +29,10 @@ dependencies{
 val discordJar = configurations.getByName("debugRuntimeClasspath")
 	.incoming.artifactView{
 	    attributes.attribute(
-			ArtifactTypeDefinition.ARTIFACT_TYPE_ATTRIBUTE,
+			Attribute.of("artifactType", String::class.java),
 			"jar"
-		);
-	}
-	.artifacts.files
+		)	
+	}.artifactFiles
 ;
 
 val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java){
