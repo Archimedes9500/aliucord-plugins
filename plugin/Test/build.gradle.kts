@@ -1,10 +1,10 @@
-import org.gradle.api.tasks.JavaExec;
-import org.gradle.api.attributes.Attribute;
-import org.gradle.jvm.toolchain.JavaLanguageVersion;
-import com.aliucord.gradle.task.CompileDexTask;
+import org.gradle.api.tasks.JavaExec
+import org.gradle.api.attributes.Attribute
+import org.gradle.jvm.toolchain.JavaLanguageVersion
+import com.aliucord.gradle.task.CompileDexTask
 
-version = "0.0";
-description = "test";
+version = "0.0"
+description = "test"
 
 aliucord{
 	changelog.set(
@@ -18,19 +18,36 @@ val scalaResolve = configurations.create("scalaResolve") {
 };
 
 val cScalaClasspath = configurations.create("scalaClasspath");
+
+// add compileOnly for Android and Aliucord APIs (adjust paths/versions as needed)
 dependencies{
 	implementation("org.scala-lang:scala-library:2.11.12");
 	cScalaClasspath("org.scala-lang:scala-compiler:2.11.12");
 	cScalaClasspath("org.scala-lang:scala-library:2.11.12");
 	scalaResolve("org.scala-lang:scala-compiler:2.11.12");
 	scalaResolve("org.scala-lang:scala-library:2.11.12");
+
+	// Android platform jar (use same platform as your compileSdkVersion)
+	compileOnly(files("${android.sdkDirectory}/platforms/android-33/android.jar"))
+
+	// Aliucord API jar (adjust path/version)
+	compileOnly(files("../libs/aliucord-api.jar"))
+
+	// If UtilsKt is in another project/module, add it here (uncomment & adjust)
+	// compileOnly(project(":utilsModule"))
 };
+
+// make scalaResolve see compileOnly and debugCompileClasspath so scala compiler can resolve Android/Aliucord/etc.
+configurations.getByName("scalaResolve").extendsFrom(configurations.getByName("compileOnly"))
+// debugCompileClasspath is usually not a configuration to extend from; instead include it when building classpath below.
 
 val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java){
 	mainClass.set("scala.tools.nsc.Main");
+	// include debugCompileClasspath, debugRuntimeClasspath, compileOnly, and scalaResolve
 	classpath = files(
 		configurations.getByName("debugCompileClasspath"),
 		configurations.getByName("debugRuntimeClasspath"),
+		configurations.getByName("compileOnly"),
 		scalaResolve
 	);
 	javaLauncher.set(
@@ -59,6 +76,8 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 				extraJars += f;
 			}
 		};
+		// also include compileOnly files (android.jar, aliucord) so scala compiler sees them
+		configurations.getByName("compileOnly").files.forEach{ extraJars += it };
 		classpath = files(classpath, extraJars);
 		val scalaLibJar = classpath.files.find{
 			it.name.startsWith("scala-library");
