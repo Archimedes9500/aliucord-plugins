@@ -45,6 +45,18 @@ afterEvaluate {
 	}
 }
 
+// capture android bootclasspath paths during configuration (configuration-cache safe: a List<String>)
+val androidBootClasspathPaths = run{
+	val out = mutableListOf<String>();
+	val androidExt = extensions.findByType(com.android.build.gradle.LibraryExtension::class.java);
+	if(androidExt != null){
+		androidExt.bootClasspath.forEach{p ->
+			out += p.toString();
+		};
+	};
+	out.toList();
+};
+
 val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java){
 	mainClass.set("scala.tools.nsc.Main");
 	classpath = files();
@@ -83,24 +95,15 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 			}
 		};
 
-		// include Android bootclasspath (android.jar) so android.* types like Context are available to the scala compiler
-		val androidExt = extensions.findByType(com.android.build.gradle.LibraryExtension::class.java);
-		if(androidExt != null){
-			androidExt.bootClasspath.forEach{path ->
-				if(path is File){
-					extraJars += path;
-				}else{
-					extraJars += File(path.toString());
-				}
-			};
-		}
+		// use captured bootclasspath paths (configuration-cache safe)
+		androidBootClasspathPaths.forEach{p -> extraJars += File(p)};
 
 		scalaCompileResolve.files.forEach{extraJars += it};
 		scalaResolve.files.forEach{extraJars += it};
 		classpath = files(extraJars);
 		val scalaLibJar = classpath.files.find{
 			it.name.startsWith("scala-library");
-		}?: throw GradleException("scala-library not found on classpath");
+		} ?: throw GradleException("scala-library not found on classpath");
 		jvmArgs = listOf("-Xbootclasspath/a:${scalaLibJar.absolutePath}");
 		layout.buildDirectory.dir("classes/scala/debug").get().asFile.deleteRecursively();
 		layout.buildDirectory.dir("classes/scala/debug").get().asFile.mkdirs();
