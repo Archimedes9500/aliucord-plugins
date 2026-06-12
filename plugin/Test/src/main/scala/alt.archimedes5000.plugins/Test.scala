@@ -36,6 +36,6 @@ class Test extends Plugin(){
 		};
 	};
 	@Override def stop(pluginContext: Context){
-		patcher.unpatchAll();
+		unpatchAll(patcher);
 	};
 };
