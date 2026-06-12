@@ -31,7 +31,7 @@ dependencies{
 	scalaResolve("org.scala-lang:scala-library:2.11.12");
 };
 
-afterEvaluate{
+afterEvaluate {
 	listOf(
 		"debugCompileClasspath",
 		"debugRuntimeClasspath",
@@ -41,7 +41,7 @@ afterEvaluate{
 	).forEach{name ->
 		if(configurations.findByName(name) != null){
 			scalaCompileResolve.extendsFrom(configurations.getByName(name));
-		};
+		}
 	}
 }
 
@@ -64,7 +64,7 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 			configurations.findByName("debugRuntimeClasspath"),
 			configurations.findByName("compileClasspath"),
 			configurations.findByName("runtimeClasspath")
-		).forEach {cfg ->
+		).forEach{cfg ->
 			cfg.files.forEach{f ->
 				if(f.name.endsWith(".aar")){
 					val classesJar = zipTree(f).files.find{it.name == "classes.jar"};
@@ -79,15 +79,21 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 					if(dex2jarOut.exists()) extraJars += dex2jarOut;
 				}else if(f.name.endsWith(".jar")){
 					extraJars += f;
-				};
-			};
+				}
+			}
 		};
 
 		// include Android bootclasspath (android.jar) so android.* types like Context are available to the scala compiler
 		val androidExt = extensions.findByType(com.android.build.gradle.LibraryExtension::class.java);
 		if(androidExt != null){
-			androidExt.bootClasspath.forEach {path -> extraJars += File(path)};
-		};
+			androidExt.bootClasspath.forEach{path ->
+				if(path is File){
+					extraJars += path;
+				}else{
+					extraJars += File(path.toString());
+				}
+			};
+		}
 
 		scalaCompileResolve.files.forEach{extraJars += it};
 		scalaResolve.files.forEach{extraJars += it};
