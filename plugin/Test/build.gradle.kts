@@ -26,17 +26,16 @@ dependencies{
 	scalaResolve("org.scala-lang:scala-library:2.11.12");
 };
 
-val transformedJars = configurations.getByName("debugRuntimeClasspath")
-	.incoming.artifactView{
-	    attributes.attribute(
-			Attribute.of("artifactType", String::class.java),
-			"jar"
-		)	
-	}.files
-;
-
 val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java){
 	mainClass.set("scala.tools.nsc.Main");
+	val transformedJars = configurations.getByName("debugRuntimeClasspath")
+		.incoming.artifactView{
+		    attributes.attribute(
+				Attribute.of("artifactType", String::class.java),
+				"jar"
+			)	
+		}.files
+	;
 	classpath = files(
 		configurations.getByName("debugCompileClasspath"),
 		configurations.getByName("debugRuntimeClasspath"),
