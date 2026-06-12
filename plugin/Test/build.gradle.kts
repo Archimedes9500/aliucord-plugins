@@ -12,24 +12,32 @@ aliucord{
 	);
 };
 
+val scalaResolve = configurations.create("scalaResolve") {
+	isCanBeResolved = true;
+};
+
 val cScalaClasspath = configurations.create("scalaClasspath");
 dependencies{
 	implementation("org.scala-lang:scala-library:2.11.12");
 	cScalaClasspath("org.scala-lang:scala-compiler:2.11.12");
 	cScalaClasspath("org.scala-lang:scala-library:2.11.12");
+	scalaResolve("org.scala-lang:scala-compiler:2.11.12");
+	scalaResolve("org.scala-lang:scala-library:2.11.12");
 };
 
 val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java){
 	mainClass.set("scala.tools.nsc.Main");
-	classpath = configurations.getByName("debugCompileClasspath")
-		.plus(configurations.getByName("debugRuntimeClasspath"))
-		.plus(cScalaClasspath)
-	;
-	println("CLASSPATH:\n${classpath}");
+	classpath = files(
+		configurations.getByName("debugCompileClasspath"),
+		configurations.getByName("debugRuntimeClasspath"),
+		scalaResolve
+	);
 	val srcFiles = fileTree("src/main/scala"){
 		include("**/*.scala");
 	}.files.map{it.absolutePath};
 	doFirst{
+		println("RESOLVED COMPILER CLASSPATH:");
+		classpath.files.forEach{println(it)};
 		layout.buildDirectory.dir("classes/scala/debug").get().asFile.deleteRecursively();
 		layout.buildDirectory.dir("classes/scala/debug").get().asFile.mkdirs();
 	};
@@ -40,7 +48,7 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 	}else{
 		args = listOf(
 			"-verbose",
-			"-g:vars",//"-g:vars,lines,source",
+			"-g:vars",
 			"-d",
 			layout.buildDirectory.dir("classes/scala/debug").get().asFile.absolutePath
 		)+srcFiles;
