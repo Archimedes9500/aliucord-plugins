@@ -45,6 +45,7 @@ afterEvaluate{
 	}
 }
 
+// Gather Android boot jars early (same as before)
 val androidBootClasspathPaths = run{
 	val out = mutableListOf<String>();
 	val androidExt = extensions.findByType(com.android.build.gradle.LibraryExtension::class.java);
@@ -62,22 +63,22 @@ val androidBootClasspathPaths = run{
 	out.toList();
 };
 
-val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java){
-	// Wait for any assemble* task in root or this project to finish to avoid race conditions.
+// Task that fully resolves classpath and materializes any embedded classes.jar from AARs.
+// This avoids doing resolution inside scalaCompileDebug's doFirst (reduces race conditions).
+val prepareScalaClasspath = tasks.register("prepareScalaClasspath"){
+	// Ensure any Java/Kotlin compile tasks that produce classes are finished before we capture outputs.
+	// Match common task name patterns (project-level) so compiled classes are present.
 	dependsOn(rootProject.tasks.matching{it.name.startsWith("assemble", ignoreCase = true)});
 	dependsOn(tasks.matching{it.name.startsWith("assemble", ignoreCase = true)});
+	// depend on language compile tasks if present
+	dependsOn(tasks.matching{it.name.startsWith("compile") && (it.name.contains("Java") || it.name.contains("Kotlin") )});
 
-	mainClass.set("scala.tools.nsc.Main");
-	classpath = files();
-	javaLauncher.set(
-		javaToolchains.launcherFor{
-			languageVersion.set(JavaLanguageVersion.of(8));
-		}
-	);
-	val srcFiles = fileTree("src/main/scala"){
-		include("**/*.scala");
-	}.files.map{it.absolutePath};
-	doFirst{
+	val preparedDir = layout.buildDirectory.dir("scala-prep").get().asFile;
+
+	doLast{
+		preparedDir.deleteRecursively();
+		preparedDir.mkdirs();
+
 		val extraJars = mutableListOf<File>();
 
 		// resolve classpath configurations fully to avoid race conditions
@@ -87,6 +88,7 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 			configurations.findByName("compileClasspath"),
 			configurations.findByName("runtimeClasspath")
 		);
+		// force resolution outside of the scala exec task
 		cfgs.forEach{try{it.resolve()}catch(_: Exception){/*ignore*/}};
 
 		// extract jars/classes from resolved artifacts
@@ -95,13 +97,14 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 				if(f.name.endsWith(".aar")){
 					val classesJar = zipTree(f).files.find{it.name == "classes.jar"};
 					if(classesJar != null){
-						val out = layout.buildDirectory.file("scala-deps/${f.name}.classes.jar").get().asFile;
+						val out = File(preparedDir, "${f.name}.classes.jar");
 						out.parentFile.mkdirs();
 						classesJar.copyTo(out, overwrite = true);
 						extraJars += out;
 					}
 				}else if(f.name.endsWith(".apk")){
-					val dex2jarOut = layout.buildDirectory.file("dex2jar/${f.name}.jar").get().asFile;
+					// if a dex2jar'ed jar already exists in build, pick it up
+					val dex2jarOut = File(layout.buildDirectory.dir("dex2jar").get().asFile, "${f.name}.jar");
 					if(dex2jarOut.exists()) extraJars += dex2jarOut;
 				}else if(f.name.endsWith(".jar")){
 					extraJars += f;
@@ -109,7 +112,7 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 			}
 		};
 
-		// include any freshly compiled project outputs (Kotlin/Java) to ensure generated classes (utils, Patcher APIs, discord models) are visible
+		// include any freshly compiled project outputs (Kotlin/Java) to ensure generated classes are visible
 		val javaClassesDir = layout.buildDirectory.dir("classes/java/debug").get().asFile;
 		if(javaClassesDir.exists()){
 			extraJars += javaClassesDir;
@@ -129,11 +132,59 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 
 		androidBootClasspathPaths.forEach{p -> extraJars += File(p)};
 
+		// include explicit scala resolve outputs
 		scalaCompileResolve.files.forEach{extraJars += it};
 		scalaResolve.files.forEach{extraJars += it};
+
+		// write a manifest file listing resolved classpath entries (used by scalaCompileDebug)
+		val manifest = File(preparedDir, "classpath.txt");
+		manifest.bufferedWriter().use{w ->
+			val sep = System.getProperty("path.separator");
+			extraJars.map{it.absolutePath}.forEach{
+				w.write(it);
+				w.write(sep);
+			};
+		};
+	};
+};
+
+// Scala compile exec task now depends on prepareScalaClasspath and only reads the prepared manifest during execution.
+val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java){
+	dependsOn(prepareScalaClasspath);
+	// also wait for assemble tasks to reduce races with android plugin
+	dependsOn(rootProject.tasks.matching{it.name.startsWith("assemble", ignoreCase = true)});
+	dependsOn(tasks.matching{it.name.startsWith("assemble", ignoreCase = true)});
+
+	mainClass.set("scala.tools.nsc.Main");
+	classpath = files();
+	javaLauncher.set(
+		javaToolchains.launcherFor{
+			languageVersion.set(JavaLanguageVersion.of(8));
+		}
+	);
+	val srcFiles = fileTree("src/main/scala"){
+		include("**/*.scala");
+	}.files.map{it.absolutePath};
+	doFirst{
+		val preparedDir = layout.buildDirectory.dir("scala-prep").get().asFile;
+		val manifest = File(preparedDir, "classpath.txt");
+		if(!manifest.exists()){
+			throw GradleException("scala classpath manifest not found; prepareScalaClasspath may have failed");
+		}
+		val content = manifest.readText();
+		val pathSep = System.getProperty("path.separator");
+		val entries = if(content.isBlank()) listOf<String>() else content.split(pathSep).filter{it.isNotBlank()}.map{File(it)};
+
+		// ensure scala-library and compiler artifacts exist on classpath
+		val extraJars = entries.toMutableList();
+
+		// safety: include scalaResolve files additionally if any missing entries
+		scalaResolve.files.forEach{
+			if(!extraJars.contains(it)) extraJars += it;
+		};
+
 		classpath = files(extraJars);
 
-		val pathSep = System.getProperty("path.separator");
 		val cpString = classpath.files.joinToString(pathSep){it.absolutePath};
 
 		val scalaLibJar = classpath.files.find{
