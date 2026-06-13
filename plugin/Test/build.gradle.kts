@@ -92,7 +92,7 @@ val prepareScalaClasspath = tasks.register("prepareScalaClasspath", org.gradle.a
 			configurations.findByName("compileClasspath"),
 			configurations.findByName("runtimeClasspath")
 		);
-		cfgs.forEach{try{it.resolve()}catch(_: Exception){}};
+		cfgs.forEach{ try{ it.resolve() } catch(_: Exception) { } };
 		cfgs.forEach{cfg ->
 			cfg.files.forEach{f ->
 				if(f.name.endsWith(".aar")){
@@ -113,7 +113,6 @@ val prepareScalaClasspath = tasks.register("prepareScalaClasspath", org.gradle.a
 		};
 		val javaClassesDir = layout.buildDirectory.dir("classes/java/debug").get().asFile;
 		if(javaClassesDir.exists()){
-			// included in scalaPrepJar; also include jar path to ensure only jar appears on classpath
 			val prepJarFile = File(preparedDir, "scala-prep-classes.jar");
 			if(prepJarFile.exists()) extraJars += prepJarFile;
 		}
@@ -161,15 +160,14 @@ val scalaCompileDebug = tasks.register("scalaCompileDebug", JavaExec::class.java
 		val content = manifest.readText();
 		val pathSep = System.getProperty("path.separator");
 		val entries = if(content.isBlank()) listOf<String>() else content.split(pathSep).filter{it.isNotBlank()}.map{File(it)};
-		val extraJars = entries.toMutableList();
-		scalaResolve.files.forEach{if(!extraJars.contains(it)) extraJars += it};
-		// filter out directories: only allow jar files to avoid classloader parallel load of directories
-		val jarsOnly = extraJars.filter{it.isFile && it.name.endsWith(".jar")}.distinct();
+		val extraJars = entries.toMutableList().mapNotNull { if(it is File) it else null }.toMutableList();
+		scalaResolve.files.forEach{ if(!extraJars.contains(it)) extraJars += it };
+		val jarsOnly = extraJars.filterIsInstance<File>().filter{ f -> f.exists() && f.name.endsWith(".jar") }.distinct();
 		classpath = files(jarsOnly);
 		val cpString = classpath.files.joinToString(pathSep){it.absolutePath};
 		val scalaLibJar = classpath.files.find{
 			it.name.startsWith("scala-library");
-		}?: throw GradleException("scala-library not found on classpath");
+		} ?: throw GradleException("scala-library not found on classpath");
 		val bootList = mutableListOf<String>();
 		bootList += scalaLibJar.absolutePath;
 		androidBootClasspathPaths.forEach{bootList += it};
