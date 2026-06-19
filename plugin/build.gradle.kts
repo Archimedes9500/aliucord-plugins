@@ -69,26 +69,3 @@ subprojects {
 		implementation("com.github.gfx.util:weak-identity-hash-map:2.0.0")
 	}
 }
-
-afterEvaluate {
-	rootProject.subprojects.forEach { p ->
-		val prepareTask = p.tasks.findByName("prepareScalaClasspath") ?: return@forEach
-		val compilePatterns = listOf(
-			"compileDebugJavaWithJavac",
-			"compileDebugKotlin",
-			"compileReleaseKotlin",
-			"compileKotlin",
-			"compileJava"
-		)
-		compilePatterns.forEach { name ->
-			if (p.tasks.findByName(name) != null) p.tasks.named(prepareTask.name).configure { dependsOn(p.tasks.named(name)) }
-		}
-		rootProject.subprojects.forEach { other ->
-			if (other == p) return@forEach
-			compilePatterns.forEach { name ->
-				if (other.tasks.findByName(name) != null) p.tasks.named(prepareTask.name).configure { dependsOn(other.tasks.named(name)) }
-			}
-		}
-		if (p.tasks.findByName("scalaPrepJar") != null) p.tasks.named(prepareTask.name).configure { dependsOn(p.tasks.named("scalaPrepJar")) }
-	}
-}
