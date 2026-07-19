@@ -152,7 +152,12 @@ fun promptRestart(msg: String = "A restart is required. Restart now?", position:
 fun generateRNNonce() = Utils.generateRNNonce();
 
 //fuck ViewUtils too
-fun <T: View?>View.findViewById(idName: String): T = ViewUtils.findViewById<T>(this, idName);
+fun <T: View?>View.findViewById(idName: String): T{
+	val view = this;
+	with(ViewUtils){
+		view.findViewById<T>(idName);
+	};
+};
 /*
 inline fun <T :View>T.addTo(group: ViewGroup, block: T.() -> Unit = {}): T = ViewUtils.addTo(this, group, block);
 
