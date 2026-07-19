@@ -11,18 +11,15 @@ import com.discord.widgets.chat.list.actions.WidgetChatListActions;
 import com.discord.databinding.WidgetChatListActionsBinding;
 import android.widget.TextView;
 import android.view.View;
-import com.discord.app.AppBottomSheet;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import com.aliucord.wrappers.ChannelWrapper;
+import com.discord.stores.StoreStream;
 
 @AliucordPlugin(requiresRestart = true)
 class Template: Plugin(){
-	override fun start(pluginContext: Context){
-		val WidgetChatListActions.binding: WidgetChatListActionsBinding
-			get() by accessMethod("getBinding")
-		;
+	val WidgetChatListActions.binding: WidgetChatListActionsBinding by accessGetter();
+	//fun WidgetChatListActions.dismiss() by accessGetter("dismiss");
 
-		fun WidgetChatListActions.dismiss() by accessMethod();
+	override fun start(pluginContext: Context){
 		patcher.after<WidgetChatListActions>(
 			"configureUI",
 			WidgetChatListActions.Model::class.java
