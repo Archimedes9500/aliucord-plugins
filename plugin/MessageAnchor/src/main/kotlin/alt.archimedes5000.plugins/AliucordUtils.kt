@@ -166,16 +166,37 @@ val CheckedSetting.subtext get() = with(ViewUtils){subtext};
 
 fun View.setPadding(value: Int) = ViewUtils.setPadding(value);
 
-inline var View.leftPadding = with(ViewUtils){leftPadding};
+inline var View.leftPadding
+	get() = with(ViewUtils){leftPadding}
+	set(v) = with(ViewUtils){leftPadding = v}
+;
 
-inline var View.topPadding = with(ViewUtils){topPadding};
+inline var View.topPadding 
+	get() = with(ViewUtils){topPadding}
+	set(v) = with(ViewUtils){topPadding = v}
+;
 
-inline var View.rightPadding = with(ViewUtils){rightPadding};
+inline var View.rightPadding 
+	get() = with(ViewUtils){rightPadding}
+	set(v) = with(ViewUtils){rightPadding = v}
+;
 
-inline var View.bottomPadding = with(ViewUtils){bottomPadding};
+inline var View.bottomPadding 
+	get() = with(ViewUtils){bottomPadding}
+	set(v) = with(ViewUtils){bottomPadding = v}
+;
 
-inline var View.startPadding = with(ViewUtils){startPadding};
+inline var View.startPadding 
+	get() = with(ViewUtils){startPadding}
+	set(v) = with(ViewUtils){startPadding = v}
+;
 
-inline var View.endPadding = with(ViewUtils){endPadding};
+inline var View.endPadding
+	get() = with(ViewUtils){endPadding}
+	set(v) = with(ViewUtils){endPadding = v}
+;
 
-inline var View.padding = with(ViewUtils){padding};
+inline var View.padding 
+	get() = with(ViewUtils){padding}
+	set(v) = with(ViewUtils){padding = v}
+;
