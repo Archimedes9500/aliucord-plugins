@@ -25,9 +25,6 @@ import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import com.aliucord.Utils;
-import com.aliucord.utils.ViewUtils.findViewById;
-import com.discord.views.CheckedSetting;
 
 //The stupid fucking com.aliucord.Utils being an object for some insane reason
 @JvmField
@@ -166,47 +163,47 @@ fun <T :View>T.setDefaultMargins(
 	right: Boolean = true
 ): T = ViewUtils.setDefaultMargins(bottom, top, left, right);
 
-val CheckedSetting.layout get() = with(ViewUtils){layout};
+val CheckedSetting.layout get() = ViewUtils::layout.get(this);
 
-val CheckedSetting.label get() = with(ViewUtils){label};
+val CheckedSetting.label get() = ViewUtils::label.get(this);
 
-val CheckedSetting.checkbox get() = with(ViewUtils){checkbox};
+val CheckedSetting.checkbox get() = ViewUtils::checkbox.get(this);
 
-val CheckedSetting.subtext get() = with(ViewUtils){subtext};
+val CheckedSetting.subtext get() = ViewUtils::subtext.get(this);
 
 fun View.setPadding(value: Int) = ViewUtils.setPadding(value);
 
 inline var View.leftPadding
-	get() = with(ViewUtils){leftPadding}
-	set(v) = with(ViewUtils){leftPadding = v}
+	get() = ViewUtils::leftPadding.get(this)
+	set(v) = ViewUtils::leftPadding.set(this, v)
 ;
 
 inline var View.topPadding 
-	get() = with(ViewUtils){topPadding}
-	set(v) = with(ViewUtils){topPadding = v}
+	get() = ViewUtils::topPadding.get(this)
+	set(v) = ViewUtils::topPadding.set(this, v)
 ;
 
-inline var View.rightPadding 
-	get() = with(ViewUtils){rightPadding}
-	set(v) = with(ViewUtils){rightPadding = v}
+inline var View.rightPadding
+	get() = ViewUtils::rightPadding.get(this)
+	set(v) = ViewUtils::rightPadding.set(this, v)
 ;
 
-inline var View.bottomPadding 
-	get() = with(ViewUtils){bottomPadding}
-	set(v) = with(ViewUtils){bottomPadding = v}
+inline var View.bottomPadding
+	get() = ViewUtils::bottomPadding.get(this)
+	set(v) = ViewUtils::bottomPadding.set(this, v)
 ;
 
-inline var View.startPadding 
-	get() = with(ViewUtils){startPadding}
-	set(v) = with(ViewUtils){startPadding = v}
+inline var View.startPadding
+	get() = ViewUtils::startPadding.get(this)
+	set(v) = ViewUtils::startPadding.set(this, v)
 ;
 
 inline var View.endPadding
-	get() = with(ViewUtils){endPadding}
-	set(v) = with(ViewUtils){endPadding = v}
+	get() = ViewUtils::endPadding.get(this)
+	set(v) = ViewUtils::endPadding.set(this, v)
 ;
 
-inline var View.padding 
-	get() = with(ViewUtils){padding}
-	set(v) = with(ViewUtils){padding = v}
+inline var View.padding
+	get() = ViewUtils::padding.get(this)
+	set(v) = ViewUtils::padding.set(this, v)
 ;
