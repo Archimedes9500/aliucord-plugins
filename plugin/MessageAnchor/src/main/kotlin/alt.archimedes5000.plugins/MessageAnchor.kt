@@ -2,7 +2,6 @@ package alt.archimedes5000.plugins;
 
 import alt.archimedes5000.plugins.utils.*;
 import com.aliucord.utils.*;
-import com.aliucord.utils.ViewUtils.*;
 import com.aliucord.annotations.AliucordPlugin;
 import com.aliucord.entities.Plugin;
 import android.content.Context;
@@ -41,6 +40,7 @@ class Template: Plugin(){
 				);
 				showToast("Anchor saved", showLonger = false);
 				dismiss();
+				true;
 			};
 
 			val jumpView = binding
@@ -60,6 +60,7 @@ class Template: Plugin(){
 				StoreStream.getMessagesLoader().jumpToMessage(channelID, messageID);
 				showToast("Jumped to anchor", showLonger = false);
 				dismiss();
+				true;
 			};
 		};
 	};

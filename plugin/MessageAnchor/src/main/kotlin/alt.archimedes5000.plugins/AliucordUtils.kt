@@ -1,22 +1,23 @@
 package alt.archimedes5000.plugins.utils
 
-import com.aliucord.Utils
+import com.aliucord.Utils;
+import com.aliucord.utils.ViewUtils;
 
-import android.net.Uri
-import android.content.Context
-import android.content.res.Resources
-import androidx.annotation.AttrRes
-import android.view.ViewGroup
-import java.io.File
-import com.discord.app.AppComponent
-import android.content.Intent
-import androidx.fragment.app.Fragment
-import com.discord.api.commands.ApplicationCommandType
-import com.discord.api.commands.CommandChoice
-import com.discord.models.commands.ApplicationCommandOption
-import com.discord.views.CheckedSetting
-import android.graphics.drawable.Drawable
-import android.view.Gravity
+import android.net.Uri;
+import android.content.Context;
+import android.content.res.Resources;
+import androidx.annotation.AttrRes;
+import android.view.ViewGroup;
+import java.io.File;
+import com.discord.app.AppComponent;
+import android.content.Intent;
+import androidx.fragment.app.Fragment;
+import com.discord.api.commands.ApplicationCommandType;
+import com.discord.api.commands.CommandChoice;
+import com.discord.models.commands.ApplicationCommandOption;
+import com.discord.views.CheckedSetting;
+import android.graphics.drawable.Drawable;
+import android.view.Gravity;
 
 //The stupid fucking com.aliucord.Utils being an object for some insane reason
 @JvmField
@@ -142,3 +143,39 @@ fun restartAliucord(context: Context) = Utils.restartAliucord(context);
 fun promptRestart(msg: String = "A restart is required. Restart now?", position: Int = Gravity.BOTTOM) = Utils.promptRestart(msg, position);
 
 fun generateRNNonce() = Utils.generateRNNonce();
+
+//fuck ViewUtils too
+inline fun <T :View>T.addTo(group: ViewGroup, block: T.() -> Unit = {}): T = ViewUtils.addTo(this, group, block);
+
+inline fun <T :View>T.addTo(group: ViewGroup, index: Int, block: T.() -> Unit = {}): T  = ViewUtils.addTo(this, group, index, block);
+
+fun <T :View>T.setDefaultMargins(
+	bottom: Boolean = true,
+	top: Boolean = false,
+	left: Boolean = true,
+	right: Boolean = true
+): T = ViewUtils.setDefaultMargins(bottom, top, left, right);
+
+val CheckedSetting.layout get() = with(ViewUtils){layout};
+
+val CheckedSetting.label get() = with(ViewUtils){label};
+
+val CheckedSetting.checkbox get() = with(ViewUtils){checkbox};
+
+val CheckedSetting.subtext get() = with(ViewUtils){subtext};
+
+fun View.setPadding(value: Int) = ViewUtils.setPadding(value);
+
+inline var View.leftPadding = with(ViewUtils){leftPadding};
+
+inline var View.topPadding = with(ViewUtils){topPadding};
+
+inline var View.rightPadding = with(ViewUtils){rightPadding};
+
+inline var View.bottomPadding = with(ViewUtils){bottomPadding};
+
+inline var View.startPadding = with(ViewUtils){startPadding};
+
+inline var View.endPadding = with(ViewUtils){endPadding};
+
+inline var View.padding = with(ViewUtils){padding};
