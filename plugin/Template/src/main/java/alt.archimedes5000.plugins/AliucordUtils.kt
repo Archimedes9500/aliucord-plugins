@@ -1,22 +1,30 @@
-package alt.archimedes5000.plugins.utils
+@file:Suppress("warnings")
+package alt.archimedes5000.plugins.utils;
 
-import com.aliucord.Utils
+import com.aliucord.Utils;
+import com.aliucord.utils.ViewUtils;
 
-import android.net.Uri
-import android.content.Context
-import android.content.res.Resources
-import androidx.annotation.AttrRes
-import android.view.ViewGroup
-import java.io.File
-import com.discord.app.AppComponent
-import android.content.Intent
-import androidx.fragment.app.Fragment
-import com.discord.api.commands.ApplicationCommandType
-import com.discord.api.commands.CommandChoice
-import com.discord.models.commands.ApplicationCommandOption
-import com.discord.views.CheckedSetting
-import android.graphics.drawable.Drawable
-import android.view.Gravity
+import android.net.Uri;
+import android.content.Context;
+import android.content.res.Resources;
+import androidx.annotation.AttrRes;
+import android.view.ViewGroup;
+import java.io.File;
+import com.discord.app.AppComponent;
+import android.content.Intent;
+import androidx.fragment.app.Fragment;
+import com.discord.api.commands.ApplicationCommandType;
+import com.discord.api.commands.CommandChoice;
+import com.discord.models.commands.ApplicationCommandOption;
+import com.discord.views.CheckedSetting;
+import android.graphics.drawable.Drawable;
+import android.view.Gravity;
+
+import android.view.View;
+import android.view.ViewGroup.MarginLayoutParams;
+import android.widget.CompoundButton;
+import android.widget.TextView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 //The stupid fucking com.aliucord.Utils being an object for some insane reason
 @JvmField
@@ -142,3 +150,65 @@ fun restartAliucord(context: Context) = Utils.restartAliucord(context);
 fun promptRestart(msg: String = "A restart is required. Restart now?", position: Int = Gravity.BOTTOM) = Utils.promptRestart(msg, position);
 
 fun generateRNNonce() = Utils.generateRNNonce();
+
+//fuck ViewUtils too
+fun <T: View?>View.findViewById(idName: String): T = ViewUtils.findViewById<T>(idName);
+/*
+inline fun <T :View>T.addTo(group: ViewGroup, block: T.() -> Unit = {}): T = ViewUtils.addTo(this, group, block);
+
+inline fun <T :View>T.addTo(group: ViewGroup, index: Int, block: T.() -> Unit = {}): T  = ViewUtils.addTo(this, group, index, block);
+
+fun <T: View?>View.findViewById(idName: String): T = ViewUtils.findViewById(idName);
+
+fun <T :View>T.setDefaultMargins(
+	bottom: Boolean = true,
+	top: Boolean = false,
+	left: Boolean = true,
+	right: Boolean = true
+): T = ViewUtils.setDefaultMargins(bottom, top, left, right);
+
+val CheckedSetting.layout get() = ViewUtils::layout.get(this);
+
+val CheckedSetting.label get() = ViewUtils::label.get(this);
+
+val CheckedSetting.checkbox get() = ViewUtils::checkbox.get(this);
+
+val CheckedSetting.subtext get() = ViewUtils::subtext.get(this);
+
+fun View.setPadding(value: Int) = ViewUtils.setPadding(value);
+
+inline var View.leftPadding
+	get() = ViewUtils::leftPadding.get(this)
+	set(v) = ViewUtils::leftPadding.set(this, v)
+;
+
+inline var View.topPadding 
+	get() = ViewUtils::topPadding.get(this)
+	set(v) = ViewUtils::topPadding.set(this, v)
+;
+
+inline var View.rightPadding
+	get() = ViewUtils::rightPadding.get(this)
+	set(v) = ViewUtils::rightPadding.set(this, v)
+;
+
+inline var View.bottomPadding
+	get() = ViewUtils::bottomPadding.get(this)
+	set(v) = ViewUtils::bottomPadding.set(this, v)
+;
+
+inline var View.startPadding
+	get() = ViewUtils::startPadding.get(this)
+	set(v) = ViewUtils::startPadding.set(this, v)
+;
+
+inline var View.endPadding
+	get() = ViewUtils::endPadding.get(this)
+	set(v) = ViewUtils::endPadding.set(this, v)
+;
+
+inline var View.padding
+	get() = ViewUtils::padding.get(this)
+	set(v) = ViewUtils::padding.set(this, v)
+;
+*/
