@@ -20,7 +20,6 @@ import android.graphics.drawable.Drawable;
 import android.view.Gravity;
 
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.CompoundButton;
 import android.widget.TextView;
