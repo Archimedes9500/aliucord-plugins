@@ -19,6 +19,16 @@ import com.discord.views.CheckedSetting;
 import android.graphics.drawable.Drawable;
 import android.view.Gravity;
 
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewGroup.MarginLayoutParams;
+import android.widget.CompoundButton;
+import android.widget.TextView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import com.aliucord.Utils;
+import com.aliucord.utils.ViewUtils.findViewById;
+import com.discord.views.CheckedSetting;
+
 //The stupid fucking com.aliucord.Utils being an object for some insane reason
 @JvmField
 val mainThread = Utils.mainThread;
