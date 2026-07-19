@@ -2,12 +2,14 @@ package alt.archimedes5000.plugins;
 
 import alt.archimedes5000.plugins.utils.*;
 import com.aliucord.utils.*;
+import com.aliucord.utils.ViewUtils.*;
 import com.aliucord.annotations.AliucordPlugin;
 import com.aliucord.entities.Plugin;
 import android.content.Context;
 import com.aliucord.patcher.*;
 
 import com.discord.widgets.chat.list.actions.WidgetChatListActions;
+import com.discord.widgets.chat.list.actions.WidgetChatListActions.Model;
 import com.discord.databinding.WidgetChatListActionsBinding;
 import android.widget.TextView;
 import android.view.View;
@@ -22,11 +24,11 @@ class Template: Plugin(){
 	override fun start(pluginContext: Context){
 		patcher.after<WidgetChatListActions>(
 			"configureUI",
-			WidgetChatListActions.Model::class.java
+			Model::class.java
 		){frame ->
-			val saveView: TextView = binding
+			val saveView = binding
 				.a
-				.findViewById("dialog_chat_actions_profile")
+				.findViewById<TextView>("dialog_chat_actions_profile")
 				.apply{
 					visibility = View.VISIBLE;
 				}
@@ -41,9 +43,9 @@ class Template: Plugin(){
 				dismiss();
 			};
 
-			val jumpView: TextView = binding
+			val jumpView = binding
 				.a
-				.findViewById("dialog_chat_actions_reply")
+				.findViewById<TextView>("dialog_chat_actions_reply")
 				.apply{
 					visibility = View.VISIBLE;
 				}
