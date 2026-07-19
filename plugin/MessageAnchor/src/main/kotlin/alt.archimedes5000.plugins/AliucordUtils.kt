@@ -151,9 +151,13 @@ fun promptRestart(msg: String = "A restart is required. Restart now?", position:
 fun generateRNNonce() = Utils.generateRNNonce();
 
 //fuck ViewUtils too
+fun <T: View?>View.findViewById(idName: String): T = ViewUtils.findViewById(idName);
+/*
 inline fun <T :View>T.addTo(group: ViewGroup, block: T.() -> Unit = {}): T = ViewUtils.addTo(this, group, block);
 
 inline fun <T :View>T.addTo(group: ViewGroup, index: Int, block: T.() -> Unit = {}): T  = ViewUtils.addTo(this, group, index, block);
+
+fun <T: View?>View.findViewById(idName: String): T = ViewUtils.findViewById(idName);
 
 fun <T :View>T.setDefaultMargins(
 	bottom: Boolean = true,
@@ -206,3 +210,4 @@ inline var View.padding
 	get() = ViewUtils::padding.get(this)
 	set(v) = ViewUtils::padding.set(this, v)
 ;
+*/
