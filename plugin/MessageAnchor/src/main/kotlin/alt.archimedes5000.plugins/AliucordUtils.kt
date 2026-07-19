@@ -1,4 +1,5 @@
-package alt.archimedes5000.plugins.utils
+@file:Suppress("all");
+package alt.archimedes5000.plugins.utils;
 
 import com.aliucord.Utils;
 import com.aliucord.utils.ViewUtils;
