@@ -1,4 +1,4 @@
-@file:Suppress("all");
+@file:Suppress("all")
 package alt.archimedes5000.plugins.utils;
 
 import com.aliucord.Utils;
@@ -152,7 +152,7 @@ fun promptRestart(msg: String = "A restart is required. Restart now?", position:
 fun generateRNNonce() = Utils.generateRNNonce();
 
 //fuck ViewUtils too
-fun <T: View?>View.findViewById(idName: String): T = ViewUtils.findViewById(idName);
+fun View.findViewById(idName: String) = ViewUtils.findViewById(idName);
 /*
 inline fun <T :View>T.addTo(group: ViewGroup, block: T.() -> Unit = {}): T = ViewUtils.addTo(this, group, block);
 
