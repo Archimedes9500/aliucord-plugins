@@ -18,7 +18,6 @@ import com.discord.stores.StoreStream;
 @AliucordPlugin(requiresRestart = true)
 class MessageAnchor: Plugin(){
 	val WidgetChatListActions.binding: WidgetChatListActionsBinding by accessGetter();
-	//fun WidgetChatListActions.dismiss() by accessGetter("dismiss");
 
 	override fun start(pluginContext: Context){
 		patcher.after<WidgetChatListActions>(
@@ -50,7 +49,7 @@ class MessageAnchor: Plugin(){
 					visibility = View.VISIBLE;
 				}
 			;
-			jumpView.setLongClickable(true);
+			//jumpView.setLongClickable(true);
 			jumpView.setOnLongClickListener{
 				var channelID = ChannelWrapper((frame.args[0] as Model).channel).id;
 				var messageID = settings.getLong(
