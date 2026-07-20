@@ -129,7 +129,7 @@ fun deoptimizeCallersOf(exe: Executable): Boolean{
 	return deoptimize(*getCallersOf(exe));
 };
 
-inline fun <reified T> PatcherAPI.beforeDeopt(
+inline fun <reified T> PatcherAPI.before(
 	methodName: String,
 	vararg paramTypes: Class<*>,
 	crossinline callback: HookCallback<T>,
@@ -139,7 +139,7 @@ inline fun <reified T> PatcherAPI.beforeDeopt(
 	return this.before<T>(methodName, *paramTypes, callback = callback);
 };
 
-inline fun <reified T> PatcherAPI.beforeDeopt(
+inline fun <reified T> PatcherAPI.before(
 	methodName: String,
 	vararg paramTypes: Class<*>,
 	crossinline callback: HookCallback<T>,
