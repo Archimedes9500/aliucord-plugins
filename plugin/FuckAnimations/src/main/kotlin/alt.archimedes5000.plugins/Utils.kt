@@ -132,8 +132,8 @@ fun deoptimizeCallersOf(exe: Executable): Boolean{
 inline fun <reified T> PatcherAPI.before(
 	methodName: String,
 	vararg paramTypes: Class<*>,
-	crossinline callback: HookCallback<T>,
-	deoptimize: Array<out Executable>
+	deoptimize: Array<out Executable>,
+	crossinline callback: HookCallback<T>
 ): Unpatch{
 	deoptimize(*deoptimize);
 	return this.before<T>(methodName, *paramTypes, callback = callback);
