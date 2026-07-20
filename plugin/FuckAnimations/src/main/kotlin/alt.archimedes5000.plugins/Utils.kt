@@ -14,11 +14,6 @@ import org.luckypray.dexkit.query.enums.MatchType;
 import org.luckypray.dexkit.util.InstanceUtil;
 import com.aliucord.Utils;
 
-import com.aliucord.api.PatcherAPI;
-import com.aliucord.api.Unpatch;
-import com.aliucord.patcher.*;
-typealias HookCallback<T> = T.(de.robv.android.xposed.XC_MethodHook.MethodHookParam) -> Unit;
-
 typealias IntIterator = d0.t.c0;
 typealias ClosedRange<T> = d0.d0.a<T>;
 typealias IntProgressionIterator = d0.d0.b;
@@ -127,28 +122,4 @@ fun getCallersOf(exe: Executable): Array<out Executable>{
 
 fun deoptimizeCallersOf(exe: Executable): Boolean{
 	return deoptimize(*getCallersOf(exe));
-};
-
-inline fun <reified T> PatcherAPI.beforeDeopt(
-	methodName: String,
-	vararg paramTypes: Class<*>,
-	crossinline callback: HookCallback<T>,
-	deoptimize: Array<Executable>
-): Unpatch{
-	deoptimize(*deoptimize);
-	return this.before(methodName, *paramTypes, callback);
-};
-
-inline fun <reified T> PatcherAPI.beforeDeopt(
-	methodName: String,
-	vararg paramTypes: Class<*>,
-	crossinline callback: HookCallback<T>,
-	deoptimize: Boolean
-): Unpatch{
-	return if(deoptimize){
-		deoptimizeCallersOf(T::class.java.getDeclaredMethod(methodName, *paramTypes));
-		this.before(methodName, *paramTypes, callback);
-	}else{
-		this.before(methodName, *paramTypes, callback);
-	};
 };
