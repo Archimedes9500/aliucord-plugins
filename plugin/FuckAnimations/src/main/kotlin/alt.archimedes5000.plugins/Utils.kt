@@ -11,13 +11,12 @@ import de.robv.android.xposed.XposedBridge;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.enums.MatchType;
-import org.luckypray.dexkit.util.InstanceUtil.getConstructorInstance;
-import org.luckypray.dexkit.util.InstanceUtil.getMethodInstance;
+import org.luckypray.dexkit.util.InstanceUtil;
 import com.aliucord.Utils;
 
 import com.aliucord.api.PatcherAPI;
-import com.aliucord.patcher.HookCallback;
 import com.aliucord.api.Unpatch;
+typealias HookCallback<T> = T.(XC_MethodHook.MethodHookParam) -> Unit;
 
 typealias IntIterator = d0.t.c0;
 typealias ClosedRange<T> = d0.d0.a<T>;
@@ -110,13 +109,19 @@ fun getCallersOf(exe: Executable): Set<Executable>{
 			};
 		}.map{
 			if(it.isConstructor){
-				it.getConstructorInstance();
+				InstanceUtil.getConstructorInstance(
+					Util.appContext.classLoader,
+					it.toDexMethod()
+				);
 			}else{
-				it.getMethodInstance();
+				InstanceUtil.getMethodInstance(
+					Util.appContext.classLoader,
+					it.toDexMethod()
+				);
 			};
 		}.toSet();
 	};
-	return result;
+	return result!!;
 };
 
 fun deoptimizeCallersOf(exe: Executable): Boolean{
