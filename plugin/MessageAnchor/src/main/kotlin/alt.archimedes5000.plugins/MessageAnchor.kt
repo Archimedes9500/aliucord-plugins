@@ -16,7 +16,7 @@ import com.aliucord.wrappers.ChannelWrapper;
 import com.discord.stores.StoreStream;
 
 @AliucordPlugin(requiresRestart = true)
-class Template: Plugin(){
+class MessageAnchor: Plugin(){
 	val WidgetChatListActions.binding: WidgetChatListActionsBinding by accessGetter();
 	//fun WidgetChatListActions.dismiss() by accessGetter("dismiss");
 
