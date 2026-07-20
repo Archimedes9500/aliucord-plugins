@@ -16,6 +16,7 @@ import com.aliucord.Utils;
 
 import com.aliucord.api.PatcherAPI;
 import com.aliucord.api.Unpatch;
+import com.aliucord.patcher.*;
 typealias HookCallback<T> = T.(de.robv.android.xposed.XC_MethodHook.MethodHookParam) -> Unit;
 
 typealias IntIterator = d0.t.c0;
@@ -83,8 +84,8 @@ fun deoptimize(vararg members: Member): Boolean{
 val bridge: DexKitBridge by lazy{
 	DexKitBridge.create(Utils.appContext.applicationInfo.sourceDir);
 };
-val cache = mutableMapOf<Executable, Array<Executable>>();
-fun getCallersOf(exe: Executable): Array<Executable>{
+val cache = mutableMapOf<Executable, Array<out Executable>>();
+fun getCallersOf(exe: Executable): Array<out Executable>{
 	var result = cache[exe];
 	if(result != null) return result;
 	bridge.use{bridge ->
@@ -135,7 +136,7 @@ inline fun <reified T> PatcherAPI.before(
 	deoptimize: Array<Executable>
 ): Unpatch{
 	deoptimize(*deoptimize);
-	this.before(methodName, *paramTypes, callback);
+	return this.before(methodName, *paramTypes, callback);
 };
 
 inline fun <reified T> PatcherAPI.before(
