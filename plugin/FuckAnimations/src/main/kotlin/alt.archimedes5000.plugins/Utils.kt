@@ -136,7 +136,7 @@ inline fun <reified T> PatcherAPI.before(
 	crossinline callback: HookCallback<T>
 ): Unpatch{
 	deoptimize(*deoptimize);
-	return this.before<T>(methodName, *paramTypes, callback = callback);
+	return this.before<T>(methodName, *paramTypes, callback);
 };
 
 inline fun <reified T> PatcherAPI.before(
@@ -149,6 +149,6 @@ inline fun <reified T> PatcherAPI.before(
 		deoptimizeCallersOf(T::class.java.getDeclaredMethod(methodName, *paramTypes));
 		this.before<T>(methodName, *paramTypes, callback = callback);
 	}else{
-		this.before<T>(methodName, *paramTypes, callback = callback);
+		this.before<T>(methodName, *paramTypes, callback);
 	};
 };
