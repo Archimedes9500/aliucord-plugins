@@ -52,7 +52,7 @@ class FuckAnimationsDeopt: Plugin(){
 					Int::class.java,
 					java.lang.Object::class.java
 				),
-				com.discord.widgets.settings.`WidgetSettingsAccessibility$Model$Companion`::class.java.getDeclaredMethod(
+				com.discord.widgets.settings.WidgetSettingsAccessibility.Model.Companion!!::class.java.getDeclaredMethod(
 					"get"
 				)
 			)
