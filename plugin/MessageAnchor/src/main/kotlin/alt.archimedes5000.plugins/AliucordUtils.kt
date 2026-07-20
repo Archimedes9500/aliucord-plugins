@@ -154,9 +154,10 @@ fun generateRNNonce() = Utils.generateRNNonce();
 //fuck ViewUtils too
 fun <T: View?>View.findViewById(idName: String): T{
 	val view = this;
-	return with(ViewUtils){
+	val r = with(ViewUtils){
 		view.findViewById<T>(idName);
 	};
+	return r;
 };
 /*
 inline fun <T :View>T.addTo(group: ViewGroup, block: T.() -> Unit = {}): T = ViewUtils.addTo(this, group, block);
