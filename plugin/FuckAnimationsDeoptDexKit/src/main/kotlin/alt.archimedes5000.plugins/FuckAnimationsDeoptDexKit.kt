@@ -14,7 +14,7 @@ import com.discord.stores.StoreAccessibility;
 import com.discord.widgets.chat.input.emoji.EmojiPickerViewModel;
 
 @AliucordPlugin(requiresRestart = false)
-class FuckAnimations: Plugin(){
+class FuckAnimationsDeoptDexKit: Plugin(){
 	var originalState: Boolean? = null;
 
 	override fun start(pluginContext: Context){
@@ -43,7 +43,8 @@ class FuckAnimations: Plugin(){
 		};
 		patcher.before<StoreUserSettings>(
 			"observeIsAutoPlayGifsEnabled",
-			Boolean::class.java
+			Boolean::class.java,
+			deoptimize = true
 		){frame ->
 			frame.args[0] = false;
 		};
