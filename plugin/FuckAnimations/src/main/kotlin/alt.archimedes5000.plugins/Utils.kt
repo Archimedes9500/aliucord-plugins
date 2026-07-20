@@ -79,7 +79,7 @@ fun deoptimize(vararg members: Member): Boolean{
 	return allSuccess;
 };
 
-val bridge by lazy{
+val bridge: DexKitBridge by lazy{
 	DexKitBridge.create(Utils.appContext.packageManager.applicationInfo.sourceDir);
 };
 val cache = mutableMapOf<Executable, List<Executable>>();

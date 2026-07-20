@@ -14,7 +14,6 @@ import com.discord.stores.StoreAccessibility;
 import com.discord.widgets.chat.input.emoji.EmojiPickerViewModel;
 
 @AliucordPlugin(requiresRestart = false)
-@SuppressLint("SetTextI18n")
 class FuckAnimations: Plugin(){
 	var originalState: Boolean? = null;
 
