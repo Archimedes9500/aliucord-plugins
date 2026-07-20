@@ -11,6 +11,8 @@ import de.robv.android.xposed.XposedBridge;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.enums.MatchType;
+import org.luckypray.dexkit.util.InstanceUtil.getConstructorInstance;
+import org.luckypray.dexkit.util.InstanceUtil.getMethodInstance;
 import com.aliucord.Utils;
 
 import com.aliucord.api.PatcherAPI;
@@ -80,10 +82,10 @@ fun deoptimize(vararg members: Member): Boolean{
 };
 
 val bridge: DexKitBridge by lazy{
-	DexKitBridge.create(Utils.appContext.packageManager.applicationInfo.sourceDir);
+	DexKitBridge.create(Utils.appContext.applicationInfo.sourceDir);
 };
-val cache = mutableMapOf<Executable, List<Executable>>();
-fun getCallersOf(exe: Executable): List<Executable>{
+val cache = mutableMapOf<Executable, Set<Executable>>();
+fun getCallersOf(exe: Executable): Set<Executable>{
 	var result = cache[exe];
 	if(result != null) return result;
 	bridge.use{bridge ->
@@ -106,9 +108,15 @@ fun getCallersOf(exe: Executable): List<Executable>{
 					matchType = MatchType.Contains;//Only needs to contain that call site
 				};
 			};
-		}.toList();
-		return result;
+		}.map{
+			if(it.isConstructor){
+				it.getConstructorInstance();
+			}else{
+				it.getMethodInstance();
+			};
+		}.toSet();
 	};
+	return result;
 };
 
 fun deoptimizeCallersOf(exe: Executable): Boolean{
@@ -119,7 +127,7 @@ inline fun <reified T> PatcherAPI.before(
 	methodName: String,
 	vararg paramTypes: Class<*>,
 	crossinline callback: HookCallback<T>,
-	deoptimize: List<Executable>
+	deoptimize: Set<Executable>
 ): Unpatch{
 	return if(deoptimize){
 		deoptimize(*deoptimize);
