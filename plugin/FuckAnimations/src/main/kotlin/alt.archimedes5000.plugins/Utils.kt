@@ -16,7 +16,7 @@ import com.aliucord.Utils;
 
 import com.aliucord.api.PatcherAPI;
 import com.aliucord.api.Unpatch;
-typealias HookCallback<T> = T.(XC_MethodHook.MethodHookParam) -> Unit;
+typealias HookCallback<T> = T.(de.robv.android.xposed.XC_MethodHook.MethodHookParam) -> Unit;
 
 typealias IntIterator = d0.t.c0;
 typealias ClosedRange<T> = d0.d0.a<T>;
@@ -83,8 +83,8 @@ fun deoptimize(vararg members: Member): Boolean{
 val bridge: DexKitBridge by lazy{
 	DexKitBridge.create(Utils.appContext.applicationInfo.sourceDir);
 };
-val cache = mutableMapOf<Executable, Set<Executable>>();
-fun getCallersOf(exe: Executable): Set<Executable>{
+val cache = mutableMapOf<Executable, Array<Executable>>();
+fun getCallersOf(exe: Executable): Array<Executable>{
 	var result = cache[exe];
 	if(result != null) return result;
 	bridge.use{bridge ->
@@ -110,16 +110,16 @@ fun getCallersOf(exe: Executable): Set<Executable>{
 		}.map{
 			if(it.isConstructor){
 				InstanceUtil.getConstructorInstance(
-					Util.appContext.classLoader,
+					Utils.appContext.classLoader,
 					it.toDexMethod()
 				);
 			}else{
 				InstanceUtil.getMethodInstance(
-					Util.appContext.classLoader,
+					Utils.appContext.classLoader,
 					it.toDexMethod()
 				);
 			};
-		}.toSet();
+		}.toTypedArray();
 	};
 	return result!!;
 };
@@ -132,14 +132,10 @@ inline fun <reified T> PatcherAPI.before(
 	methodName: String,
 	vararg paramTypes: Class<*>,
 	crossinline callback: HookCallback<T>,
-	deoptimize: Set<Executable>
+	deoptimize: Array<Executable>
 ): Unpatch{
-	return if(deoptimize){
-		deoptimize(*deoptimize);
-		this.before(methodName, *paramTypes, callback);
-	}else{
-		this.before(methodName, *paramTypes, callback);
-	};
+	deoptimize(*deoptimize);
+	this.before(methodName, *paramTypes, callback);
 };
 
 inline fun <reified T> PatcherAPI.before(
