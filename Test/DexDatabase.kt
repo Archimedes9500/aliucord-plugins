@@ -1,3 +1,5 @@
+package alt.archimedes5000.plugins.utils;
+
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.enums.MatchType;
 import java.lang.reflect.*;

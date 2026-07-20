@@ -49,7 +49,6 @@ class MessageAnchor: Plugin(){
 					visibility = View.VISIBLE;
 				}
 			;
-			//jumpView.setLongClickable(true);
 			jumpView.setOnLongClickListener{
 				var channelID = ChannelWrapper((frame.args[0] as Model).channel).id;
 				var messageID = settings.getLong(

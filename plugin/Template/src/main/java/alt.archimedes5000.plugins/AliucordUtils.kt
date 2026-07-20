@@ -1,4 +1,3 @@
-@file:Suppress("warnings")
 package alt.archimedes5000.plugins.utils;
 
 import com.aliucord.Utils;

@@ -1,19 +1,17 @@
-package alt.archimedes5000.plugins
+package alt.archimedes5000.plugins;
 
-import com.aliucord.annotations.AliucordPlugin
-import android.annotation.SuppressLint
-import com.aliucord.entities.Plugin
-import android.content.Context
-import com.aliucord.patcher.*
+import alt.archimedes5000.plugins.utils.*;
+import com.aliucord.utils.*;
+import com.aliucord.annotations.AliucordPlugin;
+import com.aliucord.entities.Plugin;
+import android.content.Context;
+import com.aliucord.patcher.*;
 
-import com.discord.stores.StoreUserSettings
-import com.discord.utilities.persister.Persister
-import com.discord.stores.StoreStream
-import com.discord.stores.StoreAccessibility
-import com.discord.widgets.chat.input.emoji.EmojiPickerViewModel
-
-typealias IntIterator = d0.t.c0;
-typealias IntProgressionIterator = d0.d0.b;
+import com.discord.stores.StoreUserSettings;
+import com.discord.utilities.persister.Persister;
+import com.discord.stores.StoreStream;
+import com.discord.stores.StoreAccessibility;
+import com.discord.widgets.chat.input.emoji.EmojiPickerViewModel;
 
 @AliucordPlugin(requiresRestart = false)
 @SuppressLint("SetTextI18n")
@@ -36,6 +34,7 @@ class FuckAnimations: Plugin(){
 			settings.setBool("originalState", originalState?: false);
 		};
 		store.setReducedMotionEnabled(true);
+
 		//Ignore reduced motion for those cases
 		patcher.before<StoreUserSettings>(
 			"observeIsAnimatedEmojisEnabled",
