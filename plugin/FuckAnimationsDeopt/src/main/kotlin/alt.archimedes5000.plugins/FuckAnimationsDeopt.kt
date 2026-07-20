@@ -44,7 +44,7 @@ class FuckAnimationsDeopt: Plugin(){
 		patcher.before<StoreUserSettings>(
 			"observeIsAutoPlayGifsEnabled",
 			Boolean::class.java,
-			deoptimize = arrayOf<Executable>(
+			deoptimize = arrayOf<java.lang.reflect.Executable>(
 				com.discord.stores.StoreUserSettings::class.java.getDeclaredMethod(
 					"observeIsAutoPlayGifsEnabled\$default",
 					com.discord.stores.StoreUserSettings::class.java,
