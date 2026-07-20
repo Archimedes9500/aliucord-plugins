@@ -152,5 +152,3 @@ inline fun <reified T> PatcherAPI.before(
 		this.before<T>(methodName, *paramTypes, callback = callback);
 	};
 };
-
-ccccc
