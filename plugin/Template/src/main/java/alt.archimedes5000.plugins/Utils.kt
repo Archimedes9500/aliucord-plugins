@@ -2,15 +2,28 @@ package alt.archimedes5000.plugins.utils;
 
 import com.aliucord.utils.*;
 import java.lang.reflect.*;
+
 import kotlin.properties.ReadWriteProperty;
 import kotlin.reflect.KProperty;
 import com.github.gfx.util.WeakIdentityHashMap;
+
+import de.robv.android.xposed.XposedBridge;
+
+import org.luckypray.dexkit.DexKitBridge;
+import org.luckypray.dexkit.query.enums.MatchType;
+import org.luckypray.dexkit.util.InstanceUtil;
+import com.aliucord.Utils;
+
+import com.aliucord.api.PatcherAPI;
+import com.aliucord.api.Unpatch;
+import com.aliucord.patcher.*;
+typealias HookCallback<T> = T.(de.robv.android.xposed.XC_MethodHook.MethodHookParam) -> Unit;
 
 typealias IntIterator = d0.t.c0;
 typealias ClosedRange<T> = d0.d0.a<T>;
 typealias IntProgressionIterator = d0.d0.b;
 
-class FakeField<V>(): ReadWriteProperty<Any, V> {
+class FakeField<V>(): ReadWriteProperty<Any, V>{
 	private val fields = WeakIdentityHashMap<Any, V>();
 
 	@Suppress("UNCHECKED_CAST")
@@ -57,3 +70,85 @@ class FinalFieldAccessor<T>(val fieldName: String?): ReadWriteProperty<Any, T>{
 };
 
 fun <T> accessFinalField(fieldName: String? = null) = FinalFieldAccessor<T>(fieldName);
+
+fun deoptimize(vararg members: Member): Boolean{
+	var allSuccess = true;
+	for(member in members){
+		if(!XposedBridge.deoptimizeMethod(member)){
+			allSuccess = false;
+		};
+	};
+	return allSuccess;
+};
+
+val bridge: DexKitBridge by lazy{
+	DexKitBridge.create(Utils.appContext.applicationInfo.sourceDir);
+};
+val cache = mutableMapOf<Executable, Array<out Executable>>();
+fun getCallersOf(exe: Executable): Array<out Executable>{
+	var result = cache[exe];
+	if(result != null) return result;
+	bridge.use{bridge ->
+		val callee = bridge.findClass{
+			matcher{
+				className(exe.declaringClass.name);
+			};
+		}.single().findMethod{
+			matcher{
+				name = if(exe is Method) exe.name else "<init>";
+				paramTypes(*exe.parameterTypes.map{it.name}.toTypedArray());
+			};
+		}.single();
+		result = bridge.findMethod{
+			matcher{
+				invokeMethods{
+					add{
+						descriptor = callee.descriptor;//Match by method signature
+					};
+					matchType = MatchType.Contains;//Only needs to contain that call site
+				};
+			};
+		}.map{
+			if(it.isConstructor){
+				InstanceUtil.getConstructorInstance(
+					Utils.appContext.classLoader,
+					it.toDexMethod()
+				);
+			}else{
+				InstanceUtil.getMethodInstance(
+					Utils.appContext.classLoader,
+					it.toDexMethod()
+				);
+			};
+		}.toTypedArray();
+	};
+	return result!!;
+};
+
+fun deoptimizeCallersOf(exe: Executable): Boolean{
+	return deoptimize(*getCallersOf(exe));
+};
+
+inline fun <reified T> PatcherAPI.before(
+	methodName: String,
+	vararg paramTypes: Class<*>,
+	deoptimize: Array<out Executable>,
+	crossinline callback: HookCallback<T>
+): Unpatch{
+	deoptimize(*deoptimize);
+	return this.before<T>(methodName, *paramTypes, callback = callback);
+};
+
+inline fun <reified T> PatcherAPI.before(
+	methodName: String,
+	vararg paramTypes: Class<*>,
+	deoptimize: Boolean,
+	crossinline callback: HookCallback<T>
+): Unpatch{
+	return if(deoptimize){
+		deoptimizeCallersOf(T::class.java.getDeclaredMethod(methodName, *paramTypes));
+		this.before<T>(methodName, *paramTypes, callback = callback);
+	}else{
+		this.before<T>(methodName, *paramTypes, callback = callback);
+	};
+};
