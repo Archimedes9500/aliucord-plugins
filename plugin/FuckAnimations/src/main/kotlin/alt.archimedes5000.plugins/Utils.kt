@@ -136,7 +136,7 @@ inline fun <reified T> PatcherAPI.beforeDeopt(
 	deoptimize: Array<Executable>
 ): Unpatch{
 	deoptimize(*deoptimize);
-	return this.before(methodName, *paramTypes, callback = callback);
+	return this.before<T>(methodName, *paramTypes, callback = callback);
 };
 
 inline fun <reified T> PatcherAPI.beforeDeopt(
@@ -147,8 +147,8 @@ inline fun <reified T> PatcherAPI.beforeDeopt(
 ): Unpatch{
 	return if(deoptimize){
 		deoptimizeCallersOf(T::class.java.getDeclaredMethod(methodName, *paramTypes));
-		this.before(methodName, *paramTypes, callback = callback);
+		this.before<T>(methodName, *paramTypes, callback = callback);
 	}else{
-		this.before(methodName, *paramTypes, callback = callback);
+		this.before<T>(methodName, *paramTypes, callback = callback);
 	};
 };
