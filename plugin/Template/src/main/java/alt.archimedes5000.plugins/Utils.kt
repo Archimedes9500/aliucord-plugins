@@ -84,6 +84,12 @@ fun deoptimize(vararg members: Member): Boolean{
 	return allSuccess;
 };
 
+fun getJVMClassName(clazz: Class<*>): String{
+	val head = clazz.packageName;
+	val tail = clazz.name.removePrefix("$head.");
+	return head+"."+tail.replace(".", "\$");
+};
+
 val bridge: DexKitBridge by lazy{
 	Utils.threadPool.submit{
 		val libdexkit = File(Utils.appContext.filesDir, "libdexkit.so");
@@ -117,7 +123,7 @@ fun getCallersOf(exe: Executable): Array<out Executable>{
 	bridge.use{bridge ->
 		val callee = bridge.findClass{
 			matcher{
-				className(exe.declaringClass.name);
+				className(getJVMClassName(exe.declaringClass));
 			};
 		}.single().findMethod{
 			matcher{
