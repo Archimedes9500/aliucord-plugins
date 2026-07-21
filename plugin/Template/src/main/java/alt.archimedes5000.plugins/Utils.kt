@@ -177,3 +177,16 @@ inline fun <reified T> PatcherAPI.before(
 		this.before<T>(methodName, *paramTypes, callback = callback);
 	};
 };
+
+inline fun <reified T> PatcherAPI.before(
+	vararg paramTypes: Class<*>,
+	deoptimize: Boolean,
+	crossinline callback: HookCallback<T>
+): Unpatch{
+	return if(deoptimize){
+		deoptimizeCallersOf(T::class.java.getDeclaredConstructor(*paramTypes));
+		this.before<T>(*paramTypes, callback = callback);
+	}else{
+		this.before<T>(*paramTypes, callback = callback);
+	};
+};
