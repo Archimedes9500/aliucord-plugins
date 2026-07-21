@@ -10,6 +10,8 @@ import com.github.gfx.util.WeakIdentityHashMap;
 import de.robv.android.xposed.XposedBridge;
 
 import org.luckypray.dexkit.DexKitBridge;
+import kotlinx.coroutines.runBlocking;
+import kotlinx.coroutines.Dispatchers;
 import java.io.File;
 import com.aliucord.Utils;
 import java.util.zip.ZipFile;
@@ -85,25 +87,27 @@ fun deoptimize(vararg members: Member): Boolean{
 };
 
 val bridge: DexKitBridge by lazy{
-	val libdexkit = File(Utils.appContext.filesDir, "libdexkit.so");
-	ZipFile(
-		File(Utils.appContext.cacheDir, "dexkit.aar").also{
-			Http.simpleDownload(
-				"https://repo1.maven.org/maven2/org/luckypray/dexkit/2.2.0/dexkit-2.2.0.aar",
-				it
-			);
-		}
-	).use{zip ->
-		zip.getInputStream(zip.getEntry(
-			"jni/${android.os.Build.SUPPORTED_ABIS.first()}/libdexkit.so"
-		)).use{input ->
-			libdexkit.outputStream().use{output ->
-				input.copyTo(output);
+	runBlocking(Dispatchers.IO){
+		val libdexkit = File(Utils.appContext.filesDir, "libdexkit.so");
+		ZipFile(
+			File(Utils.appContext.cacheDir, "dexkit.aar").also{
+				Http.simpleDownload(
+					"https://repo1.maven.org/maven2/org/luckypray/dexkit/2.2.0/dexkit-2.2.0.aar",
+					it
+				);
+			}
+		).use{zip ->
+			zip.getInputStream(zip.getEntry(
+				"jni/${android.os.Build.SUPPORTED_ABIS.first()}/libdexkit.so"
+			)).use{input ->
+				libdexkit.outputStream().use{output ->
+					input.copyTo(output);
+				};
 			};
 		};
+		System.load(libdexkit.absolutePath);
+		DexKitBridge.create(Utils.appContext.applicationInfo.sourceDir);
 	};
-	System.load(libdexkit.absolutePath);
-	DexKitBridge.create(Utils.appContext.applicationInfo.sourceDir);
 };
 val cache = mutableMapOf<Executable, Array<out Executable>>();
 fun getCallersOf(exe: Executable): Array<out Executable>{
