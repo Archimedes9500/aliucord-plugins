@@ -37,7 +37,8 @@ class FuckAnimationsDeoptDexKit: Plugin(){
 		//Ignore reduced motion for those cases
 		patcher.before<StoreUserSettings>(
 			"observeIsAnimatedEmojisEnabled",
-			Boolean::class.java
+			Boolean::class.java,
+			deoptimize = true
 		){frame ->
 			frame.args[0] = false;
 		};
@@ -50,7 +51,8 @@ class FuckAnimationsDeoptDexKit: Plugin(){
 		};
 		patcher.before<StoreUserSettings>(
 			"observeStickerAnimationSettings",
-			Boolean::class.java
+			Boolean::class.java,
+			deoptimize = true
 		){frame ->
 			frame.args[0] = false;
 		};
@@ -62,7 +64,8 @@ class FuckAnimationsDeoptDexKit: Plugin(){
 			String::class.java,
 			Boolean::class.java,//allowEmojisToAnimate
 			Long::class.java,
-			java.util.Set::class.java
+			java.util.Set::class.java,
+			deoptimize = true
 		){frame ->
 			frame.args[4] = fPersisterValue.get(
 				fpAnimatedEmojis.get(StoreStream.getUserSettings())
