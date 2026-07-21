@@ -85,7 +85,7 @@ fun deoptimize(vararg members: Member): Boolean{
 };
 
 fun getJVMClassName(clazz: Class<*>): String{
-	val head = clazz.package.name;
+	val head = clazz.getPackage().name;
 	val tail = clazz.name.removePrefix("$head.");
 	return head+"."+tail.replace(".", "\$");
 };
@@ -117,7 +117,6 @@ val bridge: DexKitBridge by lazy{
 };
 val cache = mutableMapOf<Executable, Array<out Executable>>();
 fun getCallersOf(exe: Executable): Array<out Executable>{
-	com.aliucord.Logger("balls").debug(exe.declaringClass.name);
 	var result = cache[exe];
 	if(result != null) return result;
 	bridge.use{bridge ->
