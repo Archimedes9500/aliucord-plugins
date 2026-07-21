@@ -82,7 +82,7 @@ fun deoptimize(vararg members: Member): Boolean{
 };
 
 val bridge: DexKitBridge by lazy{
-	System.loadLibrary("dexkit");
+	System.load("/storage/emulated/999/Aliucord/plugins/oat/arm64/libdexkit.so");
 	DexKitBridge.create(Utils.appContext.applicationInfo.sourceDir);
 };
 val cache = mutableMapOf<Executable, Array<out Executable>>();
