@@ -81,8 +81,8 @@ fun deoptimize(vararg members: Member): Boolean{
 	return allSuccess;
 };
 
-System.loadLibrary("dexkit");
 val bridge: DexKitBridge by lazy{
+	System.loadLibrary("dexkit");
 	DexKitBridge.create(Utils.appContext.applicationInfo.sourceDir);
 };
 val cache = mutableMapOf<Executable, Array<out Executable>>();
