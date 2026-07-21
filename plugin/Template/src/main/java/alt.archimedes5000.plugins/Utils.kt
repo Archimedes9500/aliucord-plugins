@@ -120,40 +120,38 @@ fun getCallersOf(exe: Executable): Array<out Executable>{
 	com.aliucord.Logger("balls").debug(getJVMClassName(exe.declaringClass));
 	var result = cache[exe];
 	if(result != null) return result;
-	bridge.use{bridge ->
-		val callee = bridge.findClass{
-			matcher{
-				className(getJVMClassName(exe.declaringClass));
-			};
-		}.single().findMethod{
-			matcher{
-				name = if(exe is Method) exe.name else "<init>";
-				paramTypes(*exe.parameterTypes.map{it.name}.toTypedArray());
-			};
-		}.single();
-		result = bridge.findMethod{
-			matcher{
-				invokeMethods{
-					add{
-						descriptor = callee.descriptor;//Match by method signature
-					};
-					matchType = MatchType.Contains;//Only needs to contain that call site
+	val callee = bridge.findClass{
+		matcher{
+			className(exe.declaringClass.name);
+		};
+	}.single().findMethod{
+		matcher{
+			name = if(exe is Method) exe.name else "<init>";
+			paramTypes(*exe.parameterTypes.map{it.name}.toTypedArray());
+		};
+	}.single();
+	result = bridge.findMethod{
+		matcher{
+			invokeMethods{
+				add{
+					descriptor = callee.descriptor;//Match by method signature
 				};
+				matchType = MatchType.Contains;//Only needs to contain that call site
 			};
-		}.map{
-			if(it.isConstructor){
-				InstanceUtil.getConstructorInstance(
-					Utils.appContext.classLoader,
-					it.toDexMethod()
-				);
-			}else{
-				InstanceUtil.getMethodInstance(
-					Utils.appContext.classLoader,
-					it.toDexMethod()
-				);
-			};
-		}.toTypedArray();
-	};
+		};
+	}.map{
+		if(it.isConstructor){
+			InstanceUtil.getConstructorInstance(
+				Utils.appContext.classLoader,
+				it.toDexMethod()
+			);
+		}else{
+			InstanceUtil.getMethodInstance(
+				Utils.appContext.classLoader,
+				it.toDexMethod()
+			);
+		};
+	}.toTypedArray();
 	return result!!;
 };
 
