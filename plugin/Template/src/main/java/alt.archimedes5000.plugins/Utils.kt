@@ -9,6 +9,8 @@ import com.github.gfx.util.WeakIdentityHashMap;
 
 import de.robv.android.xposed.XposedBridge;
 
+import java.io.File;
+import java.util.zip.ZipFile;
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.enums.MatchType;
 import org.luckypray.dexkit.util.InstanceUtil;
@@ -81,8 +83,29 @@ fun deoptimize(vararg members: Member): Boolean{
 	return allSuccess;
 };
 
+val client = okhttp3.OkHttpClient();
 val bridge: DexKitBridge by lazy{
-	System.load("/storage/emulated/999/Aliucord/plugins/oat/arm64/libdexkit.so");
+	val libdexkit = File(Utils.appContext.filesDir, "libdexkit.so");
+	libdexkit.writeBytes(
+		ZipFile(
+			File(Utils.appContext.cacheDir, "dexkit.aar").apply{
+				writeBytes(
+					client.newCall(
+						okhttp3.Request.Builder().url(
+							"https://repo1.maven.org/maven2/org/luckypray/dexkit/2.2.0/dexkit-2.2.0.aar"
+						).build()
+					).execute().use{
+						it.body!!.bytes();
+					}
+				)
+			}
+		).use{zip ->
+			zip.getInputStream(zip.getEntry(
+				"jni/${android.os.Build.SUPPORTED_ABIS.first()}/libdexkit.so"
+			)).use{it.readBytes()};
+		}
+	);
+	System.load(libdexkit.absolutePath);
 	DexKitBridge.create(Utils.appContext.applicationInfo.sourceDir);
 };
 val cache = mutableMapOf<Executable, Array<out Executable>>();
