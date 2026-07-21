@@ -81,6 +81,7 @@ fun deoptimize(vararg members: Member): Boolean{
 	return allSuccess;
 };
 
+System.loadLibrary("dexkit");
 val bridge: DexKitBridge by lazy{
 	DexKitBridge.create(Utils.appContext.applicationInfo.sourceDir);
 };
