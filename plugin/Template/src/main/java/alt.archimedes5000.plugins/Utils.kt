@@ -117,7 +117,7 @@ val bridge: DexKitBridge by lazy{
 };
 val cache = mutableMapOf<Executable, Array<out Executable>>();
 fun getCallersOf(exe: Executable): Array<out Executable>{
-	com.aliucord.Logger("balls").debug(getJVMClassName(exe.declaringClass));
+	//com.aliucord.Logger("balls").debug(getJVMClassName(exe.declaringClass));
 	var result = cache[exe];
 	if(result != null) return result;
 	val callee = bridge.findClass{
