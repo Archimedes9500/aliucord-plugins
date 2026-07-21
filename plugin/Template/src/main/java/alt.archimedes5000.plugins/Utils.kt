@@ -85,7 +85,7 @@ fun deoptimize(vararg members: Member): Boolean{
 };
 
 fun getJVMClassName(clazz: Class<*>): String{
-	val head = clazz.packageName;
+	val head = clazz.package.name;
 	val tail = clazz.name.removePrefix("$head.");
 	return head+"."+tail.replace(".", "\$");
 };
