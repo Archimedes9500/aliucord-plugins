@@ -63,7 +63,7 @@ class MessageAnchor: Plugin(){
 
 			val test = binding
 				.a
-				.findViewById<TextView>("action_bar_toolbar")
+				.findViewById<ViewGroup>("action_bar_toolbar")
 				.apply{
 					visibility = View.VISIBLE;
 				}
