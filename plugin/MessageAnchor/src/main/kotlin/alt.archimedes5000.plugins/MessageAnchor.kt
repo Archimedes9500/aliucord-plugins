@@ -72,9 +72,10 @@ class MessageAnchor: Plugin(){
 				.apply{
 					visibility = View.VISIBLE;
 					setBackgroundColor(android.graphics.Color.RED);
-					setIsLongClickable(true);
+					isLongClickable = true;
 					setOnLongClickListener{
 						logger.debug("balls");
+						true;
 					};
 				}
 			;
