@@ -60,6 +60,23 @@ class MessageAnchor: Plugin(){
 				dismiss();
 				true;
 			};
+
+			val test = binding
+				.a
+				.findViewById<TextView>("action_bar_toolbar")
+				.apply{
+					visibility = View.VISIBLE;
+				}
+				.getChildAt(0)
+				.apply{
+					visibility = View.VISIBLE;
+					setBackgroundColor(android.graphics.Color.RED);
+					setIsLongClickable(true);
+					setOnLongClickListener{
+						logger.debug("balls");
+					};
+				}
+			;
 		};
 	};
 	override fun stop(pluginContext: Context){
