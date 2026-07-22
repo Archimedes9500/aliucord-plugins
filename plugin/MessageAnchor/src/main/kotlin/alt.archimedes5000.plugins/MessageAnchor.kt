@@ -12,6 +12,7 @@ import com.discord.widgets.chat.list.actions.WidgetChatListActions.Model;
 import com.discord.databinding.WidgetChatListActionsBinding;
 import android.widget.TextView;
 import android.view.View;
+import android.view.ViewGroup;
 import com.aliucord.wrappers.ChannelWrapper;
 import com.discord.stores.StoreStream;
 
