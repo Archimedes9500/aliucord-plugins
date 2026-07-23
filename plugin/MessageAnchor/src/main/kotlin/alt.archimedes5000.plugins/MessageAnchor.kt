@@ -67,6 +67,8 @@ class MessageAnchor: Plugin(){
 				.findViewById<ViewGroup>("action_bar_toolbar")
 				.apply{
 					visibility = View.VISIBLE;
+					setBackgroundColor(android.graphics.Color.RED);
+					invalidate();
 				}
 				.getChildAt(0)
 				.apply{
