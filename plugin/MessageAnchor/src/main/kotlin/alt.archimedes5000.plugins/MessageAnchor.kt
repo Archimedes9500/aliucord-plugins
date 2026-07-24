@@ -61,26 +61,6 @@ class MessageAnchor: Plugin(){
 				dismiss();
 				true;
 			};
-
-			val test = binding
-				.a
-				.findViewById<ViewGroup>("action_bar_toolbar")
-				.apply{
-					visibility = View.VISIBLE;
-					setBackgroundColor(android.graphics.Color.RED);
-					invalidate();
-				}
-				.getChildAt(0)
-				.apply{
-					visibility = View.VISIBLE;
-					setBackgroundColor(android.graphics.Color.RED);
-					isLongClickable = true;
-					setOnLongClickListener{
-						logger.debug("balls");
-						true;
-					};
-				}
-			;
 		};
 	};
 	override fun stop(pluginContext: Context){
