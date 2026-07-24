@@ -26,8 +26,8 @@ class SystemProfiles: Plugin(){
 			binding.f/*system_icon*/!!.apply{
 				isClickable = true;
 				setOnClickListener{
-					val message = (frame.args[1] as MessageEntry).message;
-					logger.debug(message?.toString());
+					val message = (frame.args[1] as MessageEntry).message!!;
+					logger.debug(message.toString());
 					try{
 						WidgetChatListAdapterItemSystemMessage
 							.`access$getAdapter$p`(this@after)
