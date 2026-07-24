@@ -27,7 +27,7 @@ class SystemProfiles: Plugin(){
 				isClickable = true;
 				setOnClickListener{
 					val message = (frame.args[1] as MessageEntry).message;
-					logger.debug(message);
+					logger.debug(message?.toString());
 					try{
 						WidgetChatListAdapterItemSystemMessage
 							.`access$getAdapter$p`(this@after)
