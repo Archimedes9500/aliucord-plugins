@@ -19,12 +19,13 @@ class SystemProfiles: Plugin(){
 			Int::class.java,
 			ChatListEntry::class.java
 		){frame ->
+			val binding: WidgetChatListAdapterItemSystemBinding by fieldAccessor();
 			binding.f/*system_icon*/!!.apply{
 				isClickable = true;
 				setOnClickListener{
 					val message = (frame.args[1] as MessageEntry).message;
 					WidgetChatListAdapterItemSystemMessage
-						.`access$getAdapter$p`(this)
+						.`access$getAdapter$p`(this@before)
 						.getEventHandler()
 						.onMessageAuthorAvatarClicked(message, message.guildId)
 					;
