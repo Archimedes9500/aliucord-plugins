@@ -20,7 +20,7 @@ class SystemProfiles: Plugin(){
 			Int::class.java,
 			ChatListEntry::class.java
 		){frame ->
-			val binding: WidgetChatListAdapterItemSystemBinding by accessField();
+			val WidgetChatListAdapterItemSystemMessage.binding: WidgetChatListAdapterItemSystemBinding by accessField();
 			binding.f/*system_icon*/!!.apply{
 				isClickable = true;
 				setOnClickListener{
