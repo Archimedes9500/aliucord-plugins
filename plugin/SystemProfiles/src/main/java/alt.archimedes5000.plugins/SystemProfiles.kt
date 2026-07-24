@@ -25,7 +25,7 @@ class SystemProfiles: Plugin(){
 				setOnClickListener{
 					val message = (frame.args[1] as MessageEntry).message;
 					WidgetChatListAdapterItemSystemMessage
-						.`access$getAdapter$p`(this@before)
+						.`access$getAdapter$p`(this@after)
 						.getEventHandler()
 						.onMessageAuthorAvatarClicked(message, message.guildId)
 					;
