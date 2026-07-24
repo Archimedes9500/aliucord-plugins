@@ -28,14 +28,14 @@ class SystemProfiles: Plugin(){
 				isClickable = true;
 				setOnClickListener{
 					val message = (frame.args[1] as MessageEntry).message
-						?: return@setOnClickListener true//shouldn't happen
+						?: return@setOnClickListener//shouldn't happen
 					;
 					WidgetChatListAdapterItemSystemMessage
 						.`access$getAdapter$p`(this@after)
 						.getEventHandler()
 						.onMessageAuthorAvatarClicked(
 							message,
-							StoreStream.getGuildSelected().getSelectedGuild().id?: 0
+							StoreStream.getGuildSelected().getSelectedGuildId()
 						)
 					;
 				};
