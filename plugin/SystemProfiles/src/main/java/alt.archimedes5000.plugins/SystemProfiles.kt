@@ -14,15 +14,15 @@ import com.discord.widgets.chat.list.entries.MessageEntry;
 
 @AliucordPlugin(requiresRestart = true)
 class SystemProfiles: Plugin(){
+	val WidgetChatListAdapterItemSystemMessage.binding by
+		accessField<WidgetChatListAdapterItemSystemBinding>()
+	;
 	override fun start(pluginContext: Context){
 		patcher.after<WidgetChatListAdapterItemSystemMessage>(
 			"onConfigure",
 			Int::class.java,
 			ChatListEntry::class.java
 		){frame ->
-			val WidgetChatListAdapterItemSystemMessage.binding by
-				accessField<WidgetChatListAdapterItemSystemBinding>()
-			;
 			binding.f/*system_icon*/!!.apply{
 				isClickable = true;
 				setOnClickListener{
