@@ -31,7 +31,7 @@ class SystemProfiles: Plugin(){
 						WidgetChatListAdapterItemSystemMessage
 							.`access$getAdapter$p`(this@after)
 							.getEventHandler()
-							.onMessageAuthorAvatarClicked(message, 0)
+							.onMessageAuthorAvatarClicked(message, message.guildId)
 						;
 					}catch(e: Throwable){
 						logger.error("wtf", e);
