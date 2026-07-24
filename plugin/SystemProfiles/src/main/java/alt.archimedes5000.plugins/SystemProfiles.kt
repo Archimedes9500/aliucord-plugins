@@ -9,6 +9,7 @@ import com.aliucord.patcher.*;
 
 import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemSystemMessage;
 import com.discord.widgets.chat.list.entries.ChatListEntry;
+import com.discord.databinding.WidgetChatListAdapterItemSystemBinding;
 import com.discord.widgets.chat.list.entries.MessageEntry;
 
 @AliucordPlugin(requiresRestart = true)
