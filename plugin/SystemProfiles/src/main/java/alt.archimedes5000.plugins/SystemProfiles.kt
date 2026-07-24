@@ -26,12 +26,16 @@ class SystemProfiles: Plugin(){
 			binding.f/*system_icon*/!!.apply{
 				isClickable = true;
 				setOnClickListener{
-					val message = (frame.args[1] as MessageEntry).message;
-					WidgetChatListAdapterItemSystemMessage
-						.`access$getAdapter$p`(this@after)
-						.getEventHandler()
-						.onMessageAuthorAvatarClicked(message, 0)
-					;
+					try{
+						val message = (frame.args[1] as MessageEntry).message;
+						WidgetChatListAdapterItemSystemMessage
+							.`access$getAdapter$p`(this@after)
+							.getEventHandler()
+							.onMessageAuthorAvatarClicked(message, message.guildId!!)
+						;
+					}catch(e: Error){
+						logger.error("wtf", e);
+					};
 				};
 			};
 		};
