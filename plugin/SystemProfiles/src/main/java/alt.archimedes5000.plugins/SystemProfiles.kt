@@ -30,7 +30,7 @@ class SystemProfiles: Plugin(){
 					WidgetChatListAdapterItemSystemMessage
 						.`access$getAdapter$p`(this@after)
 						.getEventHandler()
-						.onMessageAuthorAvatarClicked(message, message.guildId!!)
+						.onMessageAuthorAvatarClicked(message, message.guildId?: 0)
 					;
 				};
 			};
