@@ -11,6 +11,7 @@ import com.discord.widgets.chat.list.adapter.WidgetChatListAdapterItemSystemMess
 import com.discord.widgets.chat.list.entries.ChatListEntry;
 import com.discord.databinding.WidgetChatListAdapterItemSystemBinding;
 import com.discord.widgets.chat.list.entries.MessageEntry;
+import com.discord.stores.StoreStream;
 
 @AliucordPlugin(requiresRestart = true)
 class SystemProfiles: Plugin(){
@@ -26,17 +27,17 @@ class SystemProfiles: Plugin(){
 			binding.f/*system_icon*/!!.apply{
 				isClickable = true;
 				setOnClickListener{
-					val message = (frame.args[1] as MessageEntry).message!!;
-					logger.debug(message.toString());
-					try{
-						WidgetChatListAdapterItemSystemMessage
-							.`access$getAdapter$p`(this@after)
-							.getEventHandler()
-							.onMessageAuthorAvatarClicked(message, message.guildId)
-						;
-					}catch(e: Throwable){
-						logger.error("wtf", e);
-					};
+					val message = (frame.args[1] as MessageEntry).message
+						?: return@setOnClickListener true//shouldn't happen
+					;
+					WidgetChatListAdapterItemSystemMessage
+						.`access$getAdapter$p`(this@after)
+						.getEventHandler()
+						.onMessageAuthorAvatarClicked(
+							message,
+							StoreStream.getGuildSelected().getSelectedGuild().id?: 0
+						)
+					;
 				};
 			};
 		};
