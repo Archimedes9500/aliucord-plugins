@@ -195,3 +195,30 @@ inline fun <reified T> PatcherAPI.before(
 		this.before<T>(*paramTypes, callback = callback);
 	};
 };
+
+inline fun <reified T: Any>T.reconstruct(vararg data: Pair<Int, Any?>): T{
+	val new = data.toMap();
+
+	val components = T::class.java.methods.filter{
+		it.name.matches(Regex("""component[1-9]\d*"""))
+	&&
+		it.parameterCount == 0
+	}.sortedBy{
+		it.name.removePrefix("component").toInt();
+	};
+	val c = T::class.java.constructors.filter{
+		it.parameterCount == components.size;
+	}.first();
+
+	val args = ArrayList<Any?>();
+	for(i in 0 until c.parameterCount){
+		args.add(
+			if(i+1 in new){
+				new[i+1];
+			}else{
+				components[i].invoke(this);
+			}
+		);
+	};
+	return c.newInstance(*args.toTypedArray()) as T;
+};
