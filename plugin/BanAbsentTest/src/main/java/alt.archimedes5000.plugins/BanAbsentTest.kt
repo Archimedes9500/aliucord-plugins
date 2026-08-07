@@ -17,7 +17,8 @@ class BanAbsentTest: Plugin(){
 			"updateView",
 			ViewState::class.java
 		){(frame, state: ViewState) ->
-			if(state.isMe || state.isAdminSectionEnabled || state.showBanButton) return@before;
+			logger.debug(state);
+			if(state.isMe || state.isAdminSectionEnabled) return@before;
 			frame.args[0] = state.reconstruct(
 				5 to true,
 				11 to true
