@@ -8,7 +8,7 @@ import android.content.Context;
 import com.aliucord.patcher.*;
 
 import com.discord.widgets.user.profile.UserProfileAdminView;
-import com.discord.widgets.user.usersheet.UserProfileAdminView.ViewState;
+import com.discord.widgets.user.profile.UserProfileAdminView.ViewState;
 
 @AliucordPlugin(requiresRestart = true)
 class BanAbsentTest: Plugin(){
