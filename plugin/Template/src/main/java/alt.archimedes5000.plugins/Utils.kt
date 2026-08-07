@@ -222,3 +222,6 @@ inline fun <reified T: Any>T.reconstruct(vararg data: Pair<Int, Any?>): T{
 	};
 	return c.newInstance(*args.toTypedArray()) as T;
 };
+
+data class Ref<T>(var value: T);
+data class NullRef<T>(var value: T?);
