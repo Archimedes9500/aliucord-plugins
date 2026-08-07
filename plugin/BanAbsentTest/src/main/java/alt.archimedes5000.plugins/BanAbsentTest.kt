@@ -17,12 +17,13 @@ class BanAbsentTest: Plugin(){
 			"updateView",
 			ViewState::class.java
 		){(frame, state: ViewState) ->
-			logger.debug(state.toString());
 			if(state.isMe || state.isAdminSectionEnabled) return@before;
 			frame.args[0] = state.reconstruct(
 				5 to true,
 				11 to true
-			);
+			).also{
+				logger.debug(it.toString());
+			};
 		};
 	};
 	override fun stop(pluginContext: Context){
