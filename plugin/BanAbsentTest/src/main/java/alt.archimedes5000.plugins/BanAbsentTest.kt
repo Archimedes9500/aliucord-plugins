@@ -8,7 +8,7 @@ import android.content.Context;
 import com.aliucord.patcher.*;
 
 import com.discord.widgets.user.profile.UserProfileAdminView;
-import com.discord.widgets.user.usersheet.WidgetUserSheetViewModel.ViewState;
+import com.discord.widgets.user.usersheet.UserProfileAdminView.ViewState;
 
 @AliucordPlugin(requiresRestart = true)
 class BanAbsentTest: Plugin(){
@@ -17,7 +17,7 @@ class BanAbsentTest: Plugin(){
 			"updateView",
 			ViewState::class.java
 		){(frame, state: ViewState) ->
-			if(state.isMe() || state.isAdminSectionEnabled() || state.getShowBanButton()) return@before;
+			if(state.isMe || state.isAdminSectionEnabled || state.getShowBanButton) return@before;
 			frame.args[0] = state.reconstruct(
 				5 to true,
 				11 to true
