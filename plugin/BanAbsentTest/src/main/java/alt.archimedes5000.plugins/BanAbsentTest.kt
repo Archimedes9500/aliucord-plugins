@@ -27,8 +27,8 @@ class BanAbsentUsers: Plugin(){
 
 			val banned = (bans?.containsKey(user.id) == true);
 			frame.result = state.reconstruct(
-				5 to true,//!banned,
-				11 to true//!banned
+				5 to !banned,
+				11 to !banned
 			).also{
 				logger.debug(it.toString());
 			};
