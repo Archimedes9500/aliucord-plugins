@@ -9,16 +9,17 @@ import com.aliucord.patcher.*;
 
 import com.discord.widgets.user.profile.UserProfileAdminView;
 import com.discord.widgets.user.profile.UserProfileAdminView.ViewState;
+import com.discord.widgets.user.usersheet.WidgetUserSheetViewModel;
 
 @AliucordPlugin(requiresRestart = true)
 class BanAbsentTest: Plugin(){
 	override fun start(pluginContext: Context){
-		patcher.before<UserProfileAdminView>(
-			"updateView",
-			ViewState::class.java
-		){(frame, state: ViewState) ->
+		patcher.after<WidgetUserSheetViewModel.ViewState.Loaded>(
+			"getAdminViewState"
+		){frame ->
+			val state = frame.result as ViewState;
 			if(state.isMe || state.isAdminSectionEnabled) return@before;
-			frame.args[0] = state.reconstruct(
+			frame.result = state.reconstruct(
 				5 to true,
 				11 to true
 			).also{
