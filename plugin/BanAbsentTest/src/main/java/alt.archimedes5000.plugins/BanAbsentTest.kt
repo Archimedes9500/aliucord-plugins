@@ -22,7 +22,7 @@ class BanAbsentUsers: Plugin(){
 			if(state.isMe || state.isAdminSectionEnabled) return@after;
 
 			val bans = StoreBans.`access$getBannedUsers$p`(StoreStream.getBans())[guildId];
-			val notBanned = (bans == null || user !in bans.keys);
+			val notBanned = (bans?.containsKey(user) != true);
 			frame.result = state.reconstruct(
 				5 to notBanned,
 				11 to notBanned
