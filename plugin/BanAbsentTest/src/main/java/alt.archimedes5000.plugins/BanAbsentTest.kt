@@ -21,12 +21,11 @@ class BanAbsentUsers: Plugin(){
 			val state = frame.result as ViewState;
 			if(state.isMe || state.isAdminSectionEnabled) return@after;
 
-			val bans = StoreBans.`access$getBannedUsers$p`(
-				StoreStream.getBans()
-			)[guildId];
+			val bans = StoreBans.`access$getBannedUsers$p`(StoreStream.getBans())[guildId];
+			val notBanned = (bans == null || user !in bans.keys);
 			frame.result = state.reconstruct(
-				5 to (bans == null || user !in bans.keys),
-				11 to (bans == null || user !in bans.keys)
+				5 to notBanned,
+				11 to notBanned
 			).also{
 				logger.debug(it.toString());
 			};
