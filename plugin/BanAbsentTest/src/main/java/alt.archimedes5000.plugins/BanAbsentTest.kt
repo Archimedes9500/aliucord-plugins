@@ -18,7 +18,7 @@ class BanAbsentTest: Plugin(){
 			"getAdminViewState"
 		){frame ->
 			val state = frame.result as ViewState;
-			if(state.isMe || state.isAdminSectionEnabled) return@before;
+			if(state.isMe || state.isAdminSectionEnabled) return@after;
 			frame.result = state.reconstruct(
 				5 to true,
 				11 to true
