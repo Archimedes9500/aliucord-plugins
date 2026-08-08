@@ -24,7 +24,7 @@ class BanAbsentUsers: Plugin(){
 			val bans = StoreBans.`access$getBannedUsers$p`(
 				StoreStream.getBans()
 			)?.get(guildId) as? Map<Long, *>;
-			logger.debug(bans?.keys?.joinToString("\n"));
+			logger.debug(bans?.keys?.joinToString("\n")?: "null");
 			val banned = (bans?.containsKey(user.id) == true);
 			frame.result = state.reconstruct(
 				5 to !banned,
