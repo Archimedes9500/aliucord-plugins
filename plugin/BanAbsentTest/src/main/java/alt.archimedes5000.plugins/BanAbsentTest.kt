@@ -25,8 +25,8 @@ class BanAbsentUsers: Plugin(){
 				StoreStream.getBans()
 			)[guildId];
 			frame.result = state.reconstruct(
-				5 to (true && user !in bans),
-				11 to (true && user !in bans)
+				5 to (user !in bans),
+				11 to (user !in bans)
 			).also{
 				logger.debug(it.toString());
 			};
