@@ -15,15 +15,15 @@ import com.discord.widgets.user.usersheet.WidgetUserSheetViewModel;
 @AliucordPlugin(requiresRestart = true)
 class BanAbsentUsers: Plugin(){
 	override fun start(pluginContext: Context){
-		val storeBans = StoreStream.getBans();
-
 		patcher.after<WidgetUserSheetViewModel.ViewState.Loaded>(
 			"getAdminViewState"
 		){frame ->
 			val state = frame.result as ViewState;
 			if(state.isMe || state.isAdminSectionEnabled) return@after;
 
-			val bans = storeBans.`access$getBannedUsers$p`(storeBans)[guildId];
+			val bans = StoreBans.`access$getBannedUsers$p`(
+				StoreStream.getBans()
+			)[guildId];
 			frame.result = state.reconstruct(
 				5 to (true && user !in bans),
 				11 to (true && user !in bans)
