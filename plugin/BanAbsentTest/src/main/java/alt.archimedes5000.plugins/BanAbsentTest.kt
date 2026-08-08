@@ -11,6 +11,7 @@ import com.discord.stores.StoreStream;
 import com.discord.widgets.user.usersheet.WidgetUserSheetViewModel;
 import com.discord.widgets.user.profile.UserProfileAdminView.ViewState;
 import com.discord.stores.StoreBans;
+import com.discord.utilities.permissions.PermissionUtils;
 import com.discord.api.permission.Permission;
 
 @AliucordPlugin(requiresRestart = true)
