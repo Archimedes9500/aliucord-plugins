@@ -23,7 +23,7 @@ class BanAbsentUsers: Plugin(){
 
 			val bans = StoreBans.`access$getBannedUsers$p`(
 				StoreStream.getBans()
-			)[guildId];
+			)[guildId]?: emptyMap<*, *>();
 			frame.result = state.reconstruct(
 				5 to (user !in bans),
 				11 to (user !in bans)
