@@ -7,10 +7,10 @@ import com.aliucord.entities.Plugin;
 import android.content.Context;
 import com.aliucord.patcher.*;
 
-import com.discord.stores.StoreStream;
-import com.discord.widgets.user.profile.UserProfileAdminView;
-import com.discord.widgets.user.profile.UserProfileAdminView.ViewState;
 import com.discord.widgets.user.usersheet.WidgetUserSheetViewModel;
+import com.discord.widgets.user.profile.UserProfileAdminView.ViewState;
+import com.discord.stores.StoreBans;
+import com.discord.stores.StoreStream;
 
 @AliucordPlugin(requiresRestart = true)
 class BanAbsentUsers: Plugin(){
