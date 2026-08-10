@@ -9,6 +9,7 @@ import com.aliucord.patcher.*;
 
 import com.discord.utilities.permissions.PermissionUtils;
 import com.discord.api.role.GuildRole;
+import com.discord.models.member.GuildMember;
 
 import com.discord.stores.StoreStream;
 import com.discord.widgets.user.usersheet.WidgetUserSheetViewModel;
