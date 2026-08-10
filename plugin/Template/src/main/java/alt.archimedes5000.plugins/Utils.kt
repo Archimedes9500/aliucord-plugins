@@ -22,7 +22,7 @@ import com.aliucord.api.PatcherAPI;
 import com.aliucord.api.Unpatch;
 import com.aliucord.patcher.*;
 
-//import kotlin.reflect.KType;
+import kotlin.reflect.KType;
 import kotlin.properties.ReadOnlyProperty;
 import kotlin.reflect.jvm.jvmErasure;
 import kotlin.reflect.typeOf;
