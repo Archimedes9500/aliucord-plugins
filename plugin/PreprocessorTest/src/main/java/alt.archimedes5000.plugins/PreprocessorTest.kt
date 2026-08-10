@@ -10,7 +10,7 @@ import com.aliucord.patcher.*;
 @AliucordPlugin(requiresRestart = true)
 class PreprocessorTest: Plugin(){
 	override fun start(pluginContext: Context){
-		val a: Function1<*> = {1};
+		val a: Function0<*> = {1};
 		logger.debug("${a()}");
 	};
 	override fun stop(pluginContext: Context){
