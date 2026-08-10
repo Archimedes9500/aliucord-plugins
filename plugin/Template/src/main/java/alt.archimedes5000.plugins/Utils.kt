@@ -1,3 +1,4 @@
+@file:OptIn(kotlin.ExperimentalStdlibApi::class)
 package alt.archimedes5000.plugins.utils;
 
 import com.aliucord.utils.*;
@@ -20,6 +21,11 @@ import org.luckypray.dexkit.util.InstanceUtil;
 import com.aliucord.api.PatcherAPI;
 import com.aliucord.api.Unpatch;
 import com.aliucord.patcher.*;
+
+import kotlin.reflect.KType;
+import kotlin.properties.ReadOnlyProperty;
+import kotlin.reflect.jvm.jvmErasure;
+
 typealias HookCallback<T> = T.(de.robv.android.xposed.XC_MethodHook.MethodHookParam) -> Unit;
 
 typealias IntIterator = d0.t.c0;
@@ -223,5 +229,31 @@ inline fun <reified T: Any>T.reconstruct(vararg data: Pair<Int, Any?>): T{
 	return c.newInstance(*args.toTypedArray()) as T;
 };
 
-data class Ref<T>(var value: T);
-data class NullRef<T>(var value: T?);
+fun interface Invokable<T> {
+	operator fun invoke(vararg args: Any?): T;
+};
+class MethodAccessor<T, R>(private val methodName: String?, val type: KType): ReadOnlyProperty<Any, Invokable<R>>{
+	private val methods = mutableListOf<Method>();
+
+	private fun method(thisRef: Any, property: KProperty<*>): Method{
+		val clazz = thisRef::class.java
+		return methods.find{it.declaringClass == clazz}
+			?: clazz.getDeclaredMethod(
+				methodName?: property.name.removePrefix("access").replaceFirstChar{
+					it.lowercaseChar();
+				},
+				*type.arguments.map{
+					it.type!!.jvmErasure.java
+				}.dropLast(1).toTypedArray()
+			).apply{
+				isAccessible = true;
+				methods.add(this);
+			};
+	};
+
+	@Suppress("UNCHECKED_CAST")
+	override fun getValue(thisRef: Any, property: KProperty<*>): Invokable<R>{
+		return Invokable<R>{args -> method(thisRef, property).invoke(thisRef, *args) as R};
+	};
+};
+inline fun <reified T, R> accessMethod(methodName: String? = null) = MethodAccessor<T, R>(methodName, typeOf<T>());
