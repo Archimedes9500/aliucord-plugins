@@ -10,6 +10,7 @@ import com.aliucord.patcher.*;
 import com.discord.utilities.permissions.PermissionUtils;
 import com.discord.api.role.GuildRole;
 
+
 import com.discord.stores.StoreStream;
 import com.discord.widgets.user.usersheet.WidgetUserSheetViewModel;
 import com.discord.widgets.user.profile.UserProfileAdminView.ViewState;
@@ -20,10 +21,10 @@ import com.discord.api.permission.Permission;
 @AliucordPlugin(requiresRestart = true)
 class BanAbsentUsers: Plugin(){
 	val PermissionUtils.applyEveryone by
-		accessMethod<(Long, Map<Long, GuildRole>) -> *, Long>()
+		accessMethod<Function2<Long, Map<Long,GuildRole>, *>, Long>()
 	;
 	val PermissionUtils.applyRoles by
-		accessMethod<(GuildMember, Map<Long, GuildRole, Long>) -> *, Long>()
+		accessMethod<Function2<GuildMember, Map<Long,GuildRole,Long>, *>, Long>()
 	;
 
 	override fun start(pluginContext: Context){
@@ -64,3 +65,4 @@ class BanAbsentUsers: Plugin(){
 		patcher.unpatchAll();
 	};
 };
+
