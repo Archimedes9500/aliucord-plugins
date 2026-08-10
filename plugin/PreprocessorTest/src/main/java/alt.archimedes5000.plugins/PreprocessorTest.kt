@@ -7,6 +7,7 @@ import com.aliucord.entities.Plugin;
 import android.content.Context;
 import com.aliucord.patcher.*;
 
+
 @AliucordPlugin(requiresRestart = true)
 class PreprocessorTest: Plugin(){
 	override fun start(pluginContext: Context){
