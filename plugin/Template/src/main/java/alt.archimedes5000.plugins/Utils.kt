@@ -32,7 +32,7 @@ typealias HookCallback<T> = T.(de.robv.android.xposed.XC_MethodHook.MethodHookPa
 typealias IntIterator = d0.t.c0;
 typealias ClosedRange<T> = d0.d0.a<T>;
 typealias IntProgressionIterator = d0.d0.b;
-typealias KType = d0.e0.i!!;
+typealias KTypeProjection = d0.e0.i;
 
 class FakeField<V>(): ReadWriteProperty<Any, V>{
 	private val fields = WeakIdentityHashMap<Any, V>();
