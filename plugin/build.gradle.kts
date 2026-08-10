@@ -66,7 +66,7 @@ subprojects {
 		compileOnly(libs.discord)
 		compileOnly(libs.aliucord)
 		compileOnly(libs.kotlin.stdlib)
-		compileOnly("org.jetbrains.kotlin:kotlin-reflect")
+		//compileOnly("org.jetbrains.kotlin:kotlin-reflect")
 		compileOnly("com.aliucord:Aliuhook:1.1.4")
 		implementation("com.github.gfx.util:weak-identity-hash-map:2.0.0")
 		implementation("org.luckypray:dexkit:2.2.0"){
