@@ -15,7 +15,6 @@ import com.discord.stores.StoreStream;
 import com.discord.widgets.user.usersheet.WidgetUserSheetViewModel;
 import com.discord.widgets.user.profile.UserProfileAdminView.ViewState;
 import com.discord.stores.StoreBans;
-import com.discord.utilities.permissions.PermissionUtils;
 import com.discord.api.permission.Permission;
 
 @AliucordPlugin(requiresRestart = true)
@@ -26,6 +25,7 @@ class BanAbsentUsers: Plugin(){
 	val PermissionUtils.applyRoles by
 		accessMethod<Function3<GuildMember, Map<Long,GuildRole>, Long, *>, Long>()
 	;
+	val permissionUtils = PermissionUtils.INSTANCE;
 
 	override fun start(pluginContext: Context){
 		val myId = StoreStream.getUsers().me.id;
@@ -47,8 +47,8 @@ class BanAbsentUsers: Plugin(){
 				.`getGuildRolesInternal$app_productionGoogleRelease`()
 				.get(guildId)
 			;
-			val everyonePerms = PermissionUtils.applyEveryone(guildId, guildRoles);
-			val perms = PermissionUtils.applyRoles(
+			val everyonePerms = permissionUtils.applyEveryone(guildId, guildRoles);
+			val perms = permissionUtils.applyRoles(
 				meMember,
 				guildRoles,
 				everyonePerms
