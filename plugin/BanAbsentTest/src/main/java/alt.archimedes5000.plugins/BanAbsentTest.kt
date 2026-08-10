@@ -54,6 +54,7 @@ class BanAbsentUsers: Plugin(){
 				everyonePerms
 			);
 			val canBan = PermissionUtils.can(Permission.BAN_MEMBERS, perms);
+			logger.debug(canBan);
 
 			frame.result = state.reconstruct(
 				5 to (!userBanned && canBan),
@@ -65,4 +66,3 @@ class BanAbsentUsers: Plugin(){
 		patcher.unpatchAll();
 	};
 };
-
