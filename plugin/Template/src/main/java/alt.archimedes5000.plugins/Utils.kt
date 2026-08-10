@@ -25,6 +25,7 @@ import com.aliucord.patcher.*;
 import kotlin.reflect.KType;
 import kotlin.properties.ReadOnlyProperty;
 import kotlin.reflect.jvm.jvmErasure;
+//import d0.e0.p.a.getJvmErasure;
 import kotlin.reflect.typeOf;
 
 typealias HookCallback<T> = T.(de.robv.android.xposed.XC_MethodHook.MethodHookParam) -> Unit;
