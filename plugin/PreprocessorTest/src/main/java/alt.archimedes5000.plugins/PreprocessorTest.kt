@@ -1,1 +1,21 @@
+package alt.archimedes5000.plugins;
+
+import alt.archimedes5000.plugins.utils.*;
+import com.aliucord.utils.*;
+import com.aliucord.annotations.AliucordPlugin;
+import com.aliucord.entities.Plugin;
+import android.content.Context;
+import com.aliucord.patcher.*;
+
+@AliucordPlugin(requiresRestart = true)
+class PreprocessorTest: Plugin(){
+	override fun start(pluginContext: Context){
+		val a: Function0<, *> = {1};
+
+		logger.debug("${a()}");
+	};
+	override fun stop(pluginContext: Context){
+		patcher.unpatchAll();
+	};
+};
 
