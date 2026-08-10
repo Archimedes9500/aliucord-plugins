@@ -72,6 +72,9 @@ subprojects {
 			exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")
 			exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk8")
 		}
-		implementation("org.jetbrains.kotlin:kotlin-reflect")
+		implementation("org.jetbrains.kotlin:kotlin-reflect"){
+			exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")
+			exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk8")
+		}
 	}
 }
