@@ -24,7 +24,7 @@ class BanAbsentUsers: Plugin(){
 		accessMethod<Function2<Long, Map<Long,GuildRole>, *>, Long>()
 	;
 	val PermissionUtils.applyRoles by
-		accessMethod<Function2<GuildMember, Map<Long,GuildRole,Long>, *>, Long>()
+		accessMethod<Function3<GuildMember, Map<Long,GuildRole>, Long, *>, Long>()
 	;
 
 	override fun start(pluginContext: Context){
