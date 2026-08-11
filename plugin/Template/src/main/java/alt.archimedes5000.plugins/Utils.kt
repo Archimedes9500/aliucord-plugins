@@ -25,8 +25,10 @@ import com.aliucord.patcher.*;
 import kotlin.reflect.KType;
 import kotlin.properties.ReadOnlyProperty;
 //import kotlin.reflect.jvm.jvmErasure;
-import d0.e0.p.a.getJvmErasure;
+//import d0.e0.p.a.getJvmErasure;
 import kotlin.reflect.KClass;
+import kotlin.reflect.KTypeProjection;
+import kotlin.reflect.KClassifier;
 import kotlin.reflect.typeOf;
 
 typealias IntIterator = d0.t.c0;
@@ -230,21 +232,21 @@ inline fun <reified T: Any>T.reconstruct(vararg data: Pair<Int, Any?>): T{
 	};
 	return c.newInstance(*args.toTypedArray()) as T;
 };
-
+/*
 typealias KTypeProjection = d0.e0.i;
 typealias KClassifier = d0.e0.d;
 typealias KClass<T> = d0.e0.c<T>;
-//typealias KParameter = d0.e0.f;
+*/
 fun getArgs(type: KType): MutableList<Class<*>>{
 	var r = mutableListOf<Class<*>>();
 
 	com.aliucord.Logger("Utils").debug("${type::class.java}");
-	val args: List<d0.e0.i> = type.arguments.dropLast(1);
+	val args: List<KTypeProjection> = type.arguments.dropLast(1);
 	for(i in 0..args.size){
 		val a: KTypeProjection = args[i];
 		val ktype: KType? = a.type;
 		if(ktype == null) continue;
-		val kclassifier: d0.e0.d = ktype.classifier;
+		val kclassifier: KClassifier? = ktype.classifier;
 		val kclass: KClass<*>? = kclassifier as? KClass<*>;
 		if(kclass == null) continue;
 		val clazz: Class<*> = kclass.java;
