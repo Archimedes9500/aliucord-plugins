@@ -236,9 +236,10 @@ typealias KClassifier = d0.e0.d;
 fun getArgs(type: KType): MutableList<Class<*>>{
 	var r = mutableListOf<Class<*>>();
 
-	val args: List<d0.e0.i> = type.arguments.dropLast(1);
+	logger.debug(${type::class.java}");
+	val args: List<KTypeProjection> = type.arguments.dropLast(1) as List<KTypeProjection>;
 	for(i in 0..args.size){
-		val a: d0.e0.i = args[i];
+		val a: KTypeProjection = args[i];
 		val ktype: KType? = a.type;
 		if(ktype == null) continue;
 		val kclassifier: KClassifier = ktype.classifier;
