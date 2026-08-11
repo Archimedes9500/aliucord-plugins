@@ -63,23 +63,11 @@ subprojects {
 		val compileOnly by configurations
 		val implementation by configurations
 
-		compileOnly(libs.discord){
-			exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")
-			exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk8")
-			exclude(group = "org.jetbrains.kotlin", module = "kotlin-reflect")
-		}
-		compileOnly(libs.aliucord){
-			exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")
-			exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk8")
-			exclude(group = "org.jetbrains.kotlin", module = "kotlin-reflect")
-		}
-		//compileOnly(libs.kotlin.stdlib){
+		compileOnly(libs.discord)
+		compileOnly(libs.aliucord)
+		compileOnly(libs.kotlin.stdlib)
 		//compileOnly("org.jetbrains.kotlin:kotlin-reflect")
-		compileOnly("com.aliucord:Aliuhook:1.1.4"){
-			exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")
-			exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk8")
-			exclude(group = "org.jetbrains.kotlin", module = "kotlin-reflect")
-		}
+		compileOnly("com.aliucord:Aliuhook:1.1.4")
 		implementation("com.github.gfx.util:weak-identity-hash-map:2.0.0"){
 			exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")
 			exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk8")
