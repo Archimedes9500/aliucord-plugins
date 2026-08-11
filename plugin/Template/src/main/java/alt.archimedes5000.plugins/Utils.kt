@@ -34,6 +34,7 @@ typealias HookCallback<T> = T.(de.robv.android.xposed.XC_MethodHook.MethodHookPa
 typealias IntIterator = d0.t.c0;
 typealias ClosedRange<T> = d0.d0.a<T>;
 typealias IntProgressionIterator = d0.d0.b;
+tyoealias KClassifier = d0.e0.d;
 typealias KTypeProjection = d0.e0.i;
 
 class FakeField<V>(): ReadWriteProperty<Any, V>{
@@ -243,7 +244,7 @@ fun f(type: KType): MutableList<Class<*>>{
 	for(a in args){
 		val ktype: KType? = a.type;
 		if(ktype == null) continue;
-		val kclassifier: kotlin.reflect.KClassifier = ktype.classifier;
+		val kclassifier: KClassifier = ktype.classifier;
 		val kclass: KClass<*>? = kclassifier as? KClass<*>;
 		if(kclass == null) continue;
 		val clazz: Class<*> = kclass.java;
