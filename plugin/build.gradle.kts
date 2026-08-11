@@ -59,13 +59,16 @@ subprojects {
 		}
 	}
 
+	val stdlibConfig = configurations.create("stdlibForStrip")
 	val stripStdlib = tasks.register<Zip>("stripStdlib") {
-	    from(zipTree("libs/kotlin-stdlib-2.2.21.jar")) {
+	    val stdlibJar = stdlibConfig.resolve().single()
+	
+	    from(zipTree(stdlibJar)) {
 	        exclude("kotlin/reflect/**")
 	        exclude("kotlin/reflect/jvm/**")
 	        exclude("kotlin/reflect/full/**")
 	    }
-	    archiveFileName.set("kotlin-stdlib-2.2.21-stripped.jar")
+	    archiveFileName.set("kotlin-stdlib-stripped.jar")
 	    destinationDirectory.set(layout.buildDirectory.dir("patched"))
 	}
 
@@ -73,6 +76,8 @@ subprojects {
 	dependencies {
 		val compileOnly by configurations
 		val implementation by configurations
+
+		stdlibConfig(libs.kotlin.stdlib)
 
 		compileOnly(libs.discord)
 		compileOnly(libs.aliucord)
