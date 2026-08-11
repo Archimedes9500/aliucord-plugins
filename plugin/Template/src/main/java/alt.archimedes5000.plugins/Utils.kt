@@ -21,6 +21,7 @@ import org.luckypray.dexkit.util.InstanceUtil;
 import com.aliucord.api.PatcherAPI;
 import com.aliucord.api.Unpatch;
 import com.aliucord.patcher.*;
+typealias HookCallback<T> = T.(de.robv.android.xposed.XC_MethodHook.MethodHookParam) -> Unit;
 
 import kotlin.reflect.KType;
 import kotlin.properties.ReadOnlyProperty;
@@ -28,14 +29,12 @@ import kotlin.properties.ReadOnlyProperty;
 import d0.e0.p.a.getJvmErasure;
 import kotlin.reflect.KClass;
 import kotlin.reflect.typeOf;
-
-typealias HookCallback<T> = T.(de.robv.android.xposed.XC_MethodHook.MethodHookParam) -> Unit;
+tyoealias KClassifier = d0.e0.d;
+typealias KTypeProjection = d0.e0.i;
 
 typealias IntIterator = d0.t.c0;
 typealias ClosedRange<T> = d0.d0.a<T>;
 typealias IntProgressionIterator = d0.d0.b;
-tyoealias KClassifier = d0.e0.d;
-typealias KTypeProjection = d0.e0.i;
 
 class FakeField<V>(): ReadWriteProperty<Any, V>{
 	private val fields = WeakIdentityHashMap<Any, V>();
