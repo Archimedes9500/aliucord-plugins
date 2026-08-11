@@ -72,6 +72,7 @@ subprojects {
 		implementation("org.luckypray:dexkit:2.2.0"){
 			exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")
 			exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk8")
+			exclude(group = "org.jetbrains.kotlin", module = "kotlin-reflect")
 		}
 	}
 }
