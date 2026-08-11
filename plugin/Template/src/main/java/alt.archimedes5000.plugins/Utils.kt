@@ -237,7 +237,7 @@ fun getArgs(type: KType): MutableList<Class<*>>{
 	var r = mutableListOf<Class<*>>();
 
 	val args: List<KTypeProjection> = type.arguments.dropLast(1);
-	for(i in 0..args.size()){
+	for(i in 0..args.size){
 		val a: KTypeProjection = args[i];
 		val ktype: KType? = a.type;
 		if(ktype == null) continue;
