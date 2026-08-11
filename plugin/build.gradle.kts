@@ -65,7 +65,9 @@ subprojects {
 
 		compileOnly(libs.discord)
 		compileOnly(libs.aliucord)
-		compileOnly(libs.kotlin.stdlib)
+		compileOnly(libs.kotlin.stdlib){
+			exclude(group = "org.jetbrains.kotlin", module = "kotlin-reflect")
+		}
 		//compileOnly("org.jetbrains.kotlin:kotlin-reflect")
 		compileOnly("com.aliucord:Aliuhook:1.1.4"){
 			exclude(group = "org.jetbrains.kotlin", module = "kotlin-reflect")
