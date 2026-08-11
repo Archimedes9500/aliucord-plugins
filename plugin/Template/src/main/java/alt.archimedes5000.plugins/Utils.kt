@@ -237,7 +237,7 @@ fun interface Invokable<T> {
 	operator fun invoke(vararg args: Any?): T;
 };
 fun f(type: KType): MutableList<Class<*>>{
-	var r = mutableListOf<KTypeProjection>();
+	var r = mutableListOf<Class<*>>();
 
 	val args: List<KTypeProjection> = type.arguments;
 	for(a in args){
@@ -248,7 +248,6 @@ fun f(type: KType): MutableList<Class<*>>{
 		if(kclass == null) continue;
 		val clazz: Class<*> = kclass.java;
 		r.add(clazz);
-
 	};
 	return r;
 };
