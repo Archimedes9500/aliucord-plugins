@@ -59,7 +59,7 @@ subprojects {
 		}
 	}
 
-	tasks.register<Zip>("stripStdlib") {
+	val stripStdlib = tasks.register<Zip>("stripStdlib") {
 	    from(zipTree("libs/kotlin-stdlib-2.2.21.jar")) {
 	        exclude("kotlin/reflect/**")
 	        exclude("kotlin/reflect/jvm/**")
