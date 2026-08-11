@@ -21,7 +21,6 @@ import org.luckypray.dexkit.util.InstanceUtil;
 import com.aliucord.api.PatcherAPI;
 import com.aliucord.api.Unpatch;
 import com.aliucord.patcher.*;
-typealias HookCallback<T> = T.(de.robv.android.xposed.XC_MethodHook.MethodHookParam) -> Unit;
 
 import kotlin.reflect.KType;
 import kotlin.properties.ReadOnlyProperty;
@@ -29,8 +28,6 @@ import kotlin.properties.ReadOnlyProperty;
 import d0.e0.p.a.getJvmErasure;
 import kotlin.reflect.KClass;
 import kotlin.reflect.typeOf;
-tyoealias KClassifier = d0.e0.d;
-typealias KTypeProjection = d0.e0.i;
 
 typealias IntIterator = d0.t.c0;
 typealias ClosedRange<T> = d0.d0.a<T>;
@@ -169,6 +166,7 @@ fun deoptimizeCallersOf(exe: Executable): Boolean{
 	return deoptimize(*getCallersOf(exe));
 };
 
+typealias HookCallback<T> = T.(de.robv.android.xposed.XC_MethodHook.MethodHookParam) -> Unit;
 inline fun <reified T> PatcherAPI.before(
 	methodName: String,
 	vararg paramTypes: Class<*>,
@@ -233,6 +231,8 @@ inline fun <reified T: Any>T.reconstruct(vararg data: Pair<Int, Any?>): T{
 	return c.newInstance(*args.toTypedArray()) as T;
 };
 
+typealias KTypeProjection = d0.e0.i;
+tyoealias KClassifier = d0.e0.d;
 fun interface Invokable<T> {
 	operator fun invoke(vararg args: Any?): T;
 };
