@@ -26,11 +26,11 @@ import kotlin.reflect.KType;
 import kotlin.properties.ReadOnlyProperty;
 //import kotlin.reflect.jvm.jvmErasure;
 //import d0.e0.p.a.getJvmErasure;
-/*
+
 import kotlin.reflect.KClass;
 import kotlin.reflect.KTypeProjection;
 import kotlin.reflect.KClassifier;
-*/
+
 import kotlin.reflect.typeOf;
 
 typealias IntIterator = d0.t.c0;
@@ -234,10 +234,11 @@ inline fun <reified T: Any>T.reconstruct(vararg data: Pair<Int, Any?>): T{
 	};
 	return c.newInstance(*args.toTypedArray()) as T;
 };
-
+/*
 typealias KTypeProjection = d0.e0.i;
 typealias KClassifier = d0.e0.d;
 typealias KClass<T> = d0.e0.c<T>;
+*/
 fun getArgs(type: KType): MutableList<Class<*>>{
 	var r = mutableListOf<Class<*>>();
 
