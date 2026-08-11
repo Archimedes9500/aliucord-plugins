@@ -25,7 +25,7 @@ import com.aliucord.patcher.*;
 import kotlin.reflect.KType;
 import kotlin.properties.ReadOnlyProperty;
 //import kotlin.reflect.jvm.jvmErasure;
-import d0.e0.p.a.getJvmErasure as jvmErasure;
+import d0.e0.p.a.getJvmErasure;
 import kotlin.reflect.typeOf;
 
 typealias HookCallback<T> = T.(de.robv.android.xposed.XC_MethodHook.MethodHookParam) -> Unit;
@@ -246,7 +246,7 @@ class MethodAccessor<T, R>(private val methodName: String?, val type: KType): Re
 					it.lowercaseChar();
 				},
 				*type.arguments.map{
-					it.type!!.jvmErasure.java
+					it.type!!.getjvmErasure().java
 				}.dropLast(1).toTypedArray()
 			).apply{
 				isAccessible = true;
