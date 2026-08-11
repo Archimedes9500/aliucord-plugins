@@ -236,14 +236,14 @@ inline fun <reified T: Any>T.reconstruct(vararg data: Pair<Int, Any?>): T{
 fun interface Invokable<T> {
 	operator fun invoke(vararg args: Any?): T;
 };
-fun f(type: KType): MutableListOf<Class<*>>{
+fun f(type: KType): MutableList<Class<*>>{
 	var r = mutableListOf<KTypeProjection>();
 
 	val args: List<KTypeProjection> = type.arguments;
 	for(a in args){
 		val ktype: KType? = a.type;
 		if(ktype == null) continue;
-		val kclassifier: kotlin.reflect.KClassifier<*> = ktype.classifier;
+		val kclassifier: kotlin.reflect.KClassifier = ktype.classifier;
 		val kclass: KClass<*>? = kclassifier as? KClass<*>;
 		if(kclass == null) continue;
 		val clazz: Class<*> = kclass.java;
