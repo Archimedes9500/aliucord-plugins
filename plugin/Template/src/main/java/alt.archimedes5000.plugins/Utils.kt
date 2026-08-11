@@ -247,7 +247,8 @@ fun f(type: KType): MutableList<Class<*>>{
 		val kclass: KClass<*>? = kclassifier as? KClass<*>;
 		if(kclass == null) continue;
 		val clazz: Class<*> = kclass.java;
-		r.add(class);
+		r.add(clazz);
+
 	};
 	return r;
 };
