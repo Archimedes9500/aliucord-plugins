@@ -59,15 +59,19 @@ subprojects {
 		}
 	}
 
-	val stdlibConfig = configurations.create("stdlibForStrip")
+	val stdlibConfig = configurations.create("stdlibForStrip") {
+	    isCanBeResolved = true
+	    isCanBeConsumed = false
+	    isTransitive = false
+	}
 	val stripStdlib = tasks.register<Zip>("stripStdlib") {
-	    val stdlibJar = stdlibConfig.resolve().single()
-	
+    val stdlibJar = stdlibConfig.resolve().single()
 	    from(zipTree(stdlibJar)) {
 	        exclude("kotlin/reflect/**")
 	        exclude("kotlin/reflect/jvm/**")
 	        exclude("kotlin/reflect/full/**")
 	    }
+	
 	    archiveFileName.set("kotlin-stdlib-stripped.jar")
 	    destinationDirectory.set(layout.buildDirectory.dir("patched"))
 	}
