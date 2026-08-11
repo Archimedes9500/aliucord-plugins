@@ -246,7 +246,7 @@ class MethodAccessor<T, R>(private val methodName: String?, val type: KType): Re
 					it.lowercaseChar();
 				},
 				*type.arguments.map{
-					it.type!!.getjvmErasure().java
+					it.type!!.getJvmErasure().java
 				}.dropLast(1).toTypedArray()
 			).apply{
 				isAccessible = true;
