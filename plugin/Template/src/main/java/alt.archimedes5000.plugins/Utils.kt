@@ -233,11 +233,13 @@ inline fun <reified T: Any>T.reconstruct(vararg data: Pair<Int, Any?>): T{
 
 typealias KTypeProjection = d0.e0.i;
 typealias KClassifier = d0.e0.d;
+typealias KClass<T> = d0.e0.c<T>;
+//typealias KParameter = d0.e0.f;
 fun getArgs(type: KType): MutableList<Class<*>>{
 	var r = mutableListOf<Class<*>>();
 
 	com.aliucord.Logger("Utils").debug("${type::class.java}");
-	val args: List<KTypeProjection> = type.arguments.dropLast(1) as List<KTypeProjection>;
+	val args: List<KTypeProjection> = type.arguments.dropLast(1);
 	for(i in 0..args.size){
 		val a: KTypeProjection = args[i];
 		val ktype: KType? = a.type;
