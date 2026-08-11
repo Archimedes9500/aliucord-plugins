@@ -232,7 +232,8 @@ inline fun <reified T: Any>T.reconstruct(vararg data: Pair<Int, Any?>): T{
 };
 
 typealias KTypeProjection = d0.e0.i;
-tyoealias KClassifier = d0.e0.d;
+typealias KClassifier = d0.e0.d;
+
 fun interface Invokable<T> {
 	operator fun invoke(vararg args: Any?): T;
 };
