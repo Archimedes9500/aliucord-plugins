@@ -236,6 +236,21 @@ inline fun <reified T: Any>T.reconstruct(vararg data: Pair<Int, Any?>): T{
 fun interface Invokable<T> {
 	operator fun invoke(vararg args: Any?): T;
 };
+fun f(type: KType): MutableListOf<Class<*>>{
+	var r = mutableListOf<KTypeProjection>();
+
+	val args: List<KTypeProjection> = type.arguments;
+	for(a in args){
+		val ktype: KType? = a.type;
+		if(ktype == null) continue;
+		val kclassifier: kotlin.reflect.KClassifier<*> = type.classifier;
+		val kclass: KClass<*>? = kclassifier as? KClass<*>;
+		if(kclass == null) continue;
+		val clazz: Class<*> = kclass.java;
+		r.add(class);
+	};
+	return r;
+};
 class MethodAccessor<T, R>(private val methodName: String?, val type: KType): ReadOnlyProperty<Any, Invokable<R>>{
 	private val methods = mutableListOf<Method>();
 
@@ -246,9 +261,7 @@ class MethodAccessor<T, R>(private val methodName: String?, val type: KType): Re
 				methodName?: property.name.removePrefix("access").replaceFirstChar{
 					it.lowercaseChar();
 				},
-				*type.arguments.map{
-					(it.type!!.classifier as KClass<*>).java
-				}.dropLast(1).toTypedArray()
+				*f(type).dropLast(1).toTypedArray()
 			).apply{
 				isAccessible = true;
 				methods.add(this);
