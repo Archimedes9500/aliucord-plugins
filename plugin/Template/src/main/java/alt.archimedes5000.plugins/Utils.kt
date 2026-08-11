@@ -239,12 +239,12 @@ fun getArgs(type: KType): MutableList<Class<*>>{
 	var r = mutableListOf<Class<*>>();
 
 	com.aliucord.Logger("Utils").debug("${type::class.java}");
-	val args: List<KTypeProjection> = type.arguments.dropLast(1);
+	val args: List<d0.e0.i> = type.arguments.dropLast(1);
 	for(i in 0..args.size){
 		val a: KTypeProjection = args[i];
 		val ktype: KType? = a.type;
 		if(ktype == null) continue;
-		val kclassifier: KClassifier = ktype.classifier;
+		val kclassifier: d0.e0.d = ktype.classifier;
 		val kclass: KClass<*>? = kclassifier as? KClass<*>;
 		if(kclass == null) continue;
 		val clazz: Class<*> = kclass.java;
