@@ -237,10 +237,10 @@ inline fun <reified T: Any>T.reconstruct(vararg data: Pair<Int, Any?>): T{
 fun interface Invokable<T> {
 	operator fun invoke(vararg args: Any?): T;
 };
-fun f(type: KType): MutableList<Class<*>>{
+fun getArgs(type: KType): MutableList<Class<*>>{
 	var r = mutableListOf<Class<*>>();
 
-	val args: List<KTypeProjection> = type.arguments;
+	val args: List<KTypeProjection> = type.arguments.dropLast(1);
 	for(a in args){
 		val ktype: KType? = a.type;
 		if(ktype == null) continue;
@@ -262,7 +262,7 @@ class MethodAccessor<T, R>(private val methodName: String?, val type: KType): Re
 				methodName?: property.name.removePrefix("access").replaceFirstChar{
 					it.lowercaseChar();
 				},
-				*f(type).dropLast(1).toTypedArray()
+				*getArgs(type).toTypedArray()
 			).apply{
 				isAccessible = true;
 				methods.add(this);
