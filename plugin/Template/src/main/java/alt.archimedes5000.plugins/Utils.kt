@@ -243,7 +243,7 @@ fun f(type: KType): MutableListOf<Class<*>>{
 	for(a in args){
 		val ktype: KType? = a.type;
 		if(ktype == null) continue;
-		val kclassifier: kotlin.reflect.KClassifier<*> = type.classifier;
+		val kclassifier: kotlin.reflect.KClassifier<*> = ktype.classifier;
 		val kclass: KClass<*>? = kclassifier as? KClass<*>;
 		if(kclass == null) continue;
 		val clazz: Class<*> = kclass.java;
