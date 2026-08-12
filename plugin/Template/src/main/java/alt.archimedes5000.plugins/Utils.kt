@@ -251,7 +251,7 @@ fun getArgs(type: KType): MutableList<Class<*>>{
 		val kclassifier: KClassifier? = ktype.classifier;
 		val kclass: KClass<*>? = kclassifier as? KClass<*>;
 		if(kclass == null) continue;
-		val clazz: Class<*> = kclass.java;
+		val clazz: Class<*> = d0.z.a.getJavaClass(kclass);
 		r.add(clazz);
 	};
 	return r;
