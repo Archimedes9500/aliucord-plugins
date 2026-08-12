@@ -100,8 +100,8 @@ subprojects {
 
 		compileOnly(libs.discord)
 		compileOnly(libs.aliucord)
-		//compileOnly(files(stripStdlib.map { it.archiveFile }))
-		compileOnly(libs.kotlin.stdlib)
+		compileOnly(files(stripStdlib.map { it.archiveFile }))
+		//compileOnly(libs.kotlin.stdlib)
 		compileOnly("org.jetbrains.kotlin:kotlin-reflect")
 		compileOnly("com.aliucord:Aliuhook:1.1.4")
 		implementation("com.github.gfx.util:weak-identity-hash-map:2.0.0"){
