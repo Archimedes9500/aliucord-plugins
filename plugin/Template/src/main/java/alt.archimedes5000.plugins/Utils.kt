@@ -272,27 +272,103 @@ fun oldGetArgs(type: KType): MutableList<Class<*>>{
 	return r;
 };
 
-fun typeForName(name: String): Class<*>?{
-	return when(name){
-		"*" -> null;
-		"int", "kotlin.Int" -> Int::class.java;
-		"long", "kotlin.Long" -> Long::class.java;
-		"boolean", "kotlin.Boolean" -> Boolean::class.java;
-		"double", "kotlin.Double" -> Double::class.java;
-		"float", "kotlin.Float" -> Float::class.java;
-		"short", "kotlin.Short" -> Short::class.java;
-		"byte", "kotlin.Byte" -> Byte::class.java;
-		"char", "kotlin.Char" -> Char::class.java;
-		else -> Class.forName(name);
+fun String.toBoxedName(): String{
+	return when(this){
+		"byte" -> "java.lang.Byte";
+		"char" -> "java.lang.Character";
+		"double" -> "java.lang.Double";
+		"float" -> "java.lang.Float";
+		"int" -> "java.lang.Integer";
+		"long" -> "java.lang.Long";
+		"short" -> "java.lang.Short";
+		"boolean" -> "java.lang.Boolean";
+		else -> this;
 	};
 };
-fun getArgs(type: KType): List<Class<*>?>?{
+fun String.toJavaName(): String{
+	return when(this){
+		"kotlin.Any" -> "java.lang.Object";
+		"kotlin.Byte?" -> "java.lang.Byte";
+		"kotlin.Short?" -> "java.lang.Short";
+		"kotlin.Int?" -> "java.lang.Integer";
+		"kotlin.Long?" -> "java.lang.Long";
+		"kotlin.Char?" -> "java.lang.Character";
+		"kotlin.Float?" -> "java.lang.Float";
+		"kotlin.Double?" -> "java.lang.Double";
+		"kotlin.Boolean?" -> "java.lang.Boolean";
+		"kotlin.Cloneable" -> "java.lang.Cloneable";
+		"kotlin.Comparable" -> "java.lang.Comparable";
+		"kotlin.Enum" -> "java.lang.Enum";
+		"kotlin.Annotation" -> "java.lang.annotation.Annotation";
+		"kotlin.CharSequence" -> "java.lang.CharSequence";
+		"kotlin.String" -> "java.lang.String";
+		"kotlin.Number" -> "java.lang.Number";
+		"kotlin.Throwable" -> "java.lang.Throwable";
+		"kotlin.collections.Iterator" -> "java.util.Iterator";
+		"kotlin.collections.Iterable" -> "java.lang.Iterable";
+		"kotlin.collections.Collection" -> "java.util.Collection";
+		"kotlin.collections.Set" -> "java.util.Set";
+		"kotlin.collections.List" -> "java.util.List";
+		"kotlin.collections.ListIterator" -> "java.util.ListIterator";
+		"kotlin.collections.Map" -> "java.util.Map";
+		"kotlin.collections.Map.Entry" -> "java.util.Map.Entry";
+		"kotlin.ByteArray" -> "[B";
+		"kotlin.CharArray" -> "[C";
+		"kotlin.DoubleArray" -> "[D";
+		"kotlin.FloatArray" -> "[F";
+		"kotlin.IntArray" -> "[I";
+		"kotlin.LongArray" -> "[J";
+		"kotlin.ShortArray" -> "[S";
+		"kotlin.BooleanArray" -> "[Z";
+		//will crash Class.forName, not real classes
+		"kotlin.Byte" -> "byte";
+		"kotlin.Char" -> "char";
+		"kotlin.Double" -> "double";
+		"kotlin.Float" -> "float";
+		"kotlin.Int" -> "int";
+		"kotlin.Long" -> "long";
+		"kotlin.Short" -> "short";
+		"kotlin.Boolean" -> "boolean";
+		else -> {//generic Array<T>, requires regex, recursion and boxing
+			val m = Regex("kotlin.Array<(.*)>").matchEntire(this);
+			if(m != null){
+				"[L${"${m.groupValues[1]}".toJavaName().toBoxedName()};";
+			}else{//it's a real class and not a fake kotlin one
+				this;
+			};
+		};
+	};
+};
+fun classForKotlinName(name: String, boxed: Boolean = false): Class<*>?{
+	if(name == "*") return null;
+	if(boxed) return Class.forName(name.toJavaName().toBoxedName());
+	return when(name){
+		"kotlin.Byte" -> Byte::class.java;
+		"kotlin.Char" -> Char::class.java;
+		"kotlin.Double" -> Double::class.java;
+		"kotlin.Float" -> Float::class.java;
+		"kotlin.Int" -> Int::class.java;
+		"kotlin.Long" -> Long::class.java;
+		"kotlin.Short" -> Short::class.java;
+		"kotlin.Boolean" -> Boolean::class.java;
+		else -> Class.forName(name.toJavaName());
+	};
+};
+fun kClassForName(name: String): KClass<*>?{
+	return classForKotlinName(name)?.kotlin;
+};
+
+val kotlinReflectAvailable = runCatching{
+	Class.forName("kotlin.reflect.full.KClasses");
+}.isSuccess;
+
+fun getArgs(clazz: Class<*>): List<Class<*>?>?{
 	return Regex("""^kotlin.jvm.functions.Function(?:N|\d+)<(.*)>""")
 		.find(type.toString())
 		?.groupValues
 		?.get(1)
 		?.run{split(", ")}
-		?.map{typeForName(it)}
+		?.map{classForKotlinName(it, boxed = true)}
 		?: (
 			Regex("""^\((.*)\) -> (.*)$""")
 			.find(type.toString())
@@ -300,9 +376,29 @@ fun getArgs(type: KType): List<Class<*>?>?{
 			?.let{(_, c1, c2) ->
 				c1.split(", ").filter{!it.isBlank()}+c2
 			}
-			?.map{typeForName(it)}
+			?.map{classForKotlinName(it, boxed = true)}
 		)
 	;
+};
+
+fun getArgs(type: KType): List<Class<*>?>?{
+	return if(kotlinReflectAvailable){
+		Regex("""^\((.*)\) -> (.*)$""")
+			.find(type.toString())
+			?.groupValues
+			?.let{(_, c1, c2) ->
+				c1.split(", ").filter{!it.isBlank()}+c2
+			}
+		;
+	}else{
+		Regex("""^kotlin.jvm.functions.Function(?:N|\d+)<(.*)>""")
+		.find(type.toString())
+		?.groupValues
+		?.get(1)
+		?.run{split(", ")}
+	}?.map{
+		classForKotlinName(it, boxed = true);
+	};
 };
 
 inline fun <reified T: Any>getReturnType(f: T): Class<*>?{
@@ -322,7 +418,7 @@ inline fun <reified T: Any>getReturnType(f: T): Class<*>?{
 fun interface Invokable<T> {
 	operator fun invoke(vararg args: Any?): T;
 };
-class MethodAccessor<T, R>(private val methodName: String?, val type: KType): ReadOnlyProperty<Any, Invokable<R>>{
+class MethodAccessor<T: Function<R>, R>(private val methodName: String?, val type: KType): ReadOnlyProperty<Any, Invokable<R>>{
 	private val methods = mutableListOf<Method>();
 
 	private fun method(thisRef: Any, property: KProperty<*>): Method{
@@ -344,4 +440,4 @@ class MethodAccessor<T, R>(private val methodName: String?, val type: KType): Re
 		return Invokable<R>{args -> method(thisRef, property).invoke(thisRef, *args) as R};
 	};
 };
-inline fun <reified T, R> accessMethod(methodName: String? = null) = MethodAccessor<T, R>(methodName, typeOf<T>());
+inline fun <reified T> accessMethod(methodName: String? = null) = MethodAccessor<T>(methodName, typeOf<T>());
