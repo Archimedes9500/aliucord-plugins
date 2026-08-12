@@ -234,22 +234,22 @@ inline fun <reified T: Any>T.reconstruct(vararg data: Pair<Int, Any?>): T{
 	};
 	return c.newInstance(*args.toTypedArray()) as T;
 };
-
+/*
 typealias KTypeProjection = d0.e0.i;
 typealias KClassifier = d0.e0.d;
 typealias KClass<T> = d0.e0.c<T>;
-
+*/
 fun getArgs(type: KType): MutableList<Class<*>>{
 	var r = mutableListOf<Class<*>>();
 
 	com.aliucord.Logger("Utils").debug("${type::class.java}");
 	val args: List<KTypeProjection> = type.arguments.dropLast(1);
 	for(i in 0..args.size){
-		val a/*: KTypeProjection*/ = args[i];
+		val a: d0.e0.i/*KTypeProjection*/ = args[i];
 		val ktype: KType? = a.type;
 		if(ktype == null) continue;
-		val kclassifier: KClassifier? = ktype.classifier;
-		val kclass: KClass<*>? = kclassifier as? KClass<*>;
+		val kclassifier: d0.e0.d?/*KClassifier?*/ = ktype.classifier;
+		val kclass: d0.e0.c<*>?/*KClass<*>?*/ = kclassifier as? d0.e0.c<*>;
 		if(kclass == null) continue;
 		val clazz: Class<*> = d0.z.a.getJavaClass(kclass);
 		r.add(clazz);
