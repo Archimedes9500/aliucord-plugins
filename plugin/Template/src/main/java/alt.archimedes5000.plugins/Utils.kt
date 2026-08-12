@@ -235,43 +235,6 @@ inline fun <reified T: Any>T.reconstruct(vararg data: Pair<Int, Any?>): T{
 	return c.newInstance(*args.toTypedArray()) as T;
 };
 
-fun typeForName(name: String): Class<*>?{
-	return when(name){
-		"*" -> null;
-		"int", "kotlin.Int" -> Int::class.java;
-		"long", "kotlin.Long" -> Long::class.java;
-		"boolean", "kotlin.Boolean" -> Boolean::class.java;
-		"double", "kotlin.Double" -> Double::class.java;
-		"float", "kotlin.Float" -> Float::class.java;
-		"short", "kotlin.Short" -> Short::class.java;
-		"byte", "kotlin.Byte" -> Byte::class.java;
-		"char", "kotlin.Char" -> Char::class.java;
-		else -> Class.forName(name);
-	};
-};
-
-/*
-typealias KTypeProjection = d0.e0.i;
-typealias KClassifier = d0.e0.d;
-typealias KClass<T> = d0.e0.c<T>;
-*/
-fun oldGetArgs(type: KType): MutableList<Class<*>>{
-	var r = mutableListOf<Class<*>>();
-
-	val args: List<d0.e0.i/*KTypeProjection*/> = type.arguments.dropLast(1);
-	for(i in 0..args.size){
-		val a: d0.e0.i/*KTypeProjection*/ = args[i];
-		val ktype: KType? = a.type;
-		if(ktype == null) continue;
-		val kclassifier: d0.e0.d?/*KClassifier?*/ = ktype.classifier;
-		val kclass: d0.e0.c<*>?/*KClass<*>?*/ = kclassifier as? d0.e0.c<*>;
-		if(kclass == null) continue;
-		val clazz: Class<*> = d0.z.a.getJavaClass(kclass);
-		r.add(clazz);
-	};
-	return r;
-};
-
 fun String.toBoxedName(): String{
 	return when(this){
 		"byte" -> "java.lang.Byte";
@@ -361,25 +324,6 @@ fun kClassForName(name: String): KClass<*>?{
 val kotlinReflectAvailable = runCatching{
 	Class.forName("kotlin.reflect.full.KClasses");
 }.isSuccess;
-
-fun getArgs(clazz: Class<*>): List<Class<*>?>?{
-	return Regex("""^kotlin.jvm.functions.Function(?:N|\d+)<(.*)>""")
-		.find(type.toString())
-		?.groupValues
-		?.get(1)
-		?.run{split(", ")}
-		?.map{classForKotlinName(it, boxed = true)}
-		?: (
-			Regex("""^\((.*)\) -> (.*)$""")
-			.find(type.toString())
-			?.groupValues
-			?.let{(_, c1, c2) ->
-				c1.split(", ").filter{!it.isBlank()}+c2
-			}
-			?.map{classForKotlinName(it, boxed = true)}
-		)
-	;
-};
 
 fun getArgs(type: KType): List<Class<*>?>?{
 	return if(kotlinReflectAvailable){
