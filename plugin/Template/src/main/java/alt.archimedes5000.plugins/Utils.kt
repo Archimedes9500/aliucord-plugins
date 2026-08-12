@@ -243,7 +243,7 @@ fun getArgs(type: KType): MutableList<Class<*>>{
 	var r = mutableListOf<Class<*>>();
 
 	com.aliucord.Logger("Utils").debug("${type::class.java}");
-	val args: List<KTypeProjection> = type.arguments.dropLast(1);
+	val args: List<d0.e0.i/*KTypeProjection*/> = type.arguments.dropLast(1);
 	for(i in 0..args.size){
 		val a: d0.e0.i/*KTypeProjection*/ = args[i];
 		val ktype: KType? = a.type;
