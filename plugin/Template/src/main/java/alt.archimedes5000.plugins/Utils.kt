@@ -234,15 +234,30 @@ inline fun <reified T: Any>T.reconstruct(vararg data: Pair<Int, Any?>): T{
 	};
 	return c.newInstance(*args.toTypedArray()) as T;
 };
+
+fun typeForName(name: String): Class<*>?{
+	return when(name){
+		"*" -> null;
+		"int", "kotlin.Int" -> Int::class.java;
+		"long", "kotlin.Long" -> Long::class.java;
+		"boolean", "kotlin.Boolean" -> Boolean::class.java;
+		"double", "kotlin.Double" -> Double::class.java;
+		"float", "kotlin.Float" -> Float::class.java;
+		"short", "kotlin.Short" -> Short::class.java;
+		"byte", "kotlin.Byte" -> Byte::class.java;
+		"char", "kotlin.Char" -> Char::class.java;
+		else -> Class.forName(name);
+	};
+};
+
 /*
 typealias KTypeProjection = d0.e0.i;
 typealias KClassifier = d0.e0.d;
 typealias KClass<T> = d0.e0.c<T>;
 */
-fun getArgs(type: KType): MutableList<Class<*>>{
+fun oldGetArgs(type: KType): MutableList<Class<*>>{
 	var r = mutableListOf<Class<*>>();
 
-	com.aliucord.Logger("Utils").debug("${type::class.java}");
 	val args: List<d0.e0.i/*KTypeProjection*/> = type.arguments.dropLast(1);
 	for(i in 0..args.size){
 		val a: d0.e0.i/*KTypeProjection*/ = args[i];
@@ -255,6 +270,54 @@ fun getArgs(type: KType): MutableList<Class<*>>{
 		r.add(clazz);
 	};
 	return r;
+};
+
+fun typeForName(name: String): Class<*>?{
+	return when(name){
+		"*" -> null;
+		"int", "kotlin.Int" -> Int::class.java;
+		"long", "kotlin.Long" -> Long::class.java;
+		"boolean", "kotlin.Boolean" -> Boolean::class.java;
+		"double", "kotlin.Double" -> Double::class.java;
+		"float", "kotlin.Float" -> Float::class.java;
+		"short", "kotlin.Short" -> Short::class.java;
+		"byte", "kotlin.Byte" -> Byte::class.java;
+		"char", "kotlin.Char" -> Char::class.java;
+		else -> Class.forName(name);
+	};
+};
+fun getArgs(type: KType): List<Class<*>?>?{
+	return Regex("""^kotlin.jvm.functions.Function(?:N|\d+)<(.*)>""")
+		.find(type.toString())
+		?.groupValues
+		?.get(1)
+		?.run{split(", ")}
+		?.map{typeForName(it)}
+		?: (
+			Regex("""^\((.*)\) -> (.*)$""")
+			.find(type.toString())
+			?.groupValues
+			?.let{(_, c1, c2) ->
+				c1.split(", ").filter{!it.isBlank()}+c2
+			}
+			?.map{typeForName(it)}
+		)
+	;
+};
+
+inline fun <reified T: Any>getReturnType(f: T): Class<*>?{
+	return T::class.java.genericInterfaces
+		.filterIsInstance<ParameterizedType>()
+		.filter{
+			(it.rawType as Class<*>).simpleName.matches(
+				Regex("""^Function(N|\d+)$""")
+			);
+		}
+		.singleOrNull()
+		?.actualTypeArguments
+		?.last()
+		as? Class<*>
+	;
 };
 fun interface Invokable<T> {
 	operator fun invoke(vararg args: Any?): T;
