@@ -24,13 +24,7 @@ import com.aliucord.patcher.*;
 
 import kotlin.reflect.KType;
 import kotlin.properties.ReadOnlyProperty;
-//import kotlin.reflect.jvm.jvmErasure;
-//import d0.e0.p.a.getJvmErasure;
-/*
 import kotlin.reflect.KClass;
-import kotlin.reflect.KTypeProjection;
-import kotlin.reflect.KClassifier;
-*/
 import kotlin.reflect.typeOf;
 
 typealias IntIterator = d0.t.c0;

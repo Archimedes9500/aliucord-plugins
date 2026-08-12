@@ -20,10 +20,10 @@ import com.discord.api.permission.Permission;
 @AliucordPlugin(requiresRestart = true)
 class BanAbsentUsers: Plugin(){
 	val PermissionUtils.applyEveryone by
-		accessMethod<Function2<Long, Map<Long,GuildRole>, *>, Long>()
+		accessMethod<(Long, Map<Long, GuildRole>) -> Long>()
 	;
 	val PermissionUtils.applyRoles by
-		accessMethod<Function3<GuildMember, Map<Long,GuildRole>, Long, *>, Long>()
+		accessMethod<(GuildMember, Map<Long, GuildRole>, Long) -> Long>()
 	;
 	val permissionUtils = PermissionUtils.INSTANCE;
 
