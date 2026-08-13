@@ -322,7 +322,7 @@ val kotlinReflectAvailable = runCatching{
 fun getArgs(type: KType): List<Class<*>?>?{
 	return if(kotlinReflectAvailable){
 		Regex("""^\((.*)\) -> (.*)$""")
-			.find(type.toString())
+			.find(type.toString(), 0)
 			?.groupValues
 			?.let{(_, c1, c2) ->
 				c1.split(", ").filter{!it.isBlank()}+c2
@@ -330,7 +330,7 @@ fun getArgs(type: KType): List<Class<*>?>?{
 		;
 	}else{
 		Regex("""^kotlin.jvm.functions.Function(?:N|\d+)<(.*)>""")
-		.find(type.toString())
+		.find(type.toString(), 0)
 		?.groupValues
 		?.get(1)
 		?.run{split(", ")}
