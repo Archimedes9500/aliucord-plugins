@@ -353,9 +353,9 @@ fun getArgs(type: KType): List<Class<*>?>?{
 		Regex("""^\((.*)\) -> (.*)$""")
 			.find(type.toString(), 0)
 			?.groupValues
-			?.let{(_, c1, c2) ->
-				removeTypeParams(c1).split(", ").filter{!it.isBlank()}+removeTypeParams(c2)
-			}?.map{
+			?.let{removeTypeParams(it)}
+			?run{split(", ")}
+			?.map{
 				classForKotlinName(it);
 			}
 		;
@@ -364,12 +364,10 @@ fun getArgs(type: KType): List<Class<*>?>?{
 			.find(type.toString(), 0)
 			?.groupValues
 			?.get(1)
-			?.let{
-				removeTypeParams(it);
-			}
+			?.let{removeTypeParams(it)}
 			?.run{split(", ")}
+			?.dropLast(1)
 			?.map{
-				logger.debug(it);
 				classOrPrimitiveForName(
 					it.removeSuffix("?")//due to kotlin retardation
 				);
