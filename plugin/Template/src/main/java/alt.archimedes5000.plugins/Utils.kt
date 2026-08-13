@@ -353,8 +353,9 @@ fun getArgs(type: KType): List<Class<*>?>?{
 		Regex("""^\((.*)\) -> (.*)$""")
 			.find(type.toString(), 0)
 			?.groupValues
+			?.get(1)
 			?.let{removeTypeParams(it)}
-			?run{split(", ")}
+			?.run{split(", ")}
 			?.map{
 				classForKotlinName(it);
 			}
