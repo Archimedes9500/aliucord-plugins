@@ -369,6 +369,7 @@ fun getArgs(type: KType): List<Class<*>?>?{
 			}
 			?.run{split(", ")}
 			?.map{
+				logger.debug(it);
 				classOrPrimitiveForName(
 					it.removeSuffix("?")//due to kotlin retardation
 				);
