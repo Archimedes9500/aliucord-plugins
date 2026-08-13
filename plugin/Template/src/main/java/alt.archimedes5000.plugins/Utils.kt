@@ -354,8 +354,7 @@ fun getArgs(type: KType): List<Class<*>?>?{
 			.find(type.toString(), 0)
 			?.groupValues
 			?.let{(_, c1, c2) ->
-				removeTypeParams(c1).split(", ").filter{!it.isBlank()}
-				+removeTypeParams(c2)
+				removeTypeParams(c1).split(", ").filter{!it.isBlank()}+removeTypeParams(c2)
 			}?.map{
 				classForKotlinName(it);
 			}
