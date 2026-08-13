@@ -22,9 +22,9 @@ import com.aliucord.api.PatcherAPI;
 import com.aliucord.api.Unpatch;
 import com.aliucord.patcher.*;
 
+import kotlin.reflect.KClass;
 import kotlin.reflect.KType;
 import kotlin.properties.ReadOnlyProperty;
-import kotlin.reflect.KClass;
 import kotlin.reflect.typeOf;
 
 typealias IntIterator = d0.t.c0;
@@ -339,24 +339,10 @@ fun getArgs(type: KType): List<Class<*>?>?{
 	};
 };
 
-inline fun <reified T: Any>getReturnType(f: T): Class<*>?{
-	return T::class.java.genericInterfaces
-		.filterIsInstance<ParameterizedType>()
-		.filter{
-			(it.rawType as Class<*>).simpleName.matches(
-				Regex("""^Function(N|\d+)$""")
-			);
-		}
-		.singleOrNull()
-		?.actualTypeArguments
-		?.last()
-		as? Class<*>
-	;
-};
 fun interface Invokable<T> {
 	operator fun invoke(vararg args: Any?): T;
 };
-class MethodAccessor<T: Function<R>, R>(private val methodName: String?, val type: KType): ReadOnlyProperty<Any, Invokable<R>>{
+class MethodAccessor<T: Function<*>>(private val methodName: String?, val type: KType): ReadOnlyProperty<Any, Invokable<*>>{
 	private val methods = mutableListOf<Method>();
 
 	private fun method(thisRef: Any, property: KProperty<*>): Method{
@@ -366,7 +352,7 @@ class MethodAccessor<T: Function<R>, R>(private val methodName: String?, val typ
 				methodName?: property.name.removePrefix("access").replaceFirstChar{
 					it.lowercaseChar();
 				},
-				*getArgs(type).toTypedArray()
+				*getArgs(type)!!.toTypedArray()
 			).apply{
 				isAccessible = true;
 				methods.add(this);
@@ -374,8 +360,10 @@ class MethodAccessor<T: Function<R>, R>(private val methodName: String?, val typ
 	};
 
 	@Suppress("UNCHECKED_CAST")
-	override fun getValue(thisRef: Any, property: KProperty<*>): Invokable<R>{
+	override fun <R>getValue(thisRef: Any, property: KProperty<*>): Invokable<R>{
 		return Invokable<R>{args -> method(thisRef, property).invoke(thisRef, *args) as R};
 	};
 };
-inline fun <reified T> accessMethod(methodName: String? = null) = MethodAccessor<T>(methodName, typeOf<T>());
+inline fun <reified T: Function<*>> accessMethod(methodName: String? = null){
+	return MethodAccessor<T>(methodName, typeOf<T>());
+};
