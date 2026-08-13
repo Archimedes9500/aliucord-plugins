@@ -31,6 +31,8 @@ typealias IntIterator = d0.t.c0;
 typealias ClosedRange<T> = d0.d0.a<T>;
 typealias IntProgressionIterator = d0.d0.b;
 
+val logger = com.aliucord.Logger("Utils");
+
 class FakeField<V>(): ReadWriteProperty<Any, V>{
 	private val fields = WeakIdentityHashMap<Any, V>();
 
@@ -296,6 +298,23 @@ fun String.toJavaName(): String{
 		};
 	};
 };
+fun classOrPrimitiveForName(name: String, boxed: Boolean = false): Class<*>?{
+	if(name == "*") return null;
+	if(boxed) return Class.forName(name.toBoxedName());
+	return when(name){
+		"byte" -> Byte::class.java;
+		"char" -> Char::class.java;
+		"double" -> Double::class.java;
+		"float" -> Float::class.java;
+		"int" -> Int::class.java;
+		"long" -> Long::class.java;
+		"short" -> Short::class.java;
+		"boolean" -> Boolean::class.java;
+		else -> Class.forName(
+			name.removeSuffix("?")//due to kotlin retardation
+		);
+	};
+};
 fun classForKotlinName(name: String, boxed: Boolean = false): Class<*>?{
 	if(name == "*") return null;
 	if(boxed) return Class.forName(name.toJavaName().toBoxedName());
@@ -320,7 +339,7 @@ val kotlinReflectAvailable = runCatching{
 }.isSuccess;
 
 fun getArgs(type: KType): List<Class<*>?>?{
-	Logger("Utils").debug(type.toString());
+	logger.debug(type.toString());
 	return if(kotlinReflectAvailable){
 		Regex("""^\((.*)\) -> (.*)$""")
 			.find(type.toString(), 0)
