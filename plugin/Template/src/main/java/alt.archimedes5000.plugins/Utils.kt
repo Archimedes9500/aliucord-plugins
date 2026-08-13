@@ -298,9 +298,14 @@ fun String.toJavaName(): String{
 		};
 	};
 };
+fun fixKotlinRetardation(name: String){
+	return name.substringBefore("<").removeSuffix("?")
+};
 fun classOrPrimitiveForName(name: String, boxed: Boolean = false): Class<*>?{
 	if(name == "*") return null;
-	if(boxed) return Class.forName(name.toBoxedName());
+	if(boxed) return Class.forName(
+		fixKotlinRetardation(name).toBoxedName()
+	);
 	return when(name){
 		"byte" -> Byte::class.java;
 		"char" -> Char::class.java;
@@ -311,13 +316,15 @@ fun classOrPrimitiveForName(name: String, boxed: Boolean = false): Class<*>?{
 		"short" -> Short::class.java;
 		"boolean" -> Boolean::class.java;
 		else -> Class.forName(
-			name.removeSuffix("?")//due to kotlin retardation
+			fixKotlinRetardation(name)
 		);
 	};
 };
 fun classForKotlinName(name: String, boxed: Boolean = false): Class<*>?{
 	if(name == "*") return null;
-	if(boxed) return Class.forName(name.toJavaName().toBoxedName());
+	if(boxed) return classOrPrimitiveForName(
+		fixKotlinRetardation(name).toJavaName(), boxed = true
+	);
 	return when(name){
 		"kotlin.Byte" -> Byte::class.java;
 		"kotlin.Char" -> Char::class.java;
@@ -327,7 +334,9 @@ fun classForKotlinName(name: String, boxed: Boolean = false): Class<*>?{
 		"kotlin.Long" -> Long::class.java;
 		"kotlin.Short" -> Short::class.java;
 		"kotlin.Boolean" -> Boolean::class.java;
-		else -> Class.forName(name.toJavaName());
+		else -> classOrPrimitiveForName(
+			fixKotlinRetardation(name).toJavaName()
+		);
 	};
 };
 fun kClassForName(name: String): KClass<*>?{
