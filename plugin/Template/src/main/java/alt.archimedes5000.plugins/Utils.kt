@@ -342,7 +342,7 @@ fun getArgs(type: KType): List<Class<*>?>?{
 fun interface Invokable<T>{
 	operator fun invoke(vararg args: Any?): T;
 };
-class MethodAccessor<T: Function<R>, R>(private val methodName: String?, val type: KType): ReadOnlyProperty<Any, Invokable<R>>{
+class MethodAccessor<T, R>(private val methodName: String?, val type: KType): ReadOnlyProperty<Any, Invokable<R>>{
 	private val methods = mutableListOf<Method>();
 
 	private fun method(thisRef: Any, property: KProperty<*>): Method{
@@ -364,6 +364,6 @@ class MethodAccessor<T: Function<R>, R>(private val methodName: String?, val typ
 		return Invokable<R>{args -> method(thisRef, property).invoke(thisRef, *args) as R};
 	};
 };
-inline fun <reified T: Function<R>, R>accessMethod(methodName: String? = null) =
+inline fun <reified T, R>accessMethod(methodName: String? = null) =
 	MethodAccessor<T, R>(methodName, typeOf<T>())
 ;
