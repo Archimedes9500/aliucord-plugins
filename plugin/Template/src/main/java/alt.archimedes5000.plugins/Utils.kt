@@ -298,13 +298,14 @@ fun String.toJavaName(): String{
 		};
 	};
 };
-fun fixKotlinRetardation(name: String){
-	return name.substringBefore("<").removeSuffix("?")
+fun removeTypeParams(name: String){
+	if(name.startsWith("kotlin.Array<") return name;
+	return name.substringBefore("<");
 };
 fun classOrPrimitiveForName(name: String, boxed: Boolean = false): Class<*>?{
 	if(name == "*") return null;
 	if(boxed) return Class.forName(
-		fixKotlinRetardation(name).toBoxedName()
+		removeTypeParams(name).toBoxedName()
 	);
 	return when(name){
 		"byte" -> Byte::class.java;
@@ -316,14 +317,15 @@ fun classOrPrimitiveForName(name: String, boxed: Boolean = false): Class<*>?{
 		"short" -> Short::class.java;
 		"boolean" -> Boolean::class.java;
 		else -> Class.forName(
-			fixKotlinRetardation(name)
+			removeTypeParams(name)
 		);
 	};
 };
 fun classForKotlinName(name: String, boxed: Boolean = false): Class<*>?{
 	if(name == "*") return null;
 	if(boxed) return classOrPrimitiveForName(
-		fixKotlinRetardation(name).toJavaName(), boxed = true
+		removeTypeParams(name).toJavaName(),
+		boxed = true
 	);
 	return when(name){
 		"kotlin.Byte" -> Byte::class.java;
@@ -335,7 +337,7 @@ fun classForKotlinName(name: String, boxed: Boolean = false): Class<*>?{
 		"kotlin.Short" -> Short::class.java;
 		"kotlin.Boolean" -> Boolean::class.java;
 		else -> classOrPrimitiveForName(
-			fixKotlinRetardation(name).toJavaName()
+			removeTypeParams(name).toJavaName()
 		);
 	};
 };
@@ -356,8 +358,8 @@ fun getArgs(type: KType): List<Class<*>?>?{
 			?.let{(_, c1, c2) ->
 				c1.split(", ").filter{!it.isBlank()}+c2
 			}?.map{
-			classForKotlinName(it, boxed = false);
-		}
+				classForKotlinName(it);
+			}
 		;
 	}else{
 		Regex("""^kotlin.jvm.functions.Function(?:N|\d+)<(.*)>""")
@@ -366,7 +368,9 @@ fun getArgs(type: KType): List<Class<*>?>?{
 			?.get(1)
 			?.run{split(", ")}
 			?.map{
-				classOrPrimitiveForName(it, boxed = false);
+				classOrPrimitiveForName(
+					it.removeSuffix("?")//due to kotlin retardation
+				);
 			}
 		;
 	};
