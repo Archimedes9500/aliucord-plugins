@@ -299,14 +299,14 @@ fun String.toJavaName(): String{
 	};
 };
 fun removeTypeParams(name: String): String{
-	if(name.startsWith("kotlin.Array<")) return name;
-	return name.substringBefore("<");
+	//balanced <> matcher (except for kotlin.Array)
+	val regex = Regex("""(?<!kotlin\.Array)(?=<)(?:(?=.*?<(?!.*?\1)(.*>(?!.*\2).*))(?=.*?>(?!.*?\2)(.*)).)+?.*?(?=\1)[^<]*(?=\2$)""");
+
+	return regex.replace(name, "");
 };
 fun classOrPrimitiveForName(name: String, boxed: Boolean = false): Class<*>?{
 	if(name == "*") return null;
-	if(boxed) return Class.forName(
-		removeTypeParams(name).toBoxedName()
-	);
+	if(boxed) return Class.forName(name.toBoxedName());
 	return when(name){
 		"byte" -> Byte::class.java;
 		"char" -> Char::class.java;
@@ -316,15 +316,13 @@ fun classOrPrimitiveForName(name: String, boxed: Boolean = false): Class<*>?{
 		"long" -> Long::class.java;
 		"short" -> Short::class.java;
 		"boolean" -> Boolean::class.java;
-		else -> Class.forName(
-			removeTypeParams(name)
-		);
+		else -> Class.forName(name);
 	};
 };
 fun classForKotlinName(name: String, boxed: Boolean = false): Class<*>?{
 	if(name == "*") return null;
 	if(boxed) return classOrPrimitiveForName(
-		removeTypeParams(name).toJavaName(),
+		name.toJavaName(),
 		boxed = true
 	);
 	return when(name){
@@ -337,7 +335,7 @@ fun classForKotlinName(name: String, boxed: Boolean = false): Class<*>?{
 		"kotlin.Short" -> Short::class.java;
 		"kotlin.Boolean" -> Boolean::class.java;
 		else -> classOrPrimitiveForName(
-			removeTypeParams(name).toJavaName()
+			name.toJavaName()
 		);
 	};
 };
@@ -356,7 +354,8 @@ fun getArgs(type: KType): List<Class<*>?>?{
 			.find(type.toString(), 0)
 			?.groupValues
 			?.let{(_, c1, c2) ->
-				c1.split(", ").filter{!it.isBlank()}+c2
+				removeTypeParams(c1).split(", ").filter{!it.isBlank()}
+				+removeTypeParams(c2)
 			}?.map{
 				classForKotlinName(it);
 			}
@@ -366,6 +365,9 @@ fun getArgs(type: KType): List<Class<*>?>?{
 			.find(type.toString(), 0)
 			?.groupValues
 			?.get(1)
+			?.let{
+				removeTypeParams(it);
+			}
 			?.run{split(", ")}
 			?.map{
 				classOrPrimitiveForName(
