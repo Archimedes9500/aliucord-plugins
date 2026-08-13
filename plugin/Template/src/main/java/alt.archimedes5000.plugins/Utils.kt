@@ -299,7 +299,7 @@ fun String.toJavaName(): String{
 	};
 };
 fun removeTypeParams(name: String): String{
-	if(name.startsWith("kotlin.Array<") return name;
+	if(name.startsWith("kotlin.Array<")) return name;
 	return name.substringBefore("<");
 };
 fun classOrPrimitiveForName(name: String, boxed: Boolean = false): Class<*>?{
