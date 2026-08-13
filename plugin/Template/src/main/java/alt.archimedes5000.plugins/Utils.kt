@@ -339,10 +339,10 @@ fun getArgs(type: KType): List<Class<*>?>?{
 	};
 };
 
-fun interface Invokable<T> {
+fun interface Invokable<T>{
 	operator fun invoke(vararg args: Any?): T;
 };
-class MethodAccessor<T: Function<*>>(private val methodName: String?, val type: KType): ReadOnlyProperty<Any, Invokable<*>>{
+class MethodAccessor<T: Function<R>, R>(private val methodName: String?, val type: KType): ReadOnlyProperty<Any, Invokable<R>>{
 	private val methods = mutableListOf<Method>();
 
 	private fun method(thisRef: Any, property: KProperty<*>): Method{
@@ -360,10 +360,10 @@ class MethodAccessor<T: Function<*>>(private val methodName: String?, val type: 
 	};
 
 	@Suppress("UNCHECKED_CAST")
-	override fun <R>getValue(thisRef: Any, property: KProperty<*>): Invokable<R>{
+	override fun getValue(thisRef: Any, property: KProperty<*>): Invokable<R>{
 		return Invokable<R>{args -> method(thisRef, property).invoke(thisRef, *args) as R};
 	};
 };
-inline fun <reified T: Function<*>> accessMethod(methodName: String? = null){
-	return MethodAccessor<T>(methodName, typeOf<T>());
-};
+inline fun <reified T: Function<R>, R>accessMethod(methodName: String? = null) =
+	MethodAccessor<T, R>(methodName, typeOf<T>())
+;
