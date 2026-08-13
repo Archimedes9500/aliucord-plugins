@@ -355,16 +355,20 @@ fun getArgs(type: KType): List<Class<*>?>?{
 			?.groupValues
 			?.let{(_, c1, c2) ->
 				c1.split(", ").filter{!it.isBlank()}+c2
-			}
+			}?.map{
+			classForKotlinName(it, boxed = false);
+		}
 		;
 	}else{
 		Regex("""^kotlin.jvm.functions.Function(?:N|\d+)<(.*)>""")
-		.find(type.toString(), 0)
-		?.groupValues
-		?.get(1)
-		?.run{split(", ")}
-	}?.map{
-		classOrPrimitiveForName(it, boxed = false);
+			.find(type.toString(), 0)
+			?.groupValues
+			?.get(1)
+			?.run{split(", ")}
+			?.map{
+				classOrPrimitiveForName(it, boxed = false);
+			}
+		;
 	};
 };
 
