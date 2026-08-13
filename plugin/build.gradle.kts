@@ -59,49 +59,14 @@ subprojects {
 		}
 	}
 
-	val stdlibConfig = configurations.create("stdlibForStrip") {
-		isCanBeResolved = true
-		isCanBeConsumed = false
-		isTransitive = false
-	}
-	val discordConfig = configurations.create("discordForScan") {
-		isCanBeResolved = true
-		isCanBeConsumed = false
-		isTransitive = false
-	}
-	val stripStdlib = tasks.register<Zip>("stripStdlib") {
-		val stdlibJar = stdlibConfig.resolve().single()
-		val discordJar = discordConfig.resolve().single()
-
-		val discordKotlinEntries = zipTree(discordJar)
-			.matching { include("kotlin/**/*.class") }
-			.files
-			.map { file ->
-				file.toPath().toString().replace(File.separatorChar, '/')
-			}.toSet()
-
-		from(zipTree(stdlibJar)) {
-			exclude { details ->
-				details.path in discordKotlinEntries
-			}
-		}
-	
-		archiveFileName.set("kotlin-stdlib-stripped.jar")
-		destinationDirectory.set(layout.buildDirectory.dir("patched"))
-	}
-
 	@Suppress("unused")
 	dependencies {
 		val compileOnly by configurations
-		val implementation by configurations	
-
-		stdlibConfig(libs.kotlin.stdlib)
-		discordConfig(libs.discord)
+		val implementation by configurations
 
 		compileOnly(libs.discord)
 		compileOnly(libs.aliucord)
-		compileOnly(files(stripStdlib.map { it.archiveFile }))
-		//compileOnly(libs.kotlin.stdlib)
+		compileOnly(libs.kotlin.stdlib)
 		compileOnly("org.jetbrains.kotlin:kotlin-reflect")
 		compileOnly("com.aliucord:Aliuhook:1.1.4")
 		implementation("com.github.gfx.util:weak-identity-hash-map:2.0.0"){
