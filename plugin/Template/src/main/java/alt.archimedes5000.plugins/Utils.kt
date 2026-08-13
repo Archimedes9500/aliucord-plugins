@@ -298,7 +298,7 @@ fun String.toJavaName(): String{
 		};
 	};
 };
-fun removeTypeParams(name: String){
+fun removeTypeParams(name: String): String{
 	if(name.startsWith("kotlin.Array<") return name;
 	return name.substringBefore("<");
 };
