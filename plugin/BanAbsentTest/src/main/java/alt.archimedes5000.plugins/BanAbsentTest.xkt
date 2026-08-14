@@ -8,6 +8,7 @@ import android.content.Context;
 import com.aliucord.patcher.*;
 
 import com.discord.widgets.user.usersheet.WidgetUserSheetViewModel;
+import com.discord.widgets.user.usersheet.WidgetUserSheetViewModel.StoreState;
 import com.discord.widgets.user.profile.UserProfileAdminView.ViewState;
 import com.discord.utilities.permissions.ManageUserContext;
 import com.discord.stores.StoreBans;
