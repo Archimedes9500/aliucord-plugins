@@ -13,6 +13,7 @@ import com.discord.models.member.GuildMember;
 
 import com.discord.stores.StoreStream;
 import com.discord.widgets.user.usersheet.WidgetUserSheetViewModel;
+import com.discord.widgets.user.usersheet.WidgetUserSheetViewModel.StoreState;
 import com.discord.widgets.user.profile.UserProfileAdminView.ViewState;
 import com.discord.stores.StoreBans;
 import com.discord.utilities.permissions.ManageUserContext;
@@ -20,7 +21,7 @@ import com.discord.api.permission.Permission;
 
 @AliucordPlugin(requiresRestart = true)
 class BanAbsentUsers: Plugin(){
-	val WidgetUserSheetViewModel.storeState: WidgetUserSheetViewModel.StoreState by
+	val WidgetUserSheetViewModel.storeState: StoreState by
 		accessField("mostRecentStoreState")
 	;
 	val PermissionUtils.applyEveryone by
@@ -50,8 +51,8 @@ class BanAbsentUsers: Plugin(){
 			val meMember = storeGuilds.getMember(guildId, myId);
 			val guildRoles = storeGuilds.roles.get(guildId);
 
-			val userContext = ManageUserContext.Companion.from(
-				guild,
+			val userContext = ManageUserContext.Companion!!.from(
+				storeGuilds.getGuild(guildId),
 				me,
 				user,
 				meMember.getRoles(),
