@@ -34,7 +34,7 @@ class BanAbsentUsers: Plugin(){
 					if(userContext == null){
 						val myRoles = StoreStream.getGuilds().getMember(guildId, storeState.me.id)?.roles;
 						val userRoles = StoreStream.getGuilds().getMember(guildId, userId)?.roles;
-						userContext = ManageUserContext.Companion.from(
+						userContext = ManageUserContext.from(
 							storeState.guild,
 							storeState.me,
 							storeState.user,
