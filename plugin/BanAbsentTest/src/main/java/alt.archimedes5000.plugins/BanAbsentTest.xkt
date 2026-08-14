@@ -15,10 +15,14 @@ import com.discord.stores.StoreStream;
 import com.discord.widgets.user.usersheet.WidgetUserSheetViewModel;
 import com.discord.widgets.user.profile.UserProfileAdminView.ViewState;
 import com.discord.stores.StoreBans;
+import com.discord.utilities.permissions.ManageUserContext;
 import com.discord.api.permission.Permission;
 
 @AliucordPlugin(requiresRestart = true)
 class BanAbsentUsers: Plugin(){
+	val WidgetUserSheetViewModel.storeState: WidgetUserSheetViewModel.StoreState by
+		accessField("mostRecentStoreState")
+	;
 	val PermissionUtils.applyEveryone by
 		accessMethod<(Long, Map<Long, GuildRole>) -> *, Long>()
 	;
@@ -28,7 +32,8 @@ class BanAbsentUsers: Plugin(){
 	val permissionUtils = PermissionUtils.INSTANCE;
 
 	override fun start(pluginContext: Context){
-		val myId = StoreStream.getUsers().me.id;
+		val me = StoreStream.getUsers().me;
+		val myId = me.id;
 		val storeGuilds = StoreStream.getGuilds();
 
 		patcher.after<WidgetUserSheetViewModel.ViewState.Loaded>(
@@ -43,10 +48,18 @@ class BanAbsentUsers: Plugin(){
 			val userBanned = (bans?.containsKey(user.id) == true);
 
 			val meMember = storeGuilds.getMember(guildId, myId);
-			val guildRoles = storeGuilds
-				.`getGuildRolesInternal$app_productionGoogleRelease`()
-				.get(guildId)
-			;
+			val guildRoles = storeGuilds.roles.get(guildId);
+
+			val userContext = ManageUserContext.Companion.from(
+				guild,
+				me,
+				user,
+				meMember.getRoles(),
+				guildMember.getRoles(),
+				storeState.getPermissions(),
+				guildRoles
+			);
+/*
 			val everyonePerms = permissionUtils.applyEveryone(guildId, guildRoles);
 			val perms = permissionUtils.applyRoles(
 				meMember,
@@ -55,10 +68,11 @@ class BanAbsentUsers: Plugin(){
 			);
 			val canBan = PermissionUtils.can(Permission.BAN_MEMBERS, perms);
 			logger.debug(canBan.toString());
+*/
 
 			frame.result = state.reconstruct(
-				5 to (!userBanned && canBan),
-				11 to (!userBanned && canBan)
+				5 to (!userBanned && userContext.canBan),
+				11 to (!userBanned && userContext.canBan)
 			);
 		};
 	};

@@ -348,7 +348,6 @@ val kotlinReflectAvailable = runCatching{
 }.isSuccess;
 
 fun getArgs(type: KType): List<Class<*>?>?{
-	logger.debug(type.toString());
 	return if(kotlinReflectAvailable){
 		Regex("""^\((.*)\) -> (.*)$""")
 			.find(type.toString(), 0)
