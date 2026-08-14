@@ -21,44 +21,54 @@ import com.discord.api.permission.Permission;
 
 @AliucordPlugin(requiresRestart = true)
 class BanAbsentUsers: Plugin(){
-	val WidgetUserSheetViewModel.storeState: StoreState by
-		accessField("mostRecentStoreState")
+	var WidgetUserSheetViewModel.ViewState.userContext by
+		FakeField<ManageUserContext>()
 	;
-	val PermissionUtils.applyEveryone by
-		accessMethod<(Long, Map<Long, GuildRole>) -> *, Long>()
-	;
-	val PermissionUtils.applyRoles by
-		accessMethod<(GuildMember, Map<Long, GuildRole>, Long) -> *, Long>()
-	;
-	val permissionUtils = PermissionUtils.INSTANCE;
 
 	override fun start(pluginContext: Context){
-		val me = StoreStream.getUsers().me;
-		val myId = me.id;
-		val storeGuilds = StoreStream.getGuilds();
-
 		patcher.patch(
 			WidgetUserSheetViewModel.ViewState::class.java
 			.declaredMethods.filter{it.name == "createAdminViewState"}.single(),
-			Hook{(frame, ) ->
+			Hook{frame ->
 				val state = frame.result as ViewState;
-				if(state.isMe || state.isAdminSectionEnabled) return@after;
+				if(state.isMe || state.isAdminSectionEnabled) return@patch;
 
-				val userContext = frame.args[3] as ManageUserContext;
+				val currentUserContext = frame.args[3] as ManageUserContext;
 
 				with(frame.thisObject as WidgetUserSheetViewModel.ViewState){
-					val bans = StoreBans.`access$getBannedUsers$p`(
-						StoreStream.getBans()
-					)?.get(guildId) as? Map<Long, *>;
-					val userBanned = (bans?.containsKey(user.id) == true);
-
-					frame.result = state.reconstruct(
-						5 to (!userBanned && userContext.canBan),
-						11 to (!userBanned && userContext.canBan)
-					);
+					if(this !is WidgetUserSheetViewModel.ViewState.Loaded){
+						this.userContext = currentUserContext
+					}else{//may never happen
+						val bans = StoreBans.`access$getBannedUsers$p`(
+							StoreStream.getBans()
+						)?.get(guildId) as? Map<Long, *>;
+						val userBanned = (bans?.containsKey(user.id) == true);
+	
+						frame.result = state.reconstruct(
+							5 to (!userBanned && userContext.canBan),
+							11 to (!userBanned && userContext.canBan)
+						);
+					};
 				};
 			}
 		);
+		patcher.after<WidgetUserSheetViewModel.ViewState.Loaded>(
+			"getAdminViewState"
+		){frame ->
+			val state = frame.result as ViewState;
+			if(state.isMe || state.isAdminSectionEnabled) return@patch;
+
+			val bans = StoreBans.`access$getBannedUsers$p`(
+				StoreStream.getBans()
+			)?.get(guildId) as? Map<Long, *>;
+			val userBanned = (bans?.containsKey(user.id) == true);
+
+			frame.result = state.reconstruct(
+				5 to (!userBanned && userContext.canBan),
+				11 to (!userBanned && userContext.canBan)
+			);
+			};
+		};
 	};
 	override fun stop(pluginContext: Context){
 		patcher.unpatchAll();
