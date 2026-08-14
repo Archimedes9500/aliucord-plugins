@@ -29,6 +29,7 @@ class BanAbsentUsers: Plugin(){
 					if(state.isMe || state.isAdminSectionEnabled) return@Hook;
 	
 					val userContext = frame.args[3] as ManageUserContext?;
+					logger.debug("$userContext");
 
 					val bans = StoreBans.`access$getBannedUsers$p`(
 						StoreStream.getBans()
