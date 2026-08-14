@@ -71,7 +71,9 @@ class BanAbsentUsers: Plugin(){
 				11 to (!userBanned && userContext.canBan)
 			);
 		};
-		}catch(e: Exception){};
+		}catch(e: Exception){
+			logger.error("insane", e);
+		};
 	};
 	override fun stop(pluginContext: Context){
 		patcher.unpatchAll();
