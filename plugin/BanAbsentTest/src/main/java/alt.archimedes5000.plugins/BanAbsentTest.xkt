@@ -19,6 +19,7 @@ class BanAbsentUsers: Plugin(){
 	val WidgetUserSheetViewModel.guildId: Long by accessField();
 	val WidgetUserSheetViewModel.userId: Long by accessField();
 	val WidgetUserSheetViewModel.storeState: StoreState by accessField("mostRecentStoreState");
+	var WidgetUserSheetViewModel.ViewState.userContext: ManageUserContext by accessField();
 
 	override fun start(pluginContext: Context){
 		patcher.patch(
@@ -44,6 +45,7 @@ class BanAbsentUsers: Plugin(){
 							storeState.guildRoles
 						);
 					};
+					WidgetUserSheetViewModel.access$viewState$p(this).userContext = userContext;
 
 					val bans = StoreBans.`access$getBannedUsers$p`(
 						StoreStream.getBans()
@@ -57,6 +59,11 @@ class BanAbsentUsers: Plugin(){
 				};
 			}
 		);
+		patcher.after<WidgetUserSheetViewModel.ViewState.Loaded>(
+			"getAdminViewState"
+		){frame ->
+			logger.debug("$frame.result\n\n$userContext");
+		};
 	};
 	override fun stop(pluginContext: Context){
 		patcher.unpatchAll();
