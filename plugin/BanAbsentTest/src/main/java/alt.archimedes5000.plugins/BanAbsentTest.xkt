@@ -13,7 +13,6 @@ import com.discord.widgets.user.profile.UserProfileAdminView.ViewState;
 import com.discord.utilities.permissions.ManageUserContext;
 import com.discord.stores.StoreBans;
 import com.discord.stores.StoreStream;
-import com.discord.api.role.GuildRole;
 
 @AliucordPlugin(requiresRestart = true)
 class BanAbsentUsers: Plugin(){
@@ -41,8 +40,8 @@ class BanAbsentUsers: Plugin(){
 							storeState.guild,
 							me,
 							user,
-							myRoles?: emptyList<GuildRole>(),
-							userRoles?: emptyList<GuildRole>(),
+							myRoles?: emptyList<Long?>(),
+							userRoles?: emptyList<Long?>(),
 							storeState.permissions,
 							storeState.roles
 						);
