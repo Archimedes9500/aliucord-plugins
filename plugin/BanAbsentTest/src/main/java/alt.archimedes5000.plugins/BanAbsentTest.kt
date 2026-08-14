@@ -31,7 +31,7 @@ class BanAbsentUsers: Plugin(){
 			.declaredMethods.filter{it.name == "createAdminViewState"}.single(),
 			Hook{frame ->
 				val state = frame.result as ViewState;
-				if(state.isMe || state.isAdminSectionEnabled) return@patch;
+				if(state.isMe || state.isAdminSectionEnabled) return@Hook;
 
 				val currentUserContext = frame.args[3] as ManageUserContext;
 
@@ -56,7 +56,7 @@ class BanAbsentUsers: Plugin(){
 			"getAdminViewState"
 		){frame ->
 			val state = frame.result as ViewState;
-			if(state.isMe || state.isAdminSectionEnabled) return@before;
+			if(state.isMe || state.isAdminSectionEnabled) return@after;
 
 			val bans = StoreBans.`access$getBannedUsers$p`(
 				StoreStream.getBans()
