@@ -56,7 +56,7 @@ class BanAbsentUsers: Plugin(){
 			"getAdminViewState"
 		){frame ->
 			val state = frame.result as ViewState;
-			if(state.isMe || state.isAdminSectionEnabled) return@patch;
+			if(state.isMe || state.isAdminSectionEnabled) return@before;
 
 			val bans = StoreBans.`access$getBannedUsers$p`(
 				StoreStream.getBans()
