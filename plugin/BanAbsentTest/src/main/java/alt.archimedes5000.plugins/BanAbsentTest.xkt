@@ -51,13 +51,15 @@ class BanAbsentUsers: Plugin(){
 			val meMember = storeGuilds.getMember(guildId, myId);
 			val guildRoles = storeGuilds.roles.get(guildId);
 
+			logger.debug(storeState::class.toString());
+
 			val userContext = ManageUserContext.Companion!!.from(
 				storeGuilds.getGuild(guildId),
 				me,
 				user,
-				meMember.getRoles(),
-				guildMember.getRoles(),
-				storeState.getPermissions(),
+				meMember.roles,
+				guildMember.roles,
+				storeState.permissions,
 				guildRoles
 			);
 /*
