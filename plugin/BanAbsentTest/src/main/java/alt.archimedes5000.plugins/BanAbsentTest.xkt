@@ -67,7 +67,6 @@ class BanAbsentUsers: Plugin(){
 				5 to (!userBanned && userContext.canBan),
 				11 to (!userBanned && userContext.canBan)
 			);
-			};
 		};
 	};
 	override fun stop(pluginContext: Context){
