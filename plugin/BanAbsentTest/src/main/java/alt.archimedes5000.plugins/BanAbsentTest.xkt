@@ -15,8 +15,11 @@ import com.discord.stores.StoreStream;
 
 @AliucordPlugin(requiresRestart = true)
 class BanAbsentUsers: Plugin(){
+	val me = StoreStream.users.me;
+
 	val WidgetUserSheetViewModel.guildId: Long by accessField();
 	val WidgetUserSheetViewModel.userId: Long by accessField();
+	val WidgetUserSheetViewModel.storeState: StoreState by accessField("mostRecentStoreState");
 
 	override fun start(pluginContext: Context){
 		patcher.patch(
@@ -28,8 +31,18 @@ class BanAbsentUsers: Plugin(){
 
 					if(state.isMe || state.isAdminSectionEnabled) return@Hook;
 	
-					val userContext = frame.args[3] as ManageUserContext?;
-					logger.debug("$userContext");
+					var userContext = frame.args[3] as ManageUserContext?;
+					if(userContext == null){
+						userContext = ManageUserContext.Companion.from(
+							storeState.guild,
+							me,
+							user,
+							StoreStream.guilds.getMember(guildId, me.id).roles,
+							StoreStream.guilds.getMember(guildId, user.id).roles,
+							storeState.permissions,
+							storeState.roles
+						);
+					};
 
 					val bans = StoreBans.`access$getBannedUsers$p`(
 						StoreStream.getBans()
