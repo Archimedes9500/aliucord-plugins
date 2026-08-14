@@ -39,7 +39,7 @@ class BanAbsentUsers: Plugin(){
 
 		patcher.patch(
 			WidgetUserSheetViewModel.ViewState::class.java
-			.declaredMethods("createAdminViewState").single(),
+			.declaredMethods.filter{it.name == "createAdminViewState"}.single(),
 			Hook{(frame, ) ->
 				val state = frame.result as ViewState;
 				if(state.isMe || state.isAdminSectionEnabled) return@after;
