@@ -56,13 +56,14 @@ class BanAbsentUsers: Plugin(){
 						5 to (!userBanned && (userContext?.canBan?: state.showBanButton)),
 						11 to (!userBanned && (userContext?.canBan?: state.isAdminSectionEnabled))
 					);
+					logger.debug("create: ${System.identityHashCode(frame.result)}");
 				};
 			}
 		);
 		patcher.after<WidgetUserSheetViewModel.ViewState.Loaded>(
 			"getAdminViewState"
 		){frame ->
-			logger.debug("${frame.result}\n\n${(this as WidgetUserSheetViewModel.ViewState).userContext}");
+			logger.debug("${System.identityHashCode(frame.result)}\n\n${this}");
 		};
 	};
 	override fun stop(pluginContext: Context){
