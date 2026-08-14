@@ -28,7 +28,7 @@ class BanAbsentUsers: Plugin(){
 
 					if(state.isMe || state.isAdminSectionEnabled) return@Hook;
 	
-					val userContext = frame.args[3] as ManageUserContext;
+					val userContext = frame.args[3] as ManageUserContext?;
 
 					val bans = StoreBans.`access$getBannedUsers$p`(
 						StoreStream.getBans()
@@ -36,8 +36,8 @@ class BanAbsentUsers: Plugin(){
 					val userBanned = (bans?.containsKey(userId) == true);
 
 					frame.result = state.reconstruct(
-						5 to (!userBanned && userContext.canBan),
-						11 to (!userBanned && userContext.canBan)
+						5 to (!userBanned && (userContext?.canBan?: state.showBanButton)),
+						11 to (!userBanned && (userContext?.canBan?: state.isAdminSectionEnabled))
 					);
 				};
 			}
