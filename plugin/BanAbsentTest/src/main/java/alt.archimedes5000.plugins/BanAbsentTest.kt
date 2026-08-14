@@ -32,16 +32,16 @@ class BanAbsentUsers: Plugin(){
 	
 					var userContext = frame.args[3] as ManageUserContext?;
 					if(userContext == null){
-						val myRoles = StoreStream.getGuilds().getMember(guildId, storeState.f2875me.id)?.roles;
+						val myRoles = StoreStream.getGuilds().getMember(guildId, storeState.me.id)?.roles;
 						val userRoles = StoreStream.getGuilds().getMember(guildId, userId)?.roles;
 						userContext = ManageUserContext.Companion.from(
 							storeState.guild,
-							storeState.f2875me,
+							storeState.me,
 							storeState.user,
 							myRoles?: emptyList<Long?>(),
 							userRoles?: emptyList<Long?>(),
 							storeState.permissions,
-							storeState.roles
+							storeState.guildRoles
 						);
 					};
 
