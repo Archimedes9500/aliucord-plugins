@@ -28,7 +28,7 @@ class BanAbsentUsers: Plugin(){
 				with(frame.thisObject as WidgetUserSheetViewModel){
 					val state = frame.result as ViewState;
 
-					if(state.isMe || state.isAdminSectionEnabled || storeState.guild == null) return@Hook;
+					if(state.isMe || state.isAdminSectionEnabled || storeState?.guild == null) return@Hook;
 	
 					var userContext = frame.args[3] as ManageUserContext?;
 					if(userContext == null){
