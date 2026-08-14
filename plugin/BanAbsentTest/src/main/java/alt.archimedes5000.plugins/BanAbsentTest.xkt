@@ -26,6 +26,7 @@ class BanAbsentUsers: Plugin(){
 	;
 
 	override fun start(pluginContext: Context){
+		try{
 		patcher.patch(
 			WidgetUserSheetViewModel.ViewState::class.java
 			.declaredMethods.filter{it.name == "createAdminViewState"}.single(),
@@ -70,6 +71,7 @@ class BanAbsentUsers: Plugin(){
 				11 to (!userBanned && userContext.canBan)
 			);
 		};
+		}catch(e: Exception){};
 	};
 	override fun stop(pluginContext: Context){
 		patcher.unpatchAll();
