@@ -16,7 +16,7 @@ import com.discord.stores.StoreStream;
 
 @AliucordPlugin(requiresRestart = true)
 class BanAbsentUsers: Plugin(){
-	val me = StoreStream.users.me;
+	val me = StoreStream.getUsers().me;
 
 	val WidgetUserSheetViewModel.guildId: Long by accessField();
 	val WidgetUserSheetViewModel.userId: Long by accessField();
@@ -34,12 +34,12 @@ class BanAbsentUsers: Plugin(){
 	
 					var userContext = frame.args[3] as ManageUserContext?;
 					if(userContext == null){
-						val myRoles = StoreStream.guilds.getMember(guildId, me.id)?.roles;
-						val userRoles = StoreStream.guilds.getMember(guildId, user.id)?.roles;
+						val myRoles = StoreStream.getGuilds().getMember(guildId, me.id)?.roles;
+						val userRoles = StoreStream.getGuilds().getMember(guildId, userId)?.roles;
 						userContext = ManageUserContext.Companion.from(
 							storeState.guild,
 							me,
-							user,
+							storeState.user,
 							myRoles?: emptyList<Long?>(),
 							userRoles?: emptyList<Long?>(),
 							storeState.permissions,
