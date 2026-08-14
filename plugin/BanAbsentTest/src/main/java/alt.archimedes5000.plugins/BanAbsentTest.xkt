@@ -31,7 +31,7 @@ class BanAbsentUsers: Plugin(){
 			.declaredMethods.filter{it.name == "createAdminViewState"}.single(),
 			Hook{frame ->
 				val state = frame.result as ViewState;
-				logger.debug("onCreate:\n${userContext}");
+				logger.debug("onCreate:\n${frame.args[3] as ManageUserContext}");
 				if(state.isMe || state.isAdminSectionEnabled) return@Hook;
 
 				val currentUserContext = frame.args[3] as ManageUserContext;
