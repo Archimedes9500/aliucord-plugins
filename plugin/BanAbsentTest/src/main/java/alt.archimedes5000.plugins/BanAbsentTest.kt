@@ -62,7 +62,7 @@ class BanAbsentUsers: Plugin(){
 		patcher.after<WidgetUserSheetViewModel.ViewState.Loaded>(
 			"getAdminViewState"
 		){frame ->
-			logger.debug("$frame.result\n\n$userContext");
+			logger.debug("$frame.result\n\n${(this as WidgetUserSheetViewModel.ViewState).userContext}");
 		};
 	};
 	override fun stop(pluginContext: Context){
