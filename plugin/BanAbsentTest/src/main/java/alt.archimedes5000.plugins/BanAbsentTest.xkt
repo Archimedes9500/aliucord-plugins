@@ -13,6 +13,7 @@ import com.discord.widgets.user.profile.UserProfileAdminView.ViewState;
 import com.discord.utilities.permissions.ManageUserContext;
 import com.discord.stores.StoreBans;
 import com.discord.stores.StoreStream;
+import com.discord.api.role.GuildRole;
 
 @AliucordPlugin(requiresRestart = true)
 class BanAbsentUsers: Plugin(){
@@ -30,16 +31,18 @@ class BanAbsentUsers: Plugin(){
 				with(frame.thisObject as WidgetUserSheetViewModel){
 					val state = frame.result as ViewState;
 
-					if(state.isMe || state.isAdminSectionEnabled) return@Hook;
+					if(state.isMe || state.isAdminSectionEnabled || storeState.guild == null) return@Hook;
 	
 					var userContext = frame.args[3] as ManageUserContext?;
 					if(userContext == null){
+						val myRoles = StoreStream.guilds.getMember(guildId, me.id)?.roles;
+						val userRoles = StoreStream.guilds.getMember(guildId, user.id)?.roles;
 						userContext = ManageUserContext.Companion.from(
 							storeState.guild,
 							me,
 							user,
-							StoreStream.guilds.getMember(guildId, me.id).roles,
-							StoreStream.guilds.getMember(guildId, user.id).roles,
+							myRoles?: emptyList<GuildRole>(),
+							userRoles?: emptyList<GuildRole>(),
 							storeState.permissions,
 							storeState.roles
 						);
