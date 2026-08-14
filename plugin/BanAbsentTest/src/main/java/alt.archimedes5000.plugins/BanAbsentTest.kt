@@ -19,7 +19,7 @@ class BanAbsentUsers: Plugin(){
 	val WidgetUserSheetViewModel.guildId: Long by accessField();
 	val WidgetUserSheetViewModel.userId: Long by accessField();
 	val WidgetUserSheetViewModel.storeState: StoreState by accessField("mostRecentStoreState");
-	var WidgetUserSheetViewModel.ViewState.userContext: ManageUserContext by accessField();
+	var WidgetUserSheetViewModel.ViewState.userContext: ManageUserContext by FakeField();
 
 	override fun start(pluginContext: Context){
 		patcher.patch(

@@ -404,3 +404,70 @@ class MethodAccessor<T, R>(private val methodName: String?, val type: KType): Re
 inline fun <reified T, R>accessMethod(methodName: String? = null) =
 	MethodAccessor<T, R>(methodName, typeOf<T>())
 ;
+
+fun <T>Class<T>.getAnyField(name: String, firstCall: Boolean = true): Field{
+	return runCatching{
+		this.getDeclaredField(name);
+	}.getOrElse{
+		runCatching{
+			if(firstCall){
+				this.getField(name);
+			}else{
+				this.superclass.getAnyField(name, false);
+			};
+		}.getOrThrow();
+	}.apply{
+		isAccessible = true;
+	};
+};
+
+fun <T>Iterable<T>.pickByMin(comp: (T) -> Int): Iterable<T>{
+	var min = Int.MAX_VALUE;
+	val mins = ArrayList<T>();
+	this.forEach{
+		if(comp(it) == min){
+			mins.add(it);
+		}else if(comp(it) < min){
+			min = comp(it);
+			mins.clear();
+			mins.add(it);
+		};
+	};
+	return mins;
+};
+
+/*
+fun <T>Class<T>.getAnyMethod(name: String, vararg args:Any?, depth: Int = 0): Method{
+	return runCatching{
+		this.getDeclaredMethod(name, *args);
+	}.getOrElse{
+		if(depth == 0){
+				this.getMethod(name);
+		}else{
+			(this.interfaces+this.superclass).map{
+				runCatching{
+					it!!.getAnyMethod(name, *args, depth+1);
+				};
+			}.filter{
+				it.isSuccess;
+			}.run{
+				var min = Int.MAX_VALUE;
+				val mins = ArrayList<T>();
+				val comp = 
+				this.forEach{
+					if(comp(it) == min){
+						mins.add(it);
+					}else if(comp(it) < min){
+						min = comp(it);
+						mins.clear();
+						mins.add(it);
+					};
+				};
+				return@run mins;
+			}.single().getOrThrow();
+		};
+	}.apply{
+		isAccessible = true;
+	};
+};
+*/
