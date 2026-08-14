@@ -45,7 +45,7 @@ class BanAbsentUsers: Plugin(){
 							storeState.guildRoles
 						);
 					};
-					WidgetUserSheetViewModel.access$viewState$p(this).userContext = userContext;
+					WidgetUserSheetViewModel.`access$viewState$p`(this).userContext = userContext;
 
 					val bans = StoreBans.`access$getBannedUsers$p`(
 						StoreStream.getBans()
