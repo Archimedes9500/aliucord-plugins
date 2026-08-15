@@ -71,6 +71,7 @@ class BanAbsentUsers: Plugin(){
 				StoreStream.getBans()
 			)?.get(guildId) as? Map<Long, *>;
 			val userBanned = (bans?.containsKey(user.id) == true);
+			logger.debug("$bans");
 
 			val userContext = userContextMap[(guildId to user.id)];
 			frame.result = state.reconstruct(
