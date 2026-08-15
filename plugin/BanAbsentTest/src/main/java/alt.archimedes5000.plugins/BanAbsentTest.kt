@@ -19,7 +19,7 @@ class BanAbsentUsers: Plugin(){
 	val WidgetUserSheetViewModel.guildId: Long by accessField();
 	val WidgetUserSheetViewModel.userId: Long by accessField();
 	val WidgetUserSheetViewModel.storeState: StoreState by accessField("mostRecentStoreState");
-	var WidgetUserSheetViewModel.ViewState.userContext: ManageUserContext by FakeField();
+	var UserProfileAdminView.ViewState.userContext: ManageUserContext by FakeField();
 
 	override fun start(pluginContext: Context){
 		patcher.patch(
@@ -65,6 +65,14 @@ class BanAbsentUsers: Plugin(){
 		){frame ->
 			logger.debug("${System.identityHashCode(frame.result)}\n\n${frame.result.userContext}");
 		};
+/*
+		patcher.after<WidgetUserSheetViewModel>(
+			"configureGuildSection",
+			WidgetUserSheetViewModel.ViewState.Loaded::class.java
+		){frame ->
+			logger.debug("${System.identityHashCode(frame.result)}\n\n${frame.result.userContext}");
+		};
+*/
 	};
 	override fun stop(pluginContext: Context){
 		patcher.unpatchAll();
