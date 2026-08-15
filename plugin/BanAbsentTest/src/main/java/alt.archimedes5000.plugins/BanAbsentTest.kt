@@ -54,10 +54,10 @@ class BanAbsentUsers: Plugin(){
 					frame.result = state.reconstruct(
 						5 to (!userBanned && (userContext?.canBan?: state.showBanButton)),
 						11 to (!userBanned && (userContext?.canBan?: state.isAdminSectionEnabled))
-					).let{
+					).also{
 						it.userContext = userContext;
 					};
-					logger.debug("create: ${System.identityHashCode(frame.result)}");
+					logger.debug("create: ${System.identityHashCode(state)}");
 				};
 			}
 		);
