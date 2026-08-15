@@ -215,11 +215,12 @@ inline fun <reified T: Any>T.reconstruct(vararg data: Pair<Int, Any?>): T{
 		it.name.removePrefix("component").toInt();
 	};
 	val c = T::class.java.constructors.filter{
-		it.parameterCount == components.size;
+		//it.parameterCount == components.size;
+		it.parameterTypes.size == components.size;
 	}.first();
 
 	val args = ArrayList<Any?>();
-	for(i in 0 until c.parameterCount){
+	for(i in 0 until /*c.parameterCount*/c.parameterTypes.size){
 		args.add(
 			if(i+1 in new){
 				new[i+1];
