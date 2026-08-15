@@ -1,4 +1,3 @@
-@file:OptIn(kotlin.ExperimentalStdlibApi::class)
 package alt.archimedes5000.plugins.utils;
 
 import com.aliucord.utils.*;
