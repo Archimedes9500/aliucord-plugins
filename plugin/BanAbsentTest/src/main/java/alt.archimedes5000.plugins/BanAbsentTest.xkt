@@ -66,6 +66,7 @@ class BanAbsentUsers: Plugin(){
 		){frame ->
 			val state = frame.result as ViewState;
 			logger.debug("${System.identityHashCode(state)}\n\n${state.userContext}");
+			frame.result = state;
 		};
 /*
 		patcher.after<WidgetUserSheetViewModel>(
