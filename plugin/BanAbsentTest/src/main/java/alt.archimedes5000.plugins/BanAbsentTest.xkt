@@ -56,8 +56,8 @@ class BanAbsentUsers: Plugin(){
 						11 to (!userBanned && (userContext?.canBan?: state.isAdminSectionEnabled))
 					).also{
 						it.userContext = userContext;
+						logger.debug("create: ${System.identityHashCode(it)}");
 					};
-					logger.debug("create: ${System.identityHashCode(state)}");
 				};
 			}
 		);
@@ -66,7 +66,6 @@ class BanAbsentUsers: Plugin(){
 		){frame ->
 			val state = frame.result as ViewState;
 			logger.debug("${System.identityHashCode(state)}\n\n${state.userContext}");
-			frame.result = state;
 		};
 /*
 		patcher.after<WidgetUserSheetViewModel>(
