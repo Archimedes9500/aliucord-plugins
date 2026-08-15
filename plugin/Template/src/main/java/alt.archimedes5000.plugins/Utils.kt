@@ -210,7 +210,8 @@ inline fun <reified T: Any>T.reconstruct(vararg data: Pair<Int, Any?>): T{
 	val components = T::class.java.methods.filter{
 		it.name.matches(Regex("""component[1-9]\d*"""))
 	&&
-		it.parameterCount == 0
+		//it.parameterCount == 0
+		it.parameterTypes.length == 0//Android 7 lmao
 	}.sortedBy{
 		it.name.removePrefix("component").toInt();
 	};
