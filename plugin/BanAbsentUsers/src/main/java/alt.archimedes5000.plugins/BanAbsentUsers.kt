@@ -28,7 +28,7 @@ class BanAbsentUsers: Plugin(){
 			.declaredMethods.filter{it.name == "createAdminViewState"}.single(),
 			Hook{frame ->
 				with(frame.thisObject as WidgetUserSheetViewModel){
-					val state = frame.result as ViewState;
+					val state = frame.result as? ViewState?: return@Hook;
 
 					if(state.isMe || state.isAdminSectionEnabled || storeState?.guild == null) return@Hook;
 	
@@ -63,7 +63,7 @@ class BanAbsentUsers: Plugin(){
 		patcher.after<WidgetUserSheetViewModel.ViewState.Loaded>(
 			"getAdminViewState"
 		){frame ->
-			val state = frame.result as ViewState;
+			val state = frame.result as? ViewState?: return@Hook;
 
 			if(state.isMe || state.isAdminSectionEnabled) return@after;
 
