@@ -45,7 +45,6 @@ class BanAbsentUsers: Plugin(){
 							storeState.guildRoles
 						);
 					};
-					WidgetUserSheetViewModel.`access$getViewState$p`(this).userContext = userContext;
 
 					val bans = StoreBans.`access$getBannedUsers$p`(
 						StoreStream.getBans()
@@ -56,6 +55,7 @@ class BanAbsentUsers: Plugin(){
 						5 to (!userBanned && (userContext?.canBan?: state.showBanButton)),
 						11 to (!userBanned && (userContext?.canBan?: state.isAdminSectionEnabled))
 					);
+					frame.result.userContext = userContext;
 					logger.debug("create: ${System.identityHashCode(frame.result)}");
 				};
 			}
@@ -63,7 +63,7 @@ class BanAbsentUsers: Plugin(){
 		patcher.after<WidgetUserSheetViewModel.ViewState.Loaded>(
 			"getAdminViewState"
 		){frame ->
-			logger.debug("${System.identityHashCode(frame.result)}\n\n${this}");
+			logger.debug("${System.identityHashCode(frame.result)}\n\n${frame.result.userContext}");
 		};
 	};
 	override fun stop(pluginContext: Context){
