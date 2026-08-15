@@ -20,7 +20,7 @@ class BanAbsentUsers: Plugin(){
 	val WidgetUserSheetViewModel.userId: Long by accessField();
 	val WidgetUserSheetViewModel.storeState: StoreState by accessField("mostRecentStoreState");
 
-	val userContextMap = mutableMapOf<Pair<Long, User>, ManageUserContext>();
+	val userContextMap = mutableMapOf<Pair<Long, Long>, ManageUserContext>();
 
 	override fun start(pluginContext: Context){
 		patcher.patch(
@@ -46,7 +46,7 @@ class BanAbsentUsers: Plugin(){
 							storeState.guildRoles
 						);
 					};
-					userContextMap[(guildId to storeState.user)] = userContext;
+					userContextMap[(guildId to userId)] = userContext;
 
 					val bans = StoreBans.`access$getBannedUsers$p`(
 						StoreStream.getBans()
@@ -71,7 +71,7 @@ class BanAbsentUsers: Plugin(){
 				StoreStream.getBans()
 			)?.get(guildId) as? Map<Long, *>;
 
-			val userContext = userContextMap[(guildId to user)];
+			val userContext = userContextMap[(guildId to user.id)];
 			frame.result = state.reconstruct(
 				5 to (!userBanned && (userContext?.canBan?: state.showBanButton)),
 				11 to (!userBanned && (userContext?.canBan?: state.isAdminSectionEnabled))
