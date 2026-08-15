@@ -19,7 +19,8 @@ class BanAbsentUsers: Plugin(){
 	val WidgetUserSheetViewModel.guildId: Long by accessField();
 	val WidgetUserSheetViewModel.userId: Long by accessField();
 	val WidgetUserSheetViewModel.storeState: StoreState by accessField("mostRecentStoreState");
-	var ViewState.userContext: ManageUserContext by FakeField();
+
+	val userContextMap = mutableMapOf<Pair<Long, User>, ManageUserContext>();
 
 	override fun start(pluginContext: Context){
 		patcher.patch(
@@ -45,6 +46,7 @@ class BanAbsentUsers: Plugin(){
 							storeState.guildRoles
 						);
 					};
+					userContextMap[(guildId to storeState.user)] = userContext;
 
 					val bans = StoreBans.`access$getBannedUsers$p`(
 						StoreStream.getBans()
@@ -54,10 +56,7 @@ class BanAbsentUsers: Plugin(){
 					frame.result = state.reconstruct(
 						5 to (!userBanned && (userContext?.canBan?: state.showBanButton)),
 						11 to (!userBanned && (userContext?.canBan?: state.isAdminSectionEnabled))
-					).also{
-						it.userContext = userContext;
-						logger.debug("create: ${System.identityHashCode(it)}");
-					};
+					);
 				};
 			}
 		);
@@ -65,16 +64,19 @@ class BanAbsentUsers: Plugin(){
 			"getAdminViewState"
 		){frame ->
 			val state = frame.result as ViewState;
-			logger.debug("${System.identityHashCode(state)}\n\n${state.userContext}");
+
+			if(state.isMe || state.isAdminSectionEnabled) return@after;
+
+			val bans = StoreBans.`access$getBannedUsers$p`(
+				StoreStream.getBans()
+			)?.get(guildId) as? Map<Long, *>;
+
+			val userContext = userContextMap[(guildId to user)];
+			frame.result = state.reconstruct(
+				5 to (!userBanned && (userContext?.canBan?: state.showBanButton)),
+				11 to (!userBanned && (userContext?.canBan?: state.isAdminSectionEnabled))
+			);
 		};
-/*
-		patcher.after<WidgetUserSheetViewModel>(
-			"configureGuildSection",
-			WidgetUserSheetViewModel.ViewState.Loaded::class.java
-		){frame ->
-			logger.debug("${System.identityHashCode(frame.result)}\n\n${frame.result.userContext}");
-		};
-*/
 	};
 	override fun stop(pluginContext: Context){
 		patcher.unpatchAll();
