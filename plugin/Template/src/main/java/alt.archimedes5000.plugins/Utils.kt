@@ -406,6 +406,11 @@ inline fun <reified T, R>accessMethod(methodName: String? = null) =
 	MethodAccessor<T, R>(methodName, typeOf<T>())
 ;
 
+class SmaliField<T>(): ReadWriteProperty<Any?, T>{
+	override fun getValue(thisRef: Any?, property: KProperty<*>): T = TODO();
+	override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) = TODO();
+};
+
 fun <T>Class<T>.getAnyField(name: String, firstCall: Boolean = true): Field{
 	return runCatching{
 		this.getDeclaredField(name);
