@@ -63,7 +63,7 @@ class BanAbsentUsers: Plugin(){
 		patcher.after<WidgetUserSheetViewModel.ViewState.Loaded>(
 			"getAdminViewState"
 		){frame ->
-			val state = frame.result as? ViewState?: return@Hook;
+			val state = frame.result as? ViewState?: return@after;
 
 			if(state.isMe || state.isAdminSectionEnabled) return@after;
 
