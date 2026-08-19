@@ -18,7 +18,9 @@ class SpoilerFixTest: Plugin(){
 			Hook{frame ->
 				val isSpoiler = frame.result as Boolean;
 				if(isSpoiler) return@Hook;
-				frame.result = (0 != (flags and 8));
+				with(frame.thisObject as MessageAttachment){
+					frame.result = (0 != (flags and 8));
+				};
 			}
 		);
 	};
