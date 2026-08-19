@@ -14,11 +14,10 @@ class SpoilerFixTest: Plugin(){
 	val MessageAttachment.flags: Int by accessField();
 
 	override fun start(pluginContext: Context){
-		Patcher.addPatch(
-			MessageAttachment::class.java.getDeclaredMethod("h"/*"isSpoiler"*/),
+		Patcher.addPatch(MessageAttachment::class.java.getDeclaredMethod("h"/*"isSpoiler"*/),
 			Hook{frame ->
 				val isSpoiler = frame.result as Boolean;
-				if(isSpoiler) return@after;
+				if(isSpoiler) return@Hook;
 				frame.result = (0 != (flags and 8));
 			}
 		);
