@@ -13,7 +13,7 @@ import com.discord.api.message.attachment.MessageAttachment;
 class SpoilerFixTest: Plugin(){
 
 	override fun start(pluginContext: Context){
-		val MessageAttachment.flags: Int get() by accessGetter();
+		val MessageAttachment.flags: Int by accessMethod();
 
 		Patcher.addPatch(MessageAttachment::class.java.getDeclaredMethod("h"/*"isSpoiler"*/),
 			Hook{frame ->
