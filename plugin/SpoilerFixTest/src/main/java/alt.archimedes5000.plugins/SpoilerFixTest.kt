@@ -11,11 +11,13 @@ import com.discord.api.message.attachment.MessageAttachment;
 
 @AliucordPlugin(requiresRestart = true)
 class SpoilerFixTest: Plugin(){
+	val MessageAttachment.flags: Int = accessField();
+
 	override fun start(pluginContext: Context){
 		patcher.after<MessageAttachment>("h"/*"isSpoiler"*/){frame ->
 			val isSpoiler = frame.result as Boolean;
 			if(isSpoiler) return@after;
-			frame.result = (0 != (flags & 8));
+			frame.result = (0 != (flags and 8));
 		};
 	};
 	override fun stop(pluginContext: Context){
