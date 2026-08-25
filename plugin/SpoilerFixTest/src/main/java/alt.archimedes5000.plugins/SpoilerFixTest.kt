@@ -18,7 +18,7 @@ class SpoilerFixTest: Plugin(){
 		Patcher.addPatch(MessageAttachment::class.java.getDeclaredMethod("h"/*"isSpoiler"*/),
 			Hook{frame ->
 				val isSpoiler = frame.result as Boolean;
-				if(isSpoiler) return@Hook;
+				if(isSpoiler || frame.thisObject == null) return@Hook;
 				with(frame.thisObject as MessageAttachment){
 					frame.result = (0 != (flags and 8));
 				};

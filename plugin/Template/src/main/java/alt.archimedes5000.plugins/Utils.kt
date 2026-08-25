@@ -26,6 +26,9 @@ import kotlin.reflect.KType;
 import kotlin.properties.ReadOnlyProperty;
 import kotlin.reflect.typeOf;
 
+import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
+
 typealias IntIterator = d0.t.c0;
 typealias ClosedRange<T> = d0.d0.a<T>;
 typealias IntProgressionIterator = d0.d0.b;
@@ -406,11 +409,6 @@ inline fun <reified T, R>accessMethod(methodName: String? = null) =
 	MethodAccessor<T, R>(methodName, typeOf<T>())
 ;
 
-class SmaliField<T>(): ReadWriteProperty<Any?, T>{
-	override fun getValue(thisRef: Any?, property: KProperty<*>): T = TODO();
-	override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) = TODO();
-};
-
 fun <T>Class<T>.getAnyField(name: String, firstCall: Boolean = true): Field{
 	return runCatching{
 		this.getDeclaredField(name);
@@ -477,3 +475,28 @@ fun <T>Class<T>.getAnyMethod(name: String, vararg args:Any?, depth: Int = 0): Me
 	};
 };
 */
+
+fun runtimeCallback(
+	before: (SynthClass.(MethodVisitor) -> Unit)? = null,
+	after: (SynthClass.(MethodVisitor) -> Unit)? = null,
+): XC_MethodHook{
+	val synthClass = SynthClass(
+		data = ClassData(
+			name = object{}::class.java.name,
+			extends = XC_MethodHook::class.ref
+		),
+		methods = setOf(
+			MethodData(
+				name = "beforeHookedMethod",
+				type = MethodType<(MethodHookParam) -> Unit>(),
+				body = before?: {}
+			),
+			MethodData(
+				name = "afterHookedMethod",
+				type = MethodType<(MethodHookParam) -> Unit>(),
+				body = after?: {}
+			)
+		)
+	);
+	return synthClass.new() as XC_MethodHook;
+};
