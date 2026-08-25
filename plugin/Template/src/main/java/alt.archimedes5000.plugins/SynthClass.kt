@@ -165,7 +165,7 @@ fun MethodVisitor.visit(opcode: Int, vararg args: Any?){
 };
 fun MethodVisitor.call(opcode: Int, vararg args: Any?): MethodVisitor{
 	this.visit(opcode, *args);
-	return this:
+	return this;
 };
 
 open class JVMEntity(
