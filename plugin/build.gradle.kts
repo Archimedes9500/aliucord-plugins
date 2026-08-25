@@ -79,7 +79,7 @@ subprojects {
 			exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk8")
 			exclude(group = "org.jetbrains.kotlin", module = "kotlin-reflect")
 		}
-		implementation("org.objectweb.asm:9.7.1"){
+		implementation("org.ow2.asm:asm:9.7.1"){
 			exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")
 			exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk8")
 			exclude(group = "org.jetbrains.kotlin", module = "kotlin-reflect")

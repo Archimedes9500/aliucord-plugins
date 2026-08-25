@@ -6,6 +6,9 @@ import org.objectweb.asm.Opcodes.*;
 import kotlin.reflect.*;
 import kotlin.reflect.jvm.jvmErasure;
 
+import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
+
 object loader: ClassLoader(){
 	fun defineClass(name: String, bytes: ByteArray): Class<*>{
 		return super.defineClass(name, bytes, 0, bytes.size);
@@ -280,4 +283,29 @@ class ClassesAccessor(val classes: Set<SynthClass>){
 	operator fun get(name: String): SynthClass{
 		return classes.single{it.data.name == name};
 	};
+};
+
+fun runtimeCallback(
+	before: (SynthClass.(MethodVisitor) -> Unit)? = null,
+	after: (SynthClass.(MethodVisitor) -> Unit)? = null,
+): XC_MethodHook{
+	val synthClass = SynthClass(
+		data = ClassData(
+			name = object{}::class.java.name,
+			extends = XC_MethodHook::class.ref
+		),
+		methods = setOf(
+			MethodData(
+				name = "beforeHookedMethod",
+				type = MethodType<(MethodHookParam) -> Unit>(),
+				body = before?: {}
+			),
+			MethodData(
+				name = "afterHookedMethod",
+				type = MethodType<(MethodHookParam) -> Unit>(),
+				body = after?: {}
+			)
+		)
+	);
+	return synthClass.new() as XC_MethodHook;
 };

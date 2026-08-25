@@ -26,9 +26,6 @@ import kotlin.reflect.KType;
 import kotlin.properties.ReadOnlyProperty;
 import kotlin.reflect.typeOf;
 
-import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
-
 typealias IntIterator = d0.t.c0;
 typealias ClosedRange<T> = d0.d0.a<T>;
 typealias IntProgressionIterator = d0.d0.b;
@@ -475,28 +472,3 @@ fun <T>Class<T>.getAnyMethod(name: String, vararg args:Any?, depth: Int = 0): Me
 	};
 };
 */
-
-fun runtimeCallback(
-	before: (SynthClass.(MethodVisitor) -> Unit)? = null,
-	after: (SynthClass.(MethodVisitor) -> Unit)? = null,
-): XC_MethodHook{
-	val synthClass = SynthClass(
-		data = ClassData(
-			name = object{}::class.java.name,
-			extends = XC_MethodHook::class.ref
-		),
-		methods = setOf(
-			MethodData(
-				name = "beforeHookedMethod",
-				type = MethodType<(MethodHookParam) -> Unit>(),
-				body = before?: {}
-			),
-			MethodData(
-				name = "afterHookedMethod",
-				type = MethodType<(MethodHookParam) -> Unit>(),
-				body = after?: {}
-			)
-		)
-	);
-	return synthClass.new() as XC_MethodHook;
-};
