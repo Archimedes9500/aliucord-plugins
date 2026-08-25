@@ -27,7 +27,7 @@ class SynthClass(
 	val cw = ClassWriter(ClassWriter.COMPUTE_FRAMES or ClassWriter.COMPUTE_MAXS);
 	val bytes: ByteArray by lazy{
 		cw.visit(
-			Runtime.version().feature()+44,//insane
+			V1_7,
 			(data.flags?: ACC_PUBLIC),
 			data.internalName,
 			data.signature,
