@@ -9,6 +9,7 @@ import com.aliucord.patcher.*;
 
 import com.discord.stores.StoreUserTyping;
 import org.objectweb.asm.Opcodes.*;
+import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 
 @AliucordPlugin(requiresRestart = true)
 class ASMTest: Plugin(){
