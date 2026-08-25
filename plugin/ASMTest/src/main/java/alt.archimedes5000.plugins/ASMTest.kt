@@ -8,6 +8,7 @@ import android.content.Context;
 import com.aliucord.patcher.*;
 
 import com.discord.stores.StoreUserTyping;
+import org.objectweb.asm.Opcodes.*;
 
 @AliucordPlugin(requiresRestart = true)
 class ASMTest: Plugin(){
