@@ -22,15 +22,34 @@ class ASMTest: Plugin(){
 				)
 			),
 			runtimeCallback(
+				/*
+					frame.setResult(null);
+					Logger().debug("Hello");
+				*/
 				before = {mv ->
-					mv.call(ALOAD, 0);
-					mv.call(ACONST_NULL);
-					mv.call(
-						INVOKEVIRTUAL,
-						MethodHookParam::class.java.name,
-						"setResult",
-						"(Ljava.lang.Object;)V"
-					);
+					mv
+						.call(ALOAD, 0)
+						.call(ACONST_NULL)
+						.call(
+							INVOKEVIRTUAL,
+							MethodHookParam::class.java.name,
+							"setResult",
+							"(Ljava.lang.Object;)V"
+						)
+						.call(
+							INVOKESPECIAL,
+							"com.aliucord.Logger",
+							"<init>",
+							"()V"
+						)
+						.call(LDC, "Hello")
+						.call(
+							INVOKEVIRTUAL,
+							"com.aliucord.Logger",
+							"debug",
+							"(Ljava.lang.String;)V"
+						)
+					;
 				}
 			)
 		);

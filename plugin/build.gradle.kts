@@ -69,21 +69,22 @@ subprojects {
 		compileOnly(libs.kotlin.stdlib)
 		compileOnly("org.jetbrains.kotlin:kotlin-reflect")
 		compileOnly("com.aliucord:Aliuhook:1.1.4")
-		implementation("org.jetbrains.kotlin:kotlin-reflect")
+
+		implementation("org.jetbrains.kotlin:kotlin-reflect"){
+			exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")
+			exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk8")
+		}
 		implementation("com.github.gfx.util:weak-identity-hash-map:2.0.0"){
 			exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")
 			exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk8")
-			exclude(group = "org.jetbrains.kotlin", module = "kotlin-reflect")
 		}
 		implementation("org.luckypray:dexkit:2.2.0"){
 			exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")
 			exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk8")
-			exclude(group = "org.jetbrains.kotlin", module = "kotlin-reflect")
 		}
 		implementation("org.ow2.asm:asm:9.7.1"){
 			exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")
 			exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk8")
-			exclude(group = "org.jetbrains.kotlin", module = "kotlin-reflect")
 		}
 	}
 }
