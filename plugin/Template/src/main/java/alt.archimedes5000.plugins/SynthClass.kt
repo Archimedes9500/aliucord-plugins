@@ -163,6 +163,7 @@ fun MethodVisitor.visit(opcode: Int, vararg args: Any?){
 		};
 	};
 };
+fun MethodVisitor.call(opcode: Int, vararg args: Any?) = this.visit(opcode, *args);
 
 open class JVMEntity(
 	open val name: String
