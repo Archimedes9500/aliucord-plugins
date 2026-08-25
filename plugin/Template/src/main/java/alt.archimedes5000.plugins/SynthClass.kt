@@ -202,8 +202,9 @@ class MethodType(
 		type.arguments.dropLast(1).map{it.type!!.ref},
 		type.arguments.last().type!!.ref
 	);
+	companion object{};
 };
-inline operator fun <reified T>MethodType.invoke(): MethodType = MethodType(
+inline operator fun <reified T>MethodType.Companion.invoke(): MethodType = MethodType(
 	typeOf<T>().arguments.dropLast(1).map{it.type!!.ref},
 	typeOf<T>().arguments.last().type!!.ref
 );
