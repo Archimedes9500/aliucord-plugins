@@ -52,7 +52,7 @@ class ASMTest: Plugin(){
 		).value;
 		val instance = clazz.getConstructor().newInstance();
 		val result = clazz.getMethod("hello").invoke(instance);
-		logger.debug(result);
+		logger.debug("${result as Int}");
 
 /*
 		Patcher.addPatch(
@@ -66,7 +66,7 @@ class ASMTest: Plugin(){
 				/*
 					frame.setResult(null);
 					Logger().debug("Hello");
-				*/
+				* /
 				before = {mv ->
 					mv
 						.call(ALOAD, 0)
