@@ -27,7 +27,7 @@ class SynthClass(
 	val cw = ClassWriter(ClassWriter.COMPUTE_FRAMES or ClassWriter.COMPUTE_MAXS);
 	val bytes: ByteArray by lazy{
 		cw.visit(
-			V1_6,
+			V1_7,
 			(data.flags?: ACC_PUBLIC),
 			data.internalName,
 			data.signature,
@@ -53,7 +53,7 @@ class SynthClass(
 			visitVarInsn(ALOAD, 0);
 			visitMethodInsn(
 				INVOKESPECIAL,
-				"java/lang/Object",
+				data.extends.internalName,
 				"<init>",
 				"()V",
 				false
