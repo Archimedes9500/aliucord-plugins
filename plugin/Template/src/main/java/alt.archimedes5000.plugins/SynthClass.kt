@@ -254,8 +254,13 @@ class TypeParamData(
 		+implements.joinToString(":"){it.refSignature}
 	);
 };
+fun newName(): String{
+	return object{}::class.java.name.run{
+		"${substringBeforeLast('$')}\$${++substringAfterLast('$').toInt()}";
+	};
+};
 open class ClassData(
-	name: String = object{}::class.java.name,
+	name: String = newName(),
 	val extends: ClassRef = ClassRef("java.lang.Object"),
 	val implements: Set<ClassRef> = emptySet(),
 	val typeParams: Set<TypeParamData> = emptySet(),
@@ -296,7 +301,6 @@ fun runtimeCallback(
 ): XC_MethodHook{
 	val synthClass = SynthClass(
 		data = ClassData(
-			name = object{}::class.java.name,
 			extends = ClassRef(XC_MethodHook::class.java.name)
 		),
 		methods = setOf(
