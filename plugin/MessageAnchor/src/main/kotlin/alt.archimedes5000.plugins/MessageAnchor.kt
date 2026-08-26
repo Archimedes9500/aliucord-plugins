@@ -26,13 +26,13 @@ class MessageAnchor: Plugin(){
 			Model::class.java
 		){frame ->
 			val saveView = binding
-				.a
+				.root
 				.findViewById<TextView>("dialog_chat_actions_profile")
-				.apply{
+				?.apply{
 					visibility = View.VISIBLE;
 				}
 			;
-			saveView.setOnLongClickListener{
+			saveView?.setOnLongClickListener{
 				var msg = (frame.args[0] as Model).message;
 				settings.setLong(
 					msg.channelId.toString(),
@@ -44,13 +44,13 @@ class MessageAnchor: Plugin(){
 			};
 
 			val jumpView = binding
-				.a
+				.root
 				.findViewById<TextView>("dialog_chat_actions_reply")
-				.apply{
+				?.apply{
 					visibility = View.VISIBLE;
 				}
 			;
-			jumpView.setOnLongClickListener{
+			jumpView?.setOnLongClickListener{
 				var channelID = ChannelWrapper((frame.args[0] as Model).channel).id;
 				var messageID = settings.getLong(
 					channelID.toString(),
