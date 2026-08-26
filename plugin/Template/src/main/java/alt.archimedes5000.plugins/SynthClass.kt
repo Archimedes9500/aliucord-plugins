@@ -302,12 +302,18 @@ fun runtimeCallback(
 		methods = setOf(
 			MethodData(
 				name = "beforeHookedMethod",
-				type = MethodType<(MethodHookParam) -> Unit>(),
+				type = MethodType(
+					listOf(ClassRef(MethodHookParam::class.java.name))
+					"kotlin.Unit"
+				),
 				body = before?: {}
 			),
 			MethodData(
 				name = "afterHookedMethod",
-				type = MethodType<(MethodHookParam) -> Unit>(),
+				type = MethodType(
+					listOf(ClassRef(MethodHookParam::class.java.name))
+					"kotlin.Unit"
+				),
 				body = after?: {}
 			)
 		)
