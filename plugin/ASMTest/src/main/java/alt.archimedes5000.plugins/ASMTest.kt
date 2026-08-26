@@ -66,7 +66,7 @@ class ASMTest: Plugin(){
 				/*
 					frame.setResult(null);
 					Logger().debug("Hello");
-				* /
+				*\/
 				before = {mv ->
 					mv
 						.call(ALOAD, 0)
