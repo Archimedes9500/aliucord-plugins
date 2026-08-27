@@ -15,9 +15,7 @@ import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 @AliucordPlugin(requiresRestart = true)
 class ASMTest: Plugin(){
 	override fun start(pluginContext: Context){
-		val clazz = SynthClass(
-			data = ClassData("test.Class")
-		).value;
+		val clazz = test();
 		logger.debug("${clazz}");
 
 /*
