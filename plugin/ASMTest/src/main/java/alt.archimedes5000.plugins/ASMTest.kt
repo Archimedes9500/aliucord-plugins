@@ -16,43 +16,9 @@ import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 class ASMTest: Plugin(){
 	override fun start(pluginContext: Context){
 		val clazz = SynthClass(
-			data = ClassData("test.Class"),
-			fields = setOf(
-				//public String hello = "Hello from ASM";
-				FieldData(
-					name = "hello",
-					type = ClassRef("I"),
-					value = 1
-				)
-			),
-			methods = setOf(
-				/*
-				public String hello(){
-					return hello;
-				};
-				*/
-				MethodData(
-					name = "hello",
-					type = MethodType(
-						emptyList<ClassRef>(),
-						ClassRef("I")
-					),
-					body = {mv ->
-						mv.visit(ALOAD, 0);
-						mv.visit(
-							GETFIELD,
-							data.internalName,
-							"hello",
-							Fields["hello"].type.identifier
-						);
-						mv.visit(IRETURN);
-					}
-				)
-			)
+			data = ClassData("test.Class")
 		).value;
-		val instance = clazz.getConstructor().newInstance();
-		val result = clazz.getMethod("hello").invoke(instance);
-		logger.debug("${result as Int}");
+		logger.debug("${clazz}");
 
 /*
 		Patcher.addPatch(
