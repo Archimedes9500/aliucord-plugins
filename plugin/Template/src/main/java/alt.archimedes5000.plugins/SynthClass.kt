@@ -9,6 +9,13 @@ import kotlin.reflect.jvm.jvmErasure;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 
+import dalvik.system.InMemoryDexClassLoader;
+import com.android.tools.r8.D8;
+import com.android.tools.r8.D8Command;
+import com.android.tools.r8.OutputMode;
+import java.nio.ByteBuffer;
+import java.nio.file.Files;
+
 object loader: ClassLoader(){
 	fun defineClass(name: String, bytes: ByteArray): Class<*>{
 		return super.defineClass(name, bytes, 0, bytes.size);
@@ -118,7 +125,7 @@ class SynthClass(
 		};
 	};
 };
-
+val dir = Files.createTempDirectory("dex");
 fun test(): Class<*>{
 	val bytes = run{
 		val cw = ClassWriter(ClassWriter.COMPUTE_MAXS);
@@ -133,7 +140,24 @@ fun test(): Class<*>{
 		cw.visitEnd();
 		return@run cw.toByteArray();
 	};
-	return loader.defineClass("test.Class", bytes);
+	val file = dir.resolve("tmp.class");
+	Files.write(file, bytes);
+	D8.run(
+		(D8Command.builder()
+			.addProgramFiles(file)
+			.setOutput(dir, OutputMode.DexIndexed)
+			.setMinApiLevel(27)
+			.build()
+		)
+	);
+	return InMemoryDexClassLoader(
+		ByteBuffer.wrap(
+			Files.readAllBytes(
+				dir.resolve("classes.dex")
+			)
+		),
+		loader
+	).loadClass("test.Class");
 };
 
 @Suppress("UNCHECKED_CAST", "DEPRECATION")

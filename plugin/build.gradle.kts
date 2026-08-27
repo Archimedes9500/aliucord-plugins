@@ -86,5 +86,9 @@ subprojects {
 			exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")
 			exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk8")
 		}
+		implementation("com.android.tools:r8:9.4.14"){
+			exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib")
+			exclude(group = "org.jetbrains.kotlin", module = "kotlin-stdlib-jdk8")
+		}
 	}
 }
