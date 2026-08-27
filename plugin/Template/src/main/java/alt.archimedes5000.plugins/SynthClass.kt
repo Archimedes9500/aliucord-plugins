@@ -256,7 +256,7 @@ class TypeParamData(
 };
 fun newName(): String{
 	return object{}::class.java.name.run{
-		"${substringBeforeLast('$')}\$${++substringAfterLast('$').toInt()}";
+		"${substringBeforeLast('$')}\$${substringAfterLast('$').toInt().inc()}";
 	};
 };
 open class ClassData(
