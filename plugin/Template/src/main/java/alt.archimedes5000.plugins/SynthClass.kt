@@ -125,9 +125,9 @@ fun test(): Class<*>{
 		cw.visit(
 			V1_7,
 			ACC_PUBLIC,
-			"test.Class",
+			"test/Class",
 			null,
-			"Ljava/lang/Object;",
+			"java/lang/Object",
 			null
 		);
 		cw.visitEnd();
