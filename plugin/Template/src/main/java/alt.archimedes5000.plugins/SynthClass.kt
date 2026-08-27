@@ -24,7 +24,7 @@ class SynthClass(
 	val Methods = MethodsAccessor(methods);
 	val Classes = ClassesAccessor(classes);
 
-	val cw = ClassWriter(ClassWriter.COMPUTE_FRAMES or ClassWriter.COMPUTE_MAXS);
+	val cw = ClassWriter(/*ClassWriter.COMPUTE_FRAMES or */ClassWriter.COMPUTE_MAXS);
 	val bytes: ByteArray by lazy{
 		cw.visit(
 			V1_7,
@@ -117,6 +117,23 @@ class SynthClass(
 			value.getDeclaredField(name).apply{isAccessible = true}[value] as T;
 		};
 	};
+};
+
+fun test(): Class<*>{
+	val bytes = run{
+		val cw = ClassWriter(ClassWriter.COMPUTE_MAXS);
+		cw.visit(
+			V1_7,
+			ACC_PUBLIC,
+			"test.Class",
+			null,
+			"Ljava/lang/Object;",
+			null
+		);
+		cw.visitEnd();
+		return@run cw.toByteArray();
+	};
+	return loader.defineClass("test.Class", bytes);
 };
 
 @Suppress("UNCHECKED_CAST", "DEPRECATION")
