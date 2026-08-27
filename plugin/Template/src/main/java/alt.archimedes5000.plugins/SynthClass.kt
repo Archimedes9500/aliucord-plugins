@@ -130,7 +130,7 @@ fun test(): Class<*>{
 	val bytes = run{
 		val cw = ClassWriter(ClassWriter.COMPUTE_MAXS);
 		cw.visit(
-			V1_7,
+			V17,
 			ACC_PUBLIC,
 			"test/Class",
 			null,
