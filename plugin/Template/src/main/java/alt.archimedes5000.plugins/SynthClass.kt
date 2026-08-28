@@ -9,20 +9,19 @@ import kotlin.reflect.jvm.jvmErasure;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 
-/*
 import dalvik.system.InMemoryDexClassLoader;
 import com.android.tools.r8.D8;
 import com.android.tools.r8.D8Command;
 import com.android.tools.r8.OutputMode;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
-*/
 
 object loader: ClassLoader(){
 	fun defineClass(name: String, bytes: ByteArray): Class<*>{
 		return super.defineClass(name, bytes, 0, bytes.size);
 	};
 };
+val dir = Files.createTempDirectory("dex");
 class SynthClass(
 	val data: ClassData,
 	val fields: Set<FieldData> = emptySet(),
@@ -114,7 +113,26 @@ class SynthClass(
 		cw.visitEnd();
 		return@lazy cw.toByteArray();
 	};
-	val value: Class<*> = loader.defineClass(data.name, bytes);
+	val value: Class<*> = run{
+		val file = dir.resolve("tmp.class");
+		Files.write(file, bytes);
+		D8.run(
+			(D8Command.builder()
+				.addProgramFiles(file)
+				.setOutput(dir, OutputMode.DexIndexed)
+				.setMinApiLevel(27)
+				.build()
+			)
+		);
+		return@run InMemoryDexClassLoader(
+			ByteBuffer.wrap(
+				Files.readAllBytes(
+					dir.resolve("classes.dex")
+				)
+			),
+			loader
+		).loadClass(data.name);
+	};
 	fun new() = value.getConstructor().newInstance();
 	inline operator fun <reified T>get(name:  String): T{
 		return if(T::class.isFun){
@@ -127,8 +145,7 @@ class SynthClass(
 		};
 	};
 };
-/*
-val dir = Files.createTempDirectory("dex");
+
 fun test(): Class<*>{
 	val bytes = run{
 		val cw = ClassWriter(ClassWriter.COMPUTE_MAXS);
@@ -143,6 +160,7 @@ fun test(): Class<*>{
 		cw.visitEnd();
 		return@run cw.toByteArray();
 	};
+
 	val file = dir.resolve("tmp.class");
 	Files.write(file, bytes);
 	D8.run(
@@ -162,7 +180,7 @@ fun test(): Class<*>{
 		loader
 	).loadClass("test.Class");
 };
-*/
+
 @Suppress("UNCHECKED_CAST", "DEPRECATION")
 fun MethodVisitor.visit(opcode: Int, vararg args: Any?){
 	return when(opcode){
