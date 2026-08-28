@@ -9,12 +9,14 @@ import kotlin.reflect.jvm.jvmErasure;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 
+/*
 import dalvik.system.InMemoryDexClassLoader;
 import com.android.tools.r8.D8;
 import com.android.tools.r8.D8Command;
 import com.android.tools.r8.OutputMode;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
+*/
 
 object loader: ClassLoader(){
 	fun defineClass(name: String, bytes: ByteArray): Class<*>{
@@ -34,7 +36,7 @@ class SynthClass(
 	val cw = ClassWriter(/*ClassWriter.COMPUTE_FRAMES or */ClassWriter.COMPUTE_MAXS);
 	val bytes: ByteArray by lazy{
 		cw.visit(
-			V1_7,
+			V17,
 			(data.flags?: ACC_PUBLIC),
 			data.internalName,
 			data.signature,
@@ -125,6 +127,7 @@ class SynthClass(
 		};
 	};
 };
+/*
 val dir = Files.createTempDirectory("dex");
 fun test(): Class<*>{
 	val bytes = run{
@@ -159,7 +162,7 @@ fun test(): Class<*>{
 		loader
 	).loadClass("test.Class");
 };
-
+*/
 @Suppress("UNCHECKED_CAST", "DEPRECATION")
 fun MethodVisitor.visit(opcode: Int, vararg args: Any?){
 	return when(opcode){
