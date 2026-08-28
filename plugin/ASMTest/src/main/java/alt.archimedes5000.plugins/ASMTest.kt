@@ -15,10 +15,6 @@ import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 @AliucordPlugin(requiresRestart = true)
 class ASMTest: Plugin(){
 	override fun start(pluginContext: Context){
-		val clazz = test();
-		logger.debug("${clazz}");
-
-/*
 		Patcher.addPatch(
 			(StoreUserTyping::class.java
 				.getDeclaredMethod(
@@ -27,10 +23,10 @@ class ASMTest: Plugin(){
 				)
 			),
 			runtimeCallback(
-				//
+				/*
 					frame.setResult(null);
 					Logger().debug("Hello");
-				//
+				*/
 				before = {mv ->
 					mv
 						.call(ALOAD, 0)
@@ -58,7 +54,6 @@ class ASMTest: Plugin(){
 				}
 			)
 		);
-*/
 	};
 	override fun stop(pluginContext: Context){
 		patcher.unpatchAll();
