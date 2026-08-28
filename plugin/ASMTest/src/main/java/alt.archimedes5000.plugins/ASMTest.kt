@@ -50,6 +50,7 @@ class ASMTest: Plugin(){
 							"debug",
 							"(Ljava.lang.String;)V"
 						)
+						.call(RETURN)
 					;
 				}
 			)
