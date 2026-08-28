@@ -235,6 +235,7 @@ open class JVMEntity(
 ){
 	val internalName = name.replace('.', '/');
 	val identifier = when(name.removePrefix("[")){
+		"V" -> name;
 		"B", "C", "D", "F", "I", "J", "S", "Z" -> name;
 		else -> "${if(name.indexOf("[") == 0) "[" else ""}L${internalName.removePrefix("[")};";
 	};
