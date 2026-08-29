@@ -49,7 +49,7 @@ class ASMTest: Plugin(){
 						.call(LDC, "Hello")
 						.call(
 							INVOKEVIRTUAL,
-							"refOf<Logger>().internalName,
+							refOf<Logger>().internalName,
 							"debug",
 							"(Ljava.lang.String;)V"
 						)
