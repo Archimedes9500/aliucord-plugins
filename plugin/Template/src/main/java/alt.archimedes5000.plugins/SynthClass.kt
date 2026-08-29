@@ -254,12 +254,12 @@ open class ClassRef(
 		}
 	;
 };
-
 val KType.ref: ClassRef get() = ClassRef(
 	jvmErasure.java.name,
 	arguments.map{it.type!!.ref}.toSet()
 );
 inline fun <reified T>refOf() = typeOf<T>().ref;
+
 class MethodType(
 	val argTypes: List<ClassRef> = emptyList(),
 	val returnType: ClassRef

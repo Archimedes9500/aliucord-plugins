@@ -11,6 +11,7 @@ import com.discord.stores.StoreUserTyping;
 import org.objectweb.asm.*;
 import org.objectweb.asm.Opcodes.*;
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
+import com.aliucord.Logger;
 
 @AliucordPlugin(requiresRestart = true)
 class ASMTest: Plugin(){
@@ -33,20 +34,22 @@ class ASMTest: Plugin(){
 						.call(ACONST_NULL)
 						.call(
 							INVOKEVIRTUAL,
-							MethodHookParam::class.java.name,
+							refOf<MethodHookParam>().internalName,
 							"setResult",
 							"(Ljava.lang.Object;)V"
 						)
+						.call(NEW, refOf<Logger>().internalName)
+						.call(DUP)
 						.call(
 							INVOKESPECIAL,
-							"com.aliucord.Logger",
+							refOf<Logger>().internalName,
 							"<init>",
 							"()V"
 						)
 						.call(LDC, "Hello")
 						.call(
 							INVOKEVIRTUAL,
-							"com.aliucord.Logger",
+							"refOf<Logger>().internalName,
 							"debug",
 							"(Ljava.lang.String;)V"
 						)
