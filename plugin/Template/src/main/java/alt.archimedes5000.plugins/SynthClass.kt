@@ -19,6 +19,7 @@ typealias KTypeProjection = d0.e0.i;
 typealias KClassifier = d0.e0.d;
 typealias KClass<T> = d0.e0.c<T>;
 typealias ClassBasedDeclarationContainer = d0.z.d.e;
+typealias KTypeImpl = d0.e0.p.d.x;
 /*
 typealias KTypesJvmKt = d0.e0.p.a;
 typealias JvmClassMappingKt = d0.z.a;
