@@ -55,7 +55,6 @@ subprojects {
 			optIn.add("kotlin.RequiresOptIn")
 			optIn.add("kotlin.ExperimentalStdlibApi")
 			freeCompilerArgs.add("-nowarn")
-			//freeCompilerArgs.add("-Xno-stdlib")
 		}
 	}
 

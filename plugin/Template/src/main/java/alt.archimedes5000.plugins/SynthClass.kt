@@ -15,6 +15,7 @@ import com.android.tools.r8.OutputMode;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
 
+/*
 typealias KTypeProjection = d0.e0.i;
 typealias KClassifier = d0.e0.d;
 typealias KClass<T> = d0.e0.c<T>;
@@ -25,6 +26,10 @@ val KType.jvmErasure: KClass<*> get() = KTypesJvmKt.getJvmErasure(this);
 val <T>KClass<T>.java: Class<T> get() = JvmClassMappingKt.getJavaClass(this);
 val <T>KClass<T>.javaClass: Class<T> get() = JvmClassMappingKt.getJavaClass(this);
 val <T>KClass<T>.javaObjectType: Class<T> get() = JvmClassMappingKt.getJavaObjectType(this);
+*/
+val KType.jvmErasure: KClass<*> get(){
+	return this.classifier as KClass<*>;
+};
 
 object loader: ClassLoader(){
 	fun defineClass(name: String, bytes: ByteArray): Class<*>{
@@ -42,7 +47,7 @@ class SynthClass(
 	val Methods = MethodsAccessor(methods);
 	val Classes = ClassesAccessor(classes);
 
-	val cw = ClassWriter(/*ClassWriter.COMPUTE_FRAMES or */ClassWriter.COMPUTE_MAXS);
+	val cw = ClassWriter(ClassWriter.COMPUTE_FRAMES or ClassWriter.COMPUTE_MAXS);
 	val bytes: ByteArray by lazy{
 		cw.visit(
 			V17,
