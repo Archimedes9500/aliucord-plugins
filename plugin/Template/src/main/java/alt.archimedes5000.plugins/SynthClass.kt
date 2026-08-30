@@ -30,7 +30,7 @@ val <T>KClass<T>.javaObjectType: Class<T> get() = JvmClassMappingKt.getJavaObjec
 */
 
 val KType.jvmErasure: KClass<*> get() = this.classifier as KClass<*>;
-val <T>KClass<T>.java: Class<T> get() = (this as ClassBasedDeclarationContainer).jClass;
+val <T>KClass<T>.java: Class<T> get() = (this as ClassBasedDeclarationContainer).jClass as Class<T>;
 
 object loader: ClassLoader(){
 	fun defineClass(name: String, bytes: ByteArray): Class<*>{
