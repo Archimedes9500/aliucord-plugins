@@ -67,7 +67,6 @@ subprojects {
 		compileOnly(libs.discord)
 		compileOnly(libs.aliucord)
 		//compileOnly(libs.kotlin.stdlib)
-		//compileOnly("org.jetbrains.kotlin:kotlin-reflect")
 		compileOnly("com.aliucord:Aliuhook:1.1.4")
 
 		implementation("com.github.gfx.util:weak-identity-hash-map:2.0.0"){
@@ -80,7 +79,7 @@ subprojects {
 			exclude(group = "org.jetbrains.kotlin")
 		}
 		implementation("com.android.tools:r8:9.4.14"){
-			exclude(group = "org.jetbrains.kotlin")")
+			exclude(group = "org.jetbrains.kotlin")
 		}
 	}
 }
