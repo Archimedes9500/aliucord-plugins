@@ -4,7 +4,6 @@ import org.objectweb.asm.*;
 import org.objectweb.asm.Opcodes.*;
 
 import kotlin.reflect.*;
-//import kotlin.reflect.jvm.jvmErasure;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
@@ -16,14 +15,12 @@ import com.android.tools.r8.OutputMode;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
 
-import d0.e0.p.a.jvmErasure;
-
 typealias KTypeProjection = d0.e0.i;
 typealias KClassifier = d0.e0.d;
 typealias KClass<T> = d0.e0.c<T>;
 typealias KTypesJvmKt = d0.e0.p.a;
 
-//fun KType.jvmErasure: KClass<*> get() = KTypesJvmKt.getJvmErasure(this);
+fun KType.jvmErasure: KClass<*> get() = KTypesJvmKt.getJvmErasure(this);
 
 object loader: ClassLoader(){
 	fun defineClass(name: String, bytes: ByteArray): Class<*>{
