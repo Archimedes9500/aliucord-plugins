@@ -4,7 +4,7 @@ import org.objectweb.asm.*;
 import org.objectweb.asm.Opcodes.*;
 
 import kotlin.reflect.*;
-import kotlin.reflect.jvm.jvmErasure;
+//import kotlin.reflect.jvm.jvmErasure;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
