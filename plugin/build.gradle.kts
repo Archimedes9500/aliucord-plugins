@@ -66,7 +66,7 @@ subprojects {
 
 		compileOnly(libs.discord)
 		compileOnly(libs.aliucord)
-		//compileOnly(libs.kotlin.stdlib)
+		compileOnly(libs.kotlin.stdlib)
 		compileOnly("com.aliucord:Aliuhook:1.1.4")
 
 		implementation("com.github.gfx.util:weak-identity-hash-map:2.0.0"){
