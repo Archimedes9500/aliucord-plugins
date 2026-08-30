@@ -244,7 +244,8 @@ open class ClassRef(
 	name: String,
 	val generics: Set<ClassRef> = emptySet()
 ): JVMEntity(name){
-	val refSignature: String = if(!generics.isEmpty()){
+	val refSignature: String =
+		if(!generics.isEmpty()){
 			("${identifier.removeSuffix(";")}<"
 				+generics.joinToString(""){it.refSignature}
 				+">;"
