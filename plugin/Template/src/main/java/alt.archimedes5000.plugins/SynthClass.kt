@@ -23,6 +23,8 @@ typealias JvmClassMappingKt = d0.z.a;
 
 val KType.jvmErasure: KClass<*> get() = KTypesJvmKt.getJvmErasure(this);
 val <T>KClass<T>.java: Class<T> get() = JvmClassMappingKt.getJavaClass(this);
+val <T>KClass<T>.javaClass: Class<T> get() = JvmClassMappingKt.getJavaClass(this);
+val <T>KClass<T>.javaObjectType: Class<T> get() = JvmClassMappingKt.getJavaObjectType(this);
 
 object loader: ClassLoader(){
 	fun defineClass(name: String, bytes: ByteArray): Class<*>{
