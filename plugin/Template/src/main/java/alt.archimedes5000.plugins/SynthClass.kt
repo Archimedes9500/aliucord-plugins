@@ -15,10 +15,11 @@ import com.android.tools.r8.OutputMode;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
 
-/*
+
 typealias KTypeProjection = d0.e0.i;
 typealias KClassifier = d0.e0.d;
 typealias KClass<T> = d0.e0.c<T>;
+/*
 typealias KTypesJvmKt = d0.e0.p.a;
 typealias JvmClassMappingKt = d0.z.a;
 
