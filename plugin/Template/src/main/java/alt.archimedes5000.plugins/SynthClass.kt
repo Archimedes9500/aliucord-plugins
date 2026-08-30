@@ -19,6 +19,7 @@ typealias KTypeProjection = d0.e0.i;
 typealias KClassifier = d0.e0.d;
 typealias KClass<T> = d0.e0.c<T>;
 typealias ClassBasedDeclarationContainer = d0.z.d.e;
+typealias KTypeBase = d0.z.d.n;
 typealias KTypeImpl = d0.e0.p.d.x;
 /*
 typealias KTypesJvmKt = d0.e0.p.a;
@@ -30,7 +31,10 @@ val <T>KClass<T>.javaClass: Class<T> get() = JvmClassMappingKt.getJavaClass(this
 val <T>KClass<T>.javaObjectType: Class<T> get() = JvmClassMappingKt.getJavaObjectType(this);
 */
 
-val KType.jvmErasure: KClass<*> get() = this.classifier as KClass<*>;
+val KType.jvmErasure: KClass<*> get(){
+	com.aliucord.Logger().debug("${this::class}");
+	return (this as KTypeImpl).classifier as KClass<*>;
+};
 val <T>KClass<T>.java: Class<T> get() = (this as ClassBasedDeclarationContainer).jClass as Class<T>;
 
 object loader: ClassLoader(){
