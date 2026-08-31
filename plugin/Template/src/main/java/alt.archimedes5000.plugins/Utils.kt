@@ -379,7 +379,7 @@ fun getArgs(type: KType): List<Class<*>?>?{
 	};
 };
 
-inline fun <reified T>javaTypeOf(): Type{
+fun <T>javaTypeOf(): Type{
 	return (object : TypeToken<T>(){}).type;
 };
 fun Type.toClass(): Class<*> = when(this){
