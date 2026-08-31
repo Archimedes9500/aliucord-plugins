@@ -259,11 +259,13 @@ open class JVMEntity(
 	val identifier = when(name){
 		"V" -> name;
 		"B", "C", "D", "F", "I", "J", "S", "Z" -> name;
-		else -> "${'['.repeat(array)}L${internalName};";
+		else -> "${"[".repeat(array)}L${internalName};";
 	};
+/*
 	init{
 		if(array > 0) internalName = identifier;
 	};
+*/
 };
 open class ClassRef(
 	name: String,
@@ -282,15 +284,17 @@ open class ClassRef(
 	;
 };
 val Type.ref: ClassRef get() = when(this){
-	is Class<*> -> Class<*> -> if(this.isArray){
-		val componentRef = componentType.ref;
-		ClassRef(
-			componentRef.name,
-			componentRef.generics,
-			componentRef.array+1
-		);
-	}else{
-		ClassRef(name);
+	is Class<*> -> {
+		if(this.isArray){
+			val componentRef = componentType.ref;
+			ClassRef(
+				componentRef.name,
+				componentRef.generics,
+				componentRef.array+1
+			);
+		}else{
+			ClassRef(name);
+		};
 	};
 	is ParameterizedType -> ClassRef(
 		(rawType as Class<*>).name,
