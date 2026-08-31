@@ -253,7 +253,7 @@ fun MethodVisitor.call(opcode: Int, vararg args: Any?): MethodVisitor{
 
 open class JVMEntity(
 	val name: String,
-	val array: Int = 0;
+	val array: Int = 0
 ){
 	var internalName = name.replace('.', '/');
 	val identifier = when(name){
@@ -306,7 +306,9 @@ val Type.ref: ClassRef get() = when(this){
 	};
 	else -> ClassRef(typeName);
 };
-inline fun <reified T>refOf() = object : TypeReference<T>(){}.type.ref;
+inline fun <reified T>refOf(): ClassRef{
+	return (object : TypeReference<T>(){}.type).ref;
+};
 
 class MethodType(
 	val argTypes: List<ClassRef> = emptyList(),
