@@ -159,8 +159,8 @@ class SynthClass(
 	fun new() = value.getConstructor().newInstance();
 	inline operator fun <reified T>get(name:  String): T{
 		return if(T::class.isFun){
-			val argTypes = typeOf<T>().arguments.dropLast(1).map{
-				it.type!!.jvmErasure.java;
+			val argTypes = typeOf<T>().actualTypeArguments.dropLast(1).map{
+				it.toClass();
 			}.toTypedArray();
 			value.getDeclaredMethod(name, *argTypes).apply{isAccessible = true} as T;
 		}else{
@@ -285,6 +285,15 @@ open class ClassRef(
 		}
 	;
 };
+fun java.lang.reflect.Type.toClass(): Class<*>{
+	is Class<*> -> this;
+	is ParameterizedType -> rawType as Class<*>;
+	is GenericArrayType ->{
+		val component = genericComponentType.toClass();
+		java.lang.reflect.Array.newInstance(component, 0).javaClass;
+	};
+	else -> throw IllegalArgumentException("The Type is not a Class");
+};
 inline fun <reified T>typeOf<T>: java.lang.reflect.Type{
 	return (object : TypeToken<T>(){}).type;
 };
@@ -323,7 +332,7 @@ class MethodType(
 	val argTypes: List<ClassRef> = emptyList(),
 	val returnType: ClassRef
 ){
-	val name = if(argTypes.size <= 22){
+	val name: String = if(argTypes.size <= 22){
 		"kotlin.jvm.functions.Function${argTypes.size}"
 	}else{
 		"kotlin.jvm.functions.FunctionN"
