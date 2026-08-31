@@ -289,8 +289,8 @@ val java.lang.reflect.Type.ref: ClassRef get() = when(this){
 	};
 	else -> ClassRef(typeName);
 };
-inline fun <reified T>refOf(): ClassRef{
-	return (object : TypeToken<T>(){}.type).ref;
+fun <T>refOf(): ClassRef{
+	return javaTypeOf<T>().ref;
 };
 
 class MethodType(
