@@ -285,7 +285,7 @@ open class ClassRef(
 		}
 	;
 };
-fun java.lang.reflect.Type.toClass(): Class<*>{
+fun java.lang.reflect.Type.toClass(): Class<*> = when(this){
 	is Class<*> -> this;
 	is ParameterizedType -> rawType as Class<*>;
 	is GenericArrayType ->{
