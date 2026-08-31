@@ -26,6 +26,8 @@ import kotlin.reflect.KType;
 import kotlin.properties.ReadOnlyProperty;
 import kotlin.reflect.typeOf;
 
+import com.google.gson.reflect.TypeToken;
+
 typealias IntIterator = d0.t.c0;
 typealias ClosedRange<T> = d0.d0.a<T>;
 typealias IntProgressionIterator = d0.d0.b;
@@ -374,6 +376,26 @@ fun getArgs(type: KType): List<Class<*>?>?{
 				);
 			}
 		;
+	};
+};
+
+inline fun <reified T>javaTypeOf(): Type{
+	return (object : TypeToken<T>(){}).type;
+};
+fun Type.toClass(): Class<*> = when(this){
+	is Class<*> -> this;
+	is ParameterizedType -> rawType as Class<*>;
+	is GenericArrayType ->{
+		val component = genericComponentType.toClass();
+		java.lang.reflect.Array.newInstance(component, 0).javaClass;
+	};
+	else -> throw IllegalArgumentException("The Type is not a Class");
+};
+val Type.arguments: Array<Type> get(){
+	return when(this){
+		is ParameterizedType -> this.actualTypeArguments;
+		is GenericArrayType -> arrayOf(this.genericComponentType);
+		else -> emptyArray<Type>();
 	};
 };
 

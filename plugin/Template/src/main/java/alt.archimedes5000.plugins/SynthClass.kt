@@ -285,25 +285,6 @@ open class ClassRef(
 		}
 	;
 };
-fun java.lang.reflect.Type.toClass(): Class<*> = when(this){
-	is Class<*> -> this;
-	is ParameterizedType -> rawType as Class<*>;
-	is GenericArrayType ->{
-		val component = genericComponentType.toClass();
-		java.lang.reflect.Array.newInstance(component, 0).javaClass;
-	};
-	else -> throw IllegalArgumentException("The Type is not a Class");
-};
-inline fun <reified T>javaTypeOf(): java.lang.reflect.Type{
-	return (object : TypeToken<T>(){}).type;
-};
-val java.lang.reflect.Type.arguments: Array<java.lang.reflect.Type> get(){
-	return if(this is ParameterizedType){
-		this.actualTypeArguments;
-	}else{
-		emptyArray<java.lang.reflect.Type>();
-	};
-};
 val java.lang.reflect.Type.ref: ClassRef get() = when(this){
 	is Class<*> -> {
 		if(isArray){
