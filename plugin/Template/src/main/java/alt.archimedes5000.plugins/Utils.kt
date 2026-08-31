@@ -391,12 +391,10 @@ fun Type.toClass(): Class<*> = when(this){
 	};
 	else -> throw IllegalArgumentException("The Type is not a Class");
 };
-val Type.arguments: Array<Type> get(){
-	return when(this){
-		is ParameterizedType -> this.actualTypeArguments;
-		is GenericArrayType -> arrayOf(this.genericComponentType);
-		else -> emptyArray<Type>();
-	};
+val Type.arguments: Array<Type> get() = when(this){
+	is ParameterizedType -> this.actualTypeArguments;
+	is GenericArrayType -> arrayOf(this.genericComponentType);
+	else -> emptyArray<Type>();
 };
 
 fun interface Invokable<T>{
