@@ -285,6 +285,9 @@ open class ClassRef(
 		}
 	;
 };
+inline fun <reified T>typeOf<T>: java.lang.reflect.Type{
+	return (object : TypeToken<T>(){}).type;
+};
 val java.lang.reflect.Type.ref: ClassRef get() = when(this){
 	is Class<*> -> {
 		if(isArray){
@@ -332,8 +335,8 @@ class MethodType(
 	companion object{};
 };
 inline operator fun <reified T>MethodType.Companion.invoke(): MethodType = MethodType(
-	typeOf<T>().arguments.dropLast(1).map{it.type!!.ref},
-	typeOf<T>().arguments.last().type!!.ref
+	typeOf<T>().actualTypeArguments.dropLast(1).map{it.ref},
+	typeOf<T>().actualTypeArguments.last().ref
 );
 
 class FieldData(
