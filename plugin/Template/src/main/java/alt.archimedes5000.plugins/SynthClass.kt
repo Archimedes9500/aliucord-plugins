@@ -286,7 +286,7 @@ open class ClassRef(
 };
 val Type.ref: ClassRef get() = when(this){
 	is Class<*> -> {
-		if(this.isArray){
+		if(isArray){
 			val componentRef = componentType.ref;
 			ClassRef(
 				componentRef.name,
@@ -344,7 +344,7 @@ class MethodData(
 	val body: (SynthClass.(MethodVisitor) -> Unit)?,
 	val flags: Int? = null,
 	val exceptions: Set<ClassRef>? = null
-): JVMEntity(type.name, type.array){
+): JVMEntity(type.name){
 	val descriptor: String = (
 		"("
 		+type.argTypes.joinToString(""){it.identifier}
