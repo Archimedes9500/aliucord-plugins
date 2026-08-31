@@ -319,6 +319,11 @@ class MethodType(
 	val argTypes: List<ClassRef> = emptyList(),
 	val returnType: ClassRef
 ){
+	val name = if(argTypes.size <= 22){
+		"kotlin.jvm.functions.Function${argTypes.size}"
+	}else{
+		"kotlin.jvm.functions.FunctionN"
+	};
 	constructor(type: KType): this(
 		type.arguments.dropLast(1).map{it.type!!.ref},
 		type.arguments.last().type!!.ref
