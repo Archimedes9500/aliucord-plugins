@@ -28,6 +28,8 @@ import kotlin.reflect.typeOf;
 
 import com.google.gson.reflect.TypeToken;
 
+import java.io.Writer;
+
 typealias IntIterator = d0.t.c0;
 typealias ClosedRange<T> = d0.d0.a<T>;
 typealias IntProgressionIterator = d0.d0.b;
@@ -35,7 +37,36 @@ typealias IntProgressionIterator = d0.d0.b;
 val logger = com.aliucord.Logger("Utils");
 
 class FakeField<V>(): ReadWriteProperty<Any, V>{
-	private val fields = WeakIdentityHashMap<Any, V>();
+	val map = WeakIdentityHashMap<Any, V>();
+
+	private var isStatic = false;
+	private var staticValue: V? = null;
+
+	val fields = object : Map<Any, V> by map{
+		override operator fun get(key: Any): V{
+			return if(isStatic){
+				staticValue as V;
+			}else{
+				map[key] as V;
+			};
+		};
+		override operator fun set(key: Any, value: V){
+			if(isStatic){
+				staticValue = value;
+			}else{
+				map[key] = value;
+			};
+		};
+	};
+
+	constructor(value: V): this(){
+		initStatic(value);
+	};
+	fun initStatic(value: V){
+		if(isStatic || map.isNotEmpty()) return;
+		isStatic = true;
+		staticValue = value;
+	};
 
 	@Suppress("UNCHECKED_CAST")
 	override operator fun getValue(thisRef: Any, property: KProperty<*>): V{
@@ -396,6 +427,14 @@ val Type.arguments: Array<Type> get() = when(this){
 fun <T>javaTypeOf(): Type{
 	return (object : TypeToken<T>(){}).type;
 };
+
+/*
+val Logger.writer by FakeField<Writer>(object: Writer{
+	val buffer = StringBuilder();
+
+	
+});
+*/
 
 fun interface Invokable<T>{
 	operator fun invoke(vararg args: Any?): T;

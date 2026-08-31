@@ -77,6 +77,9 @@ subprojects {
 		implementation("org.ow2.asm:asm:9.7.1"){
 			exclude(group = "org.jetbrains.kotlin")
 		}
+		implementation("org.ow2.asm:asm-util:9.7.1"){
+			exclude(group = "org.jetbrains.kotlin")
+		}
 		implementation("com.android.tools:r8:9.4.14"){
 			exclude(group = "org.jetbrains.kotlin")
 		}
