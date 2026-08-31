@@ -284,7 +284,7 @@ open class ClassRef(
 		}
 	;
 };
-val Type.ref: ClassRef get() = when(this){
+val java.lang.reflect.Type.ref: ClassRef get() = when(this){
 	is Class<*> -> {
 		if(isArray){
 			val componentRef = componentType.ref;
