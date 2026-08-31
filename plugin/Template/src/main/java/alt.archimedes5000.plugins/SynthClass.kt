@@ -252,19 +252,24 @@ fun MethodVisitor.call(opcode: Int, vararg args: Any?): MethodVisitor{
 };
 
 open class JVMEntity(
-	open val name: String
+	val name: String,
+	val array: Int = 0;
 ){
-	val internalName = name.replace('.', '/');
-	val identifier = when(name.removePrefix("[")){
+	var internalName = name.replace('.', '/');
+	val identifier = when(name){
 		"V" -> name;
 		"B", "C", "D", "F", "I", "J", "S", "Z" -> name;
-		else -> "${if(name.indexOf("[") == 0) "[" else ""}L${internalName.removePrefix("[")};";
+		else -> "${'['.repeat(array)}L${internalName};";
+	};
+	init{
+		if(array > 0) internalName = identifier;
 	};
 };
 open class ClassRef(
 	name: String,
-	val generics: Set<ClassRef> = emptySet()
-): JVMEntity(name){
+	val generics: Set<ClassRef> = emptySet(),
+	array: Int = 0
+): JVMEntity(name, array){
 	val refSignature: String =
 		if(!generics.isEmpty()){
 			("${identifier.removeSuffix(";")}<"
@@ -276,11 +281,32 @@ open class ClassRef(
 		}
 	;
 };
-val KType.ref: ClassRef get() = ClassRef(
-	jvmErasure.java.name,
-	arguments.map{it.type!!.ref}.toSet()
-);
-inline fun <reified T>refOf() = typeOf<T>().ref;
+val Type.ref: ClassRef get() = when(this){
+	is Class<*> -> Class<*> -> if(this.isArray){
+		val componentRef = componentType.ref;
+		ClassRef(
+			componentRef.name,
+			componentRef.generics,
+			componentRef.array+1
+		);
+	}else{
+		ClassRef(name);
+	};
+	is ParameterizedType -> ClassRef(
+		(rawType as Class<*>).name,
+		actualTypeArguments.map{it.ref}.toSet()
+	);
+	is GenericArrayType ->{
+		val componentRef = genericComponentType.ref;
+		ClassRef(
+			componentRef.name,
+			componentRef.generics,
+			componentRef.array+1
+		);
+	};
+	else -> ClassRef(typeName);
+};
+inline fun <reified T>refOf() = object : TypeReference<T>(){}.type.ref;
 
 class MethodType(
 	val argTypes: List<ClassRef> = emptyList(),
@@ -302,7 +328,7 @@ class FieldData(
 	val type: ClassRef,
 	val value: Any?,
 	val flags: Int? = null
-): JVMEntity(name){
+): JVMEntity(type.name, type.array){
 	val signature = type.refSignature;
 };
 class MethodData(
@@ -311,7 +337,7 @@ class MethodData(
 	val body: (SynthClass.(MethodVisitor) -> Unit)?,
 	val flags: Int? = null,
 	val exceptions: Set<ClassRef>? = null
-): JVMEntity(name){
+): JVMEntity(type.name, type.array){
 	val descriptor: String = (
 		"("
 		+type.argTypes.joinToString(""){it.identifier}
