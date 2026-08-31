@@ -42,7 +42,7 @@ class FakeField<V>(): ReadWriteProperty<Any, V>{
 	private var isStatic = false;
 	private var staticValue: V? = null;
 
-	val fields = object : MutableMap<Any, V> by map{
+	val fields = object : Map<Any, V> by map{
 		override operator fun get(key: Any): V{
 			return if(isStatic){
 				staticValue as V;
@@ -427,14 +427,6 @@ val Type.arguments: Array<Type> get() = when(this){
 fun <T>javaTypeOf(): Type{
 	return (object : TypeToken<T>(){}).type;
 };
-
-/*
-val Logger.writer by FakeField<Writer>(object: Writer{
-	val buffer = StringBuilder();
-
-	
-});
-*/
 
 fun interface Invokable<T>{
 	operator fun invoke(vararg args: Any?): T;

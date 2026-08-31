@@ -9,6 +9,7 @@ import java.lang.reflect.*;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 
+import java.io.StringWriter;
 import java.io.PrintWriter;
 import org.objectweb.asm.util.CheckClassAdapter;
 
@@ -117,11 +118,13 @@ class SynthClass(
 		return@lazy cw.toByteArray();
 	};
 	val value: Class<*> = run{
+		val sw = StringWriter();
 		CheckClassAdapter.verify(
 			ClassReader(bytes),
 			false,
-			PrintWriter(System.err)
+			PrintWriter(sw)
 		);
+		logger.debug(sw);
 		val file = dir.resolve("tmp.class");
 		Files.write(file, bytes);
 		D8.run(
