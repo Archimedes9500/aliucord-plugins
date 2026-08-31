@@ -9,6 +9,9 @@ import java.lang.reflect.*;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 
+import java.io.PrintWriter;
+import org.objectweb.asm.util.CheckClassAdapter;
+
 import dalvik.system.InMemoryDexClassLoader;
 import com.android.tools.r8.D8;
 import com.android.tools.r8.D8Command;
