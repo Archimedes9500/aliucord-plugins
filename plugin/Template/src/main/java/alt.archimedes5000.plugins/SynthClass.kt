@@ -298,7 +298,7 @@ inline fun <reified T>javaTypeOf<T>: java.lang.reflect.Type{
 	return (object : TypeToken<T>(){}).type;
 };
 val java.lang.reflect.Type.arguments: Array<java.lang.reflect.Type> get(){
-	return if(this is ParametrizedType){
+	return if(this is ParameterizedType){
 		this.actualTypeArguments;
 	}else{
 		emptyArray<java.lang.reflect.Type>();
