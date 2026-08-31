@@ -344,9 +344,9 @@ class MethodType(
 	}else{
 		"kotlin.jvm.functions.FunctionN"
 	};
-	constructor(type: KType): this(
-		type.arguments.dropLast(1).map{it.type!!.ref},
-		type.arguments.last().type!!.ref
+	constructor(type: java.lang.reflect.Type): this(
+		type.arguments.dropLast(1).map{it.ref},
+		type.arguments.last().ref
 	);
 	companion object{};
 };
