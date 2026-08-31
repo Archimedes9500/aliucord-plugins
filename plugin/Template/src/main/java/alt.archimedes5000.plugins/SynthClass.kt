@@ -159,7 +159,7 @@ class SynthClass(
 	fun new() = value.getConstructor().newInstance();
 	inline operator fun <reified T>get(name:  String): T{
 		return if(T::class.isFun){
-			val argTypes = typeOf<T>().actualTypeArguments.dropLast(1).map{
+			val argTypes = javaTypeOf<T>().arguments.dropLast(1).map{
 				it.toClass();
 			}.toTypedArray();
 			value.getDeclaredMethod(name, *argTypes).apply{isAccessible = true} as T;
@@ -294,8 +294,15 @@ fun java.lang.reflect.Type.toClass(): Class<*>{
 	};
 	else -> throw IllegalArgumentException("The Type is not a Class");
 };
-inline fun <reified T>typeOf<T>: java.lang.reflect.Type{
+inline fun <reified T>javaTypeOf<T>: java.lang.reflect.Type{
 	return (object : TypeToken<T>(){}).type;
+};
+val java.lang.reflect.Type.arguments: Array<java.lang.reflect.Type> get(){
+	return if(this is ParametrizedType){
+		this.actualTypeArguments;
+	}else{
+		emptyArray<java.lang.reflect.Type>();
+	};
 };
 val java.lang.reflect.Type.ref: ClassRef get() = when(this){
 	is Class<*> -> {
@@ -344,8 +351,8 @@ class MethodType(
 	companion object{};
 };
 inline operator fun <reified T>MethodType.Companion.invoke(): MethodType = MethodType(
-	typeOf<T>().actualTypeArguments.dropLast(1).map{it.ref},
-	typeOf<T>().actualTypeArguments.last().ref
+	javaTypeOf<T>().arguments.dropLast(1).map{it.ref},
+	javaTypeOf<T>().arguments.last().ref
 );
 
 class FieldData(
