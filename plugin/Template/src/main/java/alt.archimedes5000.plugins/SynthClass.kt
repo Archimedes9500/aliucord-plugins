@@ -5,7 +5,6 @@ import org.objectweb.asm.Opcodes.*;
 
 import kotlin.reflect.*;
 import java.lang.reflect.*;
-import com.google.gson.reflect.TypeToken;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
