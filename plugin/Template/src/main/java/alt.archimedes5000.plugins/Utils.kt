@@ -50,7 +50,7 @@ class FakeField<V>(): ReadWriteProperty<Any, V>{
 				map[key] as V;
 			};
 		};
-		override operator fun set(key: Any, value: V){
+		operator fun set(key: Any, value: V){
 			if(isStatic){
 				staticValue = value;
 			}else{
