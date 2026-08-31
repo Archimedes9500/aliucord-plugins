@@ -114,6 +114,11 @@ class SynthClass(
 		return@lazy cw.toByteArray();
 	};
 	val value: Class<*> = run{
+		CheckClassAdapter.verify(
+			ClassReader(bytes),
+			false,
+			PrintWriter(System.err)
+		);
 		val file = dir.resolve("tmp.class");
 		Files.write(file, bytes);
 		D8.run(

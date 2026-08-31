@@ -379,9 +379,6 @@ fun getArgs(type: KType): List<Class<*>?>?{
 	};
 };
 
-fun <T>javaTypeOf(): Type{
-	return (object : TypeToken<T>(){}).type;
-};
 fun Type.toClass(): Class<*> = when(this){
 	is Class<*> -> this;
 	is ParameterizedType -> rawType as Class<*>;
@@ -395,6 +392,9 @@ val Type.arguments: Array<Type> get() = when(this){
 	is ParameterizedType -> this.actualTypeArguments;
 	is GenericArrayType -> arrayOf(this.genericComponentType);
 	else -> emptyArray<Type>();
+};
+fun <T>javaTypeOf(): Type{
+	return (object : TypeToken<T>(){}).type;
 };
 
 fun interface Invokable<T>{
