@@ -42,7 +42,7 @@ class FakeField<V>(): ReadWriteProperty<Any, V>{
 	private var isStatic = false;
 	private var staticValue: V? = null;
 
-	val fields = object : Map<Any, V> by map{
+	private val fields = object : Map<Any, V> by map{
 		override operator fun get(key: Any): V{
 			return if(isStatic){
 				staticValue as V;
