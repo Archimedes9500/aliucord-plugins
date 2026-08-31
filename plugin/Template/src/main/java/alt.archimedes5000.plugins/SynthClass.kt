@@ -124,7 +124,7 @@ class SynthClass(
 			false,
 			PrintWriter(sw)
 		);
-		logger.debug(sw);
+		logger.debug("$sw");
 		val file = dir.resolve("tmp.class");
 		Files.write(file, bytes);
 		D8.run(
