@@ -294,7 +294,7 @@ fun java.lang.reflect.Type.toClass(): Class<*> = when(this){
 	};
 	else -> throw IllegalArgumentException("The Type is not a Class");
 };
-inline fun <reified T>javaTypeOf<T>: java.lang.reflect.Type{
+inline fun <reified T>javaTypeOf(): java.lang.reflect.Type{
 	return (object : TypeToken<T>(){}).type;
 };
 val java.lang.reflect.Type.arguments: Array<java.lang.reflect.Type> get(){
