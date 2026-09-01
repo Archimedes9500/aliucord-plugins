@@ -325,7 +325,7 @@ inline operator fun <reified T>MethodType.Companion.invoke(): MethodType = Metho
 );
 
 class FieldData(
-	name: String,
+	override val name: String,
 	val type: ClassRef,
 	val value: Any?,
 	val flags: Int? = null
@@ -333,7 +333,7 @@ class FieldData(
 	val signature = type.refSignature;
 };
 class MethodData(
-	name: String,
+	override val name: String,
 	val type: MethodType,
 	val body: (SynthClass.(MethodVisitor) -> Unit)?,
 	val flags: Int? = null,
