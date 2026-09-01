@@ -365,9 +365,10 @@ class TypeParamData(
 		+implements.joinToString(":"){it.refSignature}
 	);
 };
-val anonymousCount = java.util.concurrent.atomic.AtomicInteger(0);
 fun newName(): String{
-	return "alt.archimedes5000.plugins.utils\$Anonymous\$${anonymousCount.getAndIncrement()}";
+	return object{}::class.java.name.run{
+		"${substringBeforeLast('$')}\$${substringAfterLast('$').toInt().inc()}";
+	};
 };
 open class ClassData(
 	name: String = newName(),
@@ -420,7 +421,7 @@ fun runtimeCallback(
 					listOf(refOf<MethodHookParam>()),
 					ClassRef("V")
 				),
-				body = before?: {}
+				body = before?: {mv -> mv.call(RETURN)}
 			),
 			MethodData(
 				name = "afterHookedMethod",
@@ -428,7 +429,7 @@ fun runtimeCallback(
 					listOf(refOf<MethodHookParam>()),
 					ClassRef("V")
 				),
-				body = after?: {}
+				body = after?: {mv -> mv.call(RETURN)}
 			)
 		)
 	);
