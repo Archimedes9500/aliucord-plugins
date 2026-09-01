@@ -242,7 +242,7 @@ fun MethodVisitor.call(opcode: Int, vararg args: Any?): MethodVisitor{
 };
 
 open class JVMEntity(
-	val name: String,
+	open val name: String,
 	val array: Int = 0
 ){
 	var internalName = name.replace('.', '/');
