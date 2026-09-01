@@ -149,7 +149,7 @@ class SynthClass(
 				)
 			),
 			loader
-		).loadClass(data.name);
+		).loadClass(/*data.name*/"alt.archimedes5000.plugins.utils.SynthClassKt\$newName\$2");
 	};
 	fun new() = value.getConstructor().newInstance();
 	inline operator fun <reified T>get(name:  String): T{
