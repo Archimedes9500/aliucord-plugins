@@ -447,6 +447,7 @@ val Type.arguments: Array<Type> get() = when(this){
 fun <T>javaTypeOf(): Type{
 	return (object : TypeToken<T>(){}).type.primitized();
 };
+//(javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0];
 
 fun interface Invokable<T>{
 	operator fun invoke(vararg args: Any?): T;
