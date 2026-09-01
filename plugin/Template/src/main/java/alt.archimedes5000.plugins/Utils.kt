@@ -56,6 +56,7 @@ class FakeField<V>(): ReadWriteProperty<Any, V>{
 			}else{
 				map[key] = value;
 			};
+			return map[key];
 		};
 	};
 
