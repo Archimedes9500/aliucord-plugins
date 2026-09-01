@@ -295,7 +295,7 @@ val java.lang.reflect.Type.ref: ClassRef get() = when(this){
 	};
 	else -> ClassRef(typeName);
 };
-fun <T>refOf(): ClassRef{
+inline fun <reified T>refOf(): ClassRef{
 	return javaTypeOf<T>().ref;
 };
 
