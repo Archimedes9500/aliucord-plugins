@@ -419,8 +419,8 @@ fun Type.toClass(): Class<*> = when(this){
 		java.lang.reflect.Array.newInstance(component, 0).javaClass;
 	};
 	is WildcardType ->{
-		upperBounds.firstOrNull
-			?:(lowerBounds.firstOrNull()
+		lowerBounds.firstOrNull()
+			?:(upperBounds.firstOrNull()
 				?.toClass()?: Object::class.java
 			)
 		;
@@ -450,7 +450,7 @@ val Type.arguments: Array<Type> get() = when(this){
 	is ParameterizedType -> this.actualTypeArguments.primitized();
 	is GenericArrayType -> arrayOf(this.genericComponentType);
 	is WildcardType ->{
-		upperBounds.firstOrNull
+		upperBounds.firstOrNull()
 			?:(lowerBounds.firstOrNull()
 				?.arguments?: emptyArray<Type>()
 			)
