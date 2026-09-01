@@ -36,7 +36,7 @@ class ASMTest: Plugin(){
 							INVOKEVIRTUAL,
 							refOf<MethodHookParam>().internalName,
 							"setResult",
-							"(Ljava.lang.Object;)V"
+							MethodType<(Any) -> void>()
 						)
 						.call(NEW, refOf<Logger>().internalName)
 						.call(DUP)
@@ -51,7 +51,7 @@ class ASMTest: Plugin(){
 							INVOKEVIRTUAL,
 							refOf<Logger>().internalName,
 							"debug",
-							"(Ljava.lang.String;)V"
+							MethodType<(String) -> void>()
 						)
 						.call(RETURN)
 					;
