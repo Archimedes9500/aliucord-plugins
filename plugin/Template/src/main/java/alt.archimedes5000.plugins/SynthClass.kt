@@ -245,17 +245,12 @@ open class JVMEntity(
 	open val name: String,
 	val array: Int = 0
 ){
-	var internalName = name.replace('.', '/');
-	val identifier = when(name){
+	val internalName = (this as JVMEntity).name.replace('.', '/');
+	val identifier = when((this as JVMEntity).name){
 		"V" -> name;
-		"B", "C", "D", "F", "I", "J", "S", "Z" -> name;
-		else -> "${"[".repeat(array)}L${internalName};";
+		"B", "C", "D", "F", "I", "J", "S", "Z" -> (this as JVMEntity).name;
+		else -> "${"[".repeat(array)}L${(this as JVMEntity).internalName};";
 	};
-/*
-	init{
-		if(array > 0) internalName = identifier;
-	};
-*/
 };
 open class ClassRef(
 	name: String,
