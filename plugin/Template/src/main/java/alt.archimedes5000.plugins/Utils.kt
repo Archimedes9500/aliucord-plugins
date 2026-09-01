@@ -412,7 +412,7 @@ fun getArgs(type: KType): List<Class<*>?>?{
 };
 
 fun Type.toClass(): Class<*> = when(this){
-	is Class<*> -> this.primitized();
+	is Class<*> -> this;
 	is ParameterizedType -> rawType as Class<*>;
 	is GenericArrayType ->{
 		val component = genericComponentType.toClass();
