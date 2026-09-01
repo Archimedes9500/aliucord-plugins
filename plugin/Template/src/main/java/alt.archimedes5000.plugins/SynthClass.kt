@@ -254,7 +254,7 @@ open class JVMEntity(
 };
 open class ClassRef(
 	name: String,
-	val generics: Set<ClassRef> = emptySet(),
+	val generics: List<ClassRef> = emptyList(),
 	array: Int = 0
 ): JVMEntity(name, array){
 	val refSignature: String =
@@ -283,7 +283,7 @@ val java.lang.reflect.Type.ref: ClassRef get() = when(this){
 	};
 	is ParameterizedType -> ClassRef(
 		(rawType as Class<*>).name,
-		actualTypeArguments.map{it.ref}.toSet()
+		actualTypeArguments.map{it.ref}
 	);
 	is GenericArrayType ->{
 		val componentRef = genericComponentType.ref;
