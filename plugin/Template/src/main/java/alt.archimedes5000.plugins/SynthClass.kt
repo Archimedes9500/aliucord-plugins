@@ -365,10 +365,9 @@ class TypeParamData(
 		+implements.joinToString(":"){it.refSignature}
 	);
 };
+val anonymousCount = java.util.concurrent.atomic.AtomicInteger(0);
 fun newName(): String{
-	return object{}::class.java.name.run{
-		"${substringBeforeLast('$')}\$${substringAfterLast('$').toInt().inc()}";
-	};
+	return "alt.archimedes5000.plugins.utils\$Anonymous\$${anonymousCount.getAndIncrement()}";
 };
 open class ClassData(
 	name: String = newName(),
