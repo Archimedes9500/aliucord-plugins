@@ -31,7 +31,7 @@ class ASMTest: Plugin(){
 				*/
 				before = {mv ->
 					mv
-						.call(ALOAD, 0)
+						.call(ALOAD, 1)
 						.call(ACONST_NULL)
 						.call(
 							INVOKEVIRTUAL,
