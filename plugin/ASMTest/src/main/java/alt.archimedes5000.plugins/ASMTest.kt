@@ -25,19 +25,11 @@ class ASMTest: Plugin(){
 			),
 			runtimeCallback(
 				/*
-					frame.setResult(null);
 					Logger().debug("Hello");
+					frame.setResult(null);
 				*/
 				before = {mv ->
 					mv
-						.call(ALOAD, 1)
-						.call(ACONST_NULL)
-						.call(
-							INVOKEVIRTUAL,
-							refOf<MethodHookParam>().internalName,
-							"setResult",
-							MethodType<(Any) -> void>().descriptor
-						)
 						.call(NEW, refOf<Logger>().internalName)
 						.call(DUP)
 						.call(
@@ -52,6 +44,14 @@ class ASMTest: Plugin(){
 							refOf<Logger>().internalName,
 							"debug",
 							MethodType<(String) -> void>().descriptor
+						)
+						.call(ALOAD, 1)
+						.call(ACONST_NULL)
+						.call(
+							INVOKEVIRTUAL,
+							refOf<MethodHookParam>().internalName,
+							"setResult",
+							MethodType<(Any) -> void>().descriptor
 						)
 						.call(RETURN)
 					;
