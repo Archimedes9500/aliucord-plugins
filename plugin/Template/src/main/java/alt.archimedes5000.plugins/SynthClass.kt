@@ -124,7 +124,7 @@ class SynthClass(
 			false,
 			PrintWriter(sw)
 		);
-		logger.debug("$sw");
+		if(sw.buffer.length() > 0) logger.debug("$sw");
 		val file = dir.resolve("tmp.class");
 		Files.write(file, bytes);
 		D8.run(
@@ -134,13 +134,6 @@ class SynthClass(
 				.setMinApiLevel(27)
 				.build()
 			)
-		);
-		logger.debug(
-			dalvik.system.DexFile.loadDex(
-				dir.resolve("classes.dex").toString(),
-				dir.resolve("classes.odex").toString(),
-				0
-			).entries().asSequence().toList().joinToString("\n")
 		);
 		return@run InMemoryDexClassLoader(
 			ByteBuffer.wrap(
