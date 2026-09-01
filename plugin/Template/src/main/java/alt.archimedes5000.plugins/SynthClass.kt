@@ -302,17 +302,18 @@ fun <T>refOf(): ClassRef{
 class MethodType(
 	val argTypes: List<ClassRef> = emptyList(),
 	val returnType: ClassRef
-): ClassRef(name, argTypes){
-	val name: String = if(argTypes.size <= 22){
-		"kotlin.jvm.functions.Function${argTypes.size}"
-	}else{
-		"kotlin.jvm.functions.FunctionN"
-	};
+): ClassRef(getName(argTypes.size), argTypes){
 	constructor(type: java.lang.reflect.Type): this(
 		type.arguments.dropLast(1).map{it.ref},
 		type.arguments.last().ref
 	);
-	companion object{};
+	companion object{
+		fun getName(count: Int) = if(count <= 22){
+			"kotlin.jvm.functions.Function${count}"
+		}else{
+			"kotlin.jvm.functions.FunctionN"
+		};
+	};
 };
 inline operator fun <reified T>MethodType.Companion.invoke(): MethodType = MethodType(
 	javaTypeOf<T>().arguments.dropLast(1).map{it.ref},
