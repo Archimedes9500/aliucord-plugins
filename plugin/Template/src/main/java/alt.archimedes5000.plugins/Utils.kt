@@ -412,7 +412,7 @@ fun getArgs(type: KType): List<Class<*>?>?{
 };
 
 fun Type.toClass(): Class<*> = when(this){
-	is Class<*> -> this;
+	is Class<*> -> this.primitized();
 	is ParameterizedType -> rawType as Class<*>;
 	is GenericArrayType ->{
 		val component = genericComponentType.toClass();
@@ -426,15 +426,14 @@ class int; class long; class short; class boolean;
 fun Array<Type>.primitized(): Array<Type>{
 	return this.map{
 		when(it){
-			javaTypeOf<void>() -> Void.TYPE;
-			javaTypeOf<byte>() -> Byte.TYPE;
-			javaTypeOf<char>() -> Char.TYPE;
-			javaTypeOf<double>() -> Double.TYPE;
-			javaTypeOf<float>() -> Float.TYPE;
-			javaTypeOf<int>() -> Integer.TYPE;
-			javaTypeOf<long>() -> Long.TYPE;
-			javaTypeOf<short>() -> Short.TYPE;
-			javaTypeOf<boolean>() -> Boolean.TYPE;
+			javaTypeOf<byte>() -> Byte::class.java;
+			javaTypeOf<char>() -> Char::class.java;
+			javaTypeOf<double>() -> Double::class.java;
+			javaTypeOf<float>() -> Float::class.java;
+			javaTypeOf<int>() -> Int::class.java;
+			javaTypeOf<long>() -> Long::class.java;
+			javaTypeOf<short>() -> Short::class.java;
+			javaTypeOf<boolean>() -> Boolean::class.java;
 			else -> it;
 		};
 	}.toTypedArray();
