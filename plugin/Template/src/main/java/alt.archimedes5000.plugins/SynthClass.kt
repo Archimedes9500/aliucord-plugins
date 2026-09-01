@@ -421,7 +421,7 @@ fun runtimeCallback(
 					listOf(refOf<MethodHookParam>()),
 					ClassRef("V")
 				),
-				body = before?: {mv -> mv.call(RETURN)}
+				body = before?: {mv -> mv.visit(RETURN)}
 			),
 			MethodData(
 				name = "afterHookedMethod",
@@ -429,7 +429,7 @@ fun runtimeCallback(
 					listOf(refOf<MethodHookParam>()),
 					ClassRef("V")
 				),
-				body = after?: {mv -> mv.call(RETURN)}
+				body = after?: {mv -> mv.visit(RETURN)}
 			)
 		)
 	);
