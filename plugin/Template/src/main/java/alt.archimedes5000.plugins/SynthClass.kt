@@ -88,7 +88,7 @@ class SynthClass(
 		for(f in fields){
 			cw.visitField(
 				f.flags?: ACC_PUBLIC,
-				f.name,
+				f.memberName,
 				f.type.identifier,
 				f.signature,
 				f.value
@@ -100,7 +100,7 @@ class SynthClass(
 		for(m in methods){
 			cw.visitMethod(
 				m.flags?: ACC_PUBLIC,
-				m.name,
+				m.memberName,
 				m.descriptor,
 				m.signature,
 				m.exceptions?.map{it.internalName}?.toTypedArray()
@@ -242,7 +242,7 @@ fun MethodVisitor.call(opcode: Int, vararg args: Any?): MethodVisitor{
 };
 
 open class JVMEntity(
-	open val name: String,
+	val name: String,
 	val array: Int = 0
 ){
 	val internalName = (this as JVMEntity).name.replace('.', '/');
@@ -320,7 +320,7 @@ inline operator fun <reified T>MethodType.Companion.invoke(): MethodType = Metho
 );
 
 class FieldData(
-	override val name: String,
+	val memberName: String,
 	val type: ClassRef,
 	val value: Any?,
 	val flags: Int? = null
@@ -328,7 +328,7 @@ class FieldData(
 	val signature = type.refSignature;
 };
 class MethodData(
-	override val name: String,
+	val memberName: String,
 	val type: MethodType,
 	val body: (SynthClass.(MethodVisitor) -> Unit)?,
 	val flags: Int? = null,
