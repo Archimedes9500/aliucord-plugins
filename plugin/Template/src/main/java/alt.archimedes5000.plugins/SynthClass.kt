@@ -20,7 +20,7 @@ import com.android.tools.r8.OutputMode;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
 
-object loader: ClassLoader(){
+object loader: ClassLoader(appContext.classLoader){
 	fun defineClass(name: String, bytes: ByteArray): Class<*>{
 		return super.defineClass(name, bytes, 0, bytes.size);
 	};
