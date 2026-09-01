@@ -16,6 +16,7 @@ import com.aliucord.Logger;
 @AliucordPlugin(requiresRestart = true)
 class ASMTest: Plugin(){
 	override fun start(pluginContext: Context){
+		logger.debug("$javaTypeOf<(Any) -> void>()}");
 		Patcher.addPatch(
 			(StoreUserTyping::class.java
 				.getDeclaredMethod(

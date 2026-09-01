@@ -418,7 +418,7 @@ fun runtimeCallback(
 			MethodData(
 				name = "beforeHookedMethod",
 				type = MethodType(
-					listOf(ClassRef(MethodHookParam::class.java.name)),
+					listOf(refOf<MethodHookParam>()),
 					ClassRef("V")
 				),
 				body = before?: {}
@@ -426,7 +426,7 @@ fun runtimeCallback(
 			MethodData(
 				name = "afterHookedMethod",
 				type = MethodType(
-					listOf(ClassRef(MethodHookParam::class.java.name)),
+					listOf(refOf<MethodHookParam>()),
 					ClassRef("V")
 				),
 				body = after?: {}

@@ -423,20 +423,21 @@ fun Type.toClass(): Class<*> = when(this){
 class void;
 class byte; class char; class double; class float;
 class int; class long; class short; class boolean;
+fun Type.primitized(): Type{
+	return when(this){
+		javaTypeOf<byte>() -> Byte::class.java;
+		javaTypeOf<char>() -> Char::class.java;
+		javaTypeOf<double>() -> Double::class.java;
+		javaTypeOf<float>() -> Float::class.java;
+		javaTypeOf<int>() -> Int::class.java;
+		javaTypeOf<long>() -> Long::class.java;
+		javaTypeOf<short>() -> Short::class.java;
+		javaTypeOf<boolean>() -> Boolean::class.java;
+		else -> this;
+	};
+};
 fun Array<Type>.primitized(): Array<Type>{
-	return this.map{
-		when(it){
-			javaTypeOf<byte>() -> Byte::class.java;
-			javaTypeOf<char>() -> Char::class.java;
-			javaTypeOf<double>() -> Double::class.java;
-			javaTypeOf<float>() -> Float::class.java;
-			javaTypeOf<int>() -> Int::class.java;
-			javaTypeOf<long>() -> Long::class.java;
-			javaTypeOf<short>() -> Short::class.java;
-			javaTypeOf<boolean>() -> Boolean::class.java;
-			else -> it;
-		};
-	}.toTypedArray();
+	return this.map{it.primitized()}.toTypedArray();
 };
 val Type.arguments: Array<Type> get() = when(this){
 	is ParameterizedType -> this.actualTypeArguments.primitized();
@@ -444,7 +445,7 @@ val Type.arguments: Array<Type> get() = when(this){
 	else -> emptyArray<Type>();
 };
 fun <T>javaTypeOf(): Type{
-	return (object : TypeToken<T>(){}).type;
+	return (object : TypeToken<T>(){}).type.primitized();
 };
 
 fun interface Invokable<T>{
