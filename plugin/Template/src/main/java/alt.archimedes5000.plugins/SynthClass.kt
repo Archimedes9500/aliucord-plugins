@@ -302,7 +302,23 @@ fun <T>refOf(): ClassRef{
 class MethodType(
 	val argTypes: List<ClassRef> = emptyList(),
 	val returnType: ClassRef
-): ClassRef(getName(argTypes.size), argTypes){
+): ClassRef(getName(argTypes.size), argTypes+returnType){
+	val descriptor: String = (
+		"("
+		+argTypes.joinToString(""){it.identifier}
+		+")"
+		+returnType.identifier
+	);
+	val signature: String? = if((argTypes+returnType).any{!it.generics.isEmpty()}){
+		("("
+			+argTypes.joinToString(""){it.refSignature}
+			+")"
+			+returnType.refSignature
+		);
+	}else{
+		null;
+	};
+
 	constructor(type: java.lang.reflect.Type): this(
 		type.arguments.dropLast(1).map{it.ref},
 		type.arguments.last().ref
@@ -335,21 +351,8 @@ class MethodData(
 	val flags: Int? = null,
 	val exceptions: Set<ClassRef>? = null
 ){
-	val descriptor: String = (
-		"("
-		+type.argTypes.joinToString(""){it.identifier}
-		+")"
-		+type.returnType.identifier
-	);
-	val signature: String? = if((type.argTypes+type.returnType).any{!it.generics.isEmpty()}){
-		("("
-			+type.argTypes.joinToString(""){it.refSignature}
-			+")"
-			+type.returnType.refSignature
-		);
-	}else{
-		null;
-	};
+	val descriptor = type.descriptor;
+	val signature = type.signature;
 };
 class TypeParamData(
 	val name: String,
