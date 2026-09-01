@@ -135,6 +135,13 @@ class SynthClass(
 				.build()
 			)
 		);
+		logger.debug(
+			dalvik.system.DexFile.loadDex(
+				dir.resolve("classes.dex").toString(),
+				dir.resolve("classes.odex").toString(),
+				0
+			).entries().asSequence().toList().joinToString("\n")
+		);
 		return@run InMemoryDexClassLoader(
 			ByteBuffer.wrap(
 				Files.readAllBytes(
