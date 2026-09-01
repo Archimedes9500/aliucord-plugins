@@ -420,8 +420,27 @@ fun Type.toClass(): Class<*> = when(this){
 	};
 	else -> throw IllegalArgumentException("The Type is not a Class");
 };
+class void;
+class byte; class char; class double; class float;
+class int; class long; class short; class boolean;
+fun Array<Type>.primitized(): Array<Type>{
+	return this.map{
+		when(it){
+			javaTypeOf<void>() -> Void.TYPE;
+			javaTypeOf<byte>() -> Byte.TYPE;
+			javaTypeOf<char>() -> Char.TYPE;
+			javaTypeOf<double>() -> Double.TYPE;
+			javaTypeOf<float>() -> Float.TYPE;
+			javaTypeOf<int>() -> Integer.TYPE;
+			javaTypeOf<long>() -> Long.TYPE;
+			javaTypeOf<short>() -> Short.TYPE;
+			javaTypeOf<boolean>() -> Boolean.TYPE;
+			else -> it;
+		};
+	}.toTypedArray();
+};
 val Type.arguments: Array<Type> get() = when(this){
-	is ParameterizedType -> this.actualTypeArguments;
+	is ParameterizedType -> this.actualTypeArguments.primitized();
 	is GenericArrayType -> arrayOf(this.genericComponentType);
 	else -> emptyArray<Type>();
 };
