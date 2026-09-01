@@ -418,7 +418,7 @@ fun Type.toClass(): Class<*> = when(this){
 		val component = genericComponentType.toClass();
 		java.lang.reflect.Array.newInstance(component, 0).javaClass;
 	};
-	is WildcardType -> his.resolved.toClass();
+	is WildcardType -> this.resolved.toClass();
 	else -> throw IllegalArgumentException("The Type is not a Class");
 };
 class void;

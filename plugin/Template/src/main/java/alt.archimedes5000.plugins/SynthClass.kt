@@ -293,7 +293,7 @@ val java.lang.reflect.Type.ref: ClassRef get() = when(this){
 			componentRef.array+1
 		);
 	};
-	is WildCardType -> this.resolved.ref;
+	is WildcardType -> this.resolved.ref;
 	else -> ClassRef(typeName);
 };
 inline fun <reified T>refOf(): ClassRef{
