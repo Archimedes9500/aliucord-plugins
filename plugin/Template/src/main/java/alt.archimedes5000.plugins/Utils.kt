@@ -430,14 +430,14 @@ class byte; class char; class double; class float;
 class int; class long; class short; class boolean;
 fun Type.primitized(): Type{
 	return when(this){
-		javaTypeOf<byte>() -> Byte::class.java;
-		javaTypeOf<char>() -> Char::class.java;
-		javaTypeOf<double>() -> Double::class.java;
-		javaTypeOf<float>() -> Float::class.java;
-		javaTypeOf<int>() -> Int::class.java;
-		javaTypeOf<long>() -> Long::class.java;
-		javaTypeOf<short>() -> Short::class.java;
-		javaTypeOf<boolean>() -> Boolean::class.java;
+		javaTypeOf<byte>(false) -> Byte::class.java;
+		javaTypeOf<char>(false) -> Char::class.java;
+		javaTypeOf<double>(false) -> Double::class.java;
+		javaTypeOf<float>(false) -> Float::class.java;
+		javaTypeOf<int>(false) -> Int::class.java;
+		javaTypeOf<long>(false) -> Long::class.java;
+		javaTypeOf<short>(false) -> Short::class.java;
+		javaTypeOf<boolean>(false) -> Boolean::class.java;
 		else -> this;
 	};
 };
@@ -454,8 +454,9 @@ val Type.arguments: Array<Type> get() = when(this){
 	};
 	else -> emptyArray<Type>();
 };
-fun <T>javaTypeOf(): Type{
-	return (object : TypeToken<T>(){}).type.primitized();
+inline fun <reified T>javaTypeOf(primitized: Boolean = true): Type{
+	val type = (object : TypeToken<T>(){}).type;
+	return if(primitized) type.primitized() else type;
 };
 //(javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0];
 
