@@ -410,7 +410,7 @@ fun getArgs(type: KType): List<Class<*>?>?{
 		;
 	};
 };
-
+val WildcardType.resolved: Type get() = lowerBounds.firstOrNull() ?:upperBounds.first();
 fun Type.toClass(): Class<*> = when(this){
 	is Class<*> -> this;
 	is ParameterizedType -> rawType as Class<*>;
@@ -418,11 +418,7 @@ fun Type.toClass(): Class<*> = when(this){
 		val component = genericComponentType.toClass();
 		java.lang.reflect.Array.newInstance(component, 0).javaClass;
 	};
-	is WildcardType ->{
-		(lowerBounds.firstOrNull() ?:upperBounds.first())
-			.toClass()
-		;
-	};
+	is WildcardType -> his.resolved.toClass();
 	else -> throw IllegalArgumentException("The Type is not a Class");
 };
 class void;
@@ -447,11 +443,7 @@ fun Array<Type>.primitized(): Array<Type>{
 val Type.arguments: Array<Type> get() = when(this){
 	is ParameterizedType -> this.actualTypeArguments.primitized();
 	is GenericArrayType -> arrayOf(this.genericComponentType);
-	is WildcardType ->{
-		(lowerBounds.firstOrNull() ?:upperBounds.first())
-			.arguments
-		;
-	};
+	is WildcardType -> this.resolved.arguments;
 	else -> emptyArray<Type>();
 };
 inline fun <reified T>javaTypeOf(primitized: Boolean = true): Type{
