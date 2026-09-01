@@ -419,10 +419,9 @@ fun Type.toClass(): Class<*> = when(this){
 		java.lang.reflect.Array.newInstance(component, 0).javaClass;
 	};
 	is WildcardType ->{
-		(lowerBounds.firstOrNull()
-			?:upperBounds.firstOrNull()
-			?.toClass()
-		)?: Object::class.java;
+		(lowerBounds.firstOrNull() ?:upperBounds.first())
+			.toClass()
+		;
 	};
 	else -> throw IllegalArgumentException("The Type is not a Class");
 };
@@ -449,10 +448,9 @@ val Type.arguments: Array<Type> get() = when(this){
 	is ParameterizedType -> this.actualTypeArguments.primitized();
 	is GenericArrayType -> arrayOf(this.genericComponentType);
 	is WildcardType ->{
-		(lowerBounds.firstOrNull()
-			?:upperBounds.firstOrNull()
-			?.arguments
-		)?: emptyArray<Type>();
+		(lowerBounds.firstOrNull() ?:upperBounds.first())
+			.arguments
+		;
 	};
 	else -> emptyArray<Type>();
 };
