@@ -88,7 +88,7 @@ class SynthClass(
 		for(f in fields){
 			cw.visitField(
 				f.flags?: ACC_PUBLIC,
-				f.memberName,
+				f.name,
 				f.type.identifier,
 				f.signature,
 				f.value
@@ -100,7 +100,7 @@ class SynthClass(
 		for(m in methods){
 			cw.visitMethod(
 				m.flags?: ACC_PUBLIC,
-				m.memberName,
+				m.name,
 				m.descriptor,
 				m.signature,
 				m.exceptions?.map{it.internalName}?.toTypedArray()
@@ -245,11 +245,11 @@ open class JVMEntity(
 	val name: String,
 	val array: Int = 0
 ){
-	val internalName = (this as JVMEntity).name.replace('.', '/');
-	val identifier = when((this as JVMEntity).name){
+	val internalName = name.replace('.', '/');
+	val identifier = when(name){
 		"V" -> name;
-		"B", "C", "D", "F", "I", "J", "S", "Z" -> (this as JVMEntity).name;
-		else -> "${"[".repeat(array)}L${(this as JVMEntity).internalName};";
+		"B", "C", "D", "F", "I", "J", "S", "Z" -> name;
+		else -> "${"[".repeat(array)}L${internalName};";
 	};
 };
 open class ClassRef(
@@ -302,7 +302,7 @@ fun <T>refOf(): ClassRef{
 class MethodType(
 	val argTypes: List<ClassRef> = emptyList(),
 	val returnType: ClassRef
-){
+): ClassRef(name, argTypes){
 	val name: String = if(argTypes.size <= 22){
 		"kotlin.jvm.functions.Function${argTypes.size}"
 	}else{
@@ -320,20 +320,20 @@ inline operator fun <reified T>MethodType.Companion.invoke(): MethodType = Metho
 );
 
 class FieldData(
-	val memberName: String,
+	val name: String,
 	val type: ClassRef,
 	val value: Any?,
 	val flags: Int? = null
-): JVMEntity(type.name, type.array){
+){
 	val signature = type.refSignature;
 };
 class MethodData(
-	val memberName: String,
+	val name: String,
 	val type: MethodType,
 	val body: (SynthClass.(MethodVisitor) -> Unit)?,
 	val flags: Int? = null,
 	val exceptions: Set<ClassRef>? = null
-): JVMEntity(type.name){
+){
 	val descriptor: String = (
 		"("
 		+type.argTypes.joinToString(""){it.identifier}
