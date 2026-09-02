@@ -426,6 +426,7 @@ class byte; class char; class double; class float;
 class int; class long; class short; class boolean;
 fun Type.primitized(): Type{
 	return when(this){
+		javaTypeOf<void>(false) -> java.lang.Void.TYPE;
 		javaTypeOf<byte>(false) -> Byte::class.java;
 		javaTypeOf<char>(false) -> Char::class.java;
 		javaTypeOf<double>(false) -> Double::class.java;
