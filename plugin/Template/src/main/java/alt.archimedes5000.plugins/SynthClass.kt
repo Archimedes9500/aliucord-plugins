@@ -278,7 +278,7 @@ val <T: java.lang.reflect.Type> T.ref: ClassRef get() = when(this){
 				componentRef.array+1
 			);
 		}else{
-			ClassRef((primitized as Class<*>).name);
+			ClassRef(primitized.name);
 		};
 	};
 	is ParameterizedType -> ClassRef(

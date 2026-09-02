@@ -410,7 +410,7 @@ fun getArgs(type: KType): List<Class<*>?>?{
 		;
 	};
 };
-val <T: Type>T.resolved: T get() = when(this){
+val Type.resolved: T get() = when(this){
 	is WildcardType -> lowerBounds.firstOrNull()?: upperBounds.first();
 	else -> this;
 };
@@ -436,7 +436,7 @@ class byte; class char; class double; class float;
 class int; class long; class short; class boolean;
 val <T: Type>T.primitized: T get(){
 	return when(this){
-		is WildcardType -> this.resolved.primitized;
+		//is WildcardType -> this.resolved.primitized;
 		void::class.java -> java.lang.Void.TYPE;
 		byte::class.java -> Byte::class.java;
 		char::class.java -> Char::class.java;
@@ -449,7 +449,7 @@ val <T: Type>T.primitized: T get(){
 		else -> this;
 	};
 };
-val <T: Type>Array<T>.primitized: Array<T> get(){
+val Array<out Type>.primitized: Array<out Type> get(){
 	return this.map{it.primitized}.toTypedArray();
 };
 //(javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0];
