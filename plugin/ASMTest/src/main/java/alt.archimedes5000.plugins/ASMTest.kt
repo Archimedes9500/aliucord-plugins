@@ -16,7 +16,7 @@ import com.aliucord.Logger;
 @AliucordPlugin(requiresRestart = true)
 class ASMTest: Plugin(){
 	override fun start(pluginContext: Context){
-		Patcher.addPatch(
+		try{Patcher.addPatch(
 			(TextView::class.java
 				.getDeclaredMethod(
 					"setText",
@@ -62,7 +62,7 @@ class ASMTest: Plugin(){
 					;
 				}
 			)
-		);
+		);}catch(e: Throwable){logger.error("balls", e)};
 	};
 	override fun stop(pluginContext: Context){
 		patcher.unpatchAll();
