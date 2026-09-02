@@ -53,7 +53,7 @@ class ASMTest: Plugin(){
 					),
 					MethodData(
 						name = "afterHookedMethod",
-						type = type = MethodType<(MethodHookParam) -> void>(),
+						type = MethodType<(MethodHookParam) -> void>(),
 						body = {mv -> mv.visit(RETURN)}
 					)
 				)
