@@ -7,7 +7,7 @@ import com.aliucord.entities.Plugin;
 import android.content.Context;
 import com.aliucord.patcher.*;
 
-import com.discord.stores.StoreUserTyping;
+import android.widget.TextView;
 import org.objectweb.asm.*;
 import org.objectweb.asm.Opcodes.*;
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
@@ -17,10 +17,13 @@ import com.aliucord.Logger;
 class ASMTest: Plugin(){
 	override fun start(pluginContext: Context){
 		Patcher.addPatch(
-			(StoreUserTyping::class.java
+			(TextView::class.java
 				.getDeclaredMethod(
-					"setUserTyping",
-					Long::class.java
+					"setText",
+					CharSequence::class.java,
+					TextView.BufferType::class.java,
+					Boolean::class.java,
+					Int::class.java
 				)
 			),
 			runtimeCallback(
@@ -46,13 +49,15 @@ class ASMTest: Plugin(){
 							MethodType<(String) -> void>().descriptor
 						)
 						.call(ALOAD, 1)
-						.call(ACONST_NULL)
 						.call(
-							INVOKEVIRTUAL,
+							GETFIELD,
 							refOf<MethodHookParam>().internalName,
-							"setResult",
-							MethodType<(Any) -> void>().descriptor
+							"args",
+							refOf<Array<Object>().refSignature
 						)
+						.call(ICONST_0)
+						.call(LDC, "balls")
+						.call(AASTORE)
 						.call(RETURN)
 					;
 				}
