@@ -437,15 +437,15 @@ class int; class long; class short; class boolean;
 val Type.primitized: Type get(){
 	return when(this){
 		is WildcardType -> this.resolved.primitized;
-		void as Type -> java.lang.Void.TYPE;
-		byte as Type -> Byte::class.java;
-		char as Type -> Char::class.java;
-		double as Type -> Double::class.java;
-		float as Type -> Float::class.java;
-		int as Type -> Int::class.java;
-		long as Type -> Long::class.java;
-		short as Type -> Short::class.java;
-		boolean as Type -> Boolean::class.java;
+		void::class.java -> java.lang.Void.TYPE;
+		byte::class.java -> Byte::class.java;
+		char::class.java -> Char::class.java;
+		double::class.java -> Double::class.java;
+		float::class.java -> Float::class.java;
+		int::class.java -> Int::class.java;
+		long::class.java -> Long::class.java;
+		short::class.java -> Short::class.java;
+		boolean::class.java -> Boolean::class.java;
 		else -> this;
 	};
 };
