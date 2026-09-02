@@ -10,6 +10,7 @@ import com.aliucord.patcher.*;
 import android.widget.TextView;
 import org.objectweb.asm.*;
 import org.objectweb.asm.Opcodes.*;
+import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 import com.aliucord.Logger;
 
@@ -26,9 +27,15 @@ class ASMTest: Plugin(){
 					Int::class.java
 				)
 			),
-			PreHook{frame ->
-				Logger().debug("Hello");
-				frame.args[0] = "balls";
+			object : XC_MethodHook(){
+				override fun beforeHookedMethod(frame: MethodHookParam){
+					Logger().debug("Hello");
+					frame.args[0] = "balls";
+					return;
+				};
+				override fun afterHookedMethod(frame: MethodHookParam){
+					return;
+				};
 			}
 				/*
 					Logger().debug("Hello");
