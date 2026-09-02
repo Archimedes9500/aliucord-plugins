@@ -27,6 +27,38 @@ class ASMTest: Plugin(){
 					Int::class.java
 				)
 			),
+			SynthClass(
+				data = ClassData(
+					extends = refOf<XC_MethodHook>()
+				),
+				methods = setOf(
+					MethodData(
+						name = "beforeHookedMethod",
+						type = MethodType<(MethodHookParam) -> void>(),
+						body = {mv ->
+							mv
+								.call(ALOAD, 1)
+								.call(
+									GETFIELD,
+									refOf<MethodHookParam>().internalName,
+									"args",
+									refOf<Array<Object>>().refSignature
+								)
+								.call(ICONST_0)
+								.call(LDC, "balls")
+								.call(AASTORE)
+								.call(RETURN)
+							;
+						}
+					),
+					MethodData(
+						name = "afterHookedMethod",
+						type = type = MethodType<(MethodHookParam) -> void>(),
+						body = {mv -> mv.visit(RETURN)}
+					)
+				)
+			).new() as XC_MethodHook;
+/*
 			object : XC_MethodHook(){
 				override fun beforeHookedMethod(frame: MethodHookParam){
 					Logger().debug("Hello");
@@ -37,6 +69,7 @@ class ASMTest: Plugin(){
 					return;
 				};
 			}
+*/
 				/*
 					Logger().debug("Hello");
 					frame.args[0] = "balls";

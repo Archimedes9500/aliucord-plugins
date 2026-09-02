@@ -413,7 +413,7 @@ fun runtimeCallback(
 ): XC_MethodHook{
 	val synthClass = SynthClass(
 		data = ClassData(
-			extends = ClassRef(XC_MethodHook::class.java.name)
+			extends = refOf<XC_MethodHook>()
 		),
 		methods = setOf(
 			MethodData(
