@@ -53,7 +53,7 @@ class ASMTest: Plugin(){
 							GETFIELD,
 							refOf<MethodHookParam>().internalName,
 							"args",
-							refOf<Array<Object>().refSignature
+							refOf<Array<Object>>().refSignature
 						)
 						.call(ICONST_0)
 						.call(LDC, "balls")
