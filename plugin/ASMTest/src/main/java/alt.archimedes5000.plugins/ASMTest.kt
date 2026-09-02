@@ -34,7 +34,7 @@ class ASMTest: Plugin(){
 				methods = setOf(
 					MethodData(
 						name = "beforeHookedMethod",
-						type = MethodType<(MethodHookParam) -> void>(),
+						type = MethodType<(MethodHookParam) -> void>().also{logger.debug("$it")},
 						body = {mv ->
 							mv
 								.call(ALOAD, 1)
