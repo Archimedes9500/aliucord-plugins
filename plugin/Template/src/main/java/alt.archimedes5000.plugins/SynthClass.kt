@@ -268,7 +268,7 @@ open class ClassRef(
 		}
 	;
 };
-val java.lang.reflect.Type.ref: ClassRef get() = when(this){
+val <T: java.lang.reflect.Type> T.ref: ClassRef get() = when(this){
 	is Class<*> -> {
 		if(isArray){
 			val componentRef = componentType.ref;
@@ -278,7 +278,7 @@ val java.lang.reflect.Type.ref: ClassRef get() = when(this){
 				componentRef.array+1
 			);
 		}else{
-			ClassRef(primitized.name);
+			ClassRef((primitized as Class<*>).name);
 		};
 	};
 	is ParameterizedType -> ClassRef(
