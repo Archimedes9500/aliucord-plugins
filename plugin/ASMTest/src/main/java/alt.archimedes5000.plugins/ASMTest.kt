@@ -26,11 +26,16 @@ class ASMTest: Plugin(){
 					Int::class.java
 				)
 			),
-			runtimeCallback(
+			PreHook{frame ->
+				Logger().debug("Hello");
+				frame.args[0] = "balls";
+			}
 				/*
 					Logger().debug("Hello");
-					frame.setResult(null);
+					frame.args[0] = "balls";
 				*/
+/*
+			runtimeCallback(
 				before = {mv ->
 					mv
 						.call(NEW, refOf<Logger>().internalName)
@@ -62,6 +67,7 @@ class ASMTest: Plugin(){
 					;
 				}
 			)
+*/
 		);}catch(e: Throwable){logger.error("balls", e)};
 	};
 	override fun stop(pluginContext: Context){
