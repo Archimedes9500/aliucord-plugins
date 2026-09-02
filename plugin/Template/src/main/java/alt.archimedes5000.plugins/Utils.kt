@@ -424,35 +424,33 @@ fun Type.toClass(): Class<*> = when(this){
 	is WildcardType -> this.resolved.toClass();
 	else -> throw IllegalArgumentException("The Type is not a Class");
 };
-class void;
-class byte; class char; class double; class float;
-class int; class long; class short; class boolean;
-fun Type.primitized(): Type{
-	return when(this.resolved){
-		javaTypeOf<void>(false) -> java.lang.Void.TYPE;
-		javaTypeOf<byte>(false) -> Byte::class.java;
-		javaTypeOf<char>(false) -> Char::class.java;
-		javaTypeOf<double>(false) -> Double::class.java;
-		javaTypeOf<float>(false) -> Float::class.java;
-		javaTypeOf<int>(false) -> Int::class.java;
-		javaTypeOf<long>(false) -> Long::class.java;
-		javaTypeOf<short>(false) -> Short::class.java;
-		javaTypeOf<boolean>(false) -> Boolean::class.java;
-		else -> this;
-	};
-};
-fun Array<Type>.primitized(): Array<Type>{
-	return this.map{it.primitized()}.toTypedArray();
-};
 val Type.arguments: Array<Type> get() = when(this){
-	is ParameterizedType -> this.actualTypeArguments.primitized();
+	is ParameterizedType -> this.actualTypeArguments;
 	is GenericArrayType -> arrayOf(this.genericComponentType);
 	is WildcardType -> this.resolved.arguments;
 	else -> emptyArray<Type>();
 };
-inline fun <reified T>javaTypeOf(primitized: Boolean = true): Type{
-	val type = (object : TypeToken<T>(){}).type;
-	return if(primitized) type.primitized() else type;
+inline fun <reified T>javaTypeOf(): Type = (object : TypeToken<T>(){}).type;
+class void;
+class byte; class char; class double; class float;
+class int; class long; class short; class boolean;
+val Type.primitized: Type get(){
+	return when(this){
+		is WildcardType -> this.resolved.primitized;
+		void as Type -> java.lang.Void.TYPE;
+		byte as Type -> Byte::class.java;
+		char as Type -> Char::class.java;
+		double as Type -> Double::class.java;
+		float as Type -> Float::class.java;
+		int as Type -> Int::class.java;
+		long as Type -> Long::class.java;
+		short as Type -> Short::class.java;
+		boolean as Type -> Boolean::class.java;
+		else -> this;
+	};
+};
+val Array<Type>.primitized: Array<Type> get(){
+	return this.map{it.primitized()}.toTypedArray();
 };
 //(javaClass.genericSuperclass as ParameterizedType).actualTypeArguments[0];
 

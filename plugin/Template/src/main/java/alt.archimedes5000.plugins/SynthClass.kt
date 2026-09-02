@@ -278,7 +278,7 @@ val java.lang.reflect.Type.ref: ClassRef get() = when(this){
 				componentRef.array+1
 			);
 		}else{
-			ClassRef(name);
+			ClassRef(primitized.name);
 		};
 	};
 	is ParameterizedType -> ClassRef(
@@ -286,7 +286,7 @@ val java.lang.reflect.Type.ref: ClassRef get() = when(this){
 		actualTypeArguments.map{it.ref}
 	);
 	is GenericArrayType ->{
-		val componentRef = genericComponentType.ref;
+		val componentRef = genericComponentType.resolved.primitized.ref;
 		ClassRef(
 			componentRef.name,
 			componentRef.generics,
