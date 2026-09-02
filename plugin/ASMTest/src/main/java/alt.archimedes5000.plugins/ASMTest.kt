@@ -57,7 +57,7 @@ class ASMTest: Plugin(){
 						body = {mv -> mv.visit(RETURN)}
 					)
 				)
-			).new() as XC_MethodHook;
+			).new() as XC_MethodHook
 /*
 			object : XC_MethodHook(){
 				override fun beforeHookedMethod(frame: MethodHookParam){
