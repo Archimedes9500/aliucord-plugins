@@ -410,7 +410,7 @@ fun getArgs(type: KType): List<Class<*>?>?{
 		;
 	};
 };
-val Type.resolved: T get() = when(this){
+val Type.resolved: Type get() = when(this){
 	is WildcardType -> lowerBounds.firstOrNull()?: upperBounds.first();
 	else -> this;
 };
@@ -447,7 +447,7 @@ val <T: Type>T.primitized: T get(){
 		short::class.java -> Short::class.java;
 		boolean::class.java -> Boolean::class.java;
 		else -> this;
-	};
+	} as T;
 };
 val Array<out Type>.primitized: Array<out Type> get(){
 	return this.map{it.primitized}.toTypedArray();
