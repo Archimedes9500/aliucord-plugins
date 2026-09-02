@@ -410,7 +410,10 @@ fun getArgs(type: KType): List<Class<*>?>?{
 		;
 	};
 };
-val WildcardType.resolved: Type get() = lowerBounds.firstOrNull() ?:upperBounds.first();
+val Type.resolved: Type get() = when(this){
+	is WildcardType -> lowerBounds.firstOrNull() ?:upperBounds.first();
+	else -> this;
+};
 fun Type.toClass(): Class<*> = when(this){
 	is Class<*> -> this;
 	is ParameterizedType -> rawType as Class<*>;
@@ -425,7 +428,7 @@ class void;
 class byte; class char; class double; class float;
 class int; class long; class short; class boolean;
 fun Type.primitized(): Type{
-	return when(this){
+	return when(this.resolved){
 		javaTypeOf<void>(false) -> java.lang.Void.TYPE;
 		javaTypeOf<byte>(false) -> Byte::class.java;
 		javaTypeOf<char>(false) -> Char::class.java;
