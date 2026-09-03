@@ -295,7 +295,7 @@ val <T: java.lang.reflect.Type> T.ref: ClassRef get() = when(this){
 	};
 	is WildcardType -> this.resolved.ref;
 	else -> ClassRef(typeName);
-}.also{logger.debug("type: $this");logger.debug("ref: ${it.name}")};
+}.also{logger.debug("type: $this\nref: ${it.name}")};
 inline fun <reified T>refOf(): ClassRef{
 	return javaTypeOf<T>().ref;
 };
