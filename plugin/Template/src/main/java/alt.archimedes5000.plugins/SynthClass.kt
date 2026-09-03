@@ -142,7 +142,7 @@ class SynthClass(
 				)
 			),
 			loader
-		).loadClass(data.name/*"alt.archimedes5000.plugins.utils.SynthClassKt\$newName\$2"*/);
+		).loadClass(data.name);
 	};
 	fun new() = value.getConstructor().newInstance();
 	inline operator fun <reified T>get(name:  String): T{
@@ -384,28 +384,21 @@ fun runtimeCallback(
 	before: (SynthClass.(MethodVisitor) -> Unit)? = null,
 	after: (SynthClass.(MethodVisitor) -> Unit)? = null,
 ): XC_MethodHook{
-	val synthClass = SynthClass(
+	return SynthClass(
 		data = ClassData(
 			extends = refOf<XC_MethodHook>()
 		),
 		methods = setOf(
 			MethodData(
 				name = "beforeHookedMethod",
-				type = MethodType(
-					listOf(refOf<MethodHookParam>()),
-					ClassRef("V")
-				),
+				type = MethodType<(MethodHookParam) -> void>(),
 				body = before?: {mv -> mv.visit(RETURN)}
 			),
 			MethodData(
 				name = "afterHookedMethod",
-				type = MethodType(
-					listOf(refOf<MethodHookParam>()),
-					ClassRef("V")
-				),
+				type = MethodType<(MethodHookParam) -> void>(),
 				body = after?: {mv -> mv.visit(RETURN)}
 			)
 		)
-	);
-	return synthClass.new() as XC_MethodHook;
+	).new() as XC_MethodHook;
 };

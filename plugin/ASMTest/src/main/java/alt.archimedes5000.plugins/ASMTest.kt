@@ -17,7 +17,7 @@ import com.aliucord.Logger;
 @AliucordPlugin(requiresRestart = true)
 class ASMTest: Plugin(){
 	override fun start(pluginContext: Context){
-		try{Patcher.addPatch(
+		Patcher.addPatch(
 			(TextView::class.java
 				.getDeclaredMethod(
 					"setText",
@@ -27,6 +27,7 @@ class ASMTest: Plugin(){
 					Int::class.java
 				)
 			),
+/*
 			SynthClass(
 				data = ClassData(
 					extends = refOf<XC_MethodHook>()
@@ -58,6 +59,7 @@ class ASMTest: Plugin(){
 					)
 				)
 			).new() as XC_MethodHook
+*/
 /*
 			object : XC_MethodHook(){
 				override fun beforeHookedMethod(frame: MethodHookParam){
@@ -70,35 +72,19 @@ class ASMTest: Plugin(){
 				};
 			}
 */
-				/*
-					Logger().debug("Hello");
-					frame.args[0] = "balls";
-				*/
-/*
+			/*
+				Logger().debug("Hello");
+				frame.args[0] = "balls";
+			*/
 			runtimeCallback(
 				before = {mv ->
 					mv
-						.call(NEW, refOf<Logger>().internalName)
-						.call(DUP)
-						.call(
-							INVOKESPECIAL,
-							refOf<Logger>().internalName,
-							"<init>",
-							"()V"
-						)
-						.call(LDC, "Hello")
-						.call(
-							INVOKEVIRTUAL,
-							refOf<Logger>().internalName,
-							"debug",
-							MethodType<(String) -> void>().typeSignature
-						)
 						.call(ALOAD, 1)
 						.call(
 							GETFIELD,
 							refOf<MethodHookParam>().internalName,
 							"args",
-							refOf<Array<Object>>().typeSignature
+							refOf<Array<Object>>().descriptor
 						)
 						.call(ICONST_0)
 						.call(LDC, "balls")
@@ -107,8 +93,7 @@ class ASMTest: Plugin(){
 					;
 				}
 			)
-*/
-		);}catch(e: Throwable){logger.error("balls", e)};
+		);
 	};
 	override fun stop(pluginContext: Context){
 		patcher.unpatchAll();
