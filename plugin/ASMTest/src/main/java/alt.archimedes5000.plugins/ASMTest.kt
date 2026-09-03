@@ -63,17 +63,12 @@ class ASMTest: Plugin(){
 /*
 			object : XC_MethodHook(){
 				override fun beforeHookedMethod(frame: MethodHookParam){
-					Logger().debug("Hello");
 					frame.args[0] = "balls";
-					return;
-				};
-				override fun afterHookedMethod(frame: MethodHookParam){
 					return;
 				};
 			}
 */
 			/*
-				Logger().debug("Hello");
 				frame.args[0] = "balls";
 			*/
 			runtimeCallback(
