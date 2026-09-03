@@ -270,7 +270,7 @@ open class ClassRef(
 };
 val Class<*>.nameForRef: String get(){
 	if(isArray) throw IllegalArgumentException("cannot be used on arrays");
-	return if(isPrimitive) Type.getType(this).descriptor else name;
+	return if(isPrimitive) org.objectweb.asm.Type.getDescriptor(this) else name;
 };
 val java.lang.reflect.Type.ref: ClassRef get() = when(this){
 	is Class<*> -> {
