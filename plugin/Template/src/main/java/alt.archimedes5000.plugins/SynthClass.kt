@@ -142,7 +142,7 @@ class SynthClass(
 				)
 			),
 			loader
-		).loadClass(/*data.name*/"alt.archimedes5000.plugins.utils.SynthClassKt\$newName\$2");
+		).loadClass(data.name/*"alt.archimedes5000.plugins.utils.SynthClassKt\$newName\$2"*/);
 	};
 	fun new() = value.getConstructor().newInstance();
 	inline operator fun <reified T>get(name:  String): T{
@@ -155,41 +155,6 @@ class SynthClass(
 			value.getDeclaredField(name).apply{isAccessible = true}[value] as T;
 		};
 	};
-};
-
-fun test(): Class<*>{
-	val bytes = run{
-		val cw = ClassWriter(ClassWriter.COMPUTE_MAXS);
-		cw.visit(
-			V17,
-			ACC_PUBLIC,
-			"test/Class",
-			null,
-			"java/lang/Object",
-			null
-		);
-		cw.visitEnd();
-		return@run cw.toByteArray();
-	};
-
-	val file = dir.resolve("tmp.class");
-	Files.write(file, bytes);
-	D8.run(
-		(D8Command.builder()
-			.addProgramFiles(file)
-			.setOutput(dir, OutputMode.DexIndexed)
-			.setMinApiLevel(27)
-			.build()
-		)
-	);
-	return InMemoryDexClassLoader(
-		ByteBuffer.wrap(
-			Files.readAllBytes(
-				dir.resolve("classes.dex")
-			)
-		),
-		loader
-	).loadClass("test.Class");
 };
 
 @Suppress("UNCHECKED_CAST", "DEPRECATION")
