@@ -77,7 +77,7 @@ class SynthClass(
 					PUTFIELD,
 					data.internalName,
 					f.name,
-					f.type.identifier
+					f.type.descriptor
 				);
 			};
 			visitInsn(RETURN);
@@ -89,8 +89,8 @@ class SynthClass(
 			cw.visitField(
 				f.flags?: ACC_PUBLIC,
 				f.name,
-				f.type.identifier,
-				f.signature,
+				f.type.descriptor,
+				f.typeSignature,
 				f.value
 			).apply{
 				visitEnd();
@@ -102,7 +102,7 @@ class SynthClass(
 				m.flags?: ACC_PUBLIC,
 				m.name,
 				m.descriptor,
-				m.signature,
+				m.typeSignature,
 				m.exceptions?.map{it.internalName}?.toTypedArray()
 			).also{
 				if(m.body != null){
@@ -147,7 +147,7 @@ class SynthClass(
 	fun new() = value.getConstructor().newInstance();
 	inline operator fun <reified T>get(name:  String): T{
 		return if(T::class.isFun){
-			val argTypes = javaTypeOf<T>().arguments.dropLast(1).map{
+			val argTypes = javaTypeOf<T>().arguments.dropLast(1).primitized.map{
 				it.toClass();
 			}.toTypedArray();
 			value.getDeclaredMethod(name, *argTypes).apply{isAccessible = true} as T;
@@ -246,7 +246,7 @@ open class JVMEntity(
 	val array: Int = 0
 ){
 	val internalName = name.replace('.', '/');
-	val identifier = when(name){
+	val descriptor = when(name){
 		"V" -> name;
 		"B", "C", "D", "F", "I", "J", "S", "Z" -> name;
 		else -> "${"[".repeat(array)}L${internalName};";
@@ -257,18 +257,24 @@ open class ClassRef(
 	val generics: List<ClassRef> = emptyList(),
 	array: Int = 0
 ): JVMEntity(name, array){
-	val refSignature: String =
+	val typeSignature: String =
 		if(!generics.isEmpty()){
-			("${identifier.removeSuffix(";")}<"
-				+generics.joinToString(""){it.refSignature}
+			("${descriptor.removeSuffix(";")}<"
+				+generics.joinToString(""){it.typeSignature}
 				+">;"
 			);
 		}else{
-			identifier;
+			descriptor;
 		}
 	;
 };
-val <T: java.lang.reflect.Type> T.ref: ClassRef get() = when(this){
+val Class<*>.nameForRef: String get(){
+	if(isArray) throw IllegalArgumentException("cannot be used on arrays");
+	val testName = ClassRef(name).name;
+	val descriptor = Type.getDescriptor(this);
+	return if(testName == descriptor) descriptor else testName;
+};
+val java.lang.reflect.Type.ref: ClassRef get() = when(this){
 	is Class<*> -> {
 		if(isArray){
 			val componentRef = componentType.ref;
@@ -278,7 +284,7 @@ val <T: java.lang.reflect.Type> T.ref: ClassRef get() = when(this){
 				componentRef.array+1
 			);
 		}else{
-			ClassRef(primitized.name);
+			ClassRef(primitized.nameForRef);
 		};
 	};
 	is ParameterizedType -> ClassRef(
@@ -286,7 +292,7 @@ val <T: java.lang.reflect.Type> T.ref: ClassRef get() = when(this){
 		actualTypeArguments.map{it.ref}
 	);
 	is GenericArrayType ->{
-		val componentRef = genericComponentType.resolved.primitized.ref;
+		val componentRef = genericComponentType.ref;
 		ClassRef(
 			componentRef.name,
 			componentRef.generics,
@@ -295,7 +301,7 @@ val <T: java.lang.reflect.Type> T.ref: ClassRef get() = when(this){
 	};
 	is WildcardType -> this.resolved.ref;
 	else -> ClassRef(typeName);
-}.also{logger.debug("type: $this\nref: ${it.name}")};
+}.also{logger.debug("type: ${this}\nref: ${it.name}")};
 inline fun <reified T>refOf(): ClassRef{
 	return javaTypeOf<T>().ref;
 };
@@ -303,18 +309,18 @@ inline fun <reified T>refOf(): ClassRef{
 class MethodType(
 	val argTypes: List<ClassRef> = emptyList(),
 	val returnType: ClassRef
-): ClassRef(getName(argTypes.size), argTypes+returnType){
+)/*: ClassRef(getName(argTypes.size), argTypes+returnType)*/{
 	val descriptor: String = (
 		"("
-		+argTypes.joinToString(""){it.identifier}
+		+argTypes.joinToString(""){it.descriptor}
 		+")"
-		+returnType.identifier
+		+returnType.descriptor
 	);
-	val signature: String? = if((argTypes+returnType).any{!it.generics.isEmpty()}){
+	val typeSignature: String? = if((argTypes+returnType).any{!it.generics.isEmpty()}){
 		("("
-			+argTypes.joinToString(""){it.refSignature}
+			+argTypes.joinToString(""){it.typeSignature}
 			+")"
-			+returnType.refSignature
+			+returnType.typeSignature
 		);
 	}else{
 		null;
@@ -325,6 +331,9 @@ class MethodType(
 		type.arguments.last().ref
 	);
 	companion object{
+		inline operator fun <reified T>MethodType.invoke(): MethodType{
+			return MethodType(javaTypeOf<T>());
+		};
 		fun getName(count: Int) = if(count <= 22){
 			"kotlin.jvm.functions.Function${count}"
 		}else{
@@ -332,10 +341,7 @@ class MethodType(
 		};
 	};
 };
-inline operator fun <reified T>MethodType.Companion.invoke(): MethodType = MethodType(
-	javaTypeOf<T>().arguments.dropLast(1).map{it.ref},
-	javaTypeOf<T>().arguments.last().ref
-);
+
 
 class FieldData(
 	val name: String,
@@ -343,7 +349,7 @@ class FieldData(
 	val value: Any?,
 	val flags: Int? = null
 ){
-	val signature = type.refSignature;
+	val typeSignature = type.typeSignature;
 };
 class MethodData(
 	val name: String,
@@ -353,7 +359,7 @@ class MethodData(
 	val exceptions: Set<ClassRef>? = null
 ){
 	val descriptor = type.descriptor;
-	val signature = type.signature;
+	val typeSignature = type.typeSignature;
 };
 class TypeParamData(
 	val name: String,
@@ -361,15 +367,10 @@ class TypeParamData(
 	val implements: Set<ClassRef> = emptySet()
 ){
 	val signature: String = ("$name:"
-		+extends?.refSignature?: extends?.identifier?: ""
+		+extends?.typeSignature?: extends?.descriptor?: ""
 		+":"
-		+implements.joinToString(":"){it.refSignature}
+		+implements.joinToString(":"){it.typeSignature}
 	);
-};
-fun newName(): String{
-	return object{}::class.java.name.run{
-		"${substringBeforeLast('$')}\$${substringAfterLast('$').toInt().inc()}";
-	};
 };
 open class ClassData(
 	name: String = newName(),
@@ -378,17 +379,26 @@ open class ClassData(
 	val typeParams: Set<TypeParamData> = emptySet(),
 	val flags: Int? = null
 ): ClassRef(name){
-	val signature: String? = if((implements+extends+this).any{!it.generics.isEmpty()}){
+	val signature: String? = if(typeParams.isNotEmpty()){
 			("<"
 				+typeParams.joinToString(""){it.signature}
 				+">"
-				+extends.refSignature
-				+implements.joinToString(""){it.refSignature}
+				+extends.typeSignature
+				+implements.joinToString(""){it.typeSignature}
+			);
+		}else if((implements+extends).any{it.generics.isNotEmpty()}){
+			(extends.typeSignature
+				+implements.joinToString(""){it.typeSignature}
 			);
 		}else{
 			null;
 		}
 	;
+};
+fun newName(): String{
+	return object{}::class.java.name.run{
+		"${substringBeforeLast('$')}\$${substringAfterLast('$').toInt().inc()}";
+	};
 };
 
 class FieldsAccessor(val fields: Set<FieldData>){
