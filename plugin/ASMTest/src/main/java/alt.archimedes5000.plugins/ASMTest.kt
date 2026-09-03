@@ -42,7 +42,7 @@ class ASMTest: Plugin(){
 									GETFIELD,
 									refOf<MethodHookParam>().internalName,
 									"args",
-									refOf<Array<Object>>().refSignature
+									refOf<Array<Object>>().descriptor
 								)
 								.call(ICONST_0)
 								.call(LDC, "balls")
@@ -91,14 +91,14 @@ class ASMTest: Plugin(){
 							INVOKEVIRTUAL,
 							refOf<Logger>().internalName,
 							"debug",
-							MethodType<(String) -> void>().descriptor
+							MethodType<(String) -> void>().typeSignature
 						)
 						.call(ALOAD, 1)
 						.call(
 							GETFIELD,
 							refOf<MethodHookParam>().internalName,
 							"args",
-							refOf<Array<Object>>().refSignature
+							refOf<Array<Object>>().typeSignature
 						)
 						.call(ICONST_0)
 						.call(LDC, "balls")

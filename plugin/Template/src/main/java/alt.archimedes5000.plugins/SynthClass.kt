@@ -147,8 +147,8 @@ class SynthClass(
 	fun new() = value.getConstructor().newInstance();
 	inline operator fun <reified T>get(name:  String): T{
 		return if(T::class.isFun){
-			val argTypes = javaTypeOf<T>().arguments.dropLast(1).primitized.map{
-				it.toClass();
+			val argTypes = javaTypeOf<T>().arguments.dropLast(1).map{
+				it.resolved.primitized.toClass();
 			}.toTypedArray();
 			value.getDeclaredMethod(name, *argTypes).apply{isAccessible = true} as T;
 		}else{
@@ -271,7 +271,7 @@ open class ClassRef(
 val Class<*>.nameForRef: String get(){
 	if(isArray) throw IllegalArgumentException("cannot be used on arrays");
 	val testName = ClassRef(name).name;
-	val descriptor = Type.getDescriptor(this);
+	val descriptor = Type.getType(this).descriptor;
 	return if(testName == descriptor) descriptor else testName;
 };
 val java.lang.reflect.Type.ref: ClassRef get() = when(this){
@@ -331,15 +331,15 @@ class MethodType(
 		type.arguments.last().ref
 	);
 	companion object{
-		inline operator fun <reified T>MethodType.invoke(): MethodType{
-			return MethodType(javaTypeOf<T>());
-		};
 		fun getName(count: Int) = if(count <= 22){
 			"kotlin.jvm.functions.Function${count}"
 		}else{
 			"kotlin.jvm.functions.FunctionN"
 		};
 	};
+};
+inline operator fun <reified T>MethodType.Companion.invoke(): MethodType{
+	return MethodType(javaTypeOf<T>());
 };
 
 
