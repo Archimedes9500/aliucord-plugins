@@ -1,6 +1,7 @@
 package alt.archimedes5000.plugins.utils;
 
 import org.objectweb.asm.*;
+import org.objectweb.asm.Type as ASMType;
 import org.objectweb.asm.Opcodes.*;
 
 import kotlin.reflect.*;
@@ -270,9 +271,9 @@ open class ClassRef(
 };
 val Class<*>.nameForRef: String get(){
 	if(isArray) throw IllegalArgumentException("cannot be used on arrays");
-	return if(isPrimitive) org.objectweb.asm.Type.getDescriptor(this) else name;
+	return if(isPrimitive) ASMType.getDescriptor(this) else name;
 };
-val java.lang.reflect.Type.ref: ClassRef get() = when(this){
+val Type.ref: ClassRef get() = when(this){
 	is Class<*> -> {
 		if(isArray){
 			val componentRef = componentType.ref;
