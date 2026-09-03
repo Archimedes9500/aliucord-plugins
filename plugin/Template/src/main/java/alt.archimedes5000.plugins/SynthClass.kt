@@ -4,7 +4,6 @@ import org.objectweb.asm.*;
 import org.objectweb.asm.Type as ASMType;
 import org.objectweb.asm.Opcodes.*;
 
-import kotlin.reflect.*;
 import java.lang.reflect.*;
 
 import de.robv.android.xposed.XC_MethodHook;
