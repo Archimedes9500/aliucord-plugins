@@ -447,7 +447,7 @@ val <T: Type>T.primitized: T get(){
 		short::class.java -> Short::class.java;
 		boolean::class.java -> Boolean::class.java;
 		else -> this;
-	} as T;
+	}.also{logger.debug("$this");logger.debug("$it")} as T;
 };
 val Array<out Type>.primitized: Array<out Type> get(){
 	return this.map{it.primitized}.toTypedArray();
