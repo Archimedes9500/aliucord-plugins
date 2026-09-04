@@ -72,20 +72,18 @@ class ASMTest: Plugin(){
 				frame.args[0] = "balls";
 			*/
 			runtimeCallback(
-				before = {mv ->
-					mv
-						.call(ALOAD, 1)
-						.call(
-							GETFIELD,
-							refOf<MethodHookParam>().internalName,
-							"args",
-							refOf<Array<Object>>().descriptor
-						)
-						.call(ICONST_0)
-						.call(LDC, "balls")
-						.call(AASTORE)
-						.call(RETURN)
-					;
+				before = {
+					call(ALOAD, 1);
+					call(
+						GETFIELD,
+						refOf<MethodHookParam>().internalName,
+						"args",
+						refOf<Array<Object>>().descriptor
+					);
+					call(ICONST_0);
+					call(LDC, "balls");
+					call(AASTORE);
+					call(RETURN);
 				}
 			)
 		);

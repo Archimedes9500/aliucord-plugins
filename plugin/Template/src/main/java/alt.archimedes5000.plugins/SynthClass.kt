@@ -381,8 +381,8 @@ class ClassesAccessor(val classes: Set<SynthClass>){
 };
 
 fun runtimeCallback(
-	before: (SynthClass.(MethodVisitor) -> Unit)? = null,
-	after: (SynthClass.(MethodVisitor) -> Unit)? = null,
+	before: (MethodVisitor.() -> Unit)? = null,
+	after: (MethodVisitor.() -> Unit)? = null,
 ): XC_MethodHook{
 	return SynthClass(
 		data = ClassData(
@@ -392,12 +392,12 @@ fun runtimeCallback(
 			MethodData(
 				name = "beforeHookedMethod",
 				type = MethodType<(MethodHookParam) -> void>(),
-				body = before?: {mv -> mv.visit(RETURN)}
+				body = {mv -> (before?: {visit(RETURN)}).invoke(mv)}
 			),
 			MethodData(
 				name = "afterHookedMethod",
 				type = MethodType<(MethodHookParam) -> void>(),
-				body = after?: {mv -> mv.visit(RETURN)}
+				body = {mv -> (after?: {visit(RETURN)}).invoke(mv)}
 			)
 		)
 	).new() as XC_MethodHook;
