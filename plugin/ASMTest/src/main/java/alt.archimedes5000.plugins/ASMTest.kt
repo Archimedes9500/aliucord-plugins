@@ -10,13 +10,130 @@ import com.aliucord.patcher.*;
 import android.widget.TextView;
 import org.objectweb.asm.*;
 import org.objectweb.asm.Opcodes.*;
+import org.objectweb.asm.Opcodes;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 import com.aliucord.Logger;
 
+data class Patch(
+	val owner: String,
+	val method: String? = null,
+	val args: List<String>,
+	val before: List<JSONArray>? = null,
+	val after: List<JSONArray>? = null
+);
+
+val Class<*>.internalName: String get(){
+	return if(isPrimitive){
+		ASMType.getDescriptor(this);
+	}else{
+		ASMType.getInternalName(this);
+	};
+};
+val Class<*>.descriptorStart: String get(){
+	return if(isPrimitive){
+		this.internalName;
+	}else{
+		"L"+this.internalName;
+	};
+};
+
+inline fun <reified T, R>T.If(
+	cond: T.(T) -> Boolean,
+	body: T.() -> R
+): IfResult<T, R>{
+	return if(this.cond(this)){
+		IfResult.True<T, R>(this, this.body());
+	}else{
+		IfResult.False<T, R>(this);
+	};
+};
+sealed class IfResult<T, R>(
+	val reciever: T,
+	val result: R? = null
+){
+	abstract fun Else(body: T.() -> R = {result as R}): R;
+
+	class True<T, R>(reciever: T, result: R): IfResult<T, R>(reciever, result){
+		override fun Else(body: T.() -> R): R{
+			return result as R;
+		};
+	};
+	class False<T, R>(reciever: T): IfResult<T, R>(reciever){
+		override fun Else(body: T.() -> R): R{
+			return reciever.body();
+		};
+	};
+};
+
+fun parse(args: JSONArray): List<Any>{
+	val parsed = ArrayList<Any>();
+	for(i in 0..args.length){
+		parsed.add(
+			args.get(i)
+			.If({it is String && startsWith("#")}){
+				removePrefix("#")
+					.If({setOf('@', ';').none{it in this}}){
+						classOrPrimitiveForName(
+							imports[this]?: replace('/', '.')
+						).internalName;
+					}.Else{
+						Regex("""@([^@]+?)(;|<|$)""")
+							.replace(this){
+								it[1].filterNot{Char::isWhitespace}.run{
+									classOrPrimitiveForName(
+										imports[this]?: replace('/', '.')
+									).descriptorStart;
+								}+it[2];
+							}
+						;
+					}
+				;
+			}.Else()
+		);
+	};
+	return parsed;
+};
+
 @AliucordPlugin(requiresRestart = true)
 class ASMTest: Plugin(){
 	override fun start(pluginContext: Context){
+		val imports = settings.getObject<Map<String, String>>("imports", emptyMap());
+		val patches = settings.getObject<List<Patch>>("patches", emptyList());
+		for(patch in patches){
+			val (owner, method, args, before, after) = patch;
+			Patcher.addPatch(
+				when(method){
+					null, "<init>" -> {
+						classOrPrimitiveForName(owner)
+							.getDeclaredConstructor(
+								*args.map{Class.forName(it)}.toTypedArray()
+							)
+						;
+					}
+					else -> {
+						classOrPrimitiveForName(owner)
+							.getDeclaredMethod(
+								method,
+								*args.map{Class.forName(it)}.toTypedArray()
+							)
+						;
+					}
+				},
+				runtimeCallback(
+					before = {
+						before?.forEach{args ->
+							call(Opcodes.valueOf(args[0] as String), *args);
+						};
+					},
+					after = {
+						after?.forEach{(op, args) ->
+							call(Opcodes.valueOf(op), *args);
+						};
+					}
+				)
+			);
+		};
 		Patcher.addPatch(
 			(TextView::class.java
 				.getDeclaredMethod(
@@ -27,63 +144,26 @@ class ASMTest: Plugin(){
 					Int::class.java
 				)
 			),
-/*
-			SynthClass(
-				data = ClassData(
-					extends = refOf<XC_MethodHook>()
-				),
-				methods = setOf(
-					MethodData(
-						name = "beforeHookedMethod",
-						type = MethodType<(MethodHookParam) -> void>().also{logger.debug("${it.descriptor}")},
-						body = {mv ->
-							mv
-								.call(ALOAD, 1)
-								.call(
-									GETFIELD,
-									refOf<MethodHookParam>().internalName,
-									"args",
-									refOf<Array<Object>>().descriptor
-								)
-								.call(ICONST_0)
-								.call(LDC, "balls")
-								.call(AASTORE)
-								.call(RETURN)
-							;
-						}
-					),
-					MethodData(
-						name = "afterHookedMethod",
-						type = MethodType<(MethodHookParam) -> void>(),
-						body = {mv -> mv.visit(RETURN)}
-					)
-				)
-			).new() as XC_MethodHook
-*/
-/*
-			object : XC_MethodHook(){
-				override fun beforeHookedMethod(frame: MethodHookParam){
-					frame.args[0] = "balls";
-					return;
-				};
-			}
-*/
 			/*
-				frame.args[0] = "balls";
+				PreHook{frame -> 
+					frame.args[0] = "balls";
+					return@PreHook;
+				}
+				((frame) |> getField(<MethodHookParam>, "args", <Array<Object>>), 0, "hello") |> setArrayField
 			*/
 			runtimeCallback(
 				before = {
-					call(ALOAD, 1);
+					call(ALOAD, 1);//frame
 					call(
 						GETFIELD,
 						refOf<MethodHookParam>().internalName,
 						"args",
 						refOf<Array<Object>>().descriptor
-					);
-					call(ICONST_0);
-					call(LDC, "balls");
-					call(AASTORE);
-					call(RETURN);
+					);//.args
+					call(ICONST_0);//0
+					call(LDC, "balls");//"balls"
+					call(AASTORE);//[] =
+					call(RETURN);//return
 				}
 			)
 		);
@@ -92,3 +172,16 @@ class ASMTest: Plugin(){
 		patcher.unpatchAll();
 	};
 };
+/*
+"imports":{
+	"Map":"java.util.Map",
+	"Integer":"java.lang.Integer"
+},
+"#Map" -> "java/util/Map"
+"#@Map;" -> "Ljava/util/Map;"
+"#@@Map<@Integer;@Integer;>;" ->
+	"Ljava/util/Map<Ljava/lang/Integer;Ljava/lang/Integer;>;"
+"#@@@Map;" ->
+	"<K:Ljava/lang/Object;V:Ljava/lang/Object;>Ljava/lang/Object;"
+"#(II)@Map;" -> "(II)Ljava/util/Map;"
+*/
