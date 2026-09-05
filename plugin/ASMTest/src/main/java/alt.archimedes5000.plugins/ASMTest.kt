@@ -40,33 +40,29 @@ val Class<*>.descriptorStart: String get(){
 	};
 };
 
+context(imports: Map<<String, String>>)
 fun parse(args: JSONArray): List<Any>{
-	val parsed = ArrayList<Any>();
-	for(i in 0..args.length){
-		parsed.add(
-			args.get(i)
-			.If({it is String && startsWith("#")}){
-				removePrefix("#")
-					.If({setOf('@', ';').none{it in this}}){
-						classOrPrimitiveForName(
-							imports[this]?: replace('/', '.')
-						).internalName;
-					}.Else{
-						Regex("""@([^@]+?)(;|<|$)""")
-							.replace(this){
-								it[1].filterNot{Char::isWhitespace}.run{
-									classOrPrimitiveForName(
-										imports[this]?: replace('/', '.')
-									).descriptorStart;
-								}+it[2];
-							}
-						;
-					}
-				;
-			}.Else()
-		);
+	return args.map{
+		it.If({it is String && it.startsWith('#')}){
+			removePrefix('#')
+				.If({setOf('@', ';').none{it in this}}){
+					classOrPrimitiveForName(
+						imports[this]?: replace('/', '.')
+					).internalName;
+				}.Else{
+					Regex("""@([^@]+?)(;|<|$)""")
+						.replace(this){
+							it[1].filterNot{Char::isWhitespace}.run{
+								classOrPrimitiveForName(
+									imports[this]?: replace('/', '.')
+								).descriptorStart;
+							}+it[2];
+						}
+					;
+				}
+			;
+		}();
 	};
-	return parsed;
 };
 
 @AliucordPlugin(requiresRestart = true)

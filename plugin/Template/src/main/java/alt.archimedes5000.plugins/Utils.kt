@@ -565,6 +565,7 @@ sealed class IfResult<T, R>(
 	val result: R? = null
 ){
 	abstract fun Else(body: T.() -> R = {result as R}): R;
+	operator fun invoke() = result as R;
 
 	class True<T, R>(reciever: T, result: R): IfResult<T, R>(reciever, result){
 		override fun Else(body: T.() -> R): R{
