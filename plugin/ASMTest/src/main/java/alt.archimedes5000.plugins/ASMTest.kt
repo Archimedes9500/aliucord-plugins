@@ -72,8 +72,8 @@ fun parse(args: JSONArray): List<Any>{
 @AliucordPlugin(requiresRestart = true)
 class ASMTest: Plugin(){
 	override fun start(pluginContext: Context){
-		val imports = settings.getObject<Map<String, String>>("imports", emptyMap());
-		val patches = settings.getObject<List<Patch>>("patches", emptyList());
+		val imports = settings.getObject("imports", emptyMap<<String, String>>());
+		val patches = settings.getObject("patches", emptyList<Patch>());
 		for(patch in patches){
 			val (owner, method, args, before, after) = patch;
 			Patcher.addPatch(
