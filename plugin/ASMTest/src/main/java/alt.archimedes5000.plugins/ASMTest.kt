@@ -40,7 +40,7 @@ val Class<*>.descriptorStart: String get(){
 	};
 };
 
-context(imports: Map<<String, String>>)
+context(imports: Map<String, String>)
 fun parse(args: JSONArray): List<Any>{
 	return args.map{
 		it.If({it is String && it.startsWith('#')}){
