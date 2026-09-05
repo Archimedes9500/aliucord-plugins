@@ -7,6 +7,7 @@ import com.aliucord.entities.Plugin;
 import android.content.Context;
 import com.aliucord.patcher.*;
 
+import org.json.JSONArray;
 import android.widget.TextView;
 import org.objectweb.asm.*;
 import org.objectweb.asm.Opcodes.*;
@@ -35,34 +36,6 @@ val Class<*>.descriptorStart: String get(){
 		this.internalName;
 	}else{
 		"L"+this.internalName;
-	};
-};
-
-inline fun <reified T, R>T.If(
-	cond: T.(T) -> Boolean,
-	body: T.() -> R
-): IfResult<T, R>{
-	return if(this.cond(this)){
-		IfResult.True<T, R>(this, this.body());
-	}else{
-		IfResult.False<T, R>(this);
-	};
-};
-sealed class IfResult<T, R>(
-	val reciever: T,
-	val result: R? = null
-){
-	abstract fun Else(body: T.() -> R = {result as R}): R;
-
-	class True<T, R>(reciever: T, result: R): IfResult<T, R>(reciever, result){
-		override fun Else(body: T.() -> R): R{
-			return result as R;
-		};
-	};
-	class False<T, R>(reciever: T): IfResult<T, R>(reciever){
-		override fun Else(body: T.() -> R): R{
-			return reciever.body();
-		};
 	};
 };
 
