@@ -90,39 +90,6 @@ class ASMTest: Plugin(){
 				)
 			);
 		};
-		Patcher.addPatch(
-			(TextView::class.java
-				.getDeclaredMethod(
-					"setText",
-					CharSequence::class.java,
-					TextView.BufferType::class.java,
-					Boolean::class.java,
-					Int::class.java
-				)
-			),
-			/*
-				PreHook{frame -> 
-					frame.args[0] = "balls";
-					return@PreHook;
-				}
-				((frame) |> getField(<MethodHookParam>, "args", <Array<Object>>), 0, "hello") |> setArrayField
-			*/
-			runtimeCallback(
-				before = {
-					call(ALOAD, 1);//frame
-					call(
-						GETFIELD,
-						refOf<MethodHookParam>().internalName,
-						"args",
-						refOf<Array<Object>>().descriptor
-					);//.args
-					call(ICONST_0);//0
-					call(LDC, "balls");//"balls"
-					call(AASTORE);//[] =
-					call(RETURN);//return
-				}
-			)
-		);
 	};
 	override fun stop(pluginContext: Context){
 		patcher.unpatchAll();
