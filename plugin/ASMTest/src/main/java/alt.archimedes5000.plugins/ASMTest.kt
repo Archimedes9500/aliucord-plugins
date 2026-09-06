@@ -28,10 +28,11 @@ class ASMTest: Plugin(){
 		.filter{it.type == Int::class.java}
 		.associate{it.name to it.getInt(null)}
 	;
-	val imports = settings.getObject("imports", emptyMap<String, String>());
-	val patches = settings.getObject("patches", emptyList<Patch>());
 
 	override fun start(pluginContext: Context){
+		val imports = settings.getObject("imports", emptyMap<String, String>());
+		val patches = settings.getObject("patches", emptyList<Patch>());
+
 		for(patch in patches){
 			logger.debug("$patch");
 			val (owner, method, args, before, after) = patch;
@@ -56,13 +57,13 @@ class ASMTest: Plugin(){
 				runtimeCallback(
 					before = {
 						before?.forEach{
-							val (op, args) = parse(it);
+							val (op, args) = parse(it, imports);
 							call(opcodes[op]!!, *args);
 						};
 					},
 					after = {
 						after?.forEach{
-							val (op, args) = parse(it);
+							val (op, args) = parse(it, imports);
 							call(opcodes[op]!!, *args);
 						};
 					}
@@ -74,7 +75,7 @@ class ASMTest: Plugin(){
 		patcher.unpatchAll();
 	};
 
-	fun parse(args: JSONArray): JVMCall{
+	fun parse(args: JSONArray, imports): JVMCall{
 		return args.toList().map{
 			if(it is String && it.startsWith("#")){
 				it.removePrefix("#")
