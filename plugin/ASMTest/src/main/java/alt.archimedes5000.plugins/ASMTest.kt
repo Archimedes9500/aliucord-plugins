@@ -32,6 +32,7 @@ val Class<*>.internalName: String get(){
 		ASMType.getInternalName(this);
 	};
 };
+
 val Class<*>.descriptorStart: String get(){
 	return if(isPrimitive){
 		this.internalName;
