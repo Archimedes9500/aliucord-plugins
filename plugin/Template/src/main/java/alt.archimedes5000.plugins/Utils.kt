@@ -31,6 +31,7 @@ import com.google.gson.reflect.TypeToken;
 import java.io.Writer;
 
 import com.aliucord.SettingsUtilsJSON;
+import org.json.JSONObject;
 import com.aliucord.utils.GsonUtils.fromJson;
 import com.aliucord.utils.GsonUtils.gson;
 import com.aliucord.utils.GsonUtils.toJson;
@@ -594,7 +595,8 @@ fun org.json.JSONArray.toList(): List<Any?>{
 };
 
 val SettingsUtilsJSON.cache: MutableMap<String, Any> by accessField();
-val SettingsUtilsJSON.settings: org.json.JSONObject by accessField();
+val SettingsUtilsJSON.`settings$delegate`: Lazy<JSONObject> by accessField();
+val SettingsUtilsJSON.settings: JSONObject get() = this.`settings$delegate`.value;
 @Suppress("UNCHECKED_CAST")
 inline fun <reified T>SettingsUtilsJSON.get(key: String, defValue: T): T{
 	val cached = cache[key];
