@@ -75,11 +75,9 @@ subprojects {
 		implementation("org.luckypray:dexkit:2.2.0"){
 			exclude(group = "org.jetbrains.kotlin")
 		}
-/*
 		implementation("org.ow2.asm:asm:9.7.1"){
 			exclude(group = "org.jetbrains.kotlin")
 		}
-*/
 		implementation("org.ow2.asm:asm-util:9.7.1"){
 			exclude(group = "org.jetbrains.kotlin")
 		}
