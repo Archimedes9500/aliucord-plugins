@@ -38,22 +38,21 @@ class ASMTest: Plugin(){
 		logger.debug(patches.joinToString("\n"));
 
 		for(patch in patches){
-			logger.debug("$patch");
 			val (owner, method, args, before, after) = patch;
 			Patcher.addPatch(
 				when(method){
 					null, "<init>" -> {
-						Class.forName(owner)
+						Class.forName(imports[owner]?: owner)
 							.getDeclaredConstructor(
-								*args.map{classOrPrimitiveForName(it)}.toTypedArray()
+								*args.map{classOrPrimitiveForName(imports[it]?: it)}.toTypedArray()
 							)
 						;
 					}
 					else -> {
-						Class.forName(owner)
+						Class.forName(imports[owner]?: owner)
 							.getDeclaredMethod(
 								method,
-								*args.map{classOrPrimitiveForName(it)}.toTypedArray()
+								*args.map{classOrPrimitiveForName(imports[it]?: it)}.toTypedArray()
 							)
 						;
 					}
