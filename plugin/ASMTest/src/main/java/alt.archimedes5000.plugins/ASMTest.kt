@@ -41,22 +41,22 @@ val Class<*>.descriptorStart: String get(){
 };
 
 context(imports: Map<String, String>)
-fun parse(args: JSONArray): List<Any>{
+fun parse(args: JSONArray): List<Any?>{
 	return args.toList().map{
-		if(it is String && it.startsWith('#')){
-			it.removePrefix('#')
+		if(it is String && it.startsWith("#")){
+			it.removePrefix("#")
 				.If({setOf('@', ';').none{it in this}}){
 					classOrPrimitiveForName(
 						imports[this]?: replace('/', '.')
-					).internalName;
+					)!!.internalName;
 				}.Else{
 					Regex("""@([^@]+?)(;|<|$)""")
 						.replace(this){
-							it[1].filterNot{Char::isWhitespace}.run{
+							it.groupValues[1].filterNot{Char::isWhitespace}.run{
 								classOrPrimitiveForName(
 									imports[this]?: replace('/', '.')
-								).descriptorStart;
-							}+it[2];
+								)!!.descriptorStart;
+							}+it.groupValues[2];
 						}
 					;
 				}
