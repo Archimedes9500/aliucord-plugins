@@ -118,11 +118,17 @@ class SynthClass(
 		return@lazy cw.toByteArray();
 	};
 	val value: Class<*> = run{
-		val sw = StringWriter();
+		var sw = StringWriter();
 		CheckClassAdapter.verify(
 			ClassReader(bytes),
 			false,
 			PrintWriter(sw)
+		);
+		if(sw.buffer.length > 0) logger.debug("$sw");
+		sw = StringWriter();
+		ClassReader(bytes).accept(
+		    TraceClassVisitor(PrintWriter(sw)),
+		    ClassReader.SKIP_DEBUG
 		);
 		if(sw.buffer.length > 0) logger.debug("$sw");
 		val file = dir.resolve("tmp.class");
@@ -264,7 +270,7 @@ val Type.ref: ClassRef get() = when(this){
 	};
 	is WildcardType -> this.resolved.ref;
 	else -> ClassRef(typeName);
-}.also{logger.debug("type: ${this}\nref: ${it.name}")};
+}/*.also{logger.debug("type: ${this}\nref: ${it.name}")}*/;
 inline fun <reified T>refOf(): ClassRef{
 	return javaTypeOf<T>().ref;
 };
