@@ -101,13 +101,15 @@ class ASMTest: Plugin(){
 				},
 				runtimeCallback(
 					before = {
-						before?.forEach{(op, args) ->
-							call(Opcodes.valueOf(op), *args);
+						before?.forEach{
+							val (op, args) = parse(it);
+							call(opcodes[op]!!, *args);
 						};
 					},
 					after = {
-						after?.forEach{(op, args) ->
-							call(Opcodes.valueOf(op), *args);
+						after?.forEach{
+							val (op, args) = parse(it);
+							call(opcodes[op]!!, *args);
 						};
 					}
 				)
@@ -164,3 +166,8 @@ class ASMTest: Plugin(){
 	"<K:Ljava/lang/Object;V:Ljava/lang/Object;>Ljava/lang/Object;"
 "#(II)@Map;" -> "(II)Ljava/util/Map;"
 */
+
+val opcodes: Map<String, Int> = Opcodes::class.java.fields
+	.filter{it.type == Int::class.java}
+	.associate{it.name to it.getInt(null)}
+;
