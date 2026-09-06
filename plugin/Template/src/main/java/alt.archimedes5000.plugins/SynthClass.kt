@@ -12,6 +12,7 @@ import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 import java.io.StringWriter;
 import java.io.PrintWriter;
 import org.objectweb.asm.util.CheckClassAdapter;
+import org.objectweb.asm.util.TraceClassVisitor;
 
 import dalvik.system.InMemoryDexClassLoader;
 import com.android.tools.r8.D8;
