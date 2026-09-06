@@ -17,6 +17,21 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 import com.aliucord.Logger;
 
+val Class<*>.internalName: String get(){
+	return if(isPrimitive){
+		ASMType.getDescriptor(this);
+	}else{
+		ASMType.getInternalName(this);
+	};
+};
+val Class<*>.descriptorStart: String get(){
+	return if(isPrimitive){
+		this.internalName;
+	}else{
+		"L"+this.internalName;
+	};
+};
+
 data class Patch(
 	val owner: String,
 	val method: String? = null,
@@ -29,56 +44,16 @@ data class JVMCall(
 	val args: Array<Any?> = emptyArray()
 );
 
-val Class<*>.internalName: String get(){
-	return if(isPrimitive){
-		ASMType.getDescriptor(this);
-	}else{
-		ASMType.getInternalName(this);
-	};
-};
-
-val Class<*>.descriptorStart: String get(){
-	return if(isPrimitive){
-		this.internalName;
-	}else{
-		"L"+this.internalName;
-	};
-};
-
-context(imports: Map<String, String>)
-fun parse(args: JSONArray): JVMCall{
-	return args.toList().map{
-		if(it is String && it.startsWith("#")){
-			it.removePrefix("#")
-				.If({setOf('@', ';').none{it in this}}){
-					classOrPrimitiveForName(
-						imports[this]?: replace('/', '.')
-					)!!.internalName;
-				}.Else{
-					Regex("""@([^@]+?)(;|<|$)""")
-						.replace(this){
-							it.groupValues[1].filterNot(Char::isWhitespace).run{
-								classOrPrimitiveForName(
-									imports[this]?: replace('/', '.')
-								)!!.descriptorStart;
-							}+it.groupValues[2];
-						}
-					;
-				}
-			;
-		}else{
-			it;
-		};
-	}.run{
-		JVMCall(first() as String, drop(1).toTypedArray());
-	};
-};
-
 @AliucordPlugin(requiresRestart = true)
 class ASMTest: Plugin(){
+	val opcodes: Map<String, Int> = Opcodes::class.java.fields
+		.filter{it.type == Int::class.java}
+		.associate{it.name to it.getInt(null)}
+	;
+	val imports = settings.getObject("imports", emptyMap<String, String>());
+	val patches = settings.getObject("patches", emptyList<Patch>());
+
 	override fun start(pluginContext: Context){
-		val imports = settings.getObject("imports", emptyMap<String, String>());
-		val patches = settings.getObject("patches", emptyList<Patch>());
 		for(patch in patches){
 			val (owner, method, args, before, after) = patch;
 			Patcher.addPatch(
@@ -152,6 +127,34 @@ class ASMTest: Plugin(){
 	override fun stop(pluginContext: Context){
 		patcher.unpatchAll();
 	};
+
+	fun parse(args: JSONArray): JVMCall{
+		return args.toList().map{
+			if(it is String && it.startsWith("#")){
+				it.removePrefix("#")
+					.If({setOf('@', ';').none{it in this}}){
+						classOrPrimitiveForName(
+							imports[this]?: replace('/', '.')
+						)!!.internalName;
+					}.Else{
+						Regex("""@([^@]+?)(;|<|$)""")
+							.replace(this){
+								it.groupValues[1].filterNot(Char::isWhitespace).run{
+									classOrPrimitiveForName(
+										imports[this]?: replace('/', '.')
+									)!!.descriptorStart;
+								}+it.groupValues[2];
+							}
+						;
+					}
+				;
+			}else{
+				it;
+			};
+		}.run{
+			JVMCall(first() as String, drop(1).toTypedArray());
+		};
+	};
 };
 /*
 "imports":{
@@ -166,8 +169,3 @@ class ASMTest: Plugin(){
 	"<K:Ljava/lang/Object;V:Ljava/lang/Object;>Ljava/lang/Object;"
 "#(II)@Map;" -> "(II)Ljava/util/Map;"
 */
-
-val opcodes: Map<String, Int> = Opcodes::class.java.fields
-	.filter{it.type == Int::class.java}
-	.associate{it.name to it.getInt(null)}
-;
