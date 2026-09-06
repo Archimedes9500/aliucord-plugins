@@ -24,6 +24,10 @@ data class Patch(
 	val before: List<JSONArray>? = null,
 	val after: List<JSONArray>? = null
 );
+data class JVMCall(
+	val opcode: String,
+	val args: Array<Any?> = emptyArray()
+);
 
 val Class<*>.internalName: String get(){
 	return if(isPrimitive){
@@ -42,7 +46,7 @@ val Class<*>.descriptorStart: String get(){
 };
 
 context(imports: Map<String, String>)
-fun parse(args: JSONArray): List<Any?>{
+fun parse(args: JSONArray): JVMCall{
 	return args.toList().map{
 		if(it is String && it.startsWith("#")){
 			it.removePrefix("#")
@@ -53,7 +57,7 @@ fun parse(args: JSONArray): List<Any?>{
 				}.Else{
 					Regex("""@([^@]+?)(;|<|$)""")
 						.replace(this){
-							it.groupValues[1].filterNot{Char::isWhitespace}.run{
+							it.groupValues[1].filterNot(Char::isWhitespace).run{
 								classOrPrimitiveForName(
 									imports[this]?: replace('/', '.')
 								)!!.descriptorStart;
@@ -65,38 +69,40 @@ fun parse(args: JSONArray): List<Any?>{
 		}else{
 			it;
 		};
+	}.run{
+		JVMCall(first() as String, drop(1).toTypedArray());
 	};
 };
 
 @AliucordPlugin(requiresRestart = true)
 class ASMTest: Plugin(){
 	override fun start(pluginContext: Context){
-		val imports = settings.getObject("imports", emptyMap<<String, String>>());
+		val imports = settings.getObject("imports", emptyMap<String, String>());
 		val patches = settings.getObject("patches", emptyList<Patch>());
 		for(patch in patches){
 			val (owner, method, args, before, after) = patch;
 			Patcher.addPatch(
 				when(method){
 					null, "<init>" -> {
-						classOrPrimitiveForName(owner)
+						Class.forName(owner)
 							.getDeclaredConstructor(
-								*args.map{Class.forName(it)}.toTypedArray()
+								*args.map{classOrPrimitiveForName(it)}.toTypedArray()
 							)
 						;
 					}
 					else -> {
-						classOrPrimitiveForName(owner)
+						Class.forName(owner)
 							.getDeclaredMethod(
 								method,
-								*args.map{Class.forName(it)}.toTypedArray()
+								*args.map{classOrPrimitiveForName(it)}.toTypedArray()
 							)
 						;
 					}
 				},
 				runtimeCallback(
 					before = {
-						before?.forEach{args ->
-							call(Opcodes.valueOf(args[0] as String), *args);
+						before?.forEach{(op, args) ->
+							call(Opcodes.valueOf(op), *args);
 						};
 					},
 					after = {
