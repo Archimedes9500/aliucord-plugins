@@ -33,6 +33,7 @@ class ASMTest: Plugin(){
 
 	override fun start(pluginContext: Context){
 		for(patch in patches){
+			logger.debug("$patch");
 			val (owner, method, args, before, after) = patch;
 			Patcher.addPatch(
 				when(method){
@@ -82,7 +83,7 @@ class ASMTest: Plugin(){
 							imports[this]?: replace('/', '.')
 						)!!.internalName;
 					}.Else{
-						Regex("""@([^@]+?)(;|<|$)""")
+						Regex("""@([^@]+?)([;<])""")
 							.replace(this){
 								it.groupValues[1].filterNot(Char::isWhitespace).run{
 									classOrPrimitiveForName(
@@ -108,9 +109,7 @@ class ASMTest: Plugin(){
 },
 "#Map" -> "java/util/Map"
 "#@Map;" -> "Ljava/util/Map;"
-"#@@Map<@Integer;@Integer;>;" ->
+"#@Map<@Integer;@Integer;>;" ->
 	"Ljava/util/Map<Ljava/lang/Integer;Ljava/lang/Integer;>;"
-"#@@@Map;" ->
-	"<K:Ljava/lang/Object;V:Ljava/lang/Object;>Ljava/lang/Object;"
 "#(II)@Map;" -> "(II)Ljava/util/Map;"
 */
