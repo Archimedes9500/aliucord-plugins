@@ -8,14 +8,15 @@ import android.content.Context;
 import com.aliucord.patcher.*;
 
 import org.json.JSONArray;
+import org.json.JSONObject.NULL;
 import org.objectweb.asm.Opcodes;
 
 data class Patch(
 	val owner: String,
 	val method: String? = null,
 	val args: List<String>,
-	val before: List<JSONArray>? = null,
-	val after: List<JSONArray>? = null
+	val before: List<List<Any>>? = null,
+	val after: List<List<Any>>? = null
 );
 data class JVMCall(
 	val opcode: String,
@@ -76,8 +77,8 @@ class ASMTest: Plugin(){
 		patcher.unpatchAll();
 	};
 
-	fun parse(args: JSONArray, imports: Map<String, String>): JVMCall{
-		return args.toList().map{
+	fun parse(args: List<Any>, imports: Map<String, String>): JVMCall{
+		return args.map{if(it == NULL) null else it}.map{
 			if(it is String && it.startsWith("#")){
 				it.removePrefix("#")
 					.If({setOf('@', ';').none{it in this}}){
