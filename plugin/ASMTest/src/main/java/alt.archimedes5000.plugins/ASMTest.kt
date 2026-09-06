@@ -42,7 +42,7 @@ val Class<*>.descriptorStart: String get(){
 
 context(imports: Map<String, String>)
 fun parse(args: JSONArray): List<Any>{
-	return (args as Iterable<Object>).map{
+	return args.toList().map{
 		it.If({it is String && it.startsWith('#')}){
 			removePrefix('#')
 				.If({setOf('@', ';').none{it in this}}){

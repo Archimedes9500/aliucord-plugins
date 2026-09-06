@@ -578,3 +578,12 @@ sealed class IfResult<T, R>(
 		};
 	};
 };
+
+fun org.json.JSONArray.toList(): List<Any?>{
+	val result = MutableList<Any?>(length()){null};
+	for(i in 0 until length()){
+		val e = this[i];
+		if(e != org.json.JSONObject.NULL) result[i] = e;
+	};
+	return result;
+};
