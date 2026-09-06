@@ -8,29 +8,7 @@ import android.content.Context;
 import com.aliucord.patcher.*;
 
 import org.json.JSONArray;
-import android.widget.TextView;
-import org.objectweb.asm.*;
-import org.objectweb.asm.Type as ASMType;
-import org.objectweb.asm.Opcodes.*;
 import org.objectweb.asm.Opcodes;
-import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
-import com.aliucord.Logger;
-
-val Class<*>.internalName: String get(){
-	return if(isPrimitive){
-		ASMType.getDescriptor(this);
-	}else{
-		ASMType.getInternalName(this);
-	};
-};
-val Class<*>.descriptorStart: String get(){
-	return if(isPrimitive){
-		this.internalName;
-	}else{
-		"L"+this.internalName;
-	};
-};
 
 data class Patch(
 	val owner: String,

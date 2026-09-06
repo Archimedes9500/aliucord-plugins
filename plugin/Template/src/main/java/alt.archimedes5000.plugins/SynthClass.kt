@@ -402,3 +402,18 @@ fun runtimeCallback(
 		)
 	).new() as XC_MethodHook;
 };
+
+val Class<*>.internalName: String get(){
+	return if(isPrimitive){
+		ASMType.getDescriptor(this);
+	}else{
+		ASMType.getInternalName(this);
+	};
+};
+val Class<*>.descriptorStart: String get(){
+	return if(isPrimitive){
+		this.internalName;
+	}else{
+		"L"+this.internalName;
+	};
+};
