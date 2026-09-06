@@ -30,8 +30,10 @@ class ASMTest: Plugin(){
 	;
 
 	override fun start(pluginContext: Context){
-		val imports = settings.getObject("imports", emptyMutableMap<String, String>());
-		val patches = settings.getObject("patches", emptyMutableList<Patch>());
+		val imports = mutableMapOf<String, String>();
+		settings.getObject("imports", imports);
+		val patches = ArrayList<Patch>();
+		settings.getObject("patches", patches);
 
 		for(patch in patches){
 			logger.debug("$patch");
