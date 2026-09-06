@@ -99,6 +99,8 @@ class ASMTest: Plugin(){
 						;
 					}
 				;
+			}else if(it is Double && it.isInteger){
+				it.toInt();
 			}else{
 				it;
 			};
