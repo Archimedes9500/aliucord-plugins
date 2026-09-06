@@ -587,3 +587,17 @@ fun org.json.JSONArray.toList(): List<Any?>{
 	};
 	return result;
 };
+
+val SettingsUtilsJSON.cache: MutableMap<String, Any> by accessField();
+
+@Suppress("UNCHECKED_CAST")
+inline fun <reified T>SettingsUtilsJSON.get(key: String, defValue: T): T{
+	val cached = cache[key];
+	try{return cached as T}catch(ignored: Throwable){};
+
+	return if(settings.has(key)){
+		gson.fromJson(settings.getString(key), javaTypeOf<T>());
+	}else{
+		defValue;
+	};
+};
