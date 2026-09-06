@@ -34,6 +34,7 @@ class ASMTest: Plugin(){
 		settings.getObject("imports", imports);
 		val patches = ArrayList<Patch>();
 		settings.getObject("patches", patches);
+		logger.debug(patches.joinToString("\n"));
 
 		for(patch in patches){
 			logger.debug("$patch");
