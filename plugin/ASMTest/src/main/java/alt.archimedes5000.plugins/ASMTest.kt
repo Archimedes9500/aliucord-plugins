@@ -75,7 +75,7 @@ class ASMTest: Plugin(){
 		patcher.unpatchAll();
 	};
 
-	fun parse(args: JSONArray, imports): JVMCall{
+	fun parse(args: JSONArray, imports: Map<String, String>): JVMCall{
 		return args.toList().map{
 			if(it is String && it.startsWith("#")){
 				it.removePrefix("#")
