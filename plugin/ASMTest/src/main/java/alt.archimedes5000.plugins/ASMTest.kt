@@ -43,8 +43,8 @@ val Class<*>.descriptorStart: String get(){
 context(imports: Map<String, String>)
 fun parse(args: JSONArray): List<Any>{
 	return args.toList().map{
-		it.If({it is String && it.startsWith('#')}){
-			removePrefix('#')
+		if(it is String && it.startsWith('#')){
+			it.removePrefix('#')
 				.If({setOf('@', ';').none{it in this}}){
 					classOrPrimitiveForName(
 						imports[this]?: replace('/', '.')
@@ -61,7 +61,9 @@ fun parse(args: JSONArray): List<Any>{
 					;
 				}
 			;
-		}();
+		}else{
+			it;
+		};
 	};
 };
 
