@@ -25,15 +25,15 @@ data class JVMCall(
 
 @AliucordPlugin(requiresRestart = true)
 class ASMTest: Plugin(){
-	override val settings = SettingsUtilsJSON("ASMTest");
+	val rawSettings = SettingsUtilsJSON("ASMTest");
 	val opcodes: Map<String, Int> = Opcodes::class.java.fields
 		.filter{it.type == Int::class.java}
 		.associate{it.name to it.getInt(null)}
 	;
 
 	override fun start(pluginContext: Context){
-		val imports = settings.get("imports", mutableMapOf<String, String>());
-		val patches = settings.get("patches", ArrayList<Patch>());
+		val imports = rawSettings.get("imports", mutableMapOf<String, String>());
+		val patches = rawSettings.get("patches", ArrayList<Patch>());
 		logger.debug(patches.joinToString("\n"));
 
 		for(patch in patches){
