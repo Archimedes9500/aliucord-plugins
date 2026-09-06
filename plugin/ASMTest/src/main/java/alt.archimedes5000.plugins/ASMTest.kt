@@ -59,13 +59,13 @@ class ASMTest: Plugin(){
 					}
 				},
 				runtimeCallback(
-					before = before?.takeIf{notEmpty()}?.let{{
+					before = before?.takeIf{it.isNotEmpty()}?.let{{
 						it.forEach{
 							val (op, args) = parse(it, imports);
 							call(opcodes[op]!!, *args);
 						};
 					}},
-					after = after?.takeIf{notEmpty()}?.let{{
+					after = after?.takeIf{it.isNotEmpty()}?.let{{
 						it.forEach{
 							val (op, args) = parse(it, imports);
 							call(opcodes[op]!!, *args);
