@@ -30,6 +30,11 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.Writer;
 
+import com.aliucord.settings.SettingsUtilsJSON;
+import com.aliucord.utils.GsonUtils.fromJson;
+import com.aliucord.utils.GsonUtils.gson;
+import com.aliucord.utils.GsonUtils.toJson;
+
 typealias IntIterator = d0.t.c0;
 typealias ClosedRange<T> = d0.d0.a<T>;
 typealias IntProgressionIterator = d0.d0.b;
@@ -589,7 +594,6 @@ fun org.json.JSONArray.toList(): List<Any?>{
 };
 
 val SettingsUtilsJSON.cache: MutableMap<String, Any> by accessField();
-
 @Suppress("UNCHECKED_CAST")
 inline fun <reified T>SettingsUtilsJSON.get(key: String, defValue: T): T{
 	val cached = cache[key];

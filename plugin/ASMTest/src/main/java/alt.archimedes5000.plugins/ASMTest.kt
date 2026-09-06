@@ -7,6 +7,7 @@ import com.aliucord.entities.Plugin;
 import android.content.Context;
 import com.aliucord.patcher.*;
 
+import com.aliucord.settings.SettingsUtilsJSON;
 import org.json.JSONArray;
 import org.json.JSONObject.NULL;
 import org.objectweb.asm.Opcodes;
