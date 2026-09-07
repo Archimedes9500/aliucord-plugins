@@ -81,6 +81,8 @@ subprojects {
 		implementation("com.android.tools:r8:9.4.14"){
 			exclude(group = "org.jetbrains.kotlin")
 		}
-		implementation("com.github.jumanji144:dex:master-SNAPSHOT")
+		implementation("software.coley:dex-translator:1.1.1"){
+			exclude(group = "org.jetbrains.kotlin")
+		}
 	}
 }
