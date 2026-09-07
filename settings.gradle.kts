@@ -24,6 +24,7 @@ dependencyResolutionManagement {
             name = "aliucord-snapshots"
             url = uri("https://maven.aliucord.com/snapshots")
         }
+		maven("https://jitpack.io")
     }
 }
 
