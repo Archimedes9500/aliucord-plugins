@@ -81,8 +81,10 @@ subprojects {
 		implementation("com.android.tools:r8:9.4.14"){
 			exclude(group = "org.jetbrains.kotlin")
 		}
+/*
 		implementation("software.coley:dex-translator:1.1.1"){
 			exclude(group = "org.jetbrains.kotlin")
 		}
+*/
 	}
 }

@@ -134,7 +134,7 @@ class SynthClass(
 		if(sw.buffer.length > 0) logger.debug("$sw");
 		val file = dir.resolve("tmp.class");
 		Files.write(file, bytes);
-
+/*
 		val jar = dir.resolve("tmp.jar");
 		val dex = dir.resolve("tmp.dex");
 		ZipOutputStream(
@@ -154,7 +154,7 @@ class SynthClass(
 			)
 			.run()
 		;
-/*
+*/
 		D8.run(
 			(D8Command.builder()
 				.addProgramFiles(file)
@@ -163,11 +163,10 @@ class SynthClass(
 				.build()
 			)
 		);
-*/
 		return@run InMemoryDexClassLoader(
 			ByteBuffer.wrap(
 				Files.readAllBytes(
-					/*dir.resolve("classes.dex")*/dex
+					dir.resolve("classes.dex")//dex
 				)
 			),
 			loader
