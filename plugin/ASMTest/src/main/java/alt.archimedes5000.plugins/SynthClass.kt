@@ -1,4 +1,4 @@
-package alt.archimedes5000.plugins.utils;
+package alt.archimedes5000.plugins;
 
 import org.objectweb.asm.*;
 import org.objectweb.asm.Type as ASMType;
@@ -134,27 +134,6 @@ class SynthClass(
 		if(sw.buffer.length > 0) logger.debug("$sw");
 		val file = dir.resolve("tmp.class");
 		Files.write(file, bytes);
-/*
-		val jar = dir.resolve("tmp.jar");
-		val dex = dir.resolve("tmp.dex");
-		ZipOutputStream(
-			Files.newOutputStream(jar)
-		).use{
-			it.putNextEntry(ZipEntry("tmp.class"));
-			it.write(bytes);
-			it.closeEntry();
-		};
-		Converter()
-			.setInputs(Inputs().apply{addJarArchive(jar)})
-			.setOptions(
-				Options()
-				.setLenient(false)
-				.setReplaceInvalidMethodBodies(false)
-				.setDexFileOutput(dex)
-			)
-			.run()
-		;
-*/
 		D8.run(
 			(D8Command.builder()
 				.addProgramFiles(file)

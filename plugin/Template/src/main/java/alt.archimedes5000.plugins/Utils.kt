@@ -596,7 +596,6 @@ fun org.json.JSONArray.toList(): List<Any?>{
 
 val Double.isInteger get() = this == kotlin.math.floor(this) && this >= Int.MIN_VALUE && this <= Int.MAX_VALUE;
 
-/*
 val SettingsUtilsJSON.cache: MutableMap<String, Any> by accessField();
 val SettingsUtilsJSON.`settings$delegate`: Lazy<JSONObject> by accessField();
 val SettingsUtilsJSON.settings: JSONObject get() = this.`settings$delegate`.value;
@@ -611,4 +610,4 @@ inline fun <reified T>SettingsUtilsJSON.get(key: String, defValue: T): T{
 		defValue;
 	};
 };
-*/
+
