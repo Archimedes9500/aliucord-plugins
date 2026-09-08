@@ -8,10 +8,12 @@ aliucord{
 	);
 };
 
+@Suppress("UNCHECKED_CAST")
+val deps = rootProject.extra["deps"] as Map<String, DependencyHandlerScope.() -> Unit>;
 dependencies{
 	file("src/main/java/alt.archimedes5000.plugins/utils/")
 		.listFiles()
 		?.filter{it.isDirectory}
-		?.forEach{Deps[it.name]?.invoke(this)}
+		?.forEach{deps[it.name]?.invoke(this)}
 	;
 };
