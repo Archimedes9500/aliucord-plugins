@@ -1,9 +1,9 @@
-version = "0.0"
-description = "test"
+version = "0.0";
+description = "test";
 
-aliucord {
+aliucord{
 	changelog.set(
 		"""
 		""".trimIndent()
-	)
-}
+	);
+};

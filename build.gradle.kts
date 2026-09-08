@@ -8,9 +8,25 @@ plugins{
 };
 
 //deps
-val DependencyHandlerScope.dexkit get() = add(
-	"implementation",
-	dependencies.create("org.luckypray:dexkit:2.2.0"){
-		exclude(group = "org.jetbrains.kotlin")
-	}
-);
+val DependencyHandlerScope.dexkit get(){
+	add(
+		"implementation",
+		dependencies.create("org.luckypray:dexkit:2.2.0"){
+			exclude(group = "org.jetbrains.kotlin")
+		}
+	);
+};
+val DependencyHandlerScope.synthetic get(){
+	add(
+		"implementation",
+		dependencies.create("org.ow2.asm:asm-util:9.7.1"){
+			exclude(group = "org.jetbrains.kotlin")
+		}
+	);
+	add(
+		"implementation",
+		dependencies.create("com.android.tools:r8:9.4.14"){
+			exclude(group = "org.jetbrains.kotlin")
+		}
+	);
+};
