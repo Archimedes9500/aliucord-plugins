@@ -8,7 +8,7 @@ plugins{
 };
 
 //deps
-val DependencyHandlerScope.dexkit get(){
+val DependencyHandlerScope.dexkit: Unit get(){
 	add(
 		"implementation",
 		dependencies.create("org.luckypray:dexkit:2.2.0"){
@@ -16,7 +16,7 @@ val DependencyHandlerScope.dexkit get(){
 		}
 	);
 };
-val DependencyHandlerScope.synthetic get(){
+val DependencyHandlerScope.synthetic: Unit get(){
 	add(
 		"implementation",
 		dependencies.create("org.ow2.asm:asm-util:9.7.1"){
