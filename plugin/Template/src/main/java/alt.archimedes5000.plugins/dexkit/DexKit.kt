@@ -11,6 +11,10 @@ import com.aliucord.Http;
 import org.luckypray.dexkit.query.enums.MatchType;
 import org.luckypray.dexkit.util.InstanceUtil;
 
+import com.aliucord.api.PatcherAPI;
+import com.aliucord.api.Unpatch;
+import com.aliucord.patcher.*;
+
 val bridge: DexKitBridge by lazy{
 	Utils.threadPool.submit{
 		val libdexkit = File(Utils.appContext.filesDir, "libdexkit.so");

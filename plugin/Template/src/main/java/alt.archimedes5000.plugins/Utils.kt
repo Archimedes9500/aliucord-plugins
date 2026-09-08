@@ -9,10 +9,6 @@ import com.github.gfx.util.WeakIdentityHashMap;
 
 import de.robv.android.xposed.XposedBridge;
 
-import com.aliucord.api.PatcherAPI;
-import com.aliucord.api.Unpatch;
-import com.aliucord.patcher.*;
-
 import kotlin.reflect.KClass;
 import kotlin.reflect.KType;
 import kotlin.properties.ReadOnlyProperty;
