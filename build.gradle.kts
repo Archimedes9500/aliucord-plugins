@@ -7,26 +7,30 @@ plugins{
 	alias(libs.plugins.ktlint) apply false;
 };
 
-//deps
-val DependencyHandlerScope.dexkit: Unit get(){
-	add(
-		"implementation",
-		dependencies.create("org.luckypray:dexkit:2.2.0"){
-			exclude(group = "org.jetbrains.kotlin")
+object Deps{
+	val map = mapOf<String, DependencyHandlerScope.() -> Unit>(
+		"dexkit" to {
+			add(
+				"implementation",
+				dependencies.create("org.luckypray:dexkit:2.2.0"){
+					exclude(group = "org.jetbrains.kotlin")
+				}
+			);
+		},
+		"synthetic" to {
+			add(
+				"implementation",
+				dependencies.create("org.ow2.asm:asm-util:9.7.1"){
+					exclude(group = "org.jetbrains.kotlin")
+				}
+			);
+			add(
+				"implementation",
+				dependencies.create("com.android.tools:r8:9.4.14"){
+					exclude(group = "org.jetbrains.kotlin")
+				}
+			);
 		}
 	);
-};
-val DependencyHandlerScope.synthetic: Unit get(){
-	add(
-		"implementation",
-		dependencies.create("org.ow2.asm:asm-util:9.7.1"){
-			exclude(group = "org.jetbrains.kotlin")
-		}
-	);
-	add(
-		"implementation",
-		dependencies.create("com.android.tools:r8:9.4.14"){
-			exclude(group = "org.jetbrains.kotlin")
-		}
-	);
+	operator fun get(key: String): (DependencyHandlerScope.() -> Unit)? = map[key];
 };
