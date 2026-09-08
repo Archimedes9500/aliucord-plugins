@@ -1,25 +1,25 @@
-package alt.archimedes5000.plugins;
+package alt.archimedes5000.plugins.synthetic;
 
+import alt.archimedes5000.plugins.utils.*;
 import org.objectweb.asm.*;
 import org.objectweb.asm.Type as ASMType;
 import org.objectweb.asm.Opcodes.*;
-
 import java.lang.reflect.*;
 
-import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
+import java.nio.file.Files;
 
 import java.io.StringWriter;
 import java.io.PrintWriter;
 import org.objectweb.asm.util.CheckClassAdapter;
 import org.objectweb.asm.util.TraceClassVisitor;
-
-import dalvik.system.InMemoryDexClassLoader;
 import com.android.tools.r8.D8;
 import com.android.tools.r8.D8Command;
 import com.android.tools.r8.OutputMode;
+import dalvik.system.InMemoryDexClassLoader;
 import java.nio.ByteBuffer;
-import java.nio.file.Files;
+
+import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XC_MethodHook.MethodHookParam;
 
 object loader: ClassLoader(appContext.classLoader){
 	fun defineClass(name: String, bytes: ByteArray): Class<*>{

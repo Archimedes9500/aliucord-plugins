@@ -7,6 +7,7 @@ import com.aliucord.entities.Plugin;
 import android.content.Context;
 import com.aliucord.patcher.*;
 
+import alt.archimedes5000.plugins.synthetic.*;
 import com.aliucord.SettingsUtilsJSON;
 import org.json.JSONArray;
 import org.json.JSONObject.NULL;
