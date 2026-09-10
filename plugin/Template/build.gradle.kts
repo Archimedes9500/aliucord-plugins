@@ -1,4 +1,5 @@
 import org.gradle.kotlin.dsl.DependencyHandlerScope;
+import org.gradle.kotlin.dsl.DependencyHandler;
 
 version = "0.0";
 description = "test";
@@ -11,7 +12,7 @@ aliucord{
 };
 
 @Suppress("UNCHECKED_CAST")
-val deps = rootProject.extra["deps"] as Map<String, DependencyHandlerScope.() -> Unit>;
+val deps = rootProject.extra["deps"] as Map<String, /*DependencyHandlerScope.()*/(DependencyHandler) -> Unit>;
 dependencies{
 	println("AAAAAA\n${deps["dexkit"]!!::invoke}");
 	deps["dexkit"]!!.invoke(this);

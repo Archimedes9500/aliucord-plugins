@@ -7,7 +7,7 @@ aliucord{
 		""".trimIndent()
 	);
 };
-
+/*
 @Suppress("UNCHECKED_CAST")
 val deps = rootProject.extra["deps"] as Map<String, DependencyHandlerScope.() -> Unit>;
 dependencies{
@@ -17,3 +17,4 @@ dependencies{
 		?.forEach{deps[it.name]?.invoke(this)}
 	;
 };
+*/

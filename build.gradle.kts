@@ -1,4 +1,5 @@
 import org.gradle.kotlin.dsl.DependencyHandlerScope;
+import org.gradle.kotlin.dsl.DependencyHandler;
 
 plugins{
 	alias(libs.plugins.kotlin.android) apply false;
@@ -7,9 +8,9 @@ plugins{
 	alias(libs.plugins.ktlint) apply false;
 };
 
-extra["deps"] = mapOf<String, DependencyHandlerScope.() -> Unit>(
-	"dexkit" to {dh ->
-		dh.add(
+extra["deps"] = mapOf<String, /*DependencyHandlerScope.()*/(DependencyHandler) -> Unit>(
+	"dexkit" to {
+		it.add(
 			"implementation",
 			dependencies.create("org.luckypray:dexkit:2.2.0"){
 				exclude(group = "org.jetbrains.kotlin")
@@ -17,13 +18,13 @@ extra["deps"] = mapOf<String, DependencyHandlerScope.() -> Unit>(
 		);
 	},
 	"synthetic" to {
-		add(
+		it.add(
 			"implementation",
 			dependencies.create("org.ow2.asm:asm-util:9.7.1"){
 				exclude(group = "org.jetbrains.kotlin")
 			}
 		);
-		add(
+		it.add(
 			"implementation",
 			dependencies.create("com.android.tools:r8:9.4.14"){
 				exclude(group = "org.jetbrains.kotlin")
