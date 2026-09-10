@@ -2,6 +2,7 @@ package alt.archimedes5000.plugins.dexkit;
 
 import alt.archimedes5000.plugins.utils.*;
 import com.aliucord.utils.*;
+import java.lang.reflect.*;
 
 import org.luckypray.dexkit.DexKitBridge;
 import com.aliucord.Utils;
