@@ -8,20 +8,13 @@ plugins{
 };
 
 extra["deps"] = mapOf<String, DependencyHandlerScope.() -> Unit>(
-/*
-	"dexkit" to {
-		add(
+	"dexkit" to {dh ->
+		dh.add(
 			"implementation",
 			dependencies.create("org.luckypray:dexkit:2.2.0"){
 				exclude(group = "org.jetbrains.kotlin")
 			}
 		);
-	},
-*/
-	"dexkit" to {
-		implementation("org.luckypray:dexkit:2.2.0"){
-			exclude(group = "org.jetbrains.kotlin")
-		};
 	},
 	"synthetic" to {
 		add(
