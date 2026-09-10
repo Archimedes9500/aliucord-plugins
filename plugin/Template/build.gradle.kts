@@ -1,5 +1,4 @@
 import org.gradle.kotlin.dsl.DependencyHandlerScope;
-import org.gradle.kotlin.dsl.DependencyHandler;
 
 version = "0.0";
 description = "test";
@@ -12,13 +11,16 @@ aliucord{
 };
 
 @Suppress("UNCHECKED_CAST")
-val deps = rootProject.extra["deps"] as Map<String, /*DependencyHandlerScope.()*/(DependencyHandler) -> Unit>;
+val deps = rootProject.extra["deps"] as Map<String, DependencyHandlerScope.() -> Unit>;
 dependencies{
 	println("AAAAAA\n${deps["dexkit"]!!::invoke}");
 	deps["dexkit"]!!.invoke(this);
 	file("src/main/java/alt.archimedes5000.plugins/")
 		.listFiles()
 		?.filter{it.isDirectory}
-		?.forEach{deps[it.name]?.invoke(this)}
+		?.forEach{
+			println("adding ${it.name}");
+			deps[it.name]?.invoke(this);
+		}
 	;
 };
