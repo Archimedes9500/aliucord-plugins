@@ -9,7 +9,6 @@ plugins{
 
 extra["deps"] = mapOf<String, DependencyHandlerScope.() -> Unit>(
 	"dexkit" to {
-		println("dexkit lambda");
 		add(
 			"implementation",
 			dependencies.create("org.luckypray:dexkit:2.2.0"){

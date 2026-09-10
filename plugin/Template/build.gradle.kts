@@ -17,7 +17,6 @@ dependencies{
 		.listFiles()
 		?.filter{it.isDirectory}
 		?.forEach{
-			println("adding ${it.name}");
 			deps[it.name]?.invoke(this);
 		}
 	;
