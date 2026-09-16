@@ -25,5 +25,5 @@ dependencies{
 };
 
 if(project.name == "Template"){
-	sourceSets["main"]?.java.srcDirs("src/main/all");
+	sourceSets["main"]?.java?.srcDirs("src/main/all");
 };
