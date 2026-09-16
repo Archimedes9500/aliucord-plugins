@@ -27,7 +27,10 @@ dependencies{
 if(project.name == "Template"){
 	android{
 		sourceSets{
-			getByName("main").java.srcDirs("src/main/all");
+			getByName("main"){
+				java.setSrcDirs(listOf("src/main/all"));
+				kotlin.setSrcDirs(listOf("src/main/all"));
+			}
 		};
 	};
 };
