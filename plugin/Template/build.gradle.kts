@@ -25,5 +25,9 @@ dependencies{
 };
 
 if(project.name == "Template"){
-	sourceSets["main"]?.java?.srcDirs("src/main/all");
+	android{
+		sourceSets{
+			getByName("main").java.srcDirs("src/main/all");
+		};
+	};
 };
