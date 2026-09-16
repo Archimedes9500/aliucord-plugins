@@ -8,6 +8,20 @@ aliucord{
 		"""
 		""".trimIndent()
 	);
+
+	val testLang: List<String> = listOf(
+		//empty
+	);
+	if(project.name == "Template"){
+		android{
+			sourceSets{
+				getByName("main"){
+					java.setSrcDirs(testLang);
+					kotlin.setSrcDirs(testLang);
+				}
+			};
+		};
+	};
 };
 
 @Suppress("UNCHECKED_CAST")
@@ -22,15 +36,4 @@ dependencies{
 			deps[it.name]?.invoke(this);
 		}
 	;
-};
-
-if(project.name == "Template"){
-	android{
-		sourceSets{
-			getByName("main"){
-				java.setSrcDirs(listOf("src/main/all"));
-				kotlin.setSrcDirs(listOf("src/main/all"));
-			}
-		};
-	};
 };
