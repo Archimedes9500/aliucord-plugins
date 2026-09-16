@@ -13,11 +13,19 @@ aliucord{
 @Suppress("UNCHECKED_CAST")
 val deps = rootProject.extra["deps"] as Map<String, DependencyHandlerScope.() -> Unit>;
 dependencies{
-	file("src/main/java/alt.archimedes5000.plugins/")
-		.listFiles()
-		?.filter{it.isDirectory}
-		?.forEach{
-			deps[it.name]?.invoke(this);
+	file("src/main/")
+		.listFiles().forEach{
+			it.resolve("alt.archimedes5000.plugins/")
+				.listFiles()
+				?.filter{it.isDirectory}
+				?.forEach{
+					deps[it.name]?.invoke(this);
+				}
+			;
 		}
 	;
+};
+
+if(project.name == "Template"){
+	sourceSets["main"]?.java.srcDirs("src/main/all");
 };
