@@ -14,14 +14,12 @@ aliucord{
 val deps = rootProject.extra["deps"] as Map<String, DependencyHandlerScope.() -> Unit>;
 dependencies{
 	file("src/main/")
-		.listFiles().forEach{
-			it.resolve("alt.archimedes5000.plugins/")
-				.listFiles()
-				?.filter{it.isDirectory}
-				?.forEach{
-					deps[it.name]?.invoke(this);
-				}
-			;
+		.listFiles().first()
+		.resolve("alt.archimedes5000.plugins/")
+		.listFiles()
+		?.filter{it.isDirectory}
+		?.forEach{
+			deps[it.name]?.invoke(this);
 		}
 	;
 };
