@@ -8,10 +8,12 @@ import android.content.Context;
 import com.aliucord.patcher.*;
 
 @AliucordPlugin(true)
-class Template extends Plugin{
-	@Override void start(Context pluginContext){
+public class Template extends Plugin{
+	@Override
+	public void start(Context pluginContext){
 	};
-	@Override void stop(Context pluginContext){
+	@Override
+	public void stop(Context pluginContext){
 		patcher.unpatchAll();
 	};
 };

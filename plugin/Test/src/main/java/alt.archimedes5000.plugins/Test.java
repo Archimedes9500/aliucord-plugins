@@ -7,11 +7,13 @@ import com.aliucord.entities.Plugin;
 import android.content.Context;
 import com.aliucord.patcher.*;
 
-@AliucordPlugin(requiresRestart = true)
-class Test: Plugin(){
-	override fun start(pluginContext: Context){
+@AliucordPlugin(true)
+public class Test extends Plugin{
+	@Override
+	public void start(Context pluginContext){
 	};
-	override fun stop(pluginContext: Context){
+	@Override
+	public void stop(Context pluginContext){
 		patcher.unpatchAll();
 	};
 };
