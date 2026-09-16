@@ -7,11 +7,11 @@ import com.aliucord.entities.Plugin;
 import android.content.Context;
 import com.aliucord.patcher.*;
 
-@AliucordPlugin(true)
-class Template extends Plugin{
-	@Override void start(Context pluginContext){
+@AliucordPlugin(requiresRestart = true)
+class Template: Plugin(){
+	override fun start(pluginContext: Context){
 	};
-	@Override void stop(Context pluginContext){
+	override fun stop(pluginContext: Context){
 		patcher.unpatchAll();
 	};
 };
