@@ -10,18 +10,18 @@ typealias IntProgressionIterator = d0.d0.b;
 @AliucordPlugin(requiresRestart = true)
 class IteratorFixTest: Plugin(){
 	override fun start(pluginContext: Context){
-
+/*
 		val prog = IntProgression(0, 2, 1);
 		val progIter = prog.iterator() as IntIterator;
 		for(i in progIter){
 			logger.debug("$i");
 		};
 
-		logger.debug("".trimIndent());
-
 		logger.debug("""
 			balls
 		""".trimIndent());
+*/
+		logger.debug("".trimIndent());
 
 		for(i in 0..2){
 			logger.debug("$i");
