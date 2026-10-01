@@ -10,7 +10,7 @@ aliucord{
 	);
 
 	val testLang: List<String> = listOf(
-		"java"
+		//empty
 	);
 	if(project.name == "Template"){
 		android{
