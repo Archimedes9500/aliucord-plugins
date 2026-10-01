@@ -21,7 +21,7 @@ class IteratorFixTest: Plugin(){
 			balls
 		""".trimIndent());
 */
-		logger.debug("".trimIndent());
+		logger.debug("balls".trimIndent());
 
 		for(i in 0..2){
 			logger.debug("$i");
