@@ -4,8 +4,8 @@ import com.aliucord.annotations.AliucordPlugin;
 import com.aliucord.entities.Plugin;
 import android.content.Context;
 
-//typealias IntIterator = d0.t.c0;
-//typealias IntProgressionIterator = d0.d0.b;
+typealias IntIterator = d0.t.c0;
+typealias IntProgressionIterator = d0.d0.b;
 
 @AliucordPlugin(requiresRestart = true)
 class IteratorFixTest: Plugin(){
